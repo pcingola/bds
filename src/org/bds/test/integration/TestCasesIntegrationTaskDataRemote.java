@@ -52,35 +52,35 @@ public class TestCasesIntegrationTaskDataRemote extends TestCasesBase {
 		}
 	}
 
-	//	/**
-	//	 * Test executing a local task with a remote input dependency
-	//	 */
-	//	@Test
-	//	public void test03_TaskUrlIn() {
-	//		Gpr.debug("Test");
-	//		runAndCheck("test/remote_03.bds", "first", "<!DOCTYPE html>");
-	//	}
-	//
-	//	/**
-	//	 * Test executing a local task with a remote dependency
-	//	 * Replacement of task's `sys` command within double quotes
-	//	 */
-	//	@Test
-	//	public void test04_TaskUrlInDoubleQuotes() {
-	//		Gpr.debug("Test");
-	//		verbose = true;
-	//		runAndCheck("test/remote_04.bds", "first", "<!DOCTYPE html>");
-	//	}
-	//
-	//	/**
-	//	 * Test executing a local task with a remote dependency
-	//	 * Replacement of task's `sys` command within single quotes
-	//	 */
-	//	@Test
-	//	public void test05_TaskUrlInSingleQuotes() {
-	//		Gpr.debug("Test");
-	//		runAndCheck("test/remote_05.bds", "first", "<!DOCTYPE html>");
-	//	}
+	/**
+	 * Test executing a local task with a remote input dependency
+	 */
+	@Test
+	public void test03_TaskUrlIn() {
+		Gpr.debug("Test");
+		runAndCheck("test/remote_03.bds", "first", "<!DOCTYPE html>");
+	}
+
+	/**
+	 * Test executing a local task with a remote dependency
+	 * Replacement of task's `sys` command within double quotes
+	 */
+	@Test
+	public void test04_TaskUrlInDoubleQuotes() {
+		Gpr.debug("Test");
+		verbose = true;
+		runAndCheck("test/remote_04.bds", "first", "<!DOCTYPE html>");
+	}
+
+	/**
+	 * Test executing a local task with a remote dependency
+	 * Replacement of task's `sys` command within single quotes
+	 */
+	@Test
+	public void test05_TaskUrlInSingleQuotes() {
+		Gpr.debug("Test");
+		runAndCheck("test/remote_05.bds", "first", "<!DOCTYPE html>");
+	}
 
 	/**
 	 * Test executing a task with multiple input remote dependencies
@@ -92,57 +92,57 @@ public class TestCasesIntegrationTaskDataRemote extends TestCasesBase {
 		runAndCheck("test/remote_06.bds", "first", "<!DOCTYPE html>");
 	}
 
-	//	/**
-	//	 * Test executing a task with multiple remote dependencies in a list
-	//	 */
-	//	@Test
-	//	public void test07_TaskUrlRemoteList() {
-	//		Gpr.debug("Test");
-	//		runAndCheck("test/remote_07.bds", "first", "<!DOCTYPE html>");
-	//	}
-	//
-	//	/**
-	//	 * Test executing a task with multiple remote dependencies in a list
-	//	 * Replacement of task's `sys` command with list variables
-	//	 */
-	//	@Test
-	//	public void test08_TaskUrlRemoteListReplace() {
-	//		Gpr.debug("Test");
-	//		runAndCheck("test/remote_08.bds", "first", "<!DOCTYPE html>");
-	//	}
-	//
-	//	/**
-	//	 * Test executing a task with a remote dependency
-	//	 * Replacement of task's `sys` command with literal references
-	//	 */
-	//	@Test
-	//	public void test09_TaskUrlRemoteListReplaceLiterals() {
-	//		Gpr.debug("Test");
-	//		runAndCheck("test/remote_09.bds", "first", "<!DOCTYPE html>");
-	//	}
-	//
-	//	/**
-	//	 * Task input in s3, output local file
-	//	 */
-	//	@Test
-	//	public void test34_TaskInS3OutLocal() {
-	//		runAndCheck("test/remote_34.bds", "outStr", "OK");
-	//	}
-	//
-	//	/**
-	//	 *  Task input local, output s3 file
-	//	 */
-	//	@Test
-	//	public void test35_TaskInsLocalOutS3() {
-	//		runAndCheck("test/remote_35.bds", "outStr", "IN: 'remote_35'");
-	//	}
-	//
-	//	/**
-	//	 * Task input from S3, output to S3
-	//	 */
-	//	@Test
-	//	public void test36_TaskInS3OutS3() {
-	//		runAndCheck("test/remote_36.bds", "outStr", "IN: 'remote_36'");
-	//	}
+	/**
+	 * Test executing a task with multiple remote dependencies in a list
+	 */
+	@Test
+	public void test07_TaskUrlRemoteList() {
+		Gpr.debug("Test");
+		runAndCheck("test/remote_07.bds", "first", "<!DOCTYPE html>");
+	}
+
+	/**
+	 * Test executing a task with multiple remote dependencies in a list
+	 * Replacement of task's `sys` command with list variables
+	 */
+	@Test
+	public void test08_TaskUrlRemoteListReplace() {
+		Gpr.debug("Test");
+		runAndCheck("test/remote_08.bds", "first", "<!DOCTYPE html>");
+	}
+
+	/**
+	 * Test executing a task with a remote dependency
+	 * Replacement of task's `sys` command with literal references
+	 */
+	@Test
+	public void test09_TaskUrlRemoteListReplaceLiterals() {
+		Gpr.debug("Test");
+		runAndCheck("test/remote_09.bds", "first", "<!DOCTYPE html>");
+	}
+
+	/**
+	 * Task input in s3, output local file
+	 */
+	@Test
+	public void test34_TaskInS3OutLocal() {
+		runAndCheck("test/remote_34.bds", "outStr", "OK");
+	}
+
+	/**
+	 *  Task input local, output s3 file
+	 */
+	@Test
+	public void test35_TaskInsLocalOutS3() {
+		runAndCheck("test/remote_35.bds", "outStr", "IN: 'remote_35'");
+	}
+
+	/**
+	 * Task input from S3, output to S3
+	 */
+	@Test
+	public void test36_TaskInS3OutS3() {
+		runAndCheck("test/remote_36.bds", "outStr", "IN: 'remote_36'");
+	}
 
 }
