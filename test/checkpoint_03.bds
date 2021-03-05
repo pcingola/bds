@@ -1,0 +1,7 @@
+
+int i = 42
+string s = "Before checkpoint $i"
+
+checkpoint "test/checkpoint_03.bds.chp"
+
+string s2 = "After checkpoint $i"

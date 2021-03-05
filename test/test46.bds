@@ -1,0 +1,10 @@
+#!/usr/bin/env bds
+
+ss := ['hi']
+string[] zz
+
+s := ss[0]
+s.isEmpty()
+
+print("OK!\n")
+

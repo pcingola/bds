@@ -1,0 +1,5 @@
+
+
+bool b = false
+
+print("Value: $b\n")
