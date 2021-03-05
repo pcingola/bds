@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-grammar="BigDataScript.g4"
+grammar="bds.g4"
 init="main"
 testFile="../test/z.bds"
 

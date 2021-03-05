@@ -6,15 +6,15 @@ import org.bds.run.BdsRun.BdsAction;
 import org.bds.util.Gpr;
 
 /**
- * BDS command line
+ * bds command line
  *
  * @author pcingola
  */
 public class Bds implements BdsLog {
 
 	public static final String BUILD = Gpr.compileTimeStamp(Bds.class);
-	public static final String REVISION = "b";
-	public static final String SOFTWARE_NAME = Bds.class.getSimpleName();
+	public static final String REVISION = "c";
+	public static final String SOFTWARE_NAME = "bds";
 	public static final String VERSION_MAJOR = "3.0";
 	public static final String VERSION_SHORT = VERSION_MAJOR + REVISION;
 	public static final String VERSION = SOFTWARE_NAME + " " + VERSION_SHORT + " (build " + BUILD + "), by " + Pcingola.BY;
@@ -442,7 +442,7 @@ public class Bds implements BdsLog {
 		if (err != null) System.err.println("Error: " + err);
 
 		System.out.println(VERSION + "\n");
-		System.err.println("Usage: " + Bds.class.getSimpleName() + " [options] file.bds");
+		System.err.println("Usage: bds [options] file.bds");
 		System.err.println("\nAvailable options: ");
 		System.err.println("  [-c | -config ] bds.config     : Config file. Default : " + configFile + ".");
 		System.err.println("  [-compile]                     : Compile only, do not run.");
