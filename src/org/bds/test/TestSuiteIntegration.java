@@ -1,6 +1,5 @@
 package org.bds.test;
 
-import org.bds.test.integration.TestCasesIntegrationAws;
 import org.bds.test.integration.TestCasesIntegrationCheckpoint;
 import org.bds.test.integration.TestCasesIntegrationCheckpointAws;
 import org.bds.test.integration.TestCasesIntegrationClusterGeneric;
@@ -19,6 +18,8 @@ import org.junit.runners.Suite.SuiteClasses;
 /**
  * Invoke all test cases
  *
+ * WARNING: Some of these test cases read/write S3 files (but they do not create instances)
+ *
  * @author pcingola
  */
 
@@ -35,7 +36,6 @@ import org.junit.runners.Suite.SuiteClasses;
 		TestCasesIntegrationTaskImproper.class, // Improper tasks (local, long running tests)
 		TestCasesIntegrationCheckpointAws.class, // Running bds code: Checkpoint and recovery from S3
 		TestCasesIntegrationTaskDetached.class, // Detached tasks on cloud
-		TestCasesIntegrationAws.class, // Executioner AWS, task dependencies and detached AWS tasks
 })
 public class TestSuiteIntegration {
 

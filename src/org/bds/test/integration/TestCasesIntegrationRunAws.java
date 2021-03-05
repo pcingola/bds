@@ -21,7 +21,7 @@ import org.junit.Test;
  * @author pcingola
  *
  */
-public class TestCasesIntegrationAws extends TestCasesBaseAws {
+public class TestCasesIntegrationRunAws extends TestCasesBaseAws {
 
 	@Before
 	public void beforeEachTest() {
