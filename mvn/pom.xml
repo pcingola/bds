@@ -10,7 +10,7 @@
 	<packaging>jar</packaging>
 
 	<name>bds</name>
-	<url>http://pcingola.github.io/BigDataScript/</url>
+	<url>http://pcingola.github.io/bds/</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

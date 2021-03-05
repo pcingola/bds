@@ -956,7 +956,7 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("BigDataScriptThread: " + bdsThreadNum + "\n");
+		sb.append("BdsThread: " + bdsThreadNum + "\n");
 		sb.append("\tRun state : " + getRunState() + "\n");
 		sb.append("\tProgram   :\n" + statement.toStringTree("\t\t", "program") + "\n");
 		return sb.toString();

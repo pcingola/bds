@@ -130,7 +130,7 @@ public class BdsNodeFactory implements BdsLog {
 	}
 
 	/**
-	 * Create BigDataScriptNodes
+	 * Create BdsNodes
 	 */
 	public final BdsNode factory(BdsNode parent, ParseTree tree) {
 		if (tree == null) return null;
@@ -160,7 +160,7 @@ public class BdsNodeFactory implements BdsLog {
 	}
 
 	/**
-	 * Create BigDataScriptNodes
+	 * Create BdsNodes
 	 */
 	@SuppressWarnings({ "rawtypes" })
 	public BdsNode factory(String className, BdsNode parent, ParseTree tree) {
@@ -183,8 +183,9 @@ public class BdsNodeFactory implements BdsLog {
 
 		// Is it a Type?
 		if (clazz == Type.class) {
-			if (tree == null) throw new RuntimeException("Tree data is null, cannot build node!"); // No tree data? return a new FAKE node
-			throw new RuntimeException("TODO: REMOVE THIS CODE !!!!!????");
+			throw new RuntimeException("This should never happen!");
+			//			if (tree == null) throw new RuntimeException("Tree data is null, cannot build node!"); // No tree data? return a new FAKE node
+			//			throw new RuntimeException("TODO: REMOVE THIS CODE !!!!!????");
 			//			// No need to create a new node
 			//			String typeName = tree.getChild(0).getText();
 			//			return Types.get(typeName);

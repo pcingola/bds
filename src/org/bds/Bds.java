@@ -47,9 +47,8 @@ public class Bds implements BdsLog {
 	 * Main
 	 */
 	public static void main(String[] args) {
-		// Create BigDataScript object and run it
-		Bds bigDataScript = new Bds(args);
-		int exitValue = bigDataScript.run();
+		Bds bds = new Bds(args);
+		int exitValue = bds.run();
 		System.exit(exitValue);
 	}
 
@@ -174,7 +173,7 @@ public class Bds implements BdsLog {
 
 			if (programFileName != null) {
 				// Everything after 'programFileName' is an command line
-				// argument for the BigDataScript program
+				// argument for the bds program
 				bdsRun.addArg(arg);
 			} else if (isOpt(arg)) {
 				// Note: Options sorted by 'long' option name

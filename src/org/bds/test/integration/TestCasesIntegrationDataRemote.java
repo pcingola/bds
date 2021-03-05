@@ -103,7 +103,7 @@ public class TestCasesIntegrationDataRemote extends TestCasesBase {
 	@Test
 	public void test10_DownloadHttpFunction() {
 		Gpr.debug("Test");
-		runAndCheck("test/remote_10.bds", "locFile", "/tmp/bds/http/pcingola/github/io/BigDataScript/index.html");
+		runAndCheck("test/remote_10.bds", "locFile", "/tmp/bds/http/pcingola/github/io/bds/index.html");
 	}
 
 	/**

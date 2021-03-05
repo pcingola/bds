@@ -213,7 +213,7 @@ public class BdsCompiler implements BdsLog {
 		 *  Convert to BdsNodes, create Program Unit
 		 */
 	ProgramUnit createModel(ParseTree tree) {
-		debug("Creating BigDataScript tree.");
+		debug("Creating bds tree.");
 		CompilerMessages.reset();
 		ProgramUnit pu = (ProgramUnit) BdsNodeFactory.get().factory(null, tree); // Transform AST to BdsNode tree
 		debug("AST:\n" + pu.toString());

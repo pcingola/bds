@@ -89,7 +89,7 @@ public class ProgramUnit extends BlockWithFile {
 	}
 
 	@Override
-	public BdsThread getBigDataScriptThread() {
+	public BdsThread getBdsThread() {
 		return bdsThread;
 	}
 

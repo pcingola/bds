@@ -87,7 +87,7 @@ public class BdsRun implements BdsLog {
 	BdsVm vm;
 	BdsThread bdsThread;
 	ProgramUnit programUnit; // Program (parsed nodes)
-	List<String> programArgs; // Command line arguments for BigDataScript program
+	List<String> programArgs; // Command line arguments for bds program
 
 	/**
 	 * Reset all singleton objects
