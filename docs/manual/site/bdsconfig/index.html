@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Config file - bds - Big Data Script programming language</title>
+  <title>Config file - bds programming language</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -38,7 +38,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-        <a href=".." class="icon icon-home"> bds - Big Data Script programming language</a>
+        <a href=".." class="icon icon-home"> bds programming language</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
@@ -147,7 +147,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="..">bds - Big Data Script programming language</a>
+        <a href="..">bds programming language</a>
       </nav>
 
       
@@ -310,6 +310,7 @@ job_is_first_task  FALSE
 urgency_slots      min
 accounting_summary FALSE
 </code></pre>
+
 <p>Notice the <code>allocation_rule = $round_robin</code>.  This defines how to assign slots to a job. By 
 default StarCluster configures round_robin allocation. This means that if a job requests 8 
 slots for example, it will go to the first machine, grab a single slot if available, move to 
@@ -412,12 +413,15 @@ script (i.e. the jobID provided by the cluster management system)</p>
 <p>A trivial 'ssh' cluster composed only of the localhost accesed via ssh (useful for debugging)</p>
 <pre><code>ssh.nodes = user@localhost
 </code></pre>
+
 <p>Some company's servers used as an ssh cluster</p>
 <pre><code>ssh.nodes = user@lab1-1company.com, user@lab1-2company.com, user@lab1-3company.com, user@lab1-4company.com, user@lab1-5company.com
 </code></pre>
+
 <p>A StarCluster run on Amazon AWS</p>
 <pre><code>ssh.nodes = sgeadmin@node001, sgeadmin@node002, sgeadmin@node003, sgeadmin@node004, sgeadmin@node005, sgeadmin@node006
 </code></pre>
+
 </table>
               
             </div>

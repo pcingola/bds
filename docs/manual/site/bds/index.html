@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Goals - bds - Big Data Script programming language</title>
+  <title>Goals - bds programming language</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -38,7 +38,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-        <a href=".." class="icon icon-home"> bds - Big Data Script programming language</a>
+        <a href=".." class="icon icon-home"> bds programming language</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
@@ -125,7 +125,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="..">bds - Big Data Script programming language</a>
+        <a href="..">bds programming language</a>
       </nav>
 
       
@@ -152,7 +152,7 @@
 <pre><code>             Complex dependencies can be defined using `goal` and `dep`
 
             `goal` and `dep` are used to express dependencies in a declarative manner.
-            As opposed to `task` expression, which are evaluated immediately, `dep` can be used to define a dependency (using the same syntax as `task`). 
+            As opposed to `task` expression, which are evaluated immediately, `dep` can be used to define a dependency (using the same syntax as `task`).
             A `dep` is not evaluated until a `goal` requires that dependency to be triggered.
 
              E.g.: File &lt;a href="bds/test_18.bds"&gt;test_18.bds&lt;/a&gt;
@@ -174,6 +174,7 @@ dep( mid1 &lt;- in )      sys echo $in   &gt; $mid1 ; echo MID1  ; sleep 1
 goal out
 
 </code></pre>
+
 <pre><code>            Running the code, we get
 </code></pre>
 <pre><code># Remove old files (if any)
@@ -187,6 +188,7 @@ MID1
 MID2
 OUT
 </code></pre>
+
 <pre><code>            In this case, `bds` created a directed acyclic graph of the dependencies needed to satisfy the goal 'out.txt' and then executed the required 'dep' declarations.
 
 
@@ -195,6 +197,7 @@ OUT
 <pre><code>tids := goal out
 print &quot;Executing tasks: $tids\n&quot;
 </code></pre>
+
 <pre><code>            ### Intermediate files within a 'goal' can be deleted
 
             In the previous example, if we delete the intermediate files 'mid1.txt' and or 'mid2.txt', and we re-execute the script, `bds` will notice that the output 'out.txt' is still valid with respect to the input 'in.txt' and will not execute any task.
@@ -206,6 +209,7 @@ $ rm mid?.txt
 $ ./test_18.bds
 $
 </code></pre>
+
 <pre><code>            How this works: `bds` calculates the dependency graph and checks whether the `goal` is up to date with respect to the inputs (which are the leaves in the dependency graph).
             If the goal up to date, then nothing is done.
             This feature is particularly useful when intermediate files are large and we need to clean them up (since we are working with big data problems, this is often the case).
@@ -224,6 +228,7 @@ tid := dep( taskName := 'hi' ) {
 
 goal tid    # We use task Id instead of a file name
 </code></pre>
+
 <pre><code>            ### Multiple goals
 
             Sometimes it is convenient to fire multiple goals at once. You can do this by passing a list, instead of a string, to `goal`.
@@ -242,6 +247,7 @@ for(int i=0; i &lt; 3 ; i++ ) {
 
 goal outs   # We use a list of goals, it is interpreted as multiple goal statements (one for each item in the list)
 </code></pre>
+
 <pre><code>        &lt;!-- ================================================== --&gt;
 </code></pre>
 <h1 id="remote-files-amazon-s3-http-etc">Remote files (Amazon S3, Http, etc.)</h1>
@@ -255,12 +261,13 @@ goal outs   # We use a list of goals, it is interpreted as multiple goal stateme
             Obviously `index.html` is hosted on GitHub's servers, thus not available on the computer where the script is running.
             Before the command (`cat`) is executed, the remote file is transparently downloaded by `bds`.
 </code></pre>
-<pre><code>in  := 'http://pcingola.github.io/BigDataScript/index.html'
+<pre><code>in  := 'http://pcingola.github.io/bds/index.html'
 out := 'tmp.html'
 
 task( out &lt;- in ) sys cat $in &gt; $out
 </code></pre>
-<pre><code>            Notice that: 
+
+<pre><code>            Notice that:
             &lt;ol&gt;
                 &lt;li&gt; there is no code for downloading the remote file (`index.html`) in the script;
                 &lt;li&gt; the file is downloaded on the processing node performing the task, which may differ from the node running the script (e.g. if it is running on a cluster);
@@ -271,7 +278,7 @@ task( out &lt;- in ) sys cat $in &gt; $out
             **Example 2:** The following example is slightly more complicated, the input ('index.html') is processed (`cat` and `echo` commands) and the results are stored in an `Amazon S3` object.
             Once more, notice that `bds` transparently takes care of downloading the file and then uploading the output to Amazon's S3.
 </code></pre>
-<pre><code>in  := 'http://pcingola.github.io/BigDataScript/index.html'
+<pre><code>in  := 'http://pcingola.github.io/bds/index.html'
 out := 's3://pcingola.bds/test_remote_12.txt'
 
 task( out &lt;- in ) {
@@ -279,12 +286,13 @@ task( out &lt;- in ) {
     sys echo &quot;This line is appended to the file&quot; &gt;&gt; $out
 }
 </code></pre>
+
 <pre><code>        &lt;!-- ================================================== --&gt;
 </code></pre>
 <h1 id="parallel-execution-par">Parallel execution <code>par</code></h1>
 <pre><code>             `bds` can run parallel code as threads in the same program.
 
-            Sometimes multiple branches of an analysis pipeline must be run in parallel. 
+            Sometimes multiple branches of an analysis pipeline must be run in parallel.
             `bds` provides a simple `par` expression to run code in parallel.
             Originally this was called `parallel`, but then I realized I was too lazy to type all those letters, so I reduced it to `par` (both of them work if you choose to be more verbose).
 
@@ -305,6 +313,7 @@ for( int i : range(1, 5) ) {
     sleep( 0.2 )
 }
 </code></pre>
+
 <pre><code>            If we run this code:
 </code></pre>
 <pre><code>$ ./test_16.bds
@@ -319,6 +328,7 @@ Parallel 4
 Parallel 5
 Main 5
 </code></pre>
+
 <pre><code>        Perhaps a more elegant way to write the same code would be:
 </code></pre>
 <pre><code>#!/usr/bin/env bds
@@ -333,6 +343,7 @@ void count(string msg) {
 par count('Parallel')   # Call function in parallel thread
 count('Main')           # Call function in 'main' thread
 </code></pre>
+
 <pre><code>            `par` also works with optional expressions that must be all 'true' to evaluate the block.
 </code></pre>
 <pre><code>par( out &lt;- in )  {
@@ -345,13 +356,15 @@ count('Main')           # Call function in 'main' thread
     task cat $in.*.tmp &gt; $out
 }
 </code></pre>
-<pre><code>            ### Wait in 'par' context 
+
+<pre><code>            ### Wait in 'par' context
             `par` expressions return a 'parallel ID' string that we can use in `wait`
 </code></pre>
-<pre><code>pid := par longRunningFunction()    // This function is executed in parallel 
+<pre><code>pid := par longRunningFunction()    // This function is executed in parallel
 
 wait pid                            // Wait for parallel to finish
 </code></pre>
+
 <pre><code>            Here `wait` statement waits until the function "longRunningFunction()" finishes.
 
 
@@ -368,6 +381,7 @@ wait pid                            // Wait for parallel to finish
 </code></pre>
 <pre><code>par someFunction(x, y)
 </code></pre>
+
 <pre><code>            It is important to notice that the return value from a `par` it is a 'parallel ID' (i.e. a thread ID) and not the function's return value.
             This is because the parallel thread could take a long time to process and we don't want to stop execution in the current thread until the function finishes.
 
@@ -377,10 +391,11 @@ wait pid                            // Wait for parallel to finish
 <pre><code>pid := par someFunction(x, y)  # 'par' returns a thread ID
 print &quot;Parallel ID: $pid\n&quot;
 </code></pre>
-<pre><code>            **Important:** When calling a function, arguments are evaluated **before** the new thread is created. 
+
+<pre><code>            **Important:** When calling a function, arguments are evaluated **before** the new thread is created.
             The reason for this is to simplify race conditions.
 
-            ### Race conditions in 'par' and how to avoid them 
+            ### Race conditions in 'par' and how to avoid them
             As is the case when creating threads in any programming language, using `par` can lead to race conditions.
 
             As an example, consider this code:
@@ -393,6 +408,7 @@ for( int i : range(0, 10) ) {
     }
 }   
 </code></pre>
+
 <pre><code>        The output is (comments added for clarification):
 </code></pre>
 <pre><code>$ ./z.bds
@@ -408,9 +424,10 @@ Number: 10      # Three number 10?
 Number: 10
 Number: 10
 </code></pre>
+
 <pre><code>        This is clearly not the result we wanted.
 
-        What happened? Well, obviously this had a race condition. 
+        What happened? Well, obviously this had a race condition.
         From the time thread is created (`par`), until the variable `i` is evaluated in `print` statement (parallel thread), the main thread has already changed `i`'s value.
 
 
@@ -428,6 +445,7 @@ for( int i : range(0, 10) ) {
     par show(i)
 }   
 </code></pre>
+
 <pre><code>        Now the output is what we expect:
 </code></pre>
 <pre><code>$ ./z.bds
@@ -443,12 +461,13 @@ Number: 8
 Number: 9
 Number: 10
 </code></pre>
+
 <pre><code>        &lt;!-- ================================================== --&gt;
 </code></pre>
 <h1 id="checkpoints">Checkpoints</h1>
-<pre><code>             BigDataScript can save the full state of a running script to a file and restart execution from that point
+<pre><code>             `bds` can save the full state of a running script to a file and restart execution from that point
 
-            A `checkpoint` is the full serialization of the state of a program. 
+            A `checkpoint` is the full serialization of the state of a program.
             This is a powerful tool to create robust pipelines and to recover from several failure conditions.
 
 
@@ -464,6 +483,7 @@ Number: 10
     print(&quot;Counting $i\n&quot;)
 }
 </code></pre>
+
 <pre><code>            If we execute it, we get
 </code></pre>
 <pre><code>$ bds z.bds
@@ -479,6 +499,7 @@ Counting 7
 Counting 8
 Counting 9
 </code></pre>
+
 <pre><code>            A checkpoint file `my.chp` created.
             We can restart execution from this checkpoint file, by using the `bds -r` command line option
 </code></pre>
@@ -489,6 +510,7 @@ Counting 7
 Counting 8
 Counting 9
 </code></pre>
+
 <pre><code>            You can also see information on what was happening when the checkpoint was created:
 </code></pre>
 <pre><code>$ bds -i my.chp
@@ -512,6 +534,7 @@ test_19.bds, line 6 :           checkpoint
 int i = 5
 ...
 </code></pre>
+
 <pre><code>            You can even copy the file(s) to another computer and restart execution there, as shown in this video
 
             &lt;iframe width="640" height="390" src="https://www.youtube.com/embed/ah1XxWTYSLM" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
@@ -523,7 +546,7 @@ int i = 5
 <h1 id="test-cases">Test cases</h1>
 <pre><code>             Because nobody writes perfect code.
 
-            `bds` provides a simple unit testing functionality. 
+            `bds` provides a simple unit testing functionality.
             Simply use the `-t` command line option and `bds` will run all functions `test*()` (that is functions whose names start with 'test' and have no arguments).
 
              File &lt;a href="bds/test_24.bds"&gt;test_24.bds&lt;/a&gt;
@@ -547,9 +570,10 @@ void test03() {
     if( i != 2 )    error(&quot;This is weird&quot;)
 }
 </code></pre>
+
 <pre><code>            When we execute the tests, we get
 </code></pre>
-<pre><code>$ bds -t ./test_24.bds 
+<pre><code>$ bds -t ./test_24.bds
 
 Nice test code 01
 00:00:00.002    Test 'test01': OK
@@ -564,6 +588,7 @@ Nice test code 01
                   ERROR : 1
 
 </code></pre>
+
 <pre><code>        &lt;!-- ================================================== --&gt;
 </code></pre>
 <h1 id="debugger-built-in">Debugger (built in)</h1>
@@ -580,7 +605,7 @@ int inc(int x) {
     return x + 1;
 }
 
-debug &quot;This won't be printed because we are not (yet) in debug mode\n&quot; 
+debug &quot;This won't be printed because we are not (yet) in debug mode\n&quot;
 breakpoint &quot;Activate debug mode and insert a breakpoint here!\n&quot;
 
 for( int i=0 ; i &lt; 3 ; i = inc(i) ) {
@@ -588,17 +613,19 @@ for( int i=0 ; i &lt; 3 ; i = inc(i) ) {
     debug &quot;Variable: $i\n&quot;  # This will be printed
 }
 </code></pre>
+
 <pre><code>            When we run this example, the program runs until the first `breakpoint` and then `bds` prompts for debug commands on the console:
 </code></pre>
-<pre><code>$ bds test_25.bds 
+<pre><code>$ bds test_25.bds
 Breakpoint test_25.bds, line 8: Activate debug mode and insert a breakpoint here!
-DEBUG [STEP]: test_25.bds, line 10: 
+DEBUG [STEP]: test_25.bds, line 10:
     for( int i = 0 ; i &lt; 3 ; i = inc( i ) ) {
         print &quot;hi $i\\n&quot;
         debug &quot;Variable: $i\\n&quot;
     }
 &gt;
 </code></pre>
+
 <pre><code>        You can type 'h' for help in debug commands:
 </code></pre>
 <pre><code>&gt; h
@@ -613,25 +640,26 @@ Help:
     t         : show stack Trace
     v varname : show Variable 'varname'
 </code></pre>
+
 <pre><code>        Here is an example of a debug session (comments after '#' added for clarity):
 </code></pre>
-<pre><code>$ bds test_25.bds 
+<pre><code>$ bds test_25.bds
 Breakpoint test_25.bds, line 8: Activate debug mode and insert a breakpoint here!
-DEBUG [STEP]: test_25.bds, line 10: 
+DEBUG [STEP]: test_25.bds, line 10:
     for( int i = 0 ; i &lt; 3 ; i = inc( i ) ) {
         print &quot;hi $i\\n&quot;
         debug &quot;Variable: $i\\n&quot;
     }
-&gt; 
+&gt;
 DEBUG [STEP]: test_25.bds, line 10: int i = 0 &gt;                      # Pressing Return runs the next step ('int i=0')
 DEBUG [STEP]: test_25.bds, line 10: i = 0 &gt; v i                      # Show variable 'i'
 int : 0
-DEBUG [STEP]: test_25.bds, line 10: i &lt; 3 &gt; 
-DEBUG [STEP]: test_25.bds, line 11: print &quot;hi $i\\n&quot; &gt; 
+DEBUG [STEP]: test_25.bds, line 10: i &lt; 3 &gt;
+DEBUG [STEP]: test_25.bds, line 11: print &quot;hi $i\\n&quot; &gt;
 hi 0                                                                 # Output to STDOUT from print statement
-DEBUG [STEP]: test_25.bds, line 12: debug &quot;Variable: $i\\n&quot; &gt; 
+DEBUG [STEP]: test_25.bds, line 12: debug &quot;Variable: $i\\n&quot; &gt;
 Debug test_25.bds, line 12: Variable: 0                              # Since we are in debug mode, 'debug' prints to SDTERR
-DEBUG [STEP]: test_25.bds, line 10: i = inc( i ) &gt; 
+DEBUG [STEP]: test_25.bds, line 10: i = inc( i ) &gt;
 DEBUG [STEP]: test_25.bds, line 10: inc( i ) &gt;                       # Step into function 'inc(i)'
 DEBUG [STEP]: test_25.bds, line 4: return x + 1 &gt; t                  # Show stack trace
 test_25.bds, line 10 :    for( int i=0 ; i &lt; 3 ; i = inc(i) ) {
@@ -653,18 +681,19 @@ int i = 0
 int x = 0
 
 DEBUG [STEP]: test_25.bds, line 4: return x + 1 &gt;                    # Step, exeute 'return' statement
-DEBUG [STEP]: test_25.bds, line 10: i &lt; 3 &gt; 
-DEBUG [STEP]: test_25.bds, line 11: print &quot;hi $i\\n&quot; &gt; 
+DEBUG [STEP]: test_25.bds, line 10: i &lt; 3 &gt;
+DEBUG [STEP]: test_25.bds, line 11: print &quot;hi $i\\n&quot; &gt;
 hi 1
-DEBUG [STEP]: test_25.bds, line 12: debug &quot;Variable: $i\\n&quot; &gt; 
+DEBUG [STEP]: test_25.bds, line 12: debug &quot;Variable: $i\\n&quot; &gt;
 Debug test_25.bds, line 12: Variable: 1
 DEBUG [STEP]: test_25.bds, line 10: i = inc( i ) &gt; o
 DEBUG [STEP_OVER]: test_25.bds, line 10: inc( i ) &gt;                  # Step Over: execute 'inc(i)' and stop after function returns
-DEBUG [STEP_OVER]: test_25.bds, line 10: i &lt; 3 &gt; 
+DEBUG [STEP_OVER]: test_25.bds, line 10: i &lt; 3 &gt;
 DEBUG [STEP_OVER]: test_25.bds, line 11: print &quot;hi $i\\n&quot; &gt; r        # Run (until another breakpoint). Since there are no more breakpoints, runs until the end of the program
 hi 2
 Debug test_25.bds, line 12: Variable: 2
 </code></pre>
+
 <pre><code>        &lt;!-- ================================================== --&gt;
 </code></pre>
 <h1 id="automatic-command-line-parsing">Automatic command line parsing</h1>
@@ -678,17 +707,20 @@ Debug test_25.bds, line 12: Variable: 2
 in := &quot;in.txt&quot;
 print(&quot;In file is '$in'\n&quot;)
 </code></pre>
+
 <pre><code>            If we run this, we get
 </code></pre>
-<pre><code>$ ./test_20.bds 
+<pre><code>$ ./test_20.bds
 In file is 'in.txt'
 </code></pre>
+
 <pre><code>            Now we pass a command line argument `-in another_file.txt`, and `bds` automatically parses that command line option replacing the value of variable 'in'
 </code></pre>
 <pre><code>$ ./test_20.bds -in another_file.txt
 In file is 'another_file.txt'
 </code></pre>
-<pre><code>            This feature also works for other data types (int, real, bool). 
+
+<pre><code>            This feature also works for other data types (int, real, bool).
             In case of bool if the option is present, the variable is set to 'true'.
              File &lt;a href="bds/test_21.bds"&gt;test_21.bds&lt;/a&gt;
 </code></pre>
@@ -697,12 +729,15 @@ In file is 'another_file.txt'
 bool flag
 print(&quot;Variable flag is $flag\n&quot;)
 </code></pre>
+
 <pre><code>$ ./test_21.bds
 Variable flag is false
 </code></pre>
+
 <pre><code>$ ./test_21.bds -flag
 Variable flag is true
 </code></pre>
+
 <pre><code>            Or you can specify the value (`true` or `false` which is useful to set to `false` a bool that is by default `true`:
              File &lt;a href="bds/test_21b.bds"&gt;test_21b.bds&lt;/a&gt;
 </code></pre>
@@ -712,12 +747,14 @@ flagOn  := true
 flagOff := false
 print(&quot;flagOn = $flagOn\nflagOff = $flagOff\n&quot;)
 </code></pre>
+
 <pre><code>            So in this example we can reverse the defaults by running this (note that we can use `-flagOff` instead of `-flagOff true `):
 </code></pre>
-<pre><code>$ ./test_21b.bds -flagOn false -flagOff true 
+<pre><code>$ ./test_21b.bds -flagOn false -flagOff true
 flagOn = false
 flagOff = true
 </code></pre>
+
 <pre><code>            Note that we can use `-flagOff` instead of `-flagOff true` (the outcome is the same).
 
 
@@ -738,11 +775,13 @@ print(&quot;In : $in\n&quot;)
 print(&quot;Out: $out\n&quot;)
 print(&quot;OK : $ok\n&quot;)
 </code></pre>
+
 <pre><code>$ ./test_22.bds  -ok -in in1.txt in2.txt in3.txt -out zzz.txt
 In : [in1.txt, in2.txt, in3.txt]
 Out: zzz.txt
 OK : true
 </code></pre>
+
 <pre><code>            &lt;iframe width="640" height="390" src="http://www.youtube.com/embed/oSjhkRuc0I8" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
 
 
@@ -768,6 +807,7 @@ for( int i=0 ; i &lt; num ; i++ ) {
     print &quot;hi $i\n&quot;
 }
 </code></pre>
+
 <pre><code>    When running the script using `-h` command line option a help screen is created and printed out automatically (no action is programmed in the script to process the '-h' command line option).
     Note that script command line options are given AFTER script name:
 </code></pre>
@@ -778,6 +818,7 @@ Command line options 'test_26.bds' :
     -mean &lt;int&gt;                               : Help for argument 'mean' should be printed here
     -someVeryLongCommandLineArgumentName      : This command line argument has a really long name
 </code></pre>
+
 <pre><code>    The same happens if you run the script directly:
 </code></pre>
 <pre><code>$ ./test_26.bds -h
@@ -787,15 +828,16 @@ Command line options 'test_26.bds' :
     mean                                : Help for argument 'mean' should be printed here
     someVeryLongCommandLineArgumentName : This command line argument has a really long name
 </code></pre>
-<pre><code>            ### Help sort order 
-            By default, variables are sorted alphabetically when help is shown. 
+
+<pre><code>            ### Help sort order
+            By default, variables are sorted alphabetically when help is shown.
             This can be overridden by creating a global variable `helpUnsorted` (regardless of its type and value, since the program may not even be running when the help is shown).
 
             File &lt;a href="bds/test_26b.bds"&gt;test_26b.bds&lt;/a&gt;
 </code></pre>
 <pre><code>#!/usr/bin/env bds
 
-# This variable is use to indicate that help should be shown unsorted 
+# This variable is use to indicate that help should be shown unsorted
 # (i.e. in the same order that variables are declared)
 helpUnsorted := true
 
@@ -804,6 +846,7 @@ aaa := 1        help Help for argument 'aaa' should be printed here
 
 print &quot;Done\n&quot;
 </code></pre>
+
 <pre><code>            Now when we run `bds -h` help lines are shown unsorted:
 </code></pre>
 <pre><code>$ ./test_26b.bds -h
@@ -811,8 +854,9 @@ Command line options 'test_26b.bds' :
     -zzz &lt;int&gt;  : Help for argument 'zzz' should be printed here
     -aaa &lt;int&gt;  : Help for argument 'aaa' should be printed here
 </code></pre>
-<pre><code>            ### Showing help on empty command line arguments 
-            The function `printHelp()` can be called to show the help message. 
+
+<pre><code>            ### Showing help on empty command line arguments
+            The function `printHelp()` can be called to show the help message.
             This can be used, for instance, to show a help message when there are no command line arguments by doing something like this:
 
             File &lt;a href="bds/test_26c.bds"&gt;test_26c.bds&lt;/a&gt;
@@ -830,14 +874,16 @@ if( args.isEmpty() ) {
 
 print &quot;Done\n&quot;
 </code></pre>
+
 <pre><code>            Now when we run `test_26c.bds` without any command line arguments, the help message is shown:
 </code></pre>
-<pre><code>$ ./test_26c.bds 
+<pre><code>$ ./test_26c.bds
 Command line options 'test_26c.bds' :
     -aaa &lt;int&gt;  : Help for argument 'aaa' should be printed here
     -bbb &lt;int&gt;  : Help for argument 'bbb' should be printed here
     -zzz &lt;int&gt;  : Help for argument 'zzz' should be printed here
 </code></pre>
+
 <pre><code>            ### Help sections
 
             Sometimes it is useful to divide the help message into sections.
@@ -861,6 +907,7 @@ dbName := &quot;testDb&quot;  help Database name
 
 print &quot;OK\n&quot;
 </code></pre>
+
 <pre><code>            When run, variables are grouped in two "help sections" (note that variables are sorted within each section):
 </code></pre>
 <pre><code>$ ./test_26d.bds -h
@@ -874,6 +921,7 @@ Options related to database
     -dbName &lt;string&gt;  : Database name
     -dbPort &lt;int&gt;     : Database port
 </code></pre>
+
 <pre><code>        &lt;!-- ================================================== --&gt;
 </code></pre>
 <h1 id="logging">Logging</h1>
@@ -888,6 +936,7 @@ Options related to database
 
 sys echo Hello $name
 </code></pre>
+
 <pre><code>                Now let's run this script, we use `-v` command line option to make the output verbose:
 </code></pre>
 <pre><code>$ bds -v -log z.bds
@@ -898,6 +947,7 @@ sys echo Hello $name
 Hello Pablo
 00:00:00.692    Finished running. Exit value : 0
 </code></pre>
+
 <pre><code>            What happened?
             &lt;ol&gt;
                 &lt;li&gt; bds parses the `sys` statement and interpolates "echo Hello $name" to "echo Hello Pablo"
@@ -906,17 +956,19 @@ Hello Pablo
 
                 &lt;li&gt; It creates a shell script file `z.bds.20140328_224825_685/sys.line_4.id_1.sh` with the code:
 </code></pre>
-<pre><code>$ cat z.bds.20140328_224825_685/sys.line_4.id_1.sh 
+<pre><code>$ cat z.bds.20140328_224825_685/sys.line_4.id_1.sh
 #!/bin/sh
 
 echo Hello Pablo
 </code></pre>
+
 <pre><code>                    &lt;li&gt; Then executes this shell script and saves stdout and stderr to z.bds.20140328_224825_685/sys.line_4.id_1.stdout and z.bds.20140328_224825_685/sys.line_4.id_1.stderr respectively
 </code></pre>
 <pre><code>$ cat z.bds.20140328_224825_685/sys.line_4.id_1.stdout
 Hello Pablo
 $ cat z.bds.20140328_224825_685/sys.line_4.id_1.stderr
 </code></pre>
+
 <pre><code>                Notice that there was no output on stderr (it's empty)
 
                 &lt;li&gt; Command finished without problems, so it continues with the rest of the program
@@ -957,6 +1009,7 @@ for(int i : range(1,10) ) {
     }
 }
 </code></pre>
+
 <pre><code>            If I run this example and interrupt it (by pressing Ctrl-C) before it ends:
 </code></pre>
 <pre><code>$ ./test_23.bds
@@ -990,6 +1043,7 @@ Done 3
 2014/07/31 00:43:46 bds: Killing PID '32610'
 2014/07/31 00:43:46 bds: Deleting file 'out_10.txt'
 </code></pre>
+
 <pre><code>            You can see how `bds` cleans up all stale files and kills all processes.
             When this is executed in a cluster, the appropriate `qdel`, `canceljob` or similar command is issued (depending on the type of cluster used).
 </code></pre>
@@ -1005,16 +1059,16 @@ Done 3
         &lt;!-- ================================================== --&gt;
 </code></pre>
 <h1 id="bds-command-line-options">BDS Command line options</h1>
-<pre><code>             BigDataScript (`bds`) command line arguments.
+<pre><code>             `bds` command line arguments.
 
             Running the bds command without any arguments shows a help message
 </code></pre>
 <pre><code>$ bds
-BigDataScript 0.999i (build 2015-03-28), by Pablo Cingolani
+bds 0.999i (build 2015-03-28), by Pablo Cingolani
 
-Usage: BigDataScript [options] file.bds
+Usage: bds [options] file.bds
 
-Available options: 
+Available options:
   [-c | -config ] bds.config     : Config file. Default : /Users/pcingola/.bds/bds.config
   [-checkPidRegex]               : Check configuration's 'pidRegex' by matching stdin.
   [-d | -debug  ]                : Debug mode.
@@ -1037,6 +1091,7 @@ Available options:
   [-y | -retry  ] num            : Number of times to retry a failing tasks.
   -pid &lt;file&gt;                    : Write local processes PIDs to 'file'
 </code></pre>
+
 <pre><code>            &lt;table class="table table-striped"&gt;
                     Option short    Option long     Meaning    
                     -c     -config     Path to bds.config file (most of the times no config file is needed)    
@@ -1051,7 +1106,7 @@ Available options:
                            -noRmOnExit     Do not remove files marked for deletion on exit (rmOnExit).    
                     -q     -queue     Set default cluster's queue name.    
                            -quiet     Do not show any messages or tasks outputs on STDOUT. This means that only the output from `print` (and other print-like bds statements), statements will be shown on the console    
-                           -reportHtml     Create HTML report. Create an HTML report (only if at least one task is executed). By default this option is activated. 
+                           -reportHtml     Create HTML report. Create an HTML report (only if at least one task is executed). By default this option is activated.
                            -reportYaml     Create YAML report. Create a YAML report (only if at least one task is executed).  
                     -r     -restore     Restore from a a checkpoint and continue execution.   
                     -s     -system     Define the 'system' type the script is running on (e.g. cluster type)    
@@ -1066,10 +1121,10 @@ Available options:
         &lt;!-- ================================================== --&gt;
 </code></pre>
 <h1 id="bds-config-file">BDS Config file</h1>
-<pre><code>             BigDataScript's config file allows customizing `bds`'s behavior.
+<pre><code>             bds's config file allows customizing `bds`'s behavior.
 
 
-            BigDataScript's config file is usually located in `$HOME/.bds/bds.config`.
+            bds's config file is usually located in `$HOME/.bds/bds.config`.
             Running `bds` without any arguments shows the config's file default location.
             You can provide an alternative path using command line option `-c`.
 
@@ -1081,12 +1136,12 @@ Available options:
 
             ###Default parameters
             This section defines default parameters used in running tasks (such as system type, number of CPUs, memory, etc.).
-            Most of the time you'd rather keep options unspecified but it can be convenient to set `system = local` in 
+            Most of the time you'd rather keep options unspecified but it can be convenient to set `system = local` in
             your laptop and `system = cluster` in your production cluster.
 
             &lt;table class="table table-striped"&gt;
 
-                     Parameter 
+                     Parameter
                       Comments / examples
 
 
@@ -1103,8 +1158,8 @@ Available options:
 
 
                       retry   
-                      Default number of retries when a task fails (0 means no retry). 
-                         Upon failire, a task is re-executed up to 'retry' times. 
+                      Default number of retries when a task fails (0 means no retry).
+                         Upon failire, a task is re-executed up to 'retry' times.
                          I.e. a task is considered failed only after failing 'retry + 1' times.
 
 
@@ -1118,11 +1173,11 @@ Available options:
 
 
                       walltimeout   
-                      Task's wall-timeout in seconds (default is one day). 
-                         Wall timeout includes all the time that the task is waiting to be executed. 
+                      Task's wall-timeout in seconds (default is one day).
+                         Wall timeout includes all the time that the task is waiting to be executed.
                          I.e. the total amount of time we are willing to wait for a task to finish.
-                         For example if walltimeout is one day and a task is queued by the cluster 
-                         system for one day (and never executed), it will timeout, even if the task 
+                         For example if walltimeout is one day and a task is queued by the cluster
+                         system for one day (and never executed), it will timeout, even if the task
                          was never run.
 
 
@@ -1142,12 +1197,12 @@ Available options:
             &lt;/table&gt;
 
 
-            ###Cluster options 
+            ###Cluster options
             This section defines parameters to customize `bds` to run tasks on your cluster.
 
             &lt;table class="table table-striped"&gt;
 
-                     Parameter 
+                     Parameter
                       Comments / examples
 
 
@@ -1162,8 +1217,8 @@ Available options:
 
 
                         Default, use the whole line
-                        Note: Some clusters add the domain name to the ID and 
-                            then never use it again, some other clusters add 
+                        Note: Some clusters add the domain name to the ID and
+                            then never use it again, some other clusters add
                             a message (e.g. 'You job ...')
 
 
@@ -1172,6 +1227,7 @@ Available options:
 <pre><code>pidRegex = &quot;(.+).domain.com&quot;
 pidRegex = &quot;Your job (\\S+)&quot;
 </code></pre>
+
 <pre><code>                      clusterRunAdditionalArgs
 
                         These command line arguments are added to every cluster 'run' command (e.g. 'qsub')
@@ -1180,7 +1236,7 @@ pidRegex = &quot;Your job (\\S+)&quot;
                         For instance the following configuration:
 
                         ``` clusterRunAdditionalArgs = -A accountID -M user@gmail.com ```
-                        will cause four additional arguments `{ '-A', 'accountID', '-M', 'user@gmail.com' }` to 
+                        will cause four additional arguments `{ '-A', 'accountID', '-M', 'user@gmail.com' }` to
                         be added immediately after 'qsub' (or similar) command used to run tasks on a cluster.
 
 
@@ -1208,7 +1264,7 @@ pidRegex = &quot;Your job (\\S+)&quot;
             &lt;/table&gt;
 
 
-            ###SGE Cluster options 
+            ###SGE Cluster options
             This section defines parameters to customize `bds` to run tasks on a Sun Grid Engine cluster.
 
 
@@ -1221,7 +1277,7 @@ pidRegex = &quot;Your job (\\S+)&quot;
 
             &lt;table class="table table-striped"&gt;
 
-                     Parameter 
+                     Parameter
                       Comments / examples
 
 
@@ -1232,9 +1288,9 @@ pidRegex = &quot;Your job (\\S+)&quot;
                     Note on SGE's parallel environment ('-pe'):
 
                       The defaults were set to be compatible with **StarCluster**.
-                      Parallel environment defines how 'slots' (number of cpus requested) 
-                      are allocated. **StarCluster** by default sets up a parallel environment, called “orte”, 
-                      that has been configured for OpenMPI integration within SGE and has a number of slots 
+                      Parallel environment defines how 'slots' (number of cpus requested)
+                      are allocated. **StarCluster** by default sets up a parallel environment, called “orte”,
+                      that has been configured for OpenMPI integration within SGE and has a number of slots
                       equal to the total number of processors in the cluster.
                       See details `qconf -sp orte`:
 </code></pre>
@@ -1250,13 +1306,14 @@ job_is_first_task  FALSE
 urgency_slots      min
 accounting_summary FALSE
 </code></pre>
-<pre><code>                      Notice the `allocation_rule = $round_robin`.  This defines how to assign slots to a job. By 
-                      default StarCluster configures round_robin allocation. This means that if a job requests 8 
-                      slots for example, it will go to the first machine, grab a single slot if available, move to 
-                      the next machine and grab a single slot if available, and so on wrapping around the cluster 
+
+<pre><code>                      Notice the `allocation_rule = $round_robin`.  This defines how to assign slots to a job. By
+                      default StarCluster configures round_robin allocation. This means that if a job requests 8
+                      slots for example, it will go to the first machine, grab a single slot if available, move to
+                      the next machine and grab a single slot if available, and so on wrapping around the cluster
                       again if necessary to allocate 8 slots to the job.
 
-                      You can also configure the parallel environment to try and localize slots as much as 
+                      You can also configure the parallel environment to try and localize slots as much as
                       possible using the "fill_up" allocation rule and job_is_first_task of TRUE.
 
                       To configure: qconf -mp orte
@@ -1273,27 +1330,27 @@ accounting_summary FALSE
             &lt;/table&gt;
 
 
-            ###Generic Cluster options 
+            ###Generic Cluster options
             Cluster **generic** invokes user defined scripts for manupulating tasks.
             This allows the user to customize scripts for particular cluster environments (e.g. environments not currently supported by `bds`)
 
 
-            **Note**: You should either provide the script's full path or the scripts should 
+            **Note**: You should either provide the script's full path or the scripts should
                   be in your PATH
 
 
-            **Note**: These scripts "communicate" with bds by printing information on STDOUT. The 
-                  information has to be printed in a very specific format. Failing to adhere 
+            **Note**: These scripts "communicate" with bds by printing information on STDOUT. The
+                  information has to be printed in a very specific format. Failing to adhere
                   to the format will cause bds to fail in unexpected ways.
 
 
-            **Note**: You can use command path starting with '~' to indicate `$HOME` dir or '.' to 
+            **Note**: You can use command path starting with '~' to indicate `$HOME` dir or '.' to
                   indicate path relative to config file's dir
 
 
             &lt;table class="table table-striped"&gt;
 
-                     Parameter 
+                     Parameter
                       Comments / examples
 
 
@@ -1303,7 +1360,7 @@ accounting_summary FALSE
 
 
                         **Script's expected output**:
-                            The script MUST print the cluster's jobID AS THE FIRST LINE. 
+                            The script MUST print the cluster's jobID AS THE FIRST LINE.
                             Make sure to flush STDOUT to avoid other lines to be printed out of order.
 
 
@@ -1333,7 +1390,7 @@ accounting_summary FALSE
 
 
                         **Command line arguments**:
-                            jobId: This is the jobId returned as the first line in 'clusterGenericRun' 
+                            jobId: This is the jobId returned as the first line in 'clusterGenericRun'
                                   script (i.e. the jobID provided by the cluster management system)
 
 
@@ -1347,9 +1404,9 @@ accounting_summary FALSE
 
 
                         **Script's expected output**:
-                            This script is expected to print all jobs currently scheduled or 
-                            running in the cluster (e.g. qstat), one per line. The FIRST column 
-                            should be the jobID (columns are space or tab separated). Other 
+                            This script is expected to print all jobs currently scheduled or
+                            running in the cluster (e.g. qstat), one per line. The FIRST column
+                            should be the jobID (columns are space or tab separated). Other
                             columns may exist (but are currently ignored).
 
 
@@ -1363,18 +1420,18 @@ accounting_summary FALSE
 
                       clusterGenericPostMortemInfo
 
-                        The specified script is executed in order to get information of a recently 
+                        The specified script is executed in order to get information of a recently
                         finished jobId. This information is typically used for debuging and is added to bds's output.
 
 
                         **Script's expected output**:
-                            The output is not parsed, it is stored and later shown 
-                            in bds's report. Is should contain information relevant 
+                            The output is not parsed, it is stored and later shown
+                            in bds's report. Is should contain information relevant
                             to the job's execution (e.g. `qstat -f $jobId` or `checkjob -v $jobId`)
 
 
                         **Command line arguments**:
-                            jobId: This is the jobId returned as the first line in 'clusterGenericRun' 
+                            jobId: This is the jobId returned as the first line in 'clusterGenericRun'
                             script (i.e. the jobID provided by the cluster management system)
 
 
@@ -1383,14 +1440,14 @@ accounting_summary FALSE
 
             &lt;/table&gt;
 
-            ###SSH Cluster options 
+            ###SSH Cluster options
             Cluster **shh** creates a virtual cluster using several nodes access via shh.
 
 
 
             &lt;table class="table table-striped"&gt;
 
-                     Parameter 
+                     Parameter
                       Comments / examples
 
 
@@ -1406,14 +1463,17 @@ accounting_summary FALSE
 </code></pre>
 <pre><code>ssh.nodes = user@localhost
 </code></pre>
+
 <pre><code>                            &lt;li&gt; Some company's servers used as an ssh cluster
 </code></pre>
 <pre><code>ssh.nodes = user@lab1-1company.com, user@lab1-2company.com, user@lab1-3company.com, user@lab1-4company.com, user@lab1-5company.com
 </code></pre>
+
 <pre><code>                            &lt;li&gt; A StarCluster run on Amazon AWS
 </code></pre>
 <pre><code>ssh.nodes = sgeadmin@node001, sgeadmin@node002, sgeadmin@node003, sgeadmin@node004, sgeadmin@node005, sgeadmin@node006
 </code></pre>
+
 <pre><code>            &lt;/table&gt;
 
 

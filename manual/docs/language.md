@@ -1,7 +1,7 @@
 # Language 
-Learning BigDataScript language (`bds`) is almost trivial, all the statements and expression and data types do what you expect. 
+Learning bds language (`bds`) is almost trivial, all the statements and expression and data types do what you expect. 
 
-BigDataScript is really simple and you should be able to code within a few minutes.
+bds is really simple and you should be able to code within a few minutes.
 This section is intended as a reference, so just glance through it.
 
 

@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Install - bds - Big Data Script programming language</title>
+  <title>Install - bds programming language</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -38,7 +38,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-        <a href=".." class="icon icon-home"> bds - Big Data Script programming language</a>
+        <a href=".." class="icon icon-home"> bds programming language</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
@@ -125,7 +125,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="..">bds - Big Data Script programming language</a>
+        <a href="..">bds programming language</a>
       </nav>
 
       
@@ -155,6 +155,7 @@
 <p>Just run the ant command:</p>
 <pre><code>ant
 </code></pre>
+
 <h3 id="option-2-maven">Option 2: Maven</h3>
 <p>These are used to build the JAR file</p>
 <p><strong>Build executable jar with dependencies</strong></p>
@@ -162,16 +163,19 @@
 <pre><code>cd mvn
 mvn clean assembly:assembly
 </code></pre>
+
 <p><strong>Copy depdencies</strong></p>
 <p>Libraries are copied to: <code>target/dependency</code></p>
 <pre><code>cd mvn
 mvn dependency:copy-dependencies
 </code></pre>
+
 <h1 id="mesos">Mesos</h1>
 <h3 id="install_1">Install</h3>
 <pre><code>brew update
 brew install mesos
 </code></pre>
+
 <p>Dir      : /usr/local/Cellar/mesos/0.22.1/
 LibMesos : /usr/local/Cellar/mesos/0.22.1/lib/libmesos.dylib</p>
 <h3 id="install-libraries">Install libraries</h3>
@@ -181,25 +185,29 @@ tar -zxf mesos-0.22.1.tar.gz
 ./configure
 make
 
-# Copy libraries to BigDataScript/lib dir
-cp src/java/target/mesos-0.22.1.jar ~/workspace/BigDataScript/lib/
-cp src/java/target/protobuf-java-2.5.0.jar ~/workspace/BigDataScript/lib/
+# Copy libraries to bds/lib dir
+cp src/java/target/mesos-0.22.1.jar ~/workspace/bds/lib/
+cp src/java/target/protobuf-java-2.5.0.jar ~/workspace/bds/lib/
 
-# Eclipse, 
+# Eclipse,
 #   Open Package explorer, go to 'lib' dir, right-click on the JAR files -&gt; Build Path -&gt; Add to build path
 #   Open Package explorer, go to &quot;Referenced Libraries&quot;, right-click on &quot;mesos-0.22.1.jar&quot; -&gt; Properties -&gt; Native Libraries -&gt; Add &quot;/usr/local/Cellar/mesos/0.22.1/lib&quot;
 </code></pre>
+
 <h3 id="run-mesos-master">Run Mesos master</h3>
 <pre><code>/usr/local/sbin/mesos-master --registry=in_memory --ip=127.0.0.1
 </code></pre>
+
 <h3 id="run-mesos-slave">Run Mesos slave</h3>
 <pre><code>sudo /usr/local/sbin/mesos-slave --master=127.0.0.1:5050
 </code></pre>
+
 <p>Master's http server: <code>http://localhost:5050</code></p>
 <h3 id="run-java-framework">Run Java framework</h3>
 <p><strong><em>Exits after successfully running some tasks.</em></strong></p>
 <pre><code>./src/examples/java/test-framework 127.0.0.1:5050
 </code></pre>
+
 <h1 id="bds-vm-assembly">bds VM assembly</h1>
 <p>Some examples of 'bds vm' assembly</p>
 <pre><code>#--------------------------------------
@@ -211,6 +219,7 @@ pushi 4
 load a
 set
 </code></pre>
+
 <pre><code>#--------------------------------------
 # bds code:
 #     a = 2 + 3
@@ -222,6 +231,7 @@ addi
 load a
 set
 </code></pre>
+
 <pre><code>#--------------------------------------
 # bds code:
 #     a[i] = b[j] + 7
@@ -237,6 +247,7 @@ load a      # a, i, b[j]+7
 reflist     # a[i], b[j]+7
 set         # -
 </code></pre>
+
 <pre><code>#--------------------------------------
 # bds code:
 #     a{'hi' + 1} = 'bye'
@@ -250,6 +261,7 @@ load a      # a, 'hi1', 'bye'
 refdict     # a{'hi1'}, 'bye'
 set         # -
 </code></pre>
+
 <pre><code>#--------------------------------------
 # bds code:
 #     z.a[7]{'hi'} = 42    
@@ -265,6 +277,7 @@ reflist     # z.a[7], 'hi', 42
 refdict     # z.a[7]{'hi}, 42
 set
 </code></pre>
+
 <pre><code>#--------------------------------------
 # bds code:
 #     int f(int x) return x+1

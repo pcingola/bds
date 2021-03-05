@@ -1,7 +1,7 @@
 # Predefined global variables 
-BigDataScript provides some predefined variables.
+bds provides some predefined variables.
                 
-Whenever you run a BigDataScript program you have several predefined variables:
+Whenever you run a bds program you have several predefined variables:
                      
 Variable name                        | Meaning  
 -------------------------------------|---------------------------------------------------------------------------------------------------------------------------------

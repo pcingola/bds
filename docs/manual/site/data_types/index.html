@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Data types - bds - Big Data Script programming language</title>
+  <title>Data types - bds programming language</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -38,7 +38,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-        <a href=".." class="icon icon-home"> bds - Big Data Script programming language</a>
+        <a href=".." class="icon icon-home"> bds programming language</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
@@ -139,7 +139,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="..">bds - Big Data Script programming language</a>
+        <a href="..">bds programming language</a>
       </nav>
 
       
@@ -321,6 +321,7 @@ if( f.canRead() ) {
     print (&quot; Can read file $f\n&quot; )
 }
 </code></pre>
+
 <p>Here <code>f</code> is a string, but it has a method <code>canRead()</code> which returns true if f is a file and it can be read.</p>
 <p><strong>String (as file) methods</strong></p>
 <table>
@@ -511,6 +512,7 @@ This task ID can be used for task operations, for instance:</p>
 <pre><code>tid := task echo Hello
 wait tid
 </code></pre>
+
 <p>Here the <code>wait</code> statement will wait until the task "echo Hello" finishes executing.</p>
 <p>More task related methods:</p>
 <table>
@@ -570,10 +572,12 @@ You can create a list of strings simply by declaring:</p>
 <pre><code>string[] arrayEmpty
 string[] array = [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;]
 </code></pre>
+
 <p>Similarly, a list of ints is just</p>
 <pre><code>int[] listIntEmpty
 int[] primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
 </code></pre>
+
 <p><strong> Methods </strong></p>
 <table>
 <thead>
@@ -703,6 +707,7 @@ Value: one
 Value: two
 Value: three
 </code></pre>
+
 <h3 id="maps">Maps</h3>
 <p>Maps are hashes that have <code>string</code> as keys.
 You can create a map simply by declaring:</p>
@@ -712,6 +717,7 @@ mstr{&quot;Hello&quot;} = &quot;Bye&quot;
 mstr{&quot;Bonjour&quot;} = &quot;Au revoir&quot;
 mstr{&quot;Hola&quot;} = &quot;Adios&quot;
 </code></pre>
+
 <p>or a map of real numbers</p>
 <pre><code>real{} mre   # This maps string keys to real values
 mre{&quot;one&quot;}   = 1.0
@@ -720,6 +726,7 @@ mre{&quot;e&quot;}     = 2.7182818
 mre{&quot;three&quot;} = 3.0
 mre{&quot;pi&quot;}    = 3.1415927
 </code></pre>
+
 <p><strong> Methods </strong></p>
 <table>
 <thead>
@@ -777,6 +784,7 @@ Values : Au revoir
 Values : Bye
 
 </code></pre>
+
 <p>If you want to iterate on keys instead of values, you can do this:</p>
 <pre><code>$ cat z.bds 
 string{} mstr = { &quot;Hello&quot; =&gt; &quot;Bye&quot;, &quot;Bonjour&quot; =&gt; &quot;Au revoir&quot;, &quot;Hola&quot; =&gt; &quot;Adios&quot; }
@@ -790,6 +798,7 @@ Key : Bonjour    Value : Au revoir
 Key : Hello    Value : Bye
 Key : Hola    Value : Adios
 </code></pre>
+
 <h3 id="classes">Classes</h3>
 <p>Bds has some basic object oriented model that help to modularize complex data analysis pipelenes.
 Has you may expect, classes can contiain fields (class variables) and methods (class functions).</p>
@@ -798,6 +807,7 @@ Has you may expect, classes can contiain fields (class variables) and methods (c
     int value
 }
 </code></pre>
+
 <p><strong><code>new</code> operator</strong>
 To create a new object you use the operator <code>new</code> followed by the class name and parameters for the constructor method.
 A constructor method has the same name as the class and returns <code>void</code>.
@@ -805,6 +815,7 @@ If no constructor is provided in the class definition, a default (empty) method 
 E.g.:</p>
 <pre><code>a := new A()    # Create object 'A' and invoke empty (default) constructor
 </code></pre>
+
 <p>Example of a constructor with parameters:</p>
 <pre><code>class A {
     int x
@@ -818,9 +829,11 @@ E.g.:</p>
 a := new A(42)
 println &quot;a: $a&quot;
 </code></pre>
+
 <p>The output of this program would be (by default printing an object shows the fields):</p>
 <pre><code>a: { x: 42 }
 </code></pre>
+
 <p><strong>Inheritance</strong>: A class can inherit from another class using <code>extends</code> keywors in the class definition. </p>
 <pre><code>class A {
     int x
@@ -834,6 +847,7 @@ class B extends A {
 b := new B()
 println &quot;b: $b&quot;
 </code></pre>
+
 <p>The output of this program is:</p>
 <pre><code>b: { x: 0, y: 17 }
 </code></pre>

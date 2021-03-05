@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Tasks: Improper - bds - Big Data Script programming language</title>
+  <title>Tasks: Improper - bds programming language</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -38,7 +38,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-        <a href=".." class="icon icon-home"> bds - Big Data Script programming language</a>
+        <a href=".." class="icon icon-home"> bds programming language</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
@@ -131,7 +131,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="..">bds - Big Data Script programming language</a>
+        <a href="..">bds programming language</a>
       </nav>
 
       
@@ -169,6 +169,7 @@ task(cpus := 1) {
     println &quot;Hello, a=$a&quot;
 }
 </code></pre>
+
 <h3 id="how-it-works">How it works</h3>
 <p>In case of an "improper task", <code>bds</code> will create a checkpoint containing an absolute serialization of the whole program execution state.
 This works similar to a <code>checkpoint</code> statement.
@@ -183,6 +184,7 @@ task(cpus := 1) {
     exit                    # Note: This 'exit' statment is added only for the checkpoint to be executed by the task
 }
 </code></pre>
+
 <h3 id="features">Features</h3>
 <p>Improper <code>task</code> can have all the same feature as "regular" tasks:</p>
 <ul>
