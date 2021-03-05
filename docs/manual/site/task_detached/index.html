@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Tasks: Detached - bds - Big Data Script programming language</title>
+  <title>Tasks: Detached - bds programming language</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -38,7 +38,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-        <a href=".." class="icon icon-home"> bds - Big Data Script programming language</a>
+        <a href=".." class="icon icon-home"> bds programming language</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
@@ -127,7 +127,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="..">bds - Big Data Script programming language</a>
+        <a href="..">bds programming language</a>
       </nav>
 
       
@@ -175,6 +175,7 @@ println &quot;After&quot;
 wait
 println &quot;Done&quot;
 </code></pre>
+
 <p>If we execute, you'll see that the task executes in a second, but the task has a <code>sleep 60</code> so the task itself should take one minute to run:</p>
 <pre><code>$ time bds z.bds
 Before
@@ -182,10 +183,12 @@ After
 Done
 bds z.bds  1.65s user 0.13s system 114% cpu 1.550 total
 </code></pre>
+
 <p>We immediately check if the "sleep" command is still running after the <code>bds</code> script finished:</p>
 <pre><code>$ ps auxw | grep sleep
 bdsuser          87834   0.0  0.0  4268176    548 s002  S     1:56PM   0:00.00 sleep 60
 </code></pre>
+
 <p>So the detached task is still running after the <code>bds</code> script has finished.</p>
               
             </div>

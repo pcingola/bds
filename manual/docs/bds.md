@@ -122,7 +122,7 @@ goal outs	# We use a list of goals, it is interpreted as multiple goal statement
 
 
 ```
-in  := 'http://pcingola.github.io/BigDataScript/index.html'
+in  := 'http://pcingola.github.io/bds/index.html'
 out := 'tmp.html'
 
 task( out <- in ) sys cat $in > $out
@@ -141,7 +141,7 @@ task( out <- in ) sys cat $in > $out
 
 
 ```
-in  := 'http://pcingola.github.io/BigDataScript/index.html'
+in  := 'http://pcingola.github.io/bds/index.html'
 out := 's3://pcingola.bds/test_remote_12.txt'
 
 task( out <- in ) {

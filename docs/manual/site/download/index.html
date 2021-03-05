@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Download - bds - Big Data Script programming language</title>
+  <title>Download - bds programming language</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -38,7 +38,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-        <a href=".." class="icon icon-home"> bds - Big Data Script programming language</a>
+        <a href=".." class="icon icon-home"> bds programming language</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
@@ -137,7 +137,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="..">bds - Big Data Script programming language</a>
+        <a href="..">bds programming language</a>
       </nav>
 
       
@@ -166,50 +166,57 @@
               
                 <h1 id="download-install">Download &amp; Install</h1>
 <p>Binary distributions are available for Linux and OS.X.</p>
-<p><a class="btn btn-large btn-primary" href="https://github.com/pcingola/BigDataScript/blob/master/distro/bds_Linux.tgz?raw=true">Download Linux</a>
-<a class="btn btn-large btn-primary" href="https://github.com/pcingola/BigDataScript/blob/master/distro/bds_Darwin.tgz?raw=true">Download OS.X</a></p>
+<p><a class="btn btn-large btn-primary" href="https://github.com/pcingola/bds/blob/master/distro/bds_Linux.tgz?raw=true">Download Linux</a>
+<a class="btn btn-large btn-primary" href="https://github.com/pcingola/bds/blob/master/distro/bds_Darwin.tgz?raw=true">Download OS.X</a></p>
 <h3 id="install">Install</h3>
 <p>Uncompress the binary at your <code>HOME</code> directory</p>
 <pre><code>cd 
 tar -xvzf path/to/bds_*.tgz 
 </code></pre>
-<p><strong>Requirements:</strong> In order to run BigDataScript, you need <code>Java 1.11</code>.</p>
+
+<p><strong>Requirements:</strong> In order to run bds, you need <code>Java 1.11</code>.</p>
 <p><strong>Note:</strong> <code>bds</code>'s directoy <code>.bds</code> is 'hidden', since the name starts with a dot.
 Add <code>bds</code>'s directory to your <code>PATH</code>, by adding the following line to your <code>.bashrc</code> or <code>.bash_profile</code></p>
 <pre><code>export PATH=$PATH:$HOME/.bds
 </code></pre>
+
 <p><strong>Mesos support (Optional):</strong>
 If you intend to use <code>bds</code> with mesos, you must install Mesos' native library in <code>$HOME/.bds/lib</code>.
 For example on a Mac that would be something like</p>
 <pre><code>cp /usr/local/Cellar/mesos/*/lib/libmesos.dylib $HOME/.bds/lib
 </code></pre>
+
 <h3 id="installing-from-source">Installing from source</h3>
 <p>The source code is available at GitHub, here we show how to compile and install.</p>
-<p><strong>Requirements:</strong> In order to complile BigDataScript, you need</p>
+<p><strong>Requirements:</strong> In order to complile bds, you need</p>
 <ul>
 <li><a href="http://java.com">Java</a> version 11 or higher</li>
 <li><a href="http://golang.org/">Go</a> version 1.0 or higher</li>
 <li><a href="http://ant.apache.org/">Ant</a> version 1.7 or higher</li>
 </ul>
-<p>The source code is available on <a href="https://github.com/pcingola/BigDataScript">Github</a>.
+<p>The source code is available on <a href="https://github.com/pcingola/bds">Github</a>.
 Download the project as follows:</p>
 <pre><code># Clone repository
-$ git clone https://github.com/pcingola/BigDataScript.git
+$ git clone https://github.com/pcingola/bds.git
 </code></pre>
+
 <p>Once you downloaded the project, you can install using the <code>install.sh</code> script:</p>
 <pre><code># Run 'install script
-cd BigDataScript
+cd bds
 ./scripts/install.sh
 </code></pre>
+
 <p>Then you should add <code>bds</code> to your PATH. Edit your <code>.bashrc</code> (or <code>.bash_profile</code>) and add the following lines</p>
-<pre><code># BigDataScript
+<pre><code># bds
 export PATH=$PATH:$HOME/.bds/
 </code></pre>
+
 <p><strong>Optional:</strong> If you have root access, you can do the following (to get <code>bds</code> available everywhere in your system)</p>
 <pre><code>su -
 cd /usr/bin/
 ln -s /home/your_user/.bds/bds
 </code></pre>
+
 <h3 id="build-jar-solving-missing-java-libraries">Build Jar: Solving missing Java libraries</h3>
 <p>These are used to build the JAR file</p>
 <p><strong>Build executable jar with dependencies</strong></p>
@@ -217,6 +224,7 @@ ln -s /home/your_user/.bds/bds
 <pre><code>cd mvn
 mvn clean assembly:assembly
 </code></pre>
+
 <h3 id="creating-manual-pages">Creating manual pages</h3>
 <p>Maual pages are written in Markdown (<code>*.md</code>) and HTML is created using <code>mkdocs</code> package.
 The source Markdown documents are located in <code>manual/docs/</code>.</p>
@@ -231,23 +239,26 @@ virtualenv -p python3 .
 pip install mkdocs
 
 # Create links to bds project.
-# Here we assume the source code is at `$HOME/workspace/BigDataScript`
-BDS_SRC=&quot;$HOME/workspace/BigDataScript&quot;
+# Here we assume the source code is at `$HOME/workspace/bds`
+BDS_SRC=&quot;$HOME/workspace/bds&quot;
 ln -s $BDS_SRC/manual/mkdocs.yml  # Main configuration file for mkdocs
 ln -s $BDS_SRC/manual/docs        # Source markdown for manual pages
 ln -s $BDS_SRC/docs/manual/site   # GitHub pages are in 'docs' directory
 </code></pre>
+
 <p>Once the virtual environment for <code>mkdocs</code> is set you can run:</p>
 <pre><code>mkdocs serve    # Change pages and see result in your local bowser
 </code></pre>
+
 <p>or</p>
 <pre><code>mkdocs build    # Create manual pages
 
 cd $BDS_SRC
 ./git/commit    # Publish manual pages (if in master)
 </code></pre>
+
 <h3 id="license">License</h3>
-<p>BigDataScript is open source.</p>
+<p>bds is open source.</p>
               
             </div>
           </div>

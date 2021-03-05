@@ -1,18 +1,18 @@
 #About
 
 This project is maintained by **[Pablo Cingolani](http://www.linkedin.com/in/pablocingolani)**
-Community: <a href="https://groups.google.com/d/forum/bigdatascript-users">`bds` user's group</a>
+Community: <a href="https://groups.google.com/d/forum/bds-users">`bds` user's group</a>
 
 ###Acknowledgements
 Acknowledgements and special thanks to (in order of appearance)
 
 -  Hernan Gonzalez: Bug fixes.
--  Fernando Garcia Sanz (FGS): Writing a nice <a href="bigDataScript_manual.html#intro">introduction</a>, feedback and beta testing.
--  Kyle Hernandez: Create the <a href="https://groups.google.com/d/forum/bigdatascript-users">`bds` group</a>
+-  Fernando Garcia Sanz (FGS): Writing a nice <a href="bds_manual.html#intro">introduction</a>, feedback and beta testing.
+-  Kyle Hernandez: Create the <a href="https://groups.google.com/d/forum/bds-users">`bds` group</a>
 -  Jin Lee: Several bug fixes, HTML progress report, improved 'help' commnand options, optional checkpoints, configurable tail size, optional full command when reporting tasks, improved HTML reports, etc.
 
 ###Bug reports
-Please send any bug reports using [GitHub](https://github.com/pcingola/BigDataScript/issues)
+Please send any bug reports using [GitHub](https://github.com/pcingola/bds/issues)
 
 **Important:** Try `bds` latest version. `bds` is updated often, may be the bug has already been corrected.
 
@@ -32,7 +32,7 @@ This means that:
 -  Additional conditions for the bug to occur (e.g. additional config lines)
 
 ###Asking for help
-You can ask question to the [<a href="https://groups.google.com/d/forum/bigdatascript-users">bds user's group</a>
+You can ask question to the [<a href="https://groups.google.com/d/forum/bds-users">bds user's group</a>
 
 A few guidelines when asking for help:
 

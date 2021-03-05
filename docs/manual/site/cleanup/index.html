@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Cleanup - bds - Big Data Script programming language</title>
+  <title>Cleanup - bds programming language</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -38,7 +38,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-        <a href=".." class="icon icon-home"> bds - Big Data Script programming language</a>
+        <a href=".." class="icon icon-home"> bds programming language</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
@@ -127,7 +127,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="..">bds - Big Data Script programming language</a>
+        <a href="..">bds programming language</a>
       </nav>
 
       
@@ -174,6 +174,7 @@ for(int i : range(1,10) ) {
     }
 }
 </code></pre>
+
 <p>If I run this example and interrupt it (by pressing Ctrl-C) before it ends:</p>
 <pre><code>$ ./test_23.bds
 Task 4
@@ -206,6 +207,7 @@ Done 3
 2014/07/31 00:43:46 bds: Killing PID '32610'
 2014/07/31 00:43:46 bds: Deleting file 'out_10.txt'
 </code></pre>
+
 <p>You can see how <code>bds</code> cleans up all stale files and kills all processes.
 When this is executed in a cluster, the appropriate <code>qdel</code>, <code>canceljob</code> or similar command is issued (depending on the type of cluster used).</p>
               

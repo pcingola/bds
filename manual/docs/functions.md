@@ -1,5 +1,5 @@
 # Predefined functions 
- BigDataScript provides some predefined functions.
+ bds provides some predefined functions.
                 
 Function                                                | Meaning    
 --------------------------------------------------------|------------------------------------------------------------------------------------------------------------------

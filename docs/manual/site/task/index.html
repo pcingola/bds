@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Tasks - bds - Big Data Script programming language</title>
+  <title>Tasks - bds programming language</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -38,7 +38,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-        <a href=".." class="icon icon-home"> bds - Big Data Script programming language</a>
+        <a href=".." class="icon icon-home"> bds programming language</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
@@ -135,7 +135,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="..">bds - Big Data Script programming language</a>
+        <a href="..">bds programming language</a>
       </nav>
 
       
@@ -246,11 +246,13 @@ File <a href="bds/test_09.bds">test_09.bds</a></p>
 <pre><code>tid := task echo Hello 
 print(&quot;Task is $tid\n&quot;)
 </code></pre>
+
 <p>Running we get:</p>
 <pre><code>$ ./test_09.bds
 Task is test_09.bds.20140730_214947_810/task.line_3.id_1
 Hello
 </code></pre>
+
 <p><code>task</code> is non-blocking, which means that <code>bds</code> continues execution immediately without waiting for the task to finish.
 So, many tasks can be scheduled by simply invoking a task statement many times. </p>
 <p>Once a <code>task</code> is scheduled, execution order depends on the underliying system and there is absolutely no guarantee about execution order (unless you use a <code>wait</code> statements or other dependency mechanism).</p>
@@ -260,6 +262,7 @@ File <a href="bds/test_10.bds">test_10.bds</a></p>
 
 for( int i=0 ; i &lt; 10 ; i++ ) task echo Hi $i
 </code></pre>
+
 <pre><code>$ ./test_10.bds
 Hi 0
 Hi 5
@@ -272,6 +275,7 @@ Hi 6
 Hi 9
 Hi 8
 </code></pre>
+
 <h3 id="resource-consumption-and-task-options">Resource consumption and task options</h3>
 <p>Often <code>task</code> requires many CPUs or resources.
 In such case, we should inform the resource management system in order to get an efficient allocation of resources (plus many cluster systems kill tasks that fail to report resources correctly).</p>
@@ -286,6 +290,7 @@ for( int i=0 ; i &lt; 10 ; i++ ) {
     }
 }
 </code></pre>
+
 <p>Executing on my 8-core laptop, you can see that only 2 tasks are executed each time (each task is declared to require 4 cpus)</p>
 <pre><code>$ ./test_11.bds
 Hi 0
@@ -309,6 +314,7 @@ Hi 8
 Done 8
 Done 9
 </code></pre>
+
 <p>List of resources or task options</p>
 <table>
 <thead>
@@ -389,6 +395,7 @@ if( shouldExec ) {
     }
 }
 </code></pre>
+
 <p>Is the same as:</p>
 <pre><code>shouldExec := true
 
@@ -396,6 +403,7 @@ task( shouldExec, cpus := 4 ) {
     sys echo RUNNING
 }
 </code></pre>
+
 <p><strong>Note:</strong> This feature is particularly useful when combined with the dependency operator <code>&lt;-</code>
 For instance, the following <code>task</code> will be executed only if 'out.txt' needs to be updated with respect to 'in.txt'</p>
 <pre><code>in  := 'in.txt'
@@ -405,6 +413,7 @@ task( out &lt;- in , cpus := 4 ) {
     sys echo $in &gt; $out
 }
 </code></pre>
+
 <h3 id="syntax-sugar">Syntax sugar</h3>
 <p>There are many ways to write task expressions, here we show some examples.</p>
 <ul>
@@ -412,6 +421,7 @@ task( out &lt;- in , cpus := 4 ) {
 </ul>
 <pre><code>task echo RUNNING
 </code></pre>
+
 <ul>
 <li>The same simple task</li>
 </ul>
@@ -419,6 +429,7 @@ task( out &lt;- in , cpus := 4 ) {
     sys echo RUNNING
 }
 </code></pre>
+
 <ul>
 <li>A simple, multi-line task (a backslash at the end of the line continues in the next line, just like in a shell script)</li>
 </ul>
@@ -428,6 +439,7 @@ task( out &lt;- in , cpus := 4 ) {
         | sort \
         &gt; out.txtx
 </code></pre>
+
 <ul>
 <li>A more complex multi-line task (<code>sys</code> commands are just multiple lines in a bash script)</li>
 </ul>
@@ -438,6 +450,7 @@ task( out &lt;- in , cpus := 4 ) {
     sys wc -l excluded.txt
 }
 </code></pre>
+
 <ul>
 <li>A task with dependencies</li>
 </ul>
@@ -448,6 +461,7 @@ task( out &lt;- in , cpus := 4 ) {
     sys wc -l excluded.txt
 }
 </code></pre>
+
 <ul>
 <li>A task with multiple inputs and outputs dependencies</li>
 </ul>
@@ -456,6 +470,7 @@ task( out &lt;- in , cpus := 4 ) {
     sys cat $in1 $in2 | wc -l &gt; $out2
 }
 </code></pre>
+
 <ul>
 <li>A task with multiple inputs and outputs dependencies, using 4 CPUs and declaring a local variable 'tmp'</li>
 </ul>
@@ -465,6 +480,7 @@ task( out &lt;- in , cpus := 4 ) {
     sys wc -l $tmp | wc -l &gt; $out2
 }
 </code></pre>
+
 <ul>
 <li>A task with a label (<code>taskName</code>) is easier to find in the report</li>
 </ul>

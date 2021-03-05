@@ -11,7 +11,7 @@ Before the command (`cat`) is executed, the remote file is transparently downloa
 
 
 ```
-in  := 'http://pcingola.github.io/BigDataScript/index.html'
+in  := 'http://pcingola.github.io/bds/index.html'
 out := 'tmp.html'
 
 task( out <- in ) sys cat $in > $out
@@ -30,7 +30,7 @@ Once more, notice that `bds` transparently takes care of downloading the file an
 
 
 ```
-in  := 'http://pcingola.github.io/BigDataScript/index.html'
+in  := 'http://pcingola.github.io/bds/index.html'
 out := 's3://pcingola.bds/test_remote_12.txt'
 
 task( out <- in ) {

@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Remote files - bds - Big Data Script programming language</title>
+  <title>Remote files - bds programming language</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -38,7 +38,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-        <a href=".." class="icon icon-home"> bds - Big Data Script programming language</a>
+        <a href=".." class="icon icon-home"> bds programming language</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
@@ -127,7 +127,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="..">bds - Big Data Script programming language</a>
+        <a href="..">bds programming language</a>
       </nav>
 
       
@@ -161,22 +161,22 @@ Fortunately <code>bds</code> can transparently handle remote dependencies, downl
 <p><strong>Example 1:</strong> In this example, the remote file <code>index.html</code> is remote input file to the <code>task</code>.
 Obviously <code>index.html</code> is hosted on GitHub's servers, thus not available on the computer where the script is running.
 Before the command (<code>cat</code>) is executed, the remote file is transparently downloaded by <code>bds</code>.</p>
-<pre><code>in  := 'http://pcingola.github.io/BigDataScript/index.html'
+<pre><code>in  := 'http://pcingola.github.io/bds/index.html'
 out := 'tmp.html'
 
 task( out &lt;- in ) sys cat $in &gt; $out
 </code></pre>
-<p>Notice that: </p>
+
+<p>Notice that: 
 <ol>
-<li> there is no code for downloading the remote file (`index.html`) in the script;
+<li> there is no code for downloading the remote file (<code>index.html</code>) in the script;
 <li> the file is downloaded on the processing node performing the task, which may differ from the node running the script (e.g. if it is running on a cluster);
 <li> task dependencies are verified without downloading data, so the task, as well as the corresponding download / upload operations, are only performed if required;
-<li> if the file is required in the future, `bds` checks if the local (cached) copy is still valid, and uses the cached file if possible (saving bandwith and time).
-</ol>
-
+<li> if the file is required in the future, <code>bds</code> checks if the local (cached) copy is still valid, and uses the cached file if possible (saving bandwith and time).
+</ol></p>
 <p><strong>Example 2:</strong> The following example is slightly more complicated, the input ('index.html') is processed (<code>cat</code> and <code>echo</code> commands) and the results are stored in an <code>Amazon S3</code> object.
 Once more, notice that <code>bds</code> transparently takes care of downloading the file and then uploading the output to Amazon's S3.</p>
-<pre><code>in  := 'http://pcingola.github.io/BigDataScript/index.html'
+<pre><code>in  := 'http://pcingola.github.io/bds/index.html'
 out := 's3://pcingola.bds/test_remote_12.txt'
 
 task( out &lt;- in ) {

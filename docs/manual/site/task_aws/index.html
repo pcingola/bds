@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Tasks: Cloud AWS - bds - Big Data Script programming language</title>
+  <title>Tasks: Cloud AWS - bds programming language</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -38,7 +38,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-        <a href=".." class="icon icon-home"> bds - Big Data Script programming language</a>
+        <a href=".." class="icon icon-home"> bds programming language</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
@@ -163,7 +163,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="..">bds - Big Data Script programming language</a>
+        <a href="..">bds programming language</a>
       </nav>
 
       
@@ -241,6 +241,7 @@ println &quot;After&quot;     # This message is show after the task is scheduled
 wait                # Wait until the task finishes (i.e. the instance finishes running)
 println &quot;Done&quot;      # This message is shown after the task finished running
 </code></pre>
+
 <h3 id="example-walk-through-running-the-program">Example walk-through: Running the program</h3>
 <p>OK, let's run this example program and analyze each step of the <code>bds</code> output.</p>
 <p>We run using the <code>-v</code> command line options, so we'll see more verbose output and <code>-log</code> to get the outputs logged to files.</p>
@@ -250,15 +251,18 @@ println &quot;Done&quot;      # This message is shown after the task finished ru
 Before
 After
 </code></pre>
+
 <p>These are just the <code>println</code> statements from our example program.
 The message <code>After</code> is shown after the task statement, so at this point the task was scheduled for execution (but it's not running yet). </p>
 <pre><code>00:00:00.484    INFO : Creating AWS SQS queue 'bds_20210121_090423_234750293cafe'
 </code></pre>
+
 <p>This indicates that an SQS queue was created.
 This SQS queue is used to communicate task StdOut, StdErr, and task exit status to the computer running the <code>bds</code> program (e.g. your laptop)
 Since the instance can be inaccessible from our network and vice-versa (e.g. we could be running the script on our laptop behind a corporate firewall), SQS is used to communicate both ends.</p>
 <pre><code>00:00:04.229    INFO Cmd 'z.bds.20210121_090423_293/task.z.line_16.id_1.337e55c1b5c62785': Created EC2 instance: 'i-0d5931b8e30fba349', for task 'z.bds.20210121_090423_293/task.z.line_16.id_1.337e55c1b5c62785'
 </code></pre>
+
 <p>The instance was created and the task will be executed in that instance.
 Note that the instance will be automatically terminated when the task finishes executing.</p>
 <pre><code>
@@ -268,6 +272,7 @@ Note that the instance will be automatically terminated when the task finishes e
         | ------------------- | ----------------- | ------------------------------------ | ------------ | ------------------------------------------------------------------------ |
         | i-0d5931b8e30fba349 | running (RUNNING) | task.z.line_16.id_1.337e55c1b5c62785 |              | echo HI; for i in `seq 10`; do echo &quot;count: $i&quot;; sleep 1; done; echo BYE |
 </code></pre>
+
 <p>The instance usually takes over a minute to startup.
 We run using <code>bds -v ...</code>, in verbose mode <code>bds</code> will show a report of all tasks running (roughly) every one minute.
 In this case, there is only one task.</p>
@@ -284,17 +289,20 @@ count: 9
 count: 10
 BYE
 </code></pre>
+
 <p>These are the output lines from the task, which is running on the EC2 instance.
 Note that even though we are not connected to the instance, we can the task's Stdout because it's sent via an SQS queue. 
 After the task finished, the instance is terminated.
 You can check on the AWS management console that the instance changes state first to "Shutting down" and later to "Terminated".</p>
 <pre><code>Done
 </code></pre>
+
 <p>This was the <code>println "Done"</code> statement from our program, since the statement was after a <code>wait</code> statement, this is shown after the task finished running. </p>
 <pre><code>00:01:36.518    INFO : Writing report file 'z.bds.20210121_090423_293.report.html'
 00:01:36.524    INFO : Writing report file 'z.bds.20210121_090423_293.report.yaml'
 00:01:36.529    INFO : Deleting AWS SQS queue 'az-ngs-seqauto_20210121_090423_74c7f1be2f3ccca5', url: 'https://sqs.us-east-1.amazonaws.com/671016219382/az-ngs-seqauto_20210121_090423_74c7f1be2f3ccca5'
 </code></pre>
+
 <p>The last messages show that a report was created and the SQS queue was deleted.</p>
 <h3 id="example-walk-through-looking-to-the-log-files">Example walk-through: Looking to the log files</h3>
 <p>When the <code>bds</code> script is run using <code>-log</code> command line option, files will be created to log every task.
@@ -311,6 +319,7 @@ task.z.line_16.id_1.337e55c1b5c62785.stdout
 task.z.line_16.id_1.337e55c1b5c62785.stderr
 task.z.line_16.id_1.337e55c1b5c62785.sh
 </code></pre>
+
 <p>Let's review each file:
 - Task STDOUT (<code>task.z.line_16.id_1.337e55c1b5c62785.stdout</code>): The standard output from the task is logged in this file. Note that these are messages sent by the EC2 instance via SQS.</p>
 <pre><code>$ cat task.z.line_16.id_1.337e55c1b5c62785.stdout
@@ -327,6 +336,7 @@ count: 9
 count: 10
 BYE
 </code></pre>
+
 <ul>
 <li>Task STDERR (<code>task.z.line_16.id_1.337e55c1b5c62785.stderr</code>): The standard error from the task is logged in this file. Note that these are messages sent by the EC2 instance via SQS. IMPORTANT: If there is no STDERR, this file is not created.</li>
 </ul>
@@ -334,6 +344,7 @@ BYE
 $ cat task.z.line_16.id_1.337e55c1b5c62785.stderr
 cat: task.z.line_16.id_1.337e55c1b5c62785.stderr: No such file or directory
 </code></pre>
+
 <ul>
 <li>Task exit code (<code>task.z.line_16.id_1.337e55c1b5c62785.exitCode</code>): This is the exit code from the task</li>
 </ul>
@@ -341,12 +352,14 @@ cat: task.z.line_16.id_1.337e55c1b5c62785.stderr: No such file or directory
 $ cat task.z.line_16.id_1.337e55c1b5c62785.exitCode
 0
 </code></pre>
+
 <ul>
 <li>EC2 request file (<code>task.z.line_16.id_1.337e55c1b5c62785.ec2_request_response.i-0d5931b8e30fba349.txt</code>): This file logs the detailed request parameters when requesting the EC2 instance.</li>
 </ul>
 <pre><code>$ cat task.z.line_16.id_1.337e55c1b5c62785.ec2_request_response.i-0d5931b8e30fba349.txt
 RunInstancesResponse(Groups=[], Instances=[Instance(AmiLaunchIndex=0, ImageId=ami-123456abcdef, InstanceId=i-0d5931b8e30fba349, InstanceType=t3a.medium, LaunchTime=...
 </code></pre>
+
 <ul>
 <li>Task script (<code>task.z.line_16.id_1.337e55c1b5c62785.sh</code>): This is "raw" script defined in the task.</li>
 </ul>
@@ -364,6 +377,7 @@ for i in `seq 10`; do echo &quot;count: $i&quot;; sleep 1; done
 echo BYE
 # Checksum: 3a69f4dc
 </code></pre>
+
 <ul>
 <li>Startup script (<code>task.z.line_16.id_1.337e55c1b5c62785.startup_script.sh</code>): This is the startup script provided to the instance (EC2 "user data" parameter). This is how the instance knows how to execute the task. we'll discuss this in the next sub-section</li>
 </ul>
@@ -403,6 +417,7 @@ bds exec -stdout '/home/myuser/bds/example/z.bds.20210121_090423_293/task.z.line
 
 echo &quot;INFO: Finished script '$0'&quot;
 </code></pre>
+
 <p>The script has three main sections:</p>
 <ol>
 <li>Capture any error (trap) and make sure the instance is shut down if any error occurs or when the script finishes successfully. Since the instances are run with "terminate on shutdown" option enabled, this forces the instance to be terminated (so you don't get charged by an instance that has finished or failed to run the task)</li>
@@ -424,11 +439,13 @@ function exit_script {    # This function is used to shutdown the instance
 export HOME='/root'       # The startup script is executed by the instance at startup time as 'root' user, HOME variable is not defined yet so we define it
 trap exit_script EXIT     # Trap any EXIT signal and execute 'exit_script' funtion (which shut downs the instance)
 </code></pre>
+
 <ul>
 <li>Copy the task lines defined in the <code>bds</code> program, into a new file and change mode to allow execution</li>
 </ul>
 <pre><code>mkdir -p '/home/myuser/bds/example/z.bds.20210121_090423_293'   # Create a directory (same location as in the original bds program)
 </code></pre>
+
 <p>The lines below are the script lines defined by the bds program (see "task line").
 Note that they are the exact same lines as defined in the task script (<code>task.z.line_16.id_1.337e55c1b5c62785.sh</code>), but they have a <code>#\t</code> prepended to each line</p>
 <pre><code>#   #!/bin/bash -eu
@@ -444,11 +461,13 @@ Note that they are the exact same lines as defined in the task script (<code>tas
 #   echo BYE
 #   # Checksum: 3a69f4dc
 </code></pre>
+
 <p>Next, there is a <code>grep</code> command to extract all the lines starting with <code>#\t</code> to a new file.
 So this writes all the line defined in the original task to a new script file and makes it executable</p>
 <pre><code>grep '^#    ' &quot;$0&quot; | cut -c 3- &gt; '/home/myuser/bds/example/z.bds.20210121_090423_293/task.z.line_16.id_1.337e55c1b5c62785.startup_script_instance.sh'   
 chmod u+x '/home/myuser/bds/example/z.bds.20210121_090423_293/task.z.line_16.id_1.337e55c1b5c62785.startup_script_instance.sh'
 </code></pre>
+
 <ul>
 <li>Execute the file that runs the task using <code>bds ... -awsSqsName ...</code> which redirect STDOUT, STDERR (and exit code) to the SQS queue</li>
 </ul>
@@ -456,6 +475,7 @@ chmod u+x '/home/myuser/bds/example/z.bds.20210121_090423_293/task.z.line_16.id_
 
 echo &quot;INFO: Finished script '$0'&quot;
 </code></pre>
+
 <ul>
 <li>Script finishes: Several things happen whenever the startup script finishes executing:<ul>
 <li>After the last line is successfully executed, the script will exit, i.e. issue an <code>EXIT</code> signal.</li>
@@ -486,6 +506,7 @@ Not only this could generates costs due to SQS messages, but also can create hig
     sys command_with_lots_of_output &gt; /dev/null 2&gt;&amp;1
 }
 </code></pre>
+
 <h3 id="improper-tasks">Improper tasks</h3>
 <p>AWS tasks can also be "improper", this means that they can execute arbitrary <code>bds</code> code.
 In this case, as always happens in improper tasks, the whole program state will be accessible to the task runningin the instance:</p>
@@ -497,6 +518,7 @@ In this case, as always happens in improper tasks, the whole program state will 
     println &quot;End of task, the EC2 instance will terminate after this&quot;
 }
 </code></pre>
+
 <h3 id="dependencies">Dependencies</h3>
 <p>Tasks executed on AWS can have dependencies, as any other tasks.
 Usually dependencies are files on S3.</p>
@@ -552,6 +574,7 @@ println &quot;After task2&quot;
 wait
 println &quot;Done&quot;
 </code></pre>
+
 <p>Each of these two tasks are executed in different EC2 instances.
 There is a dependency: the second needs <code>out1</code> which is created by the first task.
 So the second task will not be executed until the first task finishes successfully, i.e. the second instance will only be created when the first instance finishes executing the first tasks and the output file <code>out1</code> is created.</p>
@@ -583,6 +606,7 @@ println &quot;After&quot;
 wait
 println &quot;Done&quot;
 </code></pre>
+
 <p>The task continues running in the EC2 instance, even though the <code>bds</code> script finishes immediately after the instance has been requested.</p>
 <h3 id="dep-and-goal"><code>dep</code> and <code>goal</code></h3>
 <p>As any other tasks, AWS tasks can also be defined using <code>dep</code> and <code>goal</code> statements, e.g.:</p>
@@ -639,6 +663,7 @@ goal out2
 wait
 println &quot;Done&quot;
 </code></pre>
+
 <h3 id="aws-task-parameters">AWS task parameters</h3>
 <p>Any task running on AWS requires many parameters to be set.
 Most parameters can be set in the <code>tataskResources</code> hash we've seen in the examples.</p>
@@ -726,6 +751,7 @@ for i in 1 .. START_FAIL_MAX_ATTEMPTS:
     - if succeess: return OK            # Success, instance created
     - wait_random_time                  # Reuqest failed, wait up to START_FAIL_SLEEP_RAND_TIME seconds
 </code></pre>
+
 <p><strong>Note:</strong> Randomly selecting a subnet from a comma separated list in <code>tataskResources{'subnetId'}</code>, allows you to randomly create instances on different zones within a region.</p>
               
             </div>

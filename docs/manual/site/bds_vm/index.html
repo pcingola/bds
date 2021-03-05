@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Bds VM - bds - Big Data Script programming language</title>
+  <title>Bds VM - bds programming language</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -38,7 +38,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-        <a href=".." class="icon icon-home"> bds - Big Data Script programming language</a>
+        <a href=".." class="icon icon-home"> bds programming language</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
@@ -151,7 +151,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="..">bds - Big Data Script programming language</a>
+        <a href="..">bds programming language</a>
       </nav>
 
       
@@ -200,6 +200,7 @@ b := 40
 c := a + b
 println &quot;c=$c&quot;
 </code></pre>
+
 <p>If we execute it using <code>-d</code> we'll see:</p>
 <pre><code>$ bds -d z.bds
 ...
@@ -230,6 +231,7 @@ main:
     31    println
     32    halt
 </code></pre>
+
 <p>The comment lines (starting with <code>#</code>) show exactly the <code>bds</code> code that created the corresponding assembly instructions.</p>
 <p>For example the line <code>VariableInitImplicit : a := 2</code> means that there was a variable declared implicitly (i.e. the variable type is inferred from the initialization value)
 The corresponding assembly code is:</p>
@@ -237,6 +239,7 @@ The corresponding assembly code is:</p>
      5    pushi 2       # Push the value '2' to the stack
      7    varpop 'a'    # Create a variable called 'a' and set the value from the latest element in the stack (i.e. '2')
 </code></pre>
+
 <p>The <code>node</code> instructions refer to the node number in the Abstract Syntax Tree (AST) that was created from the Lexer+Parser.
 Essentially, they are only references to the exact program file and line number and they are just used to know which file/line number we are corrently executing.
 This is used for printing error messages if something fails during execution.</p>
@@ -252,6 +255,7 @@ b := 40
 c := a + b
 println &quot;c=$c&quot;
 </code></pre>
+
 <p>If we execute using <code>-d</code>, we can see the stack whenever it changes
 Note that the output has been edited for clarity and some comments added to clarify the <code>bdsVm</code> assembly:</p>
 <pre><code>1  main:
@@ -278,6 +282,7 @@ Note that the output has been edited for clarity and some comments added to clar
 31    println                 # Print latest value from the stack
 32    halt                    # Halt bdsVm execution
 </code></pre>
+
 <h2 id="bdsvm-examples"><code>bdsVm</code> examples</h2>
 <p>Here are some "easy" examples of how <code>bds</code> code is compiled into <code>bdsVm</code> assembly</p>
 <h3 id="bds-code-a-4">bds code: <code>a = 4</code></h3>
@@ -285,6 +290,7 @@ Note that the output has been edited for clarity and some comments added to clar
 load a
 set
 </code></pre>
+
 <h3 id="bds-code-a-2-3">bds code: <code>a = 2 + 3</code></h3>
 <pre><code>pushi 2
 pushi 3
@@ -292,6 +298,7 @@ addi
 load a
 set
 </code></pre>
+
 <h3 id="bds-code-ai-bj-7">bds code: <code>a[i] = b[j] + 7</code></h3>
 <pre><code>            # Stack
 push 7
@@ -304,6 +311,7 @@ load a      # a, i, b[j]+7
 reflist     # a[i], b[j]+7
 set         # -
 </code></pre>
+
 <h3 id="bds-code-ahi-1-bye">bds code: <code>a{'hi' + 1} = 'bye'</code></h3>
 <pre><code>            # Stack
 pushs 'bye'
@@ -314,6 +322,7 @@ load a      # a, 'hi1', 'bye'
 refdict     # a{'hi1'}, 'bye'
 set         # -
 </code></pre>
+
 <h3 id="bds-code-za7hi-42">bds code: <code>z.a[7]{'hi'} = 42</code></h3>
 <p>In this case <code>z</code> is an object</p>
 <pre><code>            # Stack
@@ -327,6 +336,7 @@ reflist     # z.a[7], 'hi', 42
 refdict     # z.a[7]{'hi}, 42
 set
 </code></pre>
+
 <h3 id="bds-code-function-call">bds code: Function call</h3>
 <p>bds code:</p>
 <pre><code>int f(int x) {
@@ -335,6 +345,7 @@ set
 
 z = f(7)
 </code></pre>
+
 <p>bdsVm code:</p>
 <pre><code>f:
 load x

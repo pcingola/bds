@@ -1,15 +1,15 @@
-site_name: bds - Big Data Script programming language
+site_name: bds programming language
 nav:
   - Home: index.md
   - About: about.md
-  - Manual: 
+  - Manual:
     - 'Introduction': index.md
     - 'Download': download.md
     - 'Hello world': hello.md
     - 'Language': language.md
     - 'Special operators': special.md
     - 'Data types': data_types.md
-    - 'Functions': functions.md 
+    - 'Functions': functions.md
     - 'Global variables': global_vars.md
     - 'Pipelines': pipelines.md
     - 'Sys': sys.md

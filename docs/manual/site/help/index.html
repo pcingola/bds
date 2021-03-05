@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Command line help - bds - Big Data Script programming language</title>
+  <title>Command line help - bds programming language</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -38,7 +38,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-        <a href=".." class="icon icon-home"> bds - Big Data Script programming language</a>
+        <a href=".." class="icon icon-home"> bds programming language</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
@@ -133,7 +133,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="..">bds - Big Data Script programming language</a>
+        <a href="..">bds programming language</a>
       </nav>
 
       
@@ -176,6 +176,7 @@ for( int i=0 ; i &lt; num ; i++ ) {
     print &quot;hi $i\n&quot;
 }
 </code></pre>
+
 <p>When running the script using <code>-h</code> command line option a help screen is created and printed out automatically (no action is programmed in the script to process the '-h' command line option).
 Note that script command line options are given AFTER script name:</p>
 <pre><code>$ bds test_26.bds -h
@@ -185,6 +186,7 @@ Command line options 'test_26.bds' :
     -mean &lt;int&gt;                               : Help for argument 'mean' should be printed here
     -someVeryLongCommandLineArgumentName      : This command line argument has a really long name
 </code></pre>
+
 <p>The same happens if you run the script directly:</p>
 <pre><code>$ ./test_26.bds -h
 Command line options 'test_26.bds' :
@@ -193,6 +195,7 @@ Command line options 'test_26.bds' :
     mean                                : Help for argument 'mean' should be printed here
     someVeryLongCommandLineArgumentName : This command line argument has a really long name
 </code></pre>
+
 <h3 id="help-sort-order">Help sort order</h3>
 <p>By default, variables are sorted alphabetically when help is shown. 
 This can be overridden by creating a global variable <code>helpUnsorted</code> (regardless of its type and value, since the program may not even be running when the help is shown).</p>
@@ -208,12 +211,14 @@ aaa := 1        help Help for argument 'aaa' should be printed here
 
 print &quot;Done\n&quot;
 </code></pre>
+
 <p>Now when we run <code>bds -h</code> help lines are shown unsorted:</p>
 <pre><code>$ ./test_26b.bds -h
 Command line options 'test_26b.bds' :
     -zzz &lt;int&gt;  : Help for argument 'zzz' should be printed here
     -aaa &lt;int&gt;  : Help for argument 'aaa' should be printed here
 </code></pre>
+
 <h3 id="showing-help-on-empty-command-line-arguments">Showing help on empty command line arguments</h3>
 <p>The function <code>printHelp()</code> can be called to show the help message. 
 This can be used, for instance, to show a help message when there are no command line arguments by doing something like this:</p>
@@ -231,6 +236,7 @@ if( args.isEmpty() ) {
 
 print &quot;Done\n&quot;
 </code></pre>
+
 <p>Now when we run <code>test_26c.bds</code> without any command line arguments, the help message is shown:</p>
 <pre><code>$ ./test_26c.bds 
 Command line options 'test_26c.bds' :
@@ -238,6 +244,7 @@ Command line options 'test_26c.bds' :
     -bbb &lt;int&gt;  : Help for argument 'bbb' should be printed here
     -zzz &lt;int&gt;  : Help for argument 'zzz' should be printed here
 </code></pre>
+
 <h3 id="help-sections">Help sections</h3>
 <p>Sometimes it is useful to divide the help message into sections.
 Sections are marked by <code>help</code> statements as in this example:</p>
@@ -258,6 +265,7 @@ dbName := &quot;testDb&quot;  help Database name
 
 print &quot;OK\n&quot;
 </code></pre>
+
 <p>When run, variables are grouped in two "help sections" (note that variables are sorted within each section):</p>
 <pre><code>$ ./test_26d.bds -h
 This program does blah
