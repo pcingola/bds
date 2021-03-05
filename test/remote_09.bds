@@ -1,6 +1,6 @@
 
-task( 'tmp_remote_09.txt' <- 'http://pcingola.github.io/BigDataScript/index.html' ) {
-	sys cat 'http://pcingola.github.io/BigDataScript/index.html' > 'tmp_remote_09.txt'
+task( 'tmp_remote_09.txt' <- 'http://pcingola.github.io/bds/index.html' ) {
+	sys cat 'http://pcingola.github.io/bds/index.html' > 'tmp_remote_09.txt'
 }
 
 wait

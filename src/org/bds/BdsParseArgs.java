@@ -25,7 +25,7 @@ import org.bds.scope.GlobalScope;
 import org.bds.util.Gpr;
 
 /**
- * Parse command line arguments for a BDS program
+ * Parse command line arguments for a bds program
  *
  * Set command line arguments as program's variables
  *
@@ -33,7 +33,7 @@ import org.bds.util.Gpr;
  *
  * 	- Program is executes as something like:
  *
- * 		java -jar BigDataScript.jar [options] programFile.bds [programOptions]
+ * 		java -jar bds.jar [options] programFile.bds [programOptions]
  *
  * 	- Any command line argument AFTER "programFile.bds" is considered a
  * 	  command line option for the BDS program. E.g.
@@ -56,7 +56,7 @@ import org.bds.util.Gpr;
  * 		bool verbose = false
  *
  * 	  When we execute the program:
- * 		java -jar BigDataScript.jar -v program.bds -file myFile.txt -verbose -num 7
+ * 		java -jar bds.jar -v program.bds -file myFile.txt -verbose -num 7
  *
  * 	  The variable declarations are replaced as follows:
  * 		string file = "myFile.txt"
@@ -75,7 +75,7 @@ import org.bds.util.Gpr;
  *		Program:
  *			int num = 1
  * 		Command line:
- * 			java -jar BigDataScript.jar program.bds -num "hello" <- This is an error because 'num' is an int
+ * 			java -jar bds.jar program.bds -num "hello" <- This is an error because 'num' is an int
  *
  *	- Note: Unprocessed arguments will be available to the program as an 'args' list
  *
@@ -87,7 +87,7 @@ public class BdsParseArgs implements BdsLog {
 	boolean showHelp;
 	int argNum = 0;
 	ProgramUnit programUnit;
-	List<String> programArgs; // Command line arguments for BigDataScript program
+	List<String> programArgs; // Command line arguments for bds program
 
 	public BdsParseArgs(ProgramUnit programUnit, List<String> args) {
 		this.programUnit = programUnit;

@@ -1,5 +1,5 @@
 
-in := 'http://pcingola.github.io/BigDataScript/index.html'
+in := 'http://pcingola.github.io/bds/index.html'
 out := 'tmp_remote_05.txt'
 
 task( out <- in ) sys cat '$in' > $out

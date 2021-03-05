@@ -1,4 +1,4 @@
 
-in := 'http://pcingola.github.io/BigDataScript/index.html'
+in := 'http://pcingola.github.io/bds/index.html'
 locFile := in.download()
 

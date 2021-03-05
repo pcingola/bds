@@ -1,6 +1,6 @@
 
-in := 'http://pcingola.github.io/BigDataScript/index.html'
-in2	:= 'http://pcingola.github.io/BigDataScript/about.html'
+in := 'http://pcingola.github.io/bds/index.html'
+in2	:= 'http://pcingola.github.io/bds/about.html'
 out := 'tmp_remote_08.txt'
 
 lin := [in, in2]

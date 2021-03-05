@@ -24,7 +24,7 @@ import org.bds.run.BdsThread;
 import org.bds.symbol.SymbolTable;
 
 /**
- * Base AST node for bds language elements
+ * Base AST node (Abstract Syntax Tree) for bds language elements
  *
  * @author pcingola
  */
@@ -127,7 +127,7 @@ public abstract class BdsNode implements Serializable, BdsLog {
 	}
 
 	/**
-	 * Create a BigDataScriptNode
+	 * Create a BdsNode
 	 */
 	final public BdsNode factory(ParseTree tree, int childNum) {
 		ParseTree child = childNum >= 0 ? tree.getChild(childNum) : tree;
@@ -172,8 +172,8 @@ public abstract class BdsNode implements Serializable, BdsLog {
 		return null;
 	}
 
-	public BdsThread getBigDataScriptThread() {
-		if (parent != null) return parent.getBigDataScriptThread();
+	public BdsThread getBdsThread() {
+		if (parent != null) return parent.getBdsThread();
 		return null;
 	}
 

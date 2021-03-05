@@ -1,6 +1,6 @@
-grammar BigDataScript;
+grammar bds;
 
-import BigDataScriptLexerRules;
+import bdsLexerRules;
     
 //------------------------------------------------------------------------------
 // Parser 
