@@ -2,6 +2,8 @@
 in := 'http://pcingola.github.io/bds/index.html'
 out := 'tmp_remote_05.txt'
 
+out.rm()
+
 task( out <- in ) sys cat '$in' > $out
 
 wait

@@ -118,8 +118,7 @@ public class DataHttp extends DataRemote {
 			updateInfo(connection);
 
 			// Copy resource to local file, use remote file if no local file name specified
-			InputStream is = uri.toURL().openStream();
-
+			InputStream is = connection.getInputStream();
 			// Open local file
 			log("Local file name: '" + local + "'");
 
