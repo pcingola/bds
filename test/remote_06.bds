@@ -3,6 +3,8 @@ in := 'http://pcingola.github.io/bds/index.html'
 in2	:= 'http://pcingola.github.io/bds/about.html'
 out := 'tmp_remote_06.txt'
 
+out.rm()
+
 task( out <- [in, in2] ) sys cat $in $in2 > $out
 
 wait
