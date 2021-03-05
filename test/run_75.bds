@@ -1,0 +1,3 @@
+
+string ls = sys echo EXEC ; ls $programPath; echo DONE
+

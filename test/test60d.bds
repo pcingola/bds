@@ -1,0 +1,6 @@
+class D {
+	void f() {
+		A a
+		a = new B()
+	}
+}

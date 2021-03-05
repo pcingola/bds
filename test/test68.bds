@@ -1,0 +1,16 @@
+
+print "Hi"
+switch() {
+	case 1:
+		print "one"
+		break
+
+	case 2:
+		print "two"
+		break
+
+	default:
+		print "something else"
+		break
+}
+print "Bye"

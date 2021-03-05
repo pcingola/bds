@@ -1,0 +1,5 @@
+
+int i=1
+sys echo hi
+print("Done\n")
+i=2

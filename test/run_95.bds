@@ -1,0 +1,11 @@
+#!/usr/bin/env bds
+
+l := ['one']
+
+ll := l + ['two', 'three']
+ll = ll + 'four'
+ll = ll + (""+5)
+ll = 'zero' + ll
+
+print("ll=$ll\n")
+
