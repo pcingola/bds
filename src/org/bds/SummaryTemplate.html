@@ -33,9 +33,10 @@
 
 <div class="container" id="bdsTimeLine">
 	<h2 class="bs-featurette-title"> Timeline </h2>
-	<script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1','packages':['timeline']}]}"></script>
-	<script type="text/javascript">
-	google.setOnLoadCallback(drawChart);
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+    google.charts.load('current', {'packages':['timeline']});
+    google.charts.setOnLoadCallback(drawChart);
 
 	function drawChart() {
 	  var container = document.getElementById('bdsTimeline');
