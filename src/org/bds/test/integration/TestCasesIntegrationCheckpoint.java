@@ -13,8 +13,6 @@ import org.junit.Test;
 
 public class TestCasesIntegrationCheckpoint extends TestCasesBase {
 
-	public static boolean debug = false;
-
 	/**
 	 * Test a checkpoint within a for-loop, reload checkpoint and continue execution
 	 */
