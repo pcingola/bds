@@ -10,6 +10,5 @@ cp -vf config/bds.config $HOME/.bds/	# Make sure default config file is used
 
 cd $HOME
 mkdir -p $dir/../distro/
-tar -cvzf $dir/../distro/bds_`uname`.tgz .bds
-
+tar -cvzf $dir/../distro/bds_`uname`.tgz .bds/bds .bds/bds.config .bds/include
 
