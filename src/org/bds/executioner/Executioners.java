@@ -24,7 +24,7 @@ public class Executioners implements BdsLog {
 	 * Type of executioners
 	 */
 	public enum ExecutionerType {
-		AWS, CLUSTER, FAKE, GENERIC, LOCAL, MESOS, MOAB, PBS, SGE, SLURM, SSH;
+		AWS, CLUSTER, FAKE, GENERIC, LOCAL, MOAB, PBS, SGE, SLURM, SSH;
 
 		/**
 		 * Parse an executioner name
@@ -123,10 +123,6 @@ public class Executioners implements BdsLog {
 
 		case LOCAL:
 			executioner = new ExecutionerLocal(config);
-			break;
-
-		case MESOS:
-			executioner = new ExecutionerMesos(config);
 			break;
 
 		case MOAB:

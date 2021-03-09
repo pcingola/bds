@@ -24,7 +24,6 @@ public class TaskResources extends Resources {
 		case CLUSTER:
 		case FAKE:
 		case GENERIC:
-		case MESOS:
 		case MOAB:
 		case PBS:
 		case SGE:
