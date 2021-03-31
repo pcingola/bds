@@ -1,35 +1,36 @@
 #!/bin/bash -eu
 set -o pipefail
 
+echo "Build bds: Start"
+
 # Delete old jar
-ORIGDIR=${PWD}
-BDS_JAR="${ORIGDIR}/build/bds.jar"
-BDS_BIN="${ORIGDIR}/build/bds"
+SCRIPT_DIR=$(cd $(dirname $0); pwd -P)
+PROJECT_DIR=$(cd "$SCRIPT_DIR/.."; pwd -P)
+
+BDS_JAR="$PROJECT_DIR/build/bds.jar"
+BDS_BIN="$PROJECT_DIR/build/bds"
+BDS_GO_BIN="$PROJECT_DIR/go/bds/bds"
+
+cd "$PROJECT_DIR"
 
 rm -f "$BDS_JAR" || true
 
 # Make sure 'bin' dir exists
-mkdir bin || true
+mkdir -p bin 
 
 # Build Jar file
 echo Building JAR file
 ant 
 
 # Build go program
-echo
-echo Building bds wrapper: Compiling GO program
-cd go/bds/
-export GOPATH=`pwd`
-go clean
-go build 
-go fmt
+"$SCRIPT_DIR/make_go.sh"
 
 # Build binay (go executable + JAR file)
-cat bds "$BDS_JAR" > "$BDS_BIN"
+cat "$BDS_GO_BIN" "$BDS_JAR" > "$BDS_BIN"
 chmod a+x "$BDS_BIN"
 echo "Bds executable: '$BDS_BIN'"
 
 # Remove JAR file
 rm "$BDS_JAR"
 
-cd -
+echo "Build bds: Finished"
