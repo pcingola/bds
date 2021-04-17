@@ -14,6 +14,7 @@ echo
 echo Building bds wrapper: Compiling GO program
 cd "$PROJECT_DIR/go/bds/"
 export GOPATH=`pwd`
+export GO111MODULE=auto
 
 # Make sure dependencies are downlaoded
 go get -v github.com/aws/aws-sdk-go/aws

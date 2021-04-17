@@ -397,9 +397,7 @@ public class ExecutionerCluster extends ExecutionerFileSystem {
 	}
 
 	/**
-	 * Create a shell file name for a slurm script (basically invoke bds command)
-	 * @param task
-	 * @return
+	 * Create a shell file name for a cluster script (basically invoke bds command)
 	 */
 	protected String shellFileName(Task task) {
 		String programFileName = task.getProgramFileName();
@@ -410,11 +408,11 @@ public class ExecutionerCluster extends ExecutionerFileSystem {
 			String baseName = file.getName();
 			int idx = baseName.lastIndexOf('.');
 			if (idx > 0) baseName = baseName.substring(0, idx);
-			return programFileDir + "/" + baseName + ".slurm.sh";
+			return programFileDir + "/" + baseName + ".cluster.sh";
 		} catch (IOException e) {
 			// Nothing to do
 		}
-		return programFileName + ".slurm.sh";
+		return programFileName + ".cluster.sh";
 	}
 
 	@Override
