@@ -157,11 +157,16 @@ public abstract class Executioner extends Thread implements NotifyTaskState, Pid
 	 */
 	public static String createBdsExecCmdStr(Task task) {
 		String[] cmd = createBdsExecCmdArgs(task);
+
 		StringBuilder sb = new StringBuilder();
-		for (int i = BDS_EXEC_COMMAND.length; i < cmd.length; i++) {
-			if (cmd[i].startsWith("-")) sb.append(" " + cmd[i]);
-			else sb.append(" '" + cmd[i] + "'");
+		for (int i = 0; i < cmd.length; i++) {
+			if (i >= BDS_EXEC_COMMAND.length) {
+				// Quote strings, but not command line options
+				if (cmd[i].startsWith("-")) sb.append(" " + cmd[i]);
+				else sb.append(" '" + cmd[i] + "'");
+			} else sb.append(cmd[i] + " ");
 		}
+
 		return sb.toString();
 	}
 
