@@ -33,7 +33,7 @@ public abstract class ExecutionerFileSystem extends Executioner {
 
 	public ExecutionerFileSystem(Config config) {
 		super(config);
-		tail = config.getTail();
+		tail = getTail();
 
 		// Create a cluster having only one host (this computer)
 		system = new ComputerSystem();
@@ -69,6 +69,26 @@ public abstract class ExecutionerFileSystem extends Executioner {
 		// Remove from loggers
 		if (taskLogger != null) taskLogger.remove(task);
 		if (monitorTask != null) monitorTask.remove(task);
+	}
+
+	public synchronized Tail getTail() {
+		if (tail == null) {
+			tail = new Tail();
+			tail.setDebug(isDebug());
+			tail.setVerbose(isVerbose());
+			tail.setQuiet(config.isQuiet());
+			tail.start(); // Create a 'tail' process (to show STDOUT & STDERR from all processes)
+		}
+		return tail;
+	}
+
+	@Override
+	public synchronized void kill() {
+		super.kill();
+		if (tail != null) {
+			tail.kill(); // Kill tail process
+			tail = null;
+		}
 	}
 
 	/**

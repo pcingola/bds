@@ -4,13 +4,13 @@ import org.bds.cluster.host.HostSsh;
 import org.bds.util.Gpr;
 
 /**
- * A command parser for 'system_profiler' command (OS X) 
- * 
+ * A command parser for 'system_profiler' command (OS X)
+ *
  * @author pcingola@mcgill.ca
  */
 public class CommandParserSystemProfiler extends CommandParser {
 
-	public static boolean debug = false;
+	public static boolean debug = true;
 
 	public CommandParserSystemProfiler(HostSsh host) {
 		super(host, "sysctl -a");

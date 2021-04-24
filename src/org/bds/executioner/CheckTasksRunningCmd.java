@@ -36,14 +36,14 @@ public class CheckTasksRunningCmd extends CheckTasksRunning {
 		defaultCmdArgs = new String[0];
 
 		// PID regex matcher
-		pidPatternStr = config.getPidRegexCheckTasksRunning("");
+		pidPatternStr = config.getPidRegexCheckTasksRunning();
 		if (!pidPatternStr.isEmpty()) {
 			debug("Using pidRegex (check tasks running) '" + pidPatternStr + "'");
 			pidPattern = Pattern.compile(pidPatternStr);
 		} else debug("Config parameter '" + Config.PID_CHECK_TASK_RUNNING_REGEX + "' not set.");
 
 		// Select column where to look for PID
-		cmdPidColumn = (int) config.getLong(Config.PID_CHECK_TASK_RUNNING_COLUMN, 1) - 1;
+		cmdPidColumn = config.getPidCheckTaskRunningColumn();
 		if (cmdPidColumn < 0) cmdPidColumn = 0;
 		debug("Using 'cmdPidColumn' " + cmdPidColumn);
 	}

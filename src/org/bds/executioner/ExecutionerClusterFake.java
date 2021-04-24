@@ -10,16 +10,20 @@ import org.bds.Config;
  */
 public class ExecutionerClusterFake extends ExecutionerCluster {
 
-	public static String FAKE_CLUSTER = Config.DEFAULT_CONFIG_DIR + "/fakeCluster/";
+	public static final String FAKE_CLUSTER_DIR_NAME = "fakeCluster";
+
+	String fakeClusterDir;
 
 	protected ExecutionerClusterFake(Config config) {
 		super(config);
 
+		fakeClusterDir = config.getFakeClusterDir();
+
 		// Define commands
-		String runCommand[] = { FAKE_CLUSTER + "qsub" };
-		String killCommand[] = { FAKE_CLUSTER + "qdel" };
-		String statCommand[] = { FAKE_CLUSTER + "qstat" };
-		String postMortemInfoCommand[] = { FAKE_CLUSTER + "qstat", "-f" };
+		String runCommand[] = { fakeClusterDir + "/qsub" };
+		String killCommand[] = { fakeClusterDir + "/qdel" };
+		String statCommand[] = { fakeClusterDir + "/qstat" };
+		String postMortemInfoCommand[] = { fakeClusterDir + "/qstat", "-f" };
 
 		clusterRunCommand = runCommand;
 		clusterKillCommand = killCommand;
