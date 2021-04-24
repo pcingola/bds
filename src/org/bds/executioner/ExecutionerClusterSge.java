@@ -38,19 +38,19 @@ public class ExecutionerClusterSge extends ExecutionerCluster {
 		debug("Using pidRegex '" + pidRegexStr + "'");
 
 		// SGE parameters from config file
-		sgePe = config.getString(Config.CLUSTER_SGE_PE, "");
+		sgePe = config.getClusterSgePe();
 		if (sgePe.isEmpty()) throw new RuntimeException("Missing config file entry '" + Config.CLUSTER_SGE_PE + "'.");
 
-		sgeMem = config.getString(Config.CLUSTER_SGE_MEM, "");
+		sgeMem = config.getClusterSgeMem();
 		if (sgeMem.isEmpty()) throw new RuntimeException("Missing config file entry '" + Config.CLUSTER_SGE_MEM + "'.");
 
-		sgeTimeOut = config.getString(Config.CLUSTER_SGE_TIMEOUT_HARD, "");
+		sgeTimeOut = config.getClusterSgeTimeoutHard();
 		if (sgeTimeOut.isEmpty()) throw new RuntimeException("Missing config file entry '" + Config.CLUSTER_SGE_TIMEOUT_HARD + "'.");
 
-		sgeTimeOutSoft = config.getString(Config.CLUSTER_SGE_TIMEOUT_SOFT, "");
+		sgeTimeOutSoft = config.getClusterSgeTimeoutSoft();
 		if (sgeTimeOut.isEmpty()) throw new RuntimeException("Missing config file entry '" + Config.CLUSTER_SGE_TIMEOUT_SOFT + "'.");
 
-		timeInSecs = config.getBool(Config.CLUSTER_SGE_TIME_IN_SECS, false);
+		timeInSecs = config.isClusterSgeTimeInSecs();
 		if (sgeMem.isEmpty()) throw new RuntimeException("Missing config file entry '" + Config.CLUSTER_SGE_MEM + "'.");
 
 	}

@@ -134,7 +134,7 @@ public class BdsRun implements BdsLog {
 	 */
 	public void checkPidRegex() {
 		// PID regex matcher
-		String pidPatternStr = config.getPidRegex("");
+		String pidPatternStr = config.getPidRegex();
 
 		if (pidPatternStr.isEmpty()) {
 			System.err.println("Cannot find 'pidRegex' entry in config file.");
@@ -457,7 +457,8 @@ public class BdsRun implements BdsLog {
 		// Kill other timer tasks
 		FtpConnectionFactory.kill();
 
-		config.kill(); // Kill 'tail' and 'monitor' threads
+		// FIXME: Dead code? Remove
+		// config.kill(); // Kill 'tail' and 'monitor' threads
 
 		return exitValue;
 	}

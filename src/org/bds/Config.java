@@ -12,11 +12,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Properties;
 
+import org.bds.executioner.ExecutionerClusterFake;
 import org.bds.executioner.Executioners.ExecutionerType;
-import org.bds.executioner.MonitorTask;
 import org.bds.executioner.TaskLogger;
 import org.bds.scope.GlobalScope;
-import org.bds.task.Tail;
 import org.bds.task.TailFile;
 import org.bds.task.Task;
 import org.bds.util.Gpr;
@@ -29,8 +28,26 @@ import org.bds.util.Timer;
  */
 public class Config implements Serializable, BdsLog {
 
-	public static String BDS_HOME = Gpr.HOME + "/.bds"; // Bds home directory
-	public static final String BDS_INCLUDE_PATH = "BDS_PATH"; // BDS include path (colon separated list of directories to look for include files)
+	private static final long serialVersionUID = 6558109289073244716L;
+	// Singleton instance
+	private static Config configInstance = null; // Config is some kind of singleton because we want to make it accessible from everywhere
+	// Default values
+	private static final String DEFAULT_BDS_HOME = Gpr.HOME + "/.bds"; // Bds home directory
+	private static final String BDS_INCLUDE_PATH = "BDS_PATH"; // BDS include path (colon separated list of directories to look for include files)
+	private static final String DEFAULT_CONFIG_BASENAME = "bds.config"; // We want to put bds.config together with bds executable
+	private static final String DEFAULT_CONFIG_DIR = DEFAULT_BDS_HOME; // by default BDS_HOME == HOME
+	public static final String DEFAULT_CONFIG_FILE = DEFAULT_CONFIG_DIR + "/" + DEFAULT_CONFIG_BASENAME;
+	private static final String DEFAULT_INCLUDE_DIR = DEFAULT_CONFIG_DIR + "/include";
+	private static final int DEFAULT_MAX_NUMBER_OF_RUNNING_THREADS = 512;
+	private static final String DEFAULT_SYS_SHELL = "/bin/bash -euo pipefail -c"; // Note: This executes a script, so it requires the "-c" right before script name
+	public static final String DEFAULT_TASK_SHELL = "/bin/bash -eu\nset -o pipefail"; // Use '-euo pipefail' so that shell script stops after first error
+	private static final long DEFAULT_TIMEOUT = 1L * 24 * 60 * 60;
+	private static final String DEFAULT_TMP_DIR = "/tmp";
+	private static final int DEFAULT_WAIT_AFTER_TASK_RUN = 0;
+	private static final int DEFAULT_WAIT_FILE_CHECK = -1;
+	private static final int DEFAULT_WAIT_TEXT_FILE_BUSY = 10;
+	public static final int MAX_NUMBER_OF_RUNNING_THREADS_MIN_VALUE = 50; // If maxThreads in configuration file is too small, we'll consider it an error and use this number
+	// Config entry names
 	public static final String CLUSTER_GENERIC_KILL = "clusterGenericKill"; // Cluster: Generic cluster
 	public static final String CLUSTER_GENERIC_POSTMORTEMINFO = "clusterGenericPostMortemInfo";
 	public static final String CLUSTER_GENERIC_RUN = "clusterGenericRun";
@@ -46,79 +63,85 @@ public class Config implements Serializable, BdsLog {
 	public static final String CLUSTER_SGE_TIMEOUT_SOFT = "sge.timeoutSoft";
 	public static final String CLUSTER_SSH_NODES = "ssh.nodes"; // Cluster ssh
 	public static final String CLUSTER_STAT_ADDITIONAL_ARGUMENTS = "clusterStatAdditionalArgs"; // Cluster additional command line arguments (when requesting information about all tasks)
-	private static Config configInstance = null; // Config is some kind of singleton because we want to make it accessible from everywhere
-	public static final String DEFAULT_CONFIG_BASENAME = "bds.config"; // We want to put bds.config together with bds executable
-	public static final String DEFAULT_CONFIG_DIR = BDS_HOME; // by default BDS_HOME == HOME
-	public static final String DEFAULT_CONFIG_FILE = DEFAULT_CONFIG_DIR + "/" + DEFAULT_CONFIG_BASENAME;
-	public static final String DEFAULT_INCLUDE_DIR = DEFAULT_CONFIG_DIR + "/include";
-	public static final int DEFAULT_MAX_NUMBER_OF_RUNNING_THREADS = 512;
-	public static final String DEFAULT_TMP_DIR = "/tmp";
-	public static int DEFAULT_WAIT_AFTER_TASK_RUN = 0;
-	public static int DEFAULT_WAIT_FILE_CHECK = -1;
-	public static int DEFAULT_WAIT_TEXT_FILE_BUSY = 10;
 	public static final String DISABLE_CHECKPOINT_CREATE = "disableCheckpoint"; // Disable checkpoint creation
 	public static final String DISABLE_RM_ON_EXIT = "disableRmOnExit";
-	public static final String[] EMPTY_STRING_ARRAY = new String[0];
+	public static final String CLUSTER_FAKE_DIR = "cluster.fake.dir";
 	public static final String FILTER_OUT_TASK_HINT = "filterOutTaskHint"; // Lines to filter out from task hint
 	public static final String MAX_NUMBER_OF_RUNNING_THREADS = "maxThreads";
-	public static final int MAX_NUMBER_OF_RUNNING_THREADS_MIN_VALUE = 50; // If maxThreads in configuration file is too small, we'll consider it an error and use this number
 	public static final String PID_CHECK_TASK_RUNNING_COLUMN = "pidColumnCheckTaskRunning"; // Regex used for checking PID
 	public static final String PID_CHECK_TASK_RUNNING_REGEX = "pidRegexCheckTaskRunning"; // Regex used for checking PID
 	public static final String PID_REGEX = "pidRegex"; // Regex used for PID
 	public static final String QUEUE = "queue";
 	public static final String REPORT_HTML = "reportHtml"; // Create an HTML report
 	public static final String REPORT_YAML = "reportYaml"; // Create a YAML report
-	private static final long serialVersionUID = 6558109289073244716L;
 	public static final String SHOW_TASK_CODE = "showTaskCode"; // Always show task's code (sys commands)
 	public static final String SYS_SHELL = "sysShell"; // Sys's shell
-	public static String SYS_SHELL_DEFAULT = "/bin/bash -euo pipefail -c"; // Note: This executes a script, so it requires the "-c" right before script name
 	public static final String TAIL_LINES = "tailLines"; // Number of lie to use in 'tail'
 	public static final String TASK_MAX_HINT_LEN = "taskMaxHintLen";
 	public static final String TASK_PRELUDE = "taskPrelude"; // Task prelude
 	public static final String TASK_SHELL = "taskShell"; // Task's shell
-	public static final String TASK_SHELL_DEFAULT = "/bin/bash -eu\nset -o pipefail"; // Use '-euo pipefail' so that shell script stops after first error
 	public static final String TMP_DIR = "tmpDir";
 	public static final String WAIT_AFTER_TASK_RUN = "waitAfterTaskRun";
 	public static final String WAIT_FILE_CHECK = "waitFileCheck";
 	public static final String WAIT_TEXT_FILE_BUSY = "waitTextFileBusy";
+	// Other
+	public static final String[] EMPTY_STRING_ARRAY = new String[0];
 
-	String configDirName;
+	String bdsHome = DEFAULT_BDS_HOME;
+	boolean clusterPostMortemInfoDisabled = false;
+	String clusterSgeMem = "";
+	String clusterSgePe = "";
+	boolean clusterSgeTimeInSecs = false;
+	String clusterSgeTimeoutHard = "";
+	String clusterSgeTimeoutSoft = "";
+	String clusterSshNodes = "";
+	String configDirName = DEFAULT_CONFIG_DIR;
 	String configFileName;
 	boolean coverage; // Perform coverage analysis (only when test cases are run)
+	int cpus = 1;
+	int cpusLocal = Gpr.NUM_CORES;
 	boolean debug = false; // Debug mode?
 	boolean dryRun = false; // Is this a dry run? (i.e. don't run commands, just show what they do).
 	boolean extractSource = false; // Extract source code from checkpoint file
+	String fakeClusterDir;
 	ArrayList<String> filterOutTaskHint;
 	ArrayList<String> includePath;
 	boolean log = false; // Log all commands?
-	int maxThreads = -1; // Maximum number of simultaneous threads (e.g. when running 'qsub' commands)
-	MonitorTask monitorTask;
-	boolean noCheckpoint; // Do not create checkpoint files
-	boolean noRmOnExit; // Avoid removing files on exit
+	int maxThreads = DEFAULT_MAX_NUMBER_OF_RUNNING_THREADS; // Maximum number of simultaneous threads (e.g. when running 'qsub' commands)
+	long mem = -1; // Default amount of memory: -1 (unrestricted)
+	// !!!!! FIXME: REMOVE?
+	// MonitorTask monitorTask;
+	boolean noCheckpoint = false; // Do not create checkpoint files
+	String node = "";
+	boolean noRmOnExit = false; // Avoid removing files on exit
+	int pidCheckTaskRunningColumn = 0; // Which column to use when parsing PID
 	String pidFile = "pidFile" + (new Date()).getTime() + ".txt"; // Default PID file
-	String pidRegex; // Regex used to extract PID from cluster command (e.g. qsub).
-	String pidRegexCheckTaskRunning; // Regex to match PID when bds checks that tasks are running in the cluster
+	String pidRegex = ""; // Regex used to extract PID from cluster command (e.g. qsub)
+	String pidRegexCheckTaskRunning = ""; // Regex to match PID when bds checks that tasks are running in the cluster
 	Properties properties;
-	String queue; // Queue name
+	String queue = ""; // Queue name
 	boolean quiet = false; // Quiet mode?
 	String reportFileName; // Preferred file name to use for progress and final report
 	boolean reportHtml = false; // Use HTML report format
 	boolean reportYaml = false; // Use YAML report format
-	boolean showTaskCode; // Always show task's code (sys statements)
-	String sysShell; // System shell
-	String system; // System type
-	Tail tail;
-	int tailLines; // Number of lines to use in 'tail'
+	boolean showTaskCode = false; // Always show task's code (sys statements)
+	String sysShell = DEFAULT_SYS_SHELL; // System shell
+	String system = ExecutionerType.LOCAL.toString().toLowerCase(); // System type
+	// !!!!! FIXME: REMOVE?
+	// Tail tail;
+	int tailLines = TailFile.DEFAULT_TAIL; // Number of lines to use in 'tail'
 	int taskFailCount = 0; // Number of times a task is allowed to fail (i.e. number of re-tries)
 	TaskLogger taskLogger;
-	Integer taskMaxHintLen; // Max number of characters to use in tasks's "hint"
-	String taskPrelude; // Task prelude
-	String taskShell; // Task shell
-	String tmpDir; // Tmp directory
+	Integer taskMaxHintLen = Task.MAX_HINT_LEN; // Max number of characters to use in tasks's "hint"
+	String taskPrelude = ""; // Task prelude
+	String taskShell = DEFAULT_TASK_SHELL; // Task shell
+	long timeout = DEFAULT_TIMEOUT;
+	String tmpDir = DEFAULT_TMP_DIR; // Tmp directory
 	boolean verbose = false; // Verbose mode?
-	int waitAfterTaskRun = -1; // Wait some milisec after task run
-	int waitFileCheck = -1; // Wait some milisecs after task finished before checking if output files exists
-	int waitTextFileBusy = -1; // Wait some milisecs after writing a shell file to disk (before execution)
+	int waitAfterTaskRun = DEFAULT_WAIT_AFTER_TASK_RUN; // Wait some milisec after task run
+	int waitFileCheck = DEFAULT_WAIT_FILE_CHECK; // Wait some milisecs after task finished before checking if output files exists
+	int waitTextFileBusy = DEFAULT_WAIT_TEXT_FILE_BUSY; // Wait some milisecs after writing a shell file to disk (before execution)
+	long wallTimeout = DEFAULT_TIMEOUT;
 
 	/**
 	 * Get singleton
@@ -143,17 +166,19 @@ public class Config implements Serializable, BdsLog {
 	 * Create a configuration from 'configFileName'
 	 */
 	public Config(String configFileName) {
-		bdsHome();
-		this.configFileName = configFileName;
+		bdsHome = bdsHome();
+		this.configFileName = configFileName != null ? configFileName : DEFAULT_CONFIG_FILE;
+		configDirName = configFileName != null ? Gpr.dirName(configFileName) : DEFAULT_CONFIG_DIR;
+		fakeClusterDir = configDirName + "/" + ExecutionerClusterFake.FAKE_CLUSTER_DIR_NAME;
 		configInstance = this;
 	}
 
 	/**
-	 * Set BDS_HOME
+	 * Find BdsHome value
 	 */
-	void bdsHome() {
+	String bdsHome() {
 		String envBdsHome = System.getenv("BDS_HOME");
-		if (envBdsHome != null) BDS_HOME = envBdsHome;
+		return envBdsHome != null ? envBdsHome : DEFAULT_BDS_HOME;
 	}
 
 	/**
@@ -170,7 +195,7 @@ public class Config implements Serializable, BdsLog {
 
 		// Create a search path
 		String bdsDir = new File(Gpr.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getParent();
-		String[] searchPaths = { ".", bdsDir, Gpr.HOME, BDS_HOME };
+		String[] searchPaths = { ".", bdsDir, Gpr.HOME, bdsHome };
 
 		for (String d : searchPaths) {
 			String cf = d + "/" + DEFAULT_CONFIG_BASENAME;
@@ -182,13 +207,37 @@ public class Config implements Serializable, BdsLog {
 		return DEFAULT_CONFIG_FILE;
 	}
 
+	public String getBdsHome() {
+		return bdsHome;
+	}
+
 	/**
 	 * Get a property as a boolean
 	 */
-	public boolean getBool(String propertyName, boolean defaultValue) {
+	protected boolean getBool(String propertyName, boolean defaultValue) {
 		String val = getString(propertyName);
 		if (val == null) return defaultValue;
 		return Gpr.parseBoolSafe(val.trim());
+	}
+
+	public String getClusterSgeMem() {
+		return clusterSgeMem;
+	}
+
+	public String getClusterSgePe() {
+		return clusterSgePe;
+	}
+
+	public String getClusterSgeTimeoutHard() {
+		return clusterSgeTimeoutHard;
+	}
+
+	public String getClusterSgeTimeoutSoft() {
+		return clusterSgeTimeoutSoft;
+	}
+
+	public String getClusterSshNodes() {
+		return clusterSshNodes;
 	}
 
 	public String getConfigDirName() {
@@ -199,6 +248,14 @@ public class Config implements Serializable, BdsLog {
 		return configFileName;
 	}
 
+	public int getCpus() {
+		return cpus;
+	}
+
+	public int getCpusLocal() {
+		return cpusLocal;
+	}
+
 	/**
 	 * Get a property as a double
 	 */
@@ -206,6 +263,10 @@ public class Config implements Serializable, BdsLog {
 		String val = getString(propertyName);
 		if (val == null) return defaultValue;
 		return Gpr.parseDoubleSafe(val);
+	}
+
+	public String getFakeClusterDir() {
+		return fakeClusterDir;
 	}
 
 	public ArrayList<String> getFilterOutTaskHint() {
@@ -240,7 +301,7 @@ public class Config implements Serializable, BdsLog {
 	/**
 	 * Get a property as a int
 	 */
-	public int getInt(String propertyName, int defaultValue) {
+	protected int getInt(String propertyName, int defaultValue) {
 		String val = getString(propertyName);
 		if (val == null) return defaultValue;
 		return Gpr.parseIntSafe(val.trim());
@@ -249,7 +310,7 @@ public class Config implements Serializable, BdsLog {
 	/**
 	 * Get a property as a long
 	 */
-	public long getLong(String propertyName, long defaultValue) {
+	protected long getLong(String propertyName, long defaultValue) {
 		String val = getString(propertyName);
 		if (val == null) return defaultValue;
 		return Gpr.parseLongSafe(val.trim());
@@ -262,17 +323,24 @@ public class Config implements Serializable, BdsLog {
 		return maxThreads;
 	}
 
-	//	public MonitorTask getMonitorTask() {
-	//		if (monitorTask == null) {
-	//			monitorTask = new MonitorTask();
-	//			monitorTask.setDebug(isDebug());
-	//			monitorTask.setVerbose(isVerbose());
-	//		}
-	//		return monitorTask;
-	//	}
+	public long getMem() {
+		return mem;
+	}
+
+	public String getNode() {
+		return node;
+	}
+
+	public int getPidCheckTaskRunningColumn() {
+		return pidCheckTaskRunningColumn;
+	}
 
 	public String getPidFile() {
 		return pidFile;
+	}
+
+	public String getPidRegex() {
+		return getPidRegex("");
 	}
 
 	public String getPidRegex(String defaultPidRegex) {
@@ -280,8 +348,9 @@ public class Config implements Serializable, BdsLog {
 		return pidRegex;
 	}
 
-	public String getPidRegexCheckTasksRunning(String defaultPidRegex) {
-		if (pidRegexCheckTaskRunning == null || pidRegexCheckTaskRunning.isEmpty()) return defaultPidRegex;
+	public String getPidRegexCheckTasksRunning() {
+		// TODO: Remove next line
+		// if (pidRegexCheckTaskRunning == null || pidRegexCheckTaskRunning.isEmpty()) return defaultPidRegex;
 		return pidRegexCheckTaskRunning;
 	}
 
@@ -300,7 +369,7 @@ public class Config implements Serializable, BdsLog {
 		return properties.getProperty(propertyName);
 	}
 
-	public String getString(String propertyName, String defaultValue) {
+	protected String getString(String propertyName, String defaultValue) {
 		String val = getString(propertyName);
 		if (val == null) return defaultValue;
 		val = val.trim();
@@ -351,17 +420,6 @@ public class Config implements Serializable, BdsLog {
 		return system;
 	}
 
-	public Tail getTail() {
-		if (tail == null) {
-			tail = new Tail();
-			tail.setDebug(isDebug());
-			tail.setVerbose(isVerbose());
-			tail.setQuiet(isQuiet());
-			tail.start(); // Create a 'tail' process (to show STDOUT & STDERR from all processes)
-		}
-		return tail;
-	}
-
 	public int getTailLines() {
 		return tailLines;
 	}
@@ -389,6 +447,10 @@ public class Config implements Serializable, BdsLog {
 		return taskShell;
 	}
 
+	public long getTimeout() {
+		return timeout;
+	}
+
 	public String getTmpDir() {
 		return tmpDir;
 	}
@@ -403,6 +465,30 @@ public class Config implements Serializable, BdsLog {
 
 	public int getWaitTextFileBusy() {
 		return waitTextFileBusy;
+	}
+
+	public long getWallTimeout() {
+		return wallTimeout;
+	}
+
+	public boolean isClusterPostMortemInfoDisabled() {
+		return clusterPostMortemInfoDisabled;
+	}
+
+	//	public void kill() {
+	//		if (tail != null) {
+	//			tail.kill(); // Kill tail process
+	//			tail = null;
+	//		}
+	//
+	//		if (monitorTask != null) {
+	//			// monitorTask.kill();
+	//			monitorTask = null;
+	//		}
+	//	}
+
+	public boolean isClusterSgeTimeInSecs() {
+		return clusterSgeTimeInSecs;
 	}
 
 	public boolean isCoverage() {
@@ -456,18 +542,6 @@ public class Config implements Serializable, BdsLog {
 		return verbose;
 	}
 
-	public void kill() {
-		if (tail != null) {
-			tail.kill(); // Kill tail process
-			tail = null;
-		}
-
-		if (monitorTask != null) {
-			// monitorTask.kill();
-			monitorTask = null;
-		}
-	}
-
 	public void load() {
 		read(configFileName); // Read config file
 		parse(); // Parse values form properties
@@ -477,26 +551,41 @@ public class Config implements Serializable, BdsLog {
 	 * Parse some values
 	 */
 	void parse() {
-		maxThreads = (int) getLong(MAX_NUMBER_OF_RUNNING_THREADS, DEFAULT_MAX_NUMBER_OF_RUNNING_THREADS);
-		noCheckpoint = getBool(DISABLE_CHECKPOINT_CREATE, false);
-		noRmOnExit = getBool(DISABLE_RM_ON_EXIT, false);
-		pidRegex = getString(PID_REGEX, "").trim();
-		pidRegexCheckTaskRunning = getString(PID_CHECK_TASK_RUNNING_REGEX, "").trim();
-		queue = getString(QUEUE, "");
-		showTaskCode = getBool(SHOW_TASK_CODE, false);
-		sysShell = getString(Config.SYS_SHELL, Config.SYS_SHELL_DEFAULT);
-		tailLines = (int) getLong(TAIL_LINES, TailFile.DEFAULT_TAIL);
-		reportHtml = getBool(REPORT_HTML, false);
-		reportYaml = getBool(REPORT_YAML, false);
-		system = getString(GlobalScope.GLOBAL_VAR_TASK_OPTION_SYSTEM, ExecutionerType.LOCAL.toString().toLowerCase());
-		taskFailCount = getInt(GlobalScope.GLOBAL_VAR_TASK_OPTION_RETRY, 0);
-		taskMaxHintLen = Gpr.parseIntSafe(properties.getProperty(TASK_MAX_HINT_LEN, Task.MAX_HINT_LEN + ""));
-		taskPrelude = getString(TASK_PRELUDE, "");
-		taskShell = getString(Config.TASK_SHELL, Config.TASK_SHELL_DEFAULT);
-		tmpDir = getString(TMP_DIR, DEFAULT_TMP_DIR);
-		waitAfterTaskRun = (int) getLong(WAIT_AFTER_TASK_RUN, DEFAULT_WAIT_AFTER_TASK_RUN);
-		waitTextFileBusy = (int) getLong(WAIT_TEXT_FILE_BUSY, DEFAULT_WAIT_TEXT_FILE_BUSY);
-		waitFileCheck = (int) getLong(WAIT_FILE_CHECK, DEFAULT_WAIT_FILE_CHECK);
+		clusterPostMortemInfoDisabled = getBool(CLUSTER_POSTMORTEMINFO_DISABLED, clusterPostMortemInfoDisabled);
+		clusterSgeMem = getString(CLUSTER_SGE_MEM, clusterSgeMem);
+		clusterSgePe = getString(CLUSTER_SGE_PE);
+		clusterSgeTimeInSecs = getBool(CLUSTER_SGE_TIME_IN_SECS, clusterSgeTimeInSecs);
+		clusterSgeTimeoutHard = getString(CLUSTER_SGE_TIMEOUT_HARD, clusterSgeTimeoutHard);
+		clusterSgeTimeoutSoft = getString(CLUSTER_SGE_TIMEOUT_SOFT, clusterSgeTimeoutSoft);
+		clusterSshNodes = getString(Config.CLUSTER_SSH_NODES, clusterSshNodes);
+		cpusLocal = getInt(GlobalScope.GLOBAL_VAR_LOCAL_CPUS, cpusLocal);
+		cpus = getInt(GlobalScope.GLOBAL_VAR_TASK_OPTION_CPUS, cpus);
+		fakeClusterDir = getString(CLUSTER_FAKE_DIR, fakeClusterDir);
+		maxThreads = getInt(MAX_NUMBER_OF_RUNNING_THREADS, maxThreads);
+		mem = getLong(GlobalScope.GLOBAL_VAR_TASK_OPTION_MEM, mem);
+		noCheckpoint = getBool(DISABLE_CHECKPOINT_CREATE, noCheckpoint);
+		node = getString(GlobalScope.GLOBAL_VAR_TASK_OPTION_NODE, "");
+		noRmOnExit = getBool(DISABLE_RM_ON_EXIT, noRmOnExit);
+		pidCheckTaskRunningColumn = getInt(PID_CHECK_TASK_RUNNING_COLUMN, pidCheckTaskRunningColumn);
+		pidRegex = getString(PID_REGEX, pidRegex).trim();
+		pidRegexCheckTaskRunning = getString(PID_CHECK_TASK_RUNNING_REGEX, pidRegexCheckTaskRunning).trim();
+		queue = getString(QUEUE, queue);
+		showTaskCode = getBool(SHOW_TASK_CODE, showTaskCode);
+		sysShell = getString(Config.SYS_SHELL, sysShell);
+		tailLines = getInt(TAIL_LINES, tailLines);
+		reportHtml = getBool(REPORT_HTML, reportHtml);
+		reportYaml = getBool(REPORT_YAML, reportYaml);
+		system = getString(GlobalScope.GLOBAL_VAR_TASK_OPTION_SYSTEM, system);
+		taskFailCount = getInt(GlobalScope.GLOBAL_VAR_TASK_OPTION_RETRY, taskFailCount);
+		taskMaxHintLen = getInt(TASK_MAX_HINT_LEN, taskMaxHintLen);
+		taskPrelude = getString(TASK_PRELUDE, taskPrelude);
+		taskShell = getString(TASK_SHELL, taskShell);
+		timeout = getLong(GlobalScope.GLOBAL_VAR_TASK_OPTION_TIMEOUT, timeout);
+		tmpDir = getString(TMP_DIR, tmpDir);
+		waitAfterTaskRun = (int) getLong(WAIT_AFTER_TASK_RUN, waitAfterTaskRun);
+		waitFileCheck = (int) getLong(WAIT_FILE_CHECK, waitFileCheck);
+		waitTextFileBusy = (int) getLong(WAIT_TEXT_FILE_BUSY, waitTextFileBusy);
+		wallTimeout = getLong(GlobalScope.GLOBAL_VAR_TASK_OPTION_WALL_TIMEOUT, wallTimeout);
 
 		// Sanity checks
 		if (maxThreads < MAX_NUMBER_OF_RUNNING_THREADS_MIN_VALUE) {

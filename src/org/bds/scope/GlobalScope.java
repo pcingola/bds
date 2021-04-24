@@ -12,7 +12,6 @@ import org.bds.lang.type.Types;
 import org.bds.lang.value.Value;
 import org.bds.lang.value.ValueList;
 import org.bds.symbol.GlobalSymbolTable;
-import org.bds.util.Gpr;
 
 public class GlobalScope extends Scope {
 
@@ -125,7 +124,7 @@ public class GlobalScope extends Scope {
 
 	public void init(Config config) {
 		// Add global symbols
-		add(GLOBAL_VAR_PROGRAM_NAME, ""); // Now is empty, but they are assigned later
+		add(GLOBAL_VAR_PROGRAM_NAME, ""); // Now is empty, because they are assigned later
 		add(GLOBAL_VAR_PROGRAM_PATH, "");
 		add(GLOBAL_VAR_PROGRAM_PID, -1);
 
@@ -133,32 +132,21 @@ public class GlobalScope extends Scope {
 		add(GLOBAL_VAR_ARGS_LIST, vargs);
 
 		// Number of CPUs in local computer
-		long cpusLocal = Gpr.parseLongSafe(config.getString(GLOBAL_VAR_LOCAL_CPUS, "" + Gpr.NUM_CORES));
-		add(GLOBAL_VAR_LOCAL_CPUS, cpusLocal);
+		add(GLOBAL_VAR_LOCAL_CPUS, config.getCpusLocal());
 
 		// Task CPUs
-		String cpusStr = config.getString(GLOBAL_VAR_TASK_OPTION_CPUS, "1"); // Default number of cpus: 1
-		long cpus = Gpr.parseIntSafe(cpusStr);
-		if (cpus <= 0) throw new RuntimeException("Number of cpus must be a positive number ('" + cpusStr + "')");
-
-		// Task memory
-		long mem = Gpr.parseMemSafe(config.getString(GLOBAL_VAR_TASK_OPTION_MEM, "-1")); // Default amount of memory: -1 (unrestricted)
-		String node = config.getString(GLOBAL_VAR_TASK_OPTION_NODE, "");
-
-		// Task wall time and timeout
-		long oneDay = 1L * 24 * 60 * 60;
-		long timeout = Gpr.parseLongSafe(config.getString(GLOBAL_VAR_TASK_OPTION_TIMEOUT, "" + oneDay));
-		long wallTimeout = Gpr.parseLongSafe(config.getString(GLOBAL_VAR_TASK_OPTION_WALL_TIMEOUT, "" + oneDay));
+		long cpus = config.getCpus();
+		if (cpus <= 0) throw new RuntimeException("Number of cpus must be a positive number");
 
 		// Task related variables: Default values
 		add(GLOBAL_VAR_TASK_OPTION_ALLOW_EMPTY, false); // Tasks are allowed to have empty output file/s
 		add(GLOBAL_VAR_TASK_OPTION_CAN_FAIL, false); // Task fail triggers checkpoint & exit (a task cannot fail)
 		add(GLOBAL_VAR_TASK_OPTION_CPUS, cpus); // Default number of cpus
 		add(GLOBAL_VAR_TASK_OPTION_DETACHED, false); // Tasks are running detached
-		add(GLOBAL_VAR_TASK_OPTION_MEM, mem); // Default amount of memory (unrestricted)
-		add(GLOBAL_VAR_TASK_OPTION_NODE, node); // Default node: none
-		add(GLOBAL_VAR_TASK_OPTION_TIMEOUT, timeout); // Task default timeout
-		add(GLOBAL_VAR_TASK_OPTION_WALL_TIMEOUT, wallTimeout); // Task default wall-timeout
+		add(GLOBAL_VAR_TASK_OPTION_MEM, config.getMem()); // Default amount of memory (unrestricted)
+		add(GLOBAL_VAR_TASK_OPTION_NODE, config.getNode()); // Default node: none
+		add(GLOBAL_VAR_TASK_OPTION_TIMEOUT, config.getTimeout()); // Task default timeout
+		add(GLOBAL_VAR_TASK_OPTION_WALL_TIMEOUT, config.getWallTimeout()); // Task default wall-timeout
 
 		// Cloud AWS
 		add(GLOBAL_VAR_EXECUTIONER_QUEUE_NAME_PREFIX, ExecutionerCloud.EXECUTIONER_QUEUE_NAME_PREFIX_DEFAULT); // Default prefix for cloud queue names

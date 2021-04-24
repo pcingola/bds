@@ -84,7 +84,7 @@ public class ExecutionerCluster extends ExecutionerFileSystem {
 		clusterStatAdditionalArgs = config.getStringArray(Config.CLUSTER_STAT_ADDITIONAL_ARGUMENTS);
 		clusterPostMortemAdditionalArgs = config.getStringArray(Config.CLUSTER_POSTMORTEMINFO_ADDITIONAL_ARGUMENTS);
 
-		postMortemDisabled = config.getBool(Config.CLUSTER_POSTMORTEMINFO_DISABLED, false);
+		postMortemDisabled = config.isClusterPostMortemInfoDisabled();
 
 		memParam = "mem=";
 		cpuParam = "nodes=1:ppn=";
