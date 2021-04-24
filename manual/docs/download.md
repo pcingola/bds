@@ -19,19 +19,12 @@ Add `bds`'s directory to your `PATH`, by adding the following line to your `.bas
 export PATH=$PATH:$HOME/.bds
 ```
 
-**Mesos support (Optional):**
-If you intend to use `bds` with mesos, you must install Mesos' native library in `$HOME/.bds/lib`.
-For example on a Mac that would be something like
-```
-cp /usr/local/Cellar/mesos/*/lib/libmesos.dylib $HOME/.bds/lib
-```
-
 ###Installing from source
 The source code is available at GitHub, here we show how to compile and install.
 
 **Requirements:** In order to complile bds, you need
 
-- [Java](http://java.com) version 11 or higher
+- [Java](http://java.com) version 12 or higher
 - [Go](http://golang.org/) version 1.0 or higher
 - [Ant](http://ant.apache.org/) version 1.7 or higher
 
