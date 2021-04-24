@@ -33,6 +33,7 @@ public class Config implements Serializable, BdsLog {
 	private static Config configInstance = null; // Config is some kind of singleton because we want to make it accessible from everywhere
 	// Default values
 	private static final String DEFAULT_BDS_HOME = Gpr.HOME + "/.bds"; // Bds home directory
+	private static final String DEFAULT_BDS_EXEC_PATH = "bds"; // Bds command to execute when "bds exec" is invoked by executioners
 	private static final String BDS_INCLUDE_PATH = "BDS_PATH"; // BDS include path (colon separated list of directories to look for include files)
 	private static final String DEFAULT_CONFIG_BASENAME = "bds.config"; // We want to put bds.config together with bds executable
 	private static final String DEFAULT_CONFIG_DIR = DEFAULT_BDS_HOME; // by default BDS_HOME == HOME
@@ -48,6 +49,7 @@ public class Config implements Serializable, BdsLog {
 	private static final int DEFAULT_WAIT_TEXT_FILE_BUSY = 10;
 	public static final int MAX_NUMBER_OF_RUNNING_THREADS_MIN_VALUE = 50; // If maxThreads in configuration file is too small, we'll consider it an error and use this number
 	// Config entry names
+	public static final String BDS_EXEC_PATH = "bdsExecPath"; // Bds command to execute when "bds exec" is invoked by executioners
 	public static final String CLUSTER_GENERIC_KILL = "clusterGenericKill"; // Cluster: Generic cluster
 	public static final String CLUSTER_GENERIC_POSTMORTEMINFO = "clusterGenericPostMortemInfo";
 	public static final String CLUSTER_GENERIC_RUN = "clusterGenericRun";
@@ -88,6 +90,7 @@ public class Config implements Serializable, BdsLog {
 	public static final String[] EMPTY_STRING_ARRAY = new String[0];
 
 	String bdsHome = DEFAULT_BDS_HOME;
+	String bdsExecPath = DEFAULT_BDS_EXEC_PATH;
 	boolean clusterPostMortemInfoDisabled = false;
 	String clusterSgeMem = "";
 	String clusterSgePe = "";
@@ -205,6 +208,10 @@ public class Config implements Serializable, BdsLog {
 
 		// Nothing found, try default
 		return DEFAULT_CONFIG_FILE;
+	}
+
+	public String getBdsExecPath() {
+		return bdsExecPath;
 	}
 
 	public String getBdsHome() {
@@ -471,10 +478,6 @@ public class Config implements Serializable, BdsLog {
 		return wallTimeout;
 	}
 
-	public boolean isClusterPostMortemInfoDisabled() {
-		return clusterPostMortemInfoDisabled;
-	}
-
 	//	public void kill() {
 	//		if (tail != null) {
 	//			tail.kill(); // Kill tail process
@@ -486,6 +489,10 @@ public class Config implements Serializable, BdsLog {
 	//			monitorTask = null;
 	//		}
 	//	}
+
+	public boolean isClusterPostMortemInfoDisabled() {
+		return clusterPostMortemInfoDisabled;
+	}
 
 	public boolean isClusterSgeTimeInSecs() {
 		return clusterSgeTimeInSecs;
@@ -551,6 +558,7 @@ public class Config implements Serializable, BdsLog {
 	 * Parse some values
 	 */
 	void parse() {
+		bdsExecPath = getString(BDS_EXEC_PATH, bdsExecPath);
 		clusterPostMortemInfoDisabled = getBool(CLUSTER_POSTMORTEMINFO_DISABLED, clusterPostMortemInfoDisabled);
 		clusterSgeMem = getString(CLUSTER_SGE_MEM, clusterSgeMem);
 		clusterSgePe = getString(CLUSTER_SGE_PE);

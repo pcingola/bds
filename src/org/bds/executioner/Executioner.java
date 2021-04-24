@@ -34,7 +34,7 @@ public abstract class Executioner extends Thread implements NotifyTaskState, Pid
 	public static final int SLEEP_TIME_MID = 200; // Milliseconds
 	public static final int SLEEP_TIME_SHORT = 10; // Milliseconds
 
-	public static String BDS_EXEC_COMMAND[] = { "bds", "exec" };
+	//	public static String BDS_EXEC_COMMAND[] = { "bds", "exec" };
 
 	protected CheckTasksRunning checkTasksRunning;
 	protected Map<String, Cmd> cmdByTaskId; // Command indexed by taskID
@@ -99,6 +99,12 @@ public abstract class Executioner extends Thread implements NotifyTaskState, Pid
 		}
 	}
 
+	protected static String[] bdsExecCmd() {
+		String bdsPath = Config.get().getBdsExecPath();
+		String[] BDS_EXEC_COMMAND = { bdsPath, "exec" };
+		return BDS_EXEC_COMMAND;
+	}
+
 	public static String[] createBdsExecCmdArgs(Task task) {
 		return createBdsExecCmdArgsList(task).toArray(Cmd.ARGS_ARRAY_TYPE);
 	}
@@ -113,7 +119,7 @@ public abstract class Executioner extends Thread implements NotifyTaskState, Pid
 	public static List<String> createBdsExecCmdArgsList(Task task, String[] argsAdd) {
 		// Create command line
 		List<String> args = new ArrayList<>();
-		for (String arg : BDS_EXEC_COMMAND)
+		for (String arg : bdsExecCmd())
 			args.add(arg);
 
 		// Verbose / debug?
@@ -157,14 +163,14 @@ public abstract class Executioner extends Thread implements NotifyTaskState, Pid
 	 */
 	public static String createBdsExecCmdStr(Task task) {
 		String[] cmd = createBdsExecCmdArgs(task);
+		int bdsExecCmdLen = bdsExecCmd().length; // First part of the command (i.e. just "bds exec")
 
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < cmd.length; i++) {
-			if (i >= BDS_EXEC_COMMAND.length) {
-				// Quote strings, but not command line options
-				if (cmd[i].startsWith("-")) sb.append(" " + cmd[i]);
-				else sb.append(" '" + cmd[i] + "'");
-			} else sb.append(cmd[i] + " ");
+			if (i == 0) sb.append(cmd[i]);
+			else if (i < bdsExecCmdLen) sb.append(" " + cmd[i]);
+			else if (cmd[i].startsWith("-")) sb.append(" " + cmd[i]);
+			else sb.append(" '" + cmd[i] + "'"); // Quote strings, but not command line options
 		}
 
 		return sb.toString();
