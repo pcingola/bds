@@ -23,9 +23,6 @@ public class TestCasesIntegrationClusterSsh extends TestCasesBase {
 	public void test01() {
 		Gpr.debug("Test");
 
-		verbose = true;
-		debug = true;
-
 		// Create command line
 		String[] args = { "-c", "test/clusterSsh_localhost_01.config" };
 		BdsTest bdsTest = new BdsTest("test/clusterSsh_01.bds", args, verbose, debug);
