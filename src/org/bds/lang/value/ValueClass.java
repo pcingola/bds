@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.bds.lang.statement.ClassDeclaration;
 import org.bds.lang.statement.FieldDeclaration;
@@ -40,7 +41,11 @@ public class ValueClass extends ValueComposite {
 
 	@Override
 	public int hashCode() {
-		return fields != null ? fields.hashCode() : 0;
+		// Note: We use identity hash to avoid infinite recursion
+		//       E.g. if an object has a field pointing to itself. This
+		//       could also happen indirectly:  A -> B -> A
+		return System.identityHashCode(this);
+		//		return fields != null ? fields.hashCode() : 0;
 	}
 
 	/**
@@ -85,11 +90,16 @@ public class ValueClass extends ValueComposite {
 	}
 
 	@Override
-	protected void toString(StringBuilder sb) {
+	protected void toString(StringBuilder sb, Set<Value> done) {
 		if (isNull()) {
 			sb.append("null");
 			return;
 		}
+		if (done.contains(this)) {
+			sb.append(toStringIdentity());
+			return;
+		}
+		done.add(this);
 
 		sb.append("{");
 		if (fields != null) {
@@ -99,13 +109,8 @@ public class ValueClass extends ValueComposite {
 			for (int i = 0; i < fnames.size(); i++) {
 				String fn = fnames.get(i);
 				Value val = fields.get(fn);
-				if (sb.length() < MAX_TO_STRING_LEN) {
-					sb.append((i > 0 ? ", " : " ") + fn + ": ");
-					val.toString(sb);
-				} else {
-					sb.append("...");
-					return;
-				}
+				sb.append((i > 0 ? ", " : " ") + fn + ": ");
+				val.toString(sb, done);
 			}
 		}
 		sb.append(" }");

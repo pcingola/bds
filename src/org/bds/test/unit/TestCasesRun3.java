@@ -499,4 +499,16 @@ public class TestCasesRun3 extends TestCasesBase {
 		runAndCheck("test/run_257.bds", "r", "0");
 	}
 
+	@Test
+	public void test258_infiniteRecursionPrint() {
+		Gpr.debug("Test");
+		runOk("test/run_258.bds");
+	}
+
+	@Test
+	public void test259_infiniteRecursionFor() {
+		Gpr.debug("Test");
+		runOk("test/run_259.bds");
+	}
+
 }

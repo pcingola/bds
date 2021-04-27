@@ -1,5 +1,7 @@
 package org.bds.lang.value;
 
+import java.util.Set;
+
 /**
  * Define a map
  * @author pcingola
@@ -10,6 +12,10 @@ public abstract class ValuePrimitive extends Value {
 
 	public ValuePrimitive() {
 		super();
+	}
+
+	protected void toString(StringBuilder sb, Set<Value> done) {
+		sb.append(toString());
 	}
 
 }

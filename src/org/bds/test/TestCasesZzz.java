@@ -21,109 +21,45 @@ public class TestCasesZzz extends TestCasesBaseAws {
 	}
 
 	@Test
-	public void test() {
+	public void test51() {
 		Gpr.debug("Test");
 		verbose = true;
-		runAndCheck("test/zz.bds", "r", "0");
+		runAndCheck("test/run_51.bds", "hash", "{ hi => bye }");
 	}
 
-	//	/**
-	//	 * Test a simple command running via 'ssh cluster'
-	//	 */
 	//	@Test
-	//	public void test01() {
+	//	public void test52() {
 	//		Gpr.debug("Test");
-	//
-	//		// Create command line
-	//		String[] args = { "-c", "test/clusterSsh_localhost_01.config" };
-	//		BdsTest bdsTest = new BdsTest("test/clusterSsh_01.bds", args, verbose, debug);
-	//		bdsTest.bds(false);
-	//
-	//		// Run script
-	//		bdsTest.run();
-	//		bdsTest.checkRunOk(); // Finished OK?
-	//
-	//		// Get tasks and check that PID matches 'CLUSTERGENERIC_LOCALHOST_'
-	//		// (run.pl prepends that string to PID)
-	//		for (Task t : bdsTest.bds.getBdsRun().getBdsThread().getTasks()) {
-	//			debug("Task " + t.getId() + ", pid " + t.getPid());
-	//			Assert.assertTrue("Task " + t.getId() + " was NOT executed by 'Cluster Ssh', task id " + t.getId() //
-	//					, t.getId().toUpperCase().startsWith("CLUSTERSSH") //
-	//			);
-	//		}
+	//		runAndCheck("test/run_52.bds", "hash", "{ one => 1 }");
 	//	}
 	//
-	//	/**
-	//	 * Improper task
-	//	 */
 	//	@Test
-	//	public void test02_ImproperTask() {
+	//	public void test53() {
 	//		Gpr.debug("Test");
-	//
-	//		verbose = true;
-	//
-	//		// Set the output file
-	//		String name = "run_aws_02";
-	//		String script = "test/" + name + ".bds";
-	//		String outFile = "out.txt";
-	//		String urlS3 = bucketUrlS3(name, outFile);
-	//		String url = bucketUrl(name, outFile);
-	//
-	//		// Expected output:
-	//		StringBuilder sb = new StringBuilder();
-	//		sb.append("Before task\n");
-	//		sb.append("Output file: '" + urlS3 + "'\n");
-	//		sb.append("After task\n");
-	//		sb.append("Start: Improper task on AWS\n");
-	//		sb.append("Uploading local file 'tmp.txt' to '" + urlS3 + "'\n");
-	//		for (int i = 0; i < 10; i++)
-	//			sb.append("Counting: " + i + "\nThis is an echo " + i + "\n");
-	//		sb.append("End: Improper task on AWS\n");
-	//		sb.append("Done\n");
-	//		String expectedStdout = sb.toString();
-	//
-	//		// Cleanup: Make sure output file is deleted before starting
-	//		String region = awsRegion();
-	//		DataS3 dout = new DataS3(url, region);
-	//		dout.delete();
-	//
-	//		// Run script and check that 'expectedStdout' is in STDOUT
-	//		runAndCheckStdout(script, expectedStdout);
-	//
-	//		// Check: Check that the output file exists
-	//		assertTrue("Output file '" + dout + "' does not exists", dout.exists());
-	//
-	//		// Cleanup
-	//		dout.delete();
-	//
-	//		// Check that there was only one task executed on AWS (for this test program)
-	//		findOneTaskAws();
+	//		runAndCheck("test/run_53.bds", "vals", "[bye, chau]");
 	//	}
 	//
-	//	/**
-	//	 * Execute two detached task + one taks
-	//	 */
 	//	@Test
-	//	public void test03_TwoDetachedOneDependent() {
+	//	public void test54() {
 	//		Gpr.debug("Test");
-	//		String outFile = "tmp.run_task_detached_03.txt";
+	//		runAndCheck("test/run_54.bds", "vals", "[hi, hola]");
+	//	}
 	//
-	//		String catout = "Task 1: Start\n" + //
-	//				"Task 2: Start\n" + //
-	//				"Task 3\n";
+	//	@Test
+	//	public void test55() {
+	//		Gpr.debug("Test");
+	//		runAndCheck("test/run_55.bds", "hk1", "true");
+	//		runAndCheck("test/run_55.bds", "hk2", "false");
+	//		runAndCheck("test/run_55.bds", "hv1", "true");
+	//		runAndCheck("test/run_55.bds", "hv2", "false");
+	//		runAndCheck("test/run_55.bds", "hk3", "false");
+	//	}
 	//
-	//		String outAfterWaitExpected = "Task 1: Start\n" + //
-	//				"Task 2: Start\n" + //
-	//				"Task 3\n" + //
-	//				"Task 1: End\n" + //
-	//				"Task 2: End\n";
-	//
-	//		runAndCheck("test/run_task_detached_03.bds", "catout", catout);
-	//
-	//		sleep(3);
-	//
-	//		String outAfterWait = Gpr.readFile(outFile);
-	//		Assert.assertEquals(outAfterWaitExpected, outAfterWait);
+	//	@Test
+	//	public void test56() {
+	//		Gpr.debug("Test");
+	//		runAndCheck("test/run_56.bds", "out", "Adios;Au revoir;Bye;");
+	//		runAndCheck("test/run_56.bds", "str", "map = { Bonjour => Au revoir, Hello => Bye, Hola => Adios }");
 	//	}
 
 }

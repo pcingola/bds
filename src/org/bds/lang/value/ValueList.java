@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.bds.lang.type.Type;
 import org.bds.lang.type.TypeList;
@@ -18,9 +19,9 @@ import org.bds.lang.type.TypeList;
  */
 public class ValueList extends ValueComposite implements Iterable<Value> {
 
-	List<Value> list;
-
 	private static final long serialVersionUID = -9220660671873943097L;
+
+	List<Value> list;
 
 	public ValueList(Type type) {
 		this(type, -1);
@@ -73,8 +74,11 @@ public class ValueList extends ValueComposite implements Iterable<Value> {
 		cmp = type.compareTo(v.getType());
 		if (cmp != 0) return cmp;
 
-		// Compare all elements
+		// Compare size
 		ValueList vl = (ValueList) v;
+		if (size() != vl.size()) return size() - vl.size();
+
+		// Compare all elements
 		int len = Math.min(size(), vl.size());
 		for (int i = 0; i < len; i++) {
 			Value v1 = getValue(i);
@@ -83,8 +87,8 @@ public class ValueList extends ValueComposite implements Iterable<Value> {
 			if (cmp != 0) return cmp;
 		}
 
-		// May be one of the list has more elements...
-		return size() - vl.size();
+		// Equal
+		return 0;
 	}
 
 	public boolean contains(Value v) {
@@ -174,18 +178,19 @@ public class ValueList extends ValueComposite implements Iterable<Value> {
 	}
 
 	@Override
-	protected void toString(StringBuilder sb) {
-		int i = 0;
+	protected void toString(StringBuilder sb, Set<Value> done) {
+		if (done.contains(this)) {
+			sb.append(toStringIdentity());
+			return;
+		}
+		done.add(this);
+
+		boolean first = true;
 		sb.append('[');
 		for (Value v : this) {
-			if (i > 0) sb.append(", ");
-			if (sb.length() < MAX_TO_STRING_LEN) {
-				v.toString(sb);
-			} else {
-				sb.append("...]");
-				return;
-			}
-			i++;
+			if (!first) sb.append(", ");
+			v.toString(sb, done);
+			first = false;
 		}
 		sb.append(']');
 	}

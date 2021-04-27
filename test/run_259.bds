@@ -4,13 +4,11 @@ class A {
 	void add(A a) as += a
 }
 
-println "Start"
+// Object 'a' includes itself
 a := new A()
-println "a : $a"
 a.add(a)
-# FIXME: This should print a simple structure
-println "a : $a"
 
+// Iterate over a.as
 for(A ai: a.as) println "ai : $ai"
 
 println "End"

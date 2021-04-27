@@ -59,6 +59,11 @@ public class ValueUnique extends ValuePrimitive {
 	}
 
 	@Override
+	public int hashCode() {
+		return type.hashCode();
+	}
+
+	@Override
 	public void setValue(Value v) {
 		// nothing to do: Value cannot be set.
 	}
