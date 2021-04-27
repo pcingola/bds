@@ -1,5 +1,7 @@
 package org.bds.lang.value;
 
+import java.util.Set;
+
 import org.bds.lang.Parameters;
 import org.bds.lang.statement.FunctionDeclaration;
 
@@ -33,6 +35,11 @@ public class ValueFunction extends ValueComposite {
 	}
 
 	@Override
+	public int hashCode() {
+		return functionDecl.hashCode();
+	}
+
+	@Override
 	public void parse(String str) {
 		throw new RuntimeException("String parsing unimplemented for type '" + this + "'");
 	}
@@ -45,6 +52,11 @@ public class ValueFunction extends ValueComposite {
 	@Override
 	public String toString() {
 		return functionDecl.signature();
+	}
+
+	@Override
+	protected void toString(StringBuilder sb, Set<Value> done) {
+		sb.append(functionDecl.toString());
 	}
 
 }

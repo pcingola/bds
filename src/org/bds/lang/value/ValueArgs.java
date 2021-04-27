@@ -1,5 +1,7 @@
 package org.bds.lang.value;
 
+import java.util.Set;
+
 /**
  * Define values to be passed to a function as arguments
  * @author pcingola
@@ -38,6 +40,11 @@ public class ValueArgs extends ValueComposite {
 		return values[(int) idx];
 	}
 
+	@Override
+	public int hashCode() {
+		return values.hashCode();
+	}
+
 	/**
 	 * Is this index out of range?
 	 */
@@ -59,13 +66,21 @@ public class ValueArgs extends ValueComposite {
 	}
 
 	@Override
-	protected void toString(StringBuilder sb) {
-		sb.append("(");
-		for (Value v : values) {
-			if (sb.length() > 0) sb.append(", ");
-			v.toString(sb);
+	protected void toString(StringBuilder sb, Set<Value> done) {
+		if (done.contains(this)) {
+			sb.append(toStringIdentity());
+			return;
 		}
-		sb.append(")");
+		done.add(this);
+
+		boolean first = true;
+		sb.append('(');
+		for (Value v : values) {
+			if (!first) sb.append(", ");
+			v.toString(sb, done);
+			first = false;
+		}
+		sb.append(')');
 	}
 
 }

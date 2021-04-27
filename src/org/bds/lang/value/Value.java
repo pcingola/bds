@@ -1,6 +1,7 @@
 package org.bds.lang.value;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import org.bds.lang.type.Type;
 import org.bds.lang.type.Types;
@@ -80,11 +81,6 @@ public abstract class Value implements Serializable, Cloneable, Comparable<Value
 	 */
 	public abstract Type getType();
 
-	@Override
-	public int hashCode() {
-		return asString().hashCode();
-	}
-
 	/**
 	 * Initialize value
 	 */
@@ -100,8 +96,9 @@ public abstract class Value implements Serializable, Cloneable, Comparable<Value
 
 	public abstract void setValue(Value v);
 
-	protected void toString(StringBuilder sb) {
-		sb.append(toString());
-	}
+	protected abstract void toString(StringBuilder sb, Set<Value> done);
 
+	protected String toStringIdentity() {
+		return getType() + "@" + Integer.toHexString(System.identityHashCode(this));
+	}
 }

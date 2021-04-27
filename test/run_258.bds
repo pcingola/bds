@@ -1,0 +1,12 @@
+
+class A {
+	A[] as
+	void add(A a) as += a
+}
+
+# Object 'A' includes itself
+a := new A()
+a.add(a)
+println "a : $a"
+println "End"
+

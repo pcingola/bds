@@ -100,11 +100,16 @@ public class ValueMap extends ValueComposite {
 	}
 
 	@Override
-	protected void toString(StringBuilder sb) {
+	protected void toString(StringBuilder sb, Set<Value> done) {
 		if (isEmpty()) {
 			sb.append("{}");
 			return;
 		}
+		if (done.contains(this)) {
+			sb.append(toStringIdentity());
+			return;
+		}
+		done.add(this);
 
 		List<Value> keys = new ArrayList<>();
 		keys.addAll(map.keySet());
@@ -114,15 +119,10 @@ public class ValueMap extends ValueComposite {
 		for (Value key : keys) {
 			if (i > 0) sb.append(",");
 			Value val = getValue(key);
-			if (sb.length() < MAX_TO_STRING_LEN) {
-				sb.append(" ");
-				key.toString(sb);
-				sb.append(" => ");
-				val.toString(sb);
-			} else {
-				sb.append("... }");
-				return;
-			}
+			sb.append(" ");
+			key.toString(sb, done);
+			sb.append(" => ");
+			val.toString(sb, done);
 			i++;
 		}
 		sb.append(" }");

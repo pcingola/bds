@@ -63,8 +63,10 @@ public abstract class ExecutionerFileSystem extends Executioner {
 	 */
 	@Override
 	protected synchronized void followStop(Task task) {
-		tail.remove(task.getStdoutFile());
-		tail.remove(task.getStderrFile());
+		if (tail != null) {
+			tail.remove(task.getStdoutFile());
+			tail.remove(task.getStderrFile());
+		}
 
 		// Remove from loggers
 		if (taskLogger != null) taskLogger.remove(task);
