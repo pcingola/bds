@@ -466,4 +466,10 @@ public class TestCasesLang extends TestCasesBase {
 		// Switch with empty statement crashes compile
 		compileErrors("test/test68.bds", "Empty switch statment");
 	}
+
+	public void test69() {
+		Gpr.debug("Test");
+		// Assign result from 'void' function
+		compileErrors("test/test69.bds", "Cannot cast void to stritng[]");
+	}
 }

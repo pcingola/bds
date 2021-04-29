@@ -17,6 +17,11 @@ public class TypeAny extends TypeUniqueValue {
 	}
 
 	@Override
+	public boolean canCastTo(Type type) {
+		return true;
+	}
+
+	@Override
 	public boolean isAny() {
 		return true;
 	}

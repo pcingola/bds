@@ -17,6 +17,11 @@ public class TypeVoid extends TypeUniqueValue {
 	}
 
 	@Override
+	public boolean canCastTo(Type type) {
+		return type != null && type.isVoid();
+	}
+
+	@Override
 	public boolean isVoid() {
 		return true;
 	}
