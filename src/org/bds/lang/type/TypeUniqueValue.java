@@ -16,10 +16,11 @@ public abstract class TypeUniqueValue extends TypePrimitive {
 		super(primitiveType);
 	}
 
-	@Override
-	public boolean canCastTo(Type type) {
-		return true;
-	}
+	//
+	//	@Override
+	//	public boolean canCastTo(Type type) {
+	//		return true;
+	//	}
 
 	@Override
 	public Value newValue(Object v) {
