@@ -3,7 +3,9 @@ package org.bds.executioner;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -159,6 +161,39 @@ public class ExecutionerCluster extends ExecutionerFileSystem {
 	}
 
 	/**
+	 * Add 'taskResources' options to the command line
+	 */
+	protected void addRunCmdOptions(Task task, List<String> args) {
+		TaskResourcesCluster tr = (TaskResourcesCluster) task.getResources();
+
+		if (tr.getRunCmdOptionsString() != null) args.add(tr.getRunCmdOptionsString());
+
+		if (tr.getRunCmdOptionsList() != null) args.addAll(tr.getRunCmdOptionsList());
+
+		if (tr.getRunCmdOptionsMap() != null) {
+			Map<String, String> map = tr.getRunCmdOptionsMap();
+
+			// Sort keys, we want to command lines to be "stable"
+			List<String> keys = new ArrayList<>();
+			keys.addAll(map.keySet());
+			Collections.sort(keys);
+
+			// Add every entry in the map
+			for (String k : keys) {
+				addRunCmdOptionsKeyValue(args, k, map.get(k));
+			}
+		}
+	}
+
+	/**
+	 * Convert a <key, value> map entry into an arguments for a cluster commnad and add them
+	 * In this case, one argument is added as `--key='value'`
+	 */
+	protected void addRunCmdOptionsKeyValue(List<String> args, String key, String value) {
+		args.add("--" + key + "='" + value + "'");
+	}
+
+	/**
 	 * Add shell script to command line parameters
 	 * Note: Some clusters require the command to be executed to be in a shell script, while others accept STDIN
 	 */
@@ -213,6 +248,7 @@ public class ExecutionerCluster extends ExecutionerFileSystem {
 
 		// Add resources to command line parameters
 		addResources(task, args);
+		addRunCmdOptions(task, args);
 
 		// Tell cluster to redirect Stdout to a file
 		if (clusterRunCommandStdOutOption != null) {
@@ -232,11 +268,9 @@ public class ExecutionerCluster extends ExecutionerFileSystem {
 			// Add shell script
 			addShellScript(task, args);
 		} else {
-			//---
 			// Cluster command is feed some parameters via STDIN. This is
 			// similar to running "echo ... | qsub" on a shell.
 			// This part creates those 'stdin' parameters
-			//---
 			cmdStdin = createBdsExecCmdStr(task);
 			if (debug) {
 				// Show command string
@@ -248,9 +282,7 @@ public class ExecutionerCluster extends ExecutionerFileSystem {
 			}
 		}
 
-		//---
 		// Create full command
-		//---
 		CmdCluster cmd = new CmdCluster(task.getId(), args.toArray(Cmd.ARGS_ARRAY_TYPE));
 		if (!useShellScript) cmd.setStdin(cmdStdin);
 		cmd.setReadPid(true); // We execute using a cluster submit command that which prints PID

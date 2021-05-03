@@ -1,15 +1,14 @@
 
-string[] ss
-
-void f() {
-}
-
 println "Start"
 
-ss = f()
-println "ss: $ss"
+system = 'slurm'
 
-for(string s: ss) println "s: $s"
+taskResources := "--ZZZ"
 
+task(cpus =2) {
+	sys eho hi
+}
+
+println "Waiting"
+wait
 println "End"
-
