@@ -190,7 +190,7 @@ public class ExecutionerCluster extends ExecutionerFileSystem {
 	 * In this case, one argument is added as `--key='value'`
 	 */
 	protected void addRunCmdOptionsKeyValue(List<String> args, String key, String value) {
-		args.add("--" + key + "='" + value + "'");
+		args.add("--" + key + "=" + value);
 	}
 
 	/**
