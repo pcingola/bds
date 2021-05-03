@@ -220,8 +220,8 @@ public class TestCasesExecutioners extends TestCasesBase {
 				+ "--parsable " //
 				+ "--no-requeue " //
 				+ "--cpus-per-task 1 " //
-				+ "--yyy='456' " //
-				+ "--zzz='123' " //
+				+ "--yyy=456 " //
+				+ "--zzz=123 " //
 				+ "--output " + stdout + " " //
 				+ "--error " + stderr + " " //
 				+ (new File(scriptNameCluster)).getCanonicalPath() //
