@@ -1,14 +1,9 @@
 
 println "Start"
 
-# BUG NUMBER ONE
-string[] l
-println "Is empty: " + l.isEmpty()
-l[0]	# !!!!!!! ARITHMENTIC ERROR !!!!
-
-
 # BUG NUMBER TWO: Typechecking error!!!!
 class A {}
+
 As[] f() {
 	A[] a
 	return a
