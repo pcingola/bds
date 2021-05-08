@@ -1,14 +1,17 @@
 
 println "Start"
 
-system = 'slurm'
+# BUG NUMBER ONE
+string[] l
+println "Is empty: " + l.isEmpty()
+l[0]	# !!!!!!! ARITHMENTIC ERROR !!!!
 
-taskResources := "--ZZZ"
 
-task(cpus =2) {
-	sys eho hi
+# BUG NUMBER TWO: Typechecking error!!!!
+class A {}
+As[] f() {
+	A[] a
+	return a
 }
 
-println "Waiting"
-wait
 println "End"

@@ -11,6 +11,7 @@ import org.bds.compile.CompilerMessages;
 import org.bds.lang.value.Value;
 import org.bds.lang.value.ValueClass;
 import org.bds.osCmd.TeeOutputStream;
+import org.bds.run.BdsThread;
 import org.bds.run.RunState;
 import org.bds.util.Gpr;
 import org.bds.vm.BdsVm;
@@ -163,6 +164,12 @@ public class BdsTest {
 	public void checkCompileOk() {
 		if (!compilerMessages.isEmpty()) Assert.fail("BdsCompiler errors in file '" + fileName + "':\n" + compilerMessages);
 		if (compileOk != null) Assert.assertTrue(errMsg("There was an error while compiling"), compileOk);
+	}
+
+	public void checkError(String error) {
+		BdsThread bdsThread = bds.getBdsRun().getBdsThread();
+		bdsThread.getErrorMessage();
+		Assert.assertEquals("Error message does not match", error, bdsThread.getErrorMessage());
 	}
 
 	public void checkException(String exceptionType) {

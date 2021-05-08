@@ -142,6 +142,14 @@ public class TestCasesBase implements BdsLog {
 		return bdsTest;
 	}
 
+	protected BdsTest runAndCheckError(String fileName, String errorMessage) {
+		BdsTest bdsTest = new BdsTest(fileName, verbose, debug);
+		bdsTest.run();
+		bdsTest.checkRunExitCodeFail();
+		bdsTest.checkError(errorMessage);
+		return bdsTest;
+	}
+
 	protected BdsTest runAndCheckException(String fileName, String exceptionType) {
 		BdsTest bdsTest = new BdsTest(fileName, verbose, debug);
 		bdsTest.run();

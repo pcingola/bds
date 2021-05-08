@@ -511,4 +511,16 @@ public class TestCasesRun3 extends TestCasesBase {
 		runOk("test/run_259.bds");
 	}
 
+	@Test
+	public void test260_emptyListIndex() {
+		Gpr.debug("Test");
+		runAndCheckError("test/run_260.bds", "Cannot get element '0' from an empty list");
+	}
+
+	@Test
+	public void test261_invalidKey() {
+		Gpr.debug("Test");
+		runAndCheckError("test/run_261.bds", "Invalid key 'hi' in map.");
+	}
+
 }
