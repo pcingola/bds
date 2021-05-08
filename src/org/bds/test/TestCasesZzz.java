@@ -1,20 +1,7 @@
 package org.bds.test;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.File;
-import java.io.IOException;
-
 import org.bds.Config;
-import org.bds.cluster.host.TaskResourcesCluster;
-import org.bds.executioner.ExecutionerClusterSlurm;
-import org.bds.lang.type.Types;
-import org.bds.lang.value.ValueList;
-import org.bds.lang.value.ValueMap;
-import org.bds.lang.value.ValueString;
-import org.bds.osCmd.Cmd;
 import org.bds.run.BdsRun;
-import org.bds.task.Task;
 import org.bds.util.Gpr;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,134 +21,9 @@ public class TestCasesZzz extends TestCasesBaseAws {
 	}
 
 	@Test
-	public void test03_clusterRunCmdOptionsFromTaskResourcesString() throws IOException {
+	public void test261_invalidKey() {
 		Gpr.debug("Test");
-
-		String baseName = "test03_clusterRunCmdOptionsFromTaskResourcesString";
-		String scriptName = baseName + ".sh";
-		String scriptNameCluster = baseName + ".cluster.sh";
-		String stdout = baseName + ".stdout.cluster";
-		String stderr = baseName + ".stderr.cluster";
-
-		Config config = new Config();
-		config.setDebug(debug);
-		config.setVerbose(verbose);
-		config.load();
-
-		ValueString val = new ValueString("--zzz=123");
-
-		// Create executioner, task, resources, cmd
-		ExecutionerClusterSlurm ex = new ExecutionerClusterSlurm(config);
-		Task task = new Task("task_123", null, scriptName, "# Test case: No program txt");
-		TaskResourcesCluster tr = new TaskResourcesCluster();
-		tr.setRunCmdOptions(val, debug);
-		task.setResources(tr);
-		Cmd cmd = ex.createRunCmd(task);
-
-		// Expected command
-		String expected = "CmdCluster: sbatch " //
-				+ "--parsable " //
-				+ "--no-requeue " //
-				+ "--cpus-per-task 1 " //
-				+ "--zzz=123 " //
-				+ "--output " + stdout + " " //
-				+ "--error " + stderr + " " //
-				+ (new File(scriptNameCluster)).getCanonicalPath() //
-		;
-
-		assertEquals(expected, cmd.toString().trim());
-	}
-
-	@Test
-	public void test04_clusterRunCmdOptionsFromTaskResourcesList() throws IOException {
-		Gpr.debug("Test");
-
-		String baseName = "test04_clusterRunCmdOptionsFromTaskResourcesString";
-		String scriptName = baseName + ".sh";
-		String scriptNameCluster = baseName + ".cluster.sh";
-		String stdout = baseName + ".stdout.cluster";
-		String stderr = baseName + ".stderr.cluster";
-
-		Config config = new Config();
-		config.setDebug(debug);
-		config.setVerbose(verbose);
-		config.load();
-
-		// Create a list
-		ValueString val1 = new ValueString("--zzz=123");
-		ValueString val2 = new ValueString("--yyy=456");
-		ValueList val = new ValueList(Types.STRING);
-		val.add(val1);
-		val.add(val2);
-
-		// Create executioner, task, resources, cmd
-		ExecutionerClusterSlurm ex = new ExecutionerClusterSlurm(config);
-		Task task = new Task("task_123", null, scriptName, "# Test case: No program txt");
-		TaskResourcesCluster tr = new TaskResourcesCluster();
-		tr.setRunCmdOptions(val, debug);
-		task.setResources(tr);
-		Cmd cmd = ex.createRunCmd(task);
-
-		// Expected command
-		String expected = "CmdCluster: sbatch " //
-				+ "--parsable " //
-				+ "--no-requeue " //
-				+ "--cpus-per-task 1 " //
-				+ "--zzz=123 " //
-				+ "--yyy=456 " //
-				+ "--output " + stdout + " " //
-				+ "--error " + stderr + " " //
-				+ (new File(scriptNameCluster)).getCanonicalPath() //
-		;
-
-		assertEquals(expected, cmd.toString().trim());
-	}
-
-	@Test
-	public void test05_clusterRunCmdOptionsFromTaskResourcesMap() throws IOException {
-		Gpr.debug("Test");
-
-		String baseName = "test05_clusterRunCmdOptionsFromTaskResourcesMap";
-		String scriptName = baseName + ".sh";
-		String scriptNameCluster = baseName + ".cluster.sh";
-		String stdout = baseName + ".stdout.cluster";
-		String stderr = baseName + ".stderr.cluster";
-
-		Config config = new Config();
-		config.setDebug(debug);
-		config.setVerbose(verbose);
-		config.load();
-
-		// Create a map
-		ValueString key1 = new ValueString("zzz");
-		ValueString val1 = new ValueString("123");
-		ValueString key2 = new ValueString("yyy");
-		ValueString val2 = new ValueString("456");
-		ValueMap val = new ValueMap(Types.STRING);
-		val.put(key1, val1);
-		val.put(key2, val2);
-
-		// Create executioner, task, resources, cmd
-		ExecutionerClusterSlurm ex = new ExecutionerClusterSlurm(config);
-		Task task = new Task("task_123", null, scriptName, "# Test case: No program txt");
-		TaskResourcesCluster tr = new TaskResourcesCluster();
-		tr.setRunCmdOptions(val, debug);
-		task.setResources(tr);
-		Cmd cmd = ex.createRunCmd(task);
-
-		// Expected command
-		String expected = "CmdCluster: sbatch " //
-				+ "--parsable " //
-				+ "--no-requeue " //
-				+ "--cpus-per-task 1 " //
-				+ "--yyy='456' " //
-				+ "--zzz='123' " //
-				+ "--output " + stdout + " " //
-				+ "--error " + stderr + " " //
-				+ (new File(scriptNameCluster)).getCanonicalPath() //
-		;
-
-		assertEquals(expected, cmd.toString().trim());
+		runAndCheckError("test/run_261.bds", "Invalid key 'hi' in map.");
 	}
 
 }

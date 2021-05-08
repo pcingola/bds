@@ -1418,6 +1418,7 @@ public class BdsVm implements Serializable, BdsLog {
 				v1 = pop();
 				if (vmap != null) {
 					val = vmap.getValue(v1);
+					if (!vmap.hasKey(v1)) fatalError("Invalid key '" + v1 + "' in map.");
 					push(val);
 				} else {
 					fatalError("Null pointer. Trying to access item '" + v1 + "' in null map.");

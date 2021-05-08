@@ -65,22 +65,23 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
 	private static int bdsThreadNumber = 1;
 	private static int currentId = 1;
 
-	Config config; // Configuration
-	Random random; // Random number generator
-	BdsVm vm; // Virtual machine
-	Statement statement; // Main statement executed by this thread
-	RunState runState; // Latest RunState
-	int exitValue; // Exit value
-	List<Data> removeOnExit; // Files to be removed on exit
-	String reportFile; // Latest report file
-	Timer timer; // Program timer
-	boolean freeze; // Freeze execution in next execution step
-	String currentDir; // Program's 'current directory'
-	BdsThread parent; // Parent thread
+	Map<String, BdsThread> bdsChildThreadsById; // Child threads
 	String bdsThreadId; // BdsThread ID
 	int bdsThreadNum; // Thread number
-	Map<String, BdsThread> bdsChildThreadsById; // Child threads
+	Config config; // Configuration
+	String currentDir; // Program's 'current directory'
+	String errorMessage; // Error message
+	int exitValue; // Exit value
+	boolean freeze; // Freeze execution in next execution step
+	BdsThread parent; // Parent thread
+	Random random; // Random number generator
+	List<Data> removeOnExit; // Files to be removed on exit
+	String reportFile; // Latest report file
+	RunState runState; // Latest RunState
+	Statement statement; // Main statement executed by this thread
 	TaskDependecies taskDependecies;
+	Timer timer; // Program timer
+	BdsVm vm; // Virtual machine
 
 	/**
 	 * Get an ID for a node
@@ -384,6 +385,7 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
 	 */
 	public void fatalError(BdsNode bdsnode, String message) {
 		setRunState(RunState.FATAL_ERROR);
+		errorMessage = message;
 		String filePos = getFileLinePos(bdsnode);
 		System.err.println("Fatal error: " //
 				+ filePos + (filePos.isEmpty() ? "" : ". ") //
@@ -493,6 +495,10 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
 
 	public String getCurrentDir() {
 		return currentDir;
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
 	}
 
 	public int getExitValue() {
