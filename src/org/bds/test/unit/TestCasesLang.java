@@ -456,20 +456,30 @@ public class TestCasesLang extends TestCasesBase {
 		compileOk("test/test67.bds");
 	}
 
+	@Test
 	public void test67b() {
 		Gpr.debug("Test");
 		compileErrors("test/test67b.bds", "Cannot cast A to C");
 	}
 
+	@Test
 	public void test68() {
 		Gpr.debug("Test");
 		// Switch with empty statement crashes compile
 		compileErrors("test/test68.bds", "Empty switch statment");
 	}
 
+	@Test
 	public void test69() {
 		Gpr.debug("Test");
 		// Assign result from 'void' function
-		compileErrors("test/test69.bds", "Cannot cast void to stritng[]");
+		compileErrors("test/test69.bds", "Cannot cast void to string[]");
+	}
+
+	@Test
+	public void test70() {
+		Gpr.debug("Test");
+		// Return different type of array
+		compileErrors("test/test70.bds", "Cannot cast A[] to B[]");
 	}
 }

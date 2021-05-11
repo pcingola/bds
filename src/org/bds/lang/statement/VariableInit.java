@@ -122,6 +122,7 @@ public class VariableInit extends BdsNode {
 		else if (vdt.isInt()) return "cast_toi\n";
 		else if (vdt.isReal()) return "cast_tor\n";
 		else if (vdt.isString()) return "cast_tos\n";
+		else if (vdt.isClass() && et.isClass()) return ""; // Class to class, no need to cast
 		throw new RuntimeException("Cannot cast to '" + vdt + "'");
 	}
 

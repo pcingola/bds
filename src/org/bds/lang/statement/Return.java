@@ -86,8 +86,11 @@ public class Return extends Statement {
 		returnType(symtab);
 
 		if (expr == null) {
+			// Expression is null => return is 'void'
 			if (!returnType.isVoid()) compilerMessages.add(this, "Cannot cast " + Types.VOID + " to " + returnType, MessageType.ERROR);
-		} else if ((expr.getReturnType() != null) && (!expr.getReturnType().canCastTo(returnType))) compilerMessages.add(this, "Cannot cast " + expr.getReturnType() + " to " + returnType, MessageType.ERROR);
+		} else if ((expr.getReturnType() != null) && (!expr.getReturnType().canCastTo(returnType))) {
+			compilerMessages.add(this, "Cannot cast " + expr.getReturnType() + " to " + returnType, MessageType.ERROR);
+		}
 
 	}
 }
