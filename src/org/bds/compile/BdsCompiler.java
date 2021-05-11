@@ -52,7 +52,6 @@ public class BdsCompiler implements BdsLog {
 	boolean addSymbols() {
 		debug("Add symbols.");
 		GlobalSymbolTable globalSymbolTable = GlobalSymbolTable.get();
-		debug("Global SymbolTable before 'addSymbols':\n" + globalSymbolTable);
 		programUnit.addSymbols(globalSymbolTable);
 		debug("Global SymbolTable after 'addSymbols':\n" + globalSymbolTable);
 		return false;
@@ -330,7 +329,6 @@ public class BdsCompiler implements BdsLog {
 	boolean typeChecking() {
 		debug("Type checking.");
 		GlobalSymbolTable globalSymbolTable = GlobalSymbolTable.get();
-		debug("Global SymbolTable:\n" + globalSymbolTable);
 		programUnit.typeChecking(globalSymbolTable, CompilerMessages.get());
 
 		// Any error messages?

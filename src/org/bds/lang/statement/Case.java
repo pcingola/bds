@@ -68,7 +68,7 @@ public class Case extends StatementWithScope {
 		}
 		statements = stats.toArray(new Statement[0]);
 
-		// Create an expression for comparing 'switch' expresion to 'case' expression
+		// Create an expression for comparing 'switch' expression to 'case' expression
 		exprEq = new ExpressionEq(this, null);
 		exprEq.setLeft(((Switch) parent).getSwitchExpr());
 		exprEq.setRight(expression);
@@ -131,8 +131,15 @@ public class Case extends StatementWithScope {
 	@Override
 	public void typeCheckNotNull(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (expression != null) {
-			Type switchExprType = ((Switch) parent).getSwitchExpr().getReturnType();
 			Type caseExprType = expression.returnType(symtab);
+
+			Expression switchExpr = ((Switch) parent).getSwitchExpr();
+			if (switchExpr == null) {
+				compilerMessages.add(this, "Empty switch statment", MessageType.ERROR);
+				return;
+			}
+
+			Type switchExprType = ((Switch) parent).getSwitchExpr().getReturnType();
 
 			if (switchExprType == null) {
 				// This will be reported in error messages
@@ -144,11 +151,9 @@ public class Case extends StatementWithScope {
 				// OK, convert to numeric
 			} else {
 				compilerMessages.add(this//
-						,
-						"Switch expression and case expression types do not match (" //
-								+ switchExprType + " vs " + caseExprType //
-								+ "): case " + expression,
-						MessageType.ERROR);
+				, "Switch expression and case expression types do not match (" //
+						+ switchExprType + " vs " + caseExprType //
+						+ "): case " + expression, MessageType.ERROR);
 			}
 		}
 	}

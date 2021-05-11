@@ -105,6 +105,11 @@ public class TypeClass extends TypeComposite {
 	}
 
 	@Override
+	public boolean equals(Type type) {
+		return type.isClass() && getClassName().equals(((TypeClass) type).getClassName());
+	}
+
+	@Override
 	public String getCanonicalName() {
 		return className; // We should implement a 'real' canonical name
 	}

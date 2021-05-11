@@ -135,11 +135,7 @@ public class BdsNodeFactory implements BdsLog {
 	public final BdsNode factory(BdsNode parent, ParseTree tree) {
 		if (tree == null) return null;
 		if (tree instanceof TerminalNode) {
-			debug("Terminal node: " + tree.getClass().getCanonicalName() //
-					+ "\n\t\tText    : '" + tree.getText() + "'" //
-					+ "\n\t\tSymbol  : " + ((TerminalNode) tree).getSymbol() //
-					+ "\n\t\tPayload : " + ((TerminalNode) tree).getPayload() //
-			);
+			debug("Terminal node: '" + tree.getText() + "'");
 			return null;
 		}
 

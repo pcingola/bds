@@ -31,6 +31,7 @@ public class ExpressionBinary extends Expression {
 
 	@Override
 	public boolean isReturnTypesNotNull() {
+		if (left == null) return false;
 		if (right == null) return (left.getReturnType() != null);
 		return left.isReturnTypesNotNull() && right.isReturnTypesNotNull();
 	}
@@ -52,7 +53,7 @@ public class ExpressionBinary extends Expression {
 	public Type returnType(SymbolTable symtab) {
 		if (returnType != null) return returnType;
 
-		returnType = left.returnType(symtab);
+		if (left != null) returnType = left.returnType(symtab); // Left could be empty when there are some compile error (e.g. empty "switch" statement)
 		if (right != null) right.returnType(symtab); // Only assign this to show that calculation was already performed
 
 		return returnType;

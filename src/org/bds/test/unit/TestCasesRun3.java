@@ -523,4 +523,10 @@ public class TestCasesRun3 extends TestCasesBase {
 		runAndCheckError("test/run_261.bds", "Invalid key 'hi' in map.");
 	}
 
+	@Test
+	public void test262_simpleClassCast() {
+		Gpr.debug("Test");
+		runOk("test/run_262.bds");
+	}
+
 }

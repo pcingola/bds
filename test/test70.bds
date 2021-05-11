@@ -1,0 +1,13 @@
+
+println "Start"
+
+# Define an empty class
+class A {}
+
+# Return different type
+B[] f() {
+	A[] a
+	return a
+}
+
+println "End"
