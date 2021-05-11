@@ -9,6 +9,7 @@ import org.bds.lang.type.Type;
 import org.bds.lang.value.InterpolateVars;
 import org.bds.lang.value.Value;
 import org.bds.run.BdsRun;
+import org.bds.run.Coverage;
 import org.bds.util.Gpr;
 import org.bds.vm.BdsVm;
 import org.bds.vm.BdsVmAsm;
@@ -30,6 +31,13 @@ public class TestCasesBase implements BdsLog {
 	public void before() {
 		// Reset singletons
 		BdsRun.reset();
+	}
+
+	protected void checkCoverageRatio(Bds bds, double coverageRatioExp) {
+		Coverage coverage = bds.getBdsRun().getCoverageCounter();
+		double coverageRatio = coverage.coverageRatio();
+		double epsilon = 0.001;
+		Assert.assertTrue("Coverage ration expected: " + coverageRatioExp + ", but got " + coverageRatio, Math.abs(coverageRatio - coverageRatioExp) < epsilon);
 	}
 
 	protected void checkInterpolate(String str, String strings[], String vars[]) {

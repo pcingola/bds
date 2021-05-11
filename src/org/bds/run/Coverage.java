@@ -188,6 +188,7 @@ public class Coverage {
 	}
 
 	void setCoverageByFile(String fileName, int lineNum, boolean value) {
+		if (lineNum < 0) return;
 		Boolean[] lineCoverage = coverageByFile.get(fileName);
 		lineCoverage[lineNum] = value;
 	}

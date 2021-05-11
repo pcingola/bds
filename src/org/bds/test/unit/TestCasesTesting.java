@@ -1,12 +1,9 @@
 package org.bds.test.unit;
 
 import org.bds.Bds;
-import org.bds.run.Coverage;
 import org.bds.test.TestCasesBase;
 import org.bds.util.Gpr;
 import org.junit.Test;
-
-import junit.framework.Assert;
 
 /**
  * Test cases for "bds --test"
@@ -17,13 +14,6 @@ import junit.framework.Assert;
  *
  */
 public class TestCasesTesting extends TestCasesBase {
-
-	void checkCoverageRatio(Bds bds, double coverageRatioExp) {
-		Coverage coverage = bds.getBdsRun().getCoverageCounter();
-		double coverageRatio = coverage.coverageRatio();
-		double epsilon = 0.001;
-		Assert.assertTrue("Coverage ration expected: " + coverageRatioExp + ", but got " + coverageRatio, Math.abs(coverageRatio - coverageRatioExp) < epsilon);
-	}
 
 	@Test
 	public void testTestCases01() {
