@@ -1,15 +1,12 @@
+#!/usr/bin/env bds
 
-class A { }
-
-class B extends A { }
-
-class Z {
-	A a
+int f06(int x) {
+	println "OK"
+	return 2 + x
 }
 
-z := new Z()
-z.a = new B()
-
-a := (B) (z.a)
-println "OK"
+void test06() {
+	z := f06(2)
+	assert(4, z)
+}
 

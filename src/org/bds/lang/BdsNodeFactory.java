@@ -178,14 +178,7 @@ public class BdsNodeFactory implements BdsLog {
 		Class clazz = findClass(className);
 
 		// Is it a Type?
-		if (clazz == Type.class) {
-			throw new RuntimeException("This should never happen!");
-			//			if (tree == null) throw new RuntimeException("Tree data is null, cannot build node!"); // No tree data? return a new FAKE node
-			//			throw new RuntimeException("TODO: REMOVE THIS CODE !!!!!????");
-			//			// No need to create a new node
-			//			String typeName = tree.getChild(0).getText();
-			//			return Types.get(typeName);
-		}
+		if (clazz == Type.class) throw new RuntimeException("This should never happen!");
 
 		// Create class
 		return createBdsNode(clazz, parent, tree);

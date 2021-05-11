@@ -22,6 +22,7 @@ import org.bds.lang.type.TypeMap;
 import org.bds.lang.type.Types;
 import org.bds.run.BdsThread;
 import org.bds.symbol.SymbolTable;
+import org.bds.util.Gpr;
 
 /**
  * Base AST node (Abstract Syntax Tree) for bds language elements
@@ -43,6 +44,9 @@ public abstract class BdsNode implements Serializable, BdsLog {
 	public BdsNode(BdsNode parent, ParseTree tree) {
 		id = BdsNodeFactory.get().getNextNodeId(this);
 		this.parent = parent;
+
+		lineNum = -1;
+		charPosInLine = -1;
 
 		// Initialize some defaults
 		initialize();
@@ -378,6 +382,7 @@ public abstract class BdsNode implements Serializable, BdsLog {
 	}
 
 	void lineAndPos(Token token) {
+		if (token instanceof TerminalNode) Gpr.debug("Terminal node: '" + token.getText() + "'");
 		lineNum = token.getLine();
 		charPosInLine = token.getCharPositionInLine();
 	}

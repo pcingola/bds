@@ -628,6 +628,7 @@ public class BdsRun implements BdsLog {
 
 		// Create a program unit having all variable declarations and the test function's statements
 		ProgramUnit puTest = new ProgramUnit(programUnit, null);
+		puTest.setFile(programUnit.getFile());
 		puTest.setStatements(statements.toArray(new Statement[0]));
 
 		// Compile and create vm

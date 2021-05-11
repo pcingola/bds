@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.bds.compile.BdsNodeWalker;
 import org.bds.lang.statement.BlockWithFile;
@@ -27,6 +28,8 @@ public class ProgramUnit extends BlockWithFile {
 
 	private static final long serialVersionUID = 3819936306695046515L;
 
+	protected BdsThread bdsThread;
+
 	private static File discoverFileFromTree(ParseTree tree) { // should probably go somewhere else?
 		try {
 			CharStream cs = ((ParserRuleContext) tree).getStart().getInputStream();
@@ -36,8 +39,6 @@ public class ProgramUnit extends BlockWithFile {
 			return new File("?");
 		}
 	}
-
-	protected BdsThread bdsThread;
 
 	public ProgramUnit(BdsNode parent, ParseTree tree) {
 		super(parent, null); // little hack begin: parse is done later
@@ -91,6 +92,12 @@ public class ProgramUnit extends BlockWithFile {
 	@Override
 	public BdsThread getBdsThread() {
 		return bdsThread;
+	}
+
+	@Override
+	void lineAndPos(Token token) {
+		// Program Unit refers to the whole program, thus it does not have a "line number"
+		// If we set this, coverage will be calculated incorrectly
 	}
 
 	@Override
