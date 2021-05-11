@@ -81,7 +81,7 @@ public class ExpressionCast extends ExpressionUnary {
 			dynamicChecking = true;
 			return;
 		}
-		compilerMessages.add(this, "Cannot cast from type '" + returnType + "' to type '" + castTo + "'", MessageType.ERROR);
+		compilerMessages.add(this, "Cannot cast from type '" + expr.getReturnType() + "' to type '" + castTo + "'", MessageType.ERROR);
 	}
 
 }

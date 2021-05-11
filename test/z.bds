@@ -3,6 +3,13 @@ class A { }
 
 class B extends A { }
 
-B b = new B()
-A a = b
+class Z {
+	A a
+}
+
+z := new Z()
+z.a = new B()
+
+a := (B) (z.a)
+println "OK"
 
