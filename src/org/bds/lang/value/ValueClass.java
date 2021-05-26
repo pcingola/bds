@@ -35,7 +35,6 @@ public class ValueClass extends ValueComposite {
 	}
 
 	public Value getValue(String name) {
-		if (isNull()) throw new RuntimeException("Null pointer: Cannot access field '" + getType() + "." + name + "'");
 		return fields.get(name);
 	}
 
