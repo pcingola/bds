@@ -80,6 +80,7 @@ public class TypeClass extends TypeComposite {
 
 	@Override
 	public boolean canCastTo(Type type) {
+		if (type.isAny()) return true;
 		if (!type.isClass()) return false;
 		TypeClass typeClass = (TypeClass) type;
 		return getCanonicalName().equals(typeClass.getCanonicalName()) // Same class?

@@ -1,0 +1,8 @@
+#!/usr/bin/env bds
+
+class A { }
+
+a := new A()
+objType := type(a)
+
+println("TYPE a: $objType")
