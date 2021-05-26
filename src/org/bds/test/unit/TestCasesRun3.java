@@ -529,4 +529,11 @@ public class TestCasesRun3 extends TestCasesBase {
 		runOk("test/run_262.bds");
 	}
 
+	@Test
+	public void test263_invokeMethodOnNullObject() {
+		// Invoke a method on a null object
+		Gpr.debug("Test");
+		runAndCheckError("test/run_263.bds", "Null pointer: Invoking method 'z' on null object type 'Z', signature z(Z this) -> void");
+	}
+
 }

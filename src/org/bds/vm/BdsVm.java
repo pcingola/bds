@@ -831,8 +831,11 @@ public class BdsVm implements Serializable, BdsLog {
 	 * @return The resolved method declaration
 	 */
 	FunctionDeclaration resolveVirtualMethod(Value vthis, FunctionDeclaration fdecl, boolean isSuper, String fsig) {
-		if (vthis == null) throw new RuntimeException("Null pointer: Cannot call method '" + fsig + "' on null object.");
-		if (!isSuper) return vthis.getType().resolve(fdecl);
+		if (vthis == null) fatalError("Null pointer: Cannot call method '" + fsig + "' on null object.");
+
+		Type type = vthis.getType();
+		if (type.isClass() && ((ValueClass) vthis).isNull()) fatalError("Null pointer: Invoking method '" + fdecl.getFunctionName() + "' on null object type '" + type + "', signature " + fdecl.signatureVarNames());
+		if (!isSuper) return type.resolve(fdecl);
 
 		//---
 		// This is a 'super.f()' method call
@@ -1394,11 +1397,13 @@ public class BdsVm implements Serializable, BdsLog {
 			case REFFIELD:
 				name = constantString();
 				vclass = (ValueClass) pop();
-				if (vclass != null) {
+				if (vclass == null) {
+					fatalError("Null pointer. Trying to access field '" + name + "' in null object.");
+				} else if (vclass.isNull()) {
+					fatalError("Null pointer: Object is null, cannot access field '" + vclass.getType() + "." + name + "'");
+				} else {
 					val = vclass.getValue(name);
 					push(val);
-				} else {
-					fatalError("Null pointer. Trying to access field '" + name + "' in null object.");
 				}
 				break;
 

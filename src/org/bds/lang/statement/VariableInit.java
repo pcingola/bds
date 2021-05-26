@@ -13,7 +13,7 @@ import org.bds.symbol.SymbolTable;
 /**
  * Variable initialization
  * E.g.:
- * 			i = 3
+ * 			int i = 3
  *
  * @author pcingola
  */
