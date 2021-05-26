@@ -536,4 +536,11 @@ public class TestCasesRun3 extends TestCasesBase {
 		runAndCheckError("test/run_263.bds", "Null pointer: Invoking method 'z' on null object type 'Z', signature z(Z this) -> void");
 	}
 
+	@Test
+	public void test264_typeOfClass() {
+		// Invoke a method on a null object
+		Gpr.debug("Test");
+		runAndCheck("test/run_264.bds", "objType", "A");
+	}
+
 }
