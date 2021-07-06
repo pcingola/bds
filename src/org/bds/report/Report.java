@@ -59,6 +59,9 @@ public class Report implements BdsLog {
 	 * Check if this is a good time to create a report
 	 */
 	public static void reportTime() {
+		// No report? Nothing to do
+		if (!Config.get().isReportHtml()) return;
+
 		boolean doReport = false;
 
 		synchronized (timerReport) {
