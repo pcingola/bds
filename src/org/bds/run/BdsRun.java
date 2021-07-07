@@ -166,7 +166,7 @@ public class BdsRun implements BdsLog {
 	 * @returns: -1 on compile errors; 0 if run OK, 1 if run with errors
 	 */
 	public CompileCode compile() {
-		// COmpile bds to VM ASM
+		// Compile bds to BdsNodes tree
 		if (!compileBds()) return CompileCode.ERROR;
 
 		// Parse command line args & show automatic help
@@ -175,7 +175,7 @@ public class BdsRun implements BdsLog {
 		//       compilation.
 		if (parseCmdLineArgs()) return CompileCode.OK_HELP;
 
-		// Compile assembly
+		// Compile to VM assembly
 		vm = compileAsm(programUnit);
 		return vm != null ? CompileCode.OK : CompileCode.ERROR;
 	}
@@ -199,7 +199,8 @@ public class BdsRun implements BdsLog {
 			// Compile assembly
 			return vmasm.compile();
 		} catch (Throwable t) {
-			t.printStackTrace();
+			if(config.isVerbose()) t.printStackTrace();
+			else Timer.showStdErr(t.getMessage());
 			return null;
 		}
 	}

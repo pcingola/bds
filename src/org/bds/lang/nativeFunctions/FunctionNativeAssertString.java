@@ -31,7 +31,7 @@ public class FunctionNativeAssertString extends FunctionNativeAssert {
 		String expected = bdsThread.getString("expected");
 		String value = bdsThread.getString("map");
 		if (!expected.equals(value)) //
-			throw new RuntimeException("Expecting '" + expected + "', but was '" + value + "': " + msg);
+			bdsThread.runtimeError("Expecting '" + expected + "', but was '" + value + "': " + msg);
 		return true;
 	}
 }

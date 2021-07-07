@@ -43,7 +43,7 @@ public class ExpressionDelegateBinary extends ExpressionBinary {
 
 	@Override
 	protected void parse(ParseTree tree) {
-		throw new RuntimeException("Unimplemented parsing. This should never happen!");
+		compileError("Unimplemented parsing. This should never happen!");
 	}
 
 	@Override

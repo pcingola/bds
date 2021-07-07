@@ -27,7 +27,7 @@ public class FunctionNativeAssertBoolNoMsg extends FunctionNativeAssert {
 	@Override
 	protected Object runFunctionNative(BdsThread bdsThread) {
 		boolean cond = bdsThread.getBool("cond");
-		if (!cond) throw new RuntimeException("Assertion failed.");
+		if (!cond) bdsThread.runtimeError("Assertion failed.");
 		return true;
 	}
 }

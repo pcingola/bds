@@ -29,7 +29,7 @@ public class ExpressionPlusMinus extends ExpressionDelegateBinary {
 			break;
 
 		default:
-			throw new RuntimeException("Unsuported operator '" + op + "'. This should never happen!");
+			runtimeError("Unsuported operator '" + op + "'. This should never happen!");
 		}
 	}
 

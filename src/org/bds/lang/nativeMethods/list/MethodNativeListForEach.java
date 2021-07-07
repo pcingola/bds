@@ -37,7 +37,8 @@ public class MethodNativeListForEach extends MethodNativeList {
 	@Override
 	public Value runMethod(BdsThread bdsThread, ValueList vthis) {
 		// Functional methods not implemented
-		throw new RuntimeException("Unimplemented!");
+		bdsThread.runtimeError("Unimplemented!");
+		return null;
 	}
 
 }

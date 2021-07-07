@@ -48,7 +48,8 @@ public class FunctionNativeRangeReal extends FunctionNative {
 
 	@Override
 	protected Object runFunctionNative(BdsThread bdsThread) {
-		throw new RuntimeException("This method should not be used!");
+		bdsThread.runtimeError("This method should not be used!");
+		return null;
 	}
 
 }

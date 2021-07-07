@@ -147,7 +147,7 @@ public class TypeList extends TypeComposite {
 			debug("Type " + this + ", library methods added: ");
 		} catch (Throwable t) {
 			t.printStackTrace();
-			throw new RuntimeException("Error while adding native mehods for class '" + this + "'", t);
+			compileError("Error while adding native methods for class '" + this + "'", t);
 		}
 		return methods;
 	}
@@ -183,7 +183,8 @@ public class TypeList extends TypeComposite {
 
 	@Override
 	public Value newValue(Object v) {
-		throw new RuntimeException("Unimplemented. This method should never be invoked!");
+		runtimeError("Unimplemented. This method should never be invoked!");
+		return null;
 	}
 
 	@Override

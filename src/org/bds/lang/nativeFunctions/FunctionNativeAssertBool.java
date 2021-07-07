@@ -28,7 +28,7 @@ public class FunctionNativeAssertBool extends FunctionNativeAssert {
 	protected Object runFunctionNative(BdsThread bdsThread) {
 		String msg = bdsThread.getString("msg");
 		boolean cond = bdsThread.getBool("cond");
-		if (!cond) throw new RuntimeException(msg);
+		if (!cond) bdsThread.runtimeError(msg);
 		return true;
 	}
 }

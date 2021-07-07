@@ -231,7 +231,7 @@ public class BdsVm implements Serializable, BdsLog {
 
 	/**
 	 * Call a function
-	 * @param name: Function's signature
+	 * @param fsig: Function's signature
 	 */
 	void call(String fsig) {
 		pushCallFrame(); // Push stack frame
@@ -243,7 +243,7 @@ public class BdsVm implements Serializable, BdsLog {
 
 	/**
 	 * Call a function
-	 * @param name: Function's signature
+	 * @param fsig: Function's signature
 	 */
 	void callMethod(String fsig, boolean isSuper) {
 		pushCallFrame(); // Push stack frame
@@ -258,7 +258,7 @@ public class BdsVm implements Serializable, BdsLog {
 
 	/**
 	 * Call a native method or function
-	 * @param name: Method's signature
+	 * @param fsig: Method's signature
 	 */
 	Value callNative(String fsig) {
 		// Find function
@@ -478,7 +478,7 @@ public class BdsVm implements Serializable, BdsLog {
 		return exitCode;
 	}
 
-	void fatalError(String msg) {
+	public void fatalError(String msg) {
 		bdsThread.fatalError(getBdsNode(), msg);
 	}
 

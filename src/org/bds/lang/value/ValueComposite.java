@@ -21,7 +21,8 @@ public abstract class ValueComposite extends Value {
 	 */
 	@Override
 	public boolean asBool() {
-		throw new RuntimeException("Cannot convert type '" + getType() + "' to bool");
+		runtimeError("Cannot convert type '" + getType() + "' to bool");
+		return false;
 	}
 
 	/**
@@ -29,7 +30,8 @@ public abstract class ValueComposite extends Value {
 	 */
 	@Override
 	public long asInt() {
-		throw new RuntimeException("Cannot convert type '" + getType() + "' to int");
+		runtimeError("Cannot convert type '" + getType() + "' to int");
+		return 0;
 	}
 
 	/**
@@ -37,7 +39,8 @@ public abstract class ValueComposite extends Value {
 	 */
 	@Override
 	public double asReal() {
-		throw new RuntimeException("Cannot convert type '" + getType() + "' to real");
+		runtimeError("Cannot convert type '" + getType() + "' to real");
+		return 0;
 	}
 
 	/**
@@ -60,5 +63,4 @@ public abstract class ValueComposite extends Value {
 		toString(sb, done);
 		return sb.toString();
 	}
-
 }

@@ -34,7 +34,7 @@ public class MethodNativeListPop extends MethodNativeList {
 
 	@Override
 	public Value runMethod(BdsThread bdsThread, ValueList vthis) {
-		if (vthis.isEmpty()) throw new RuntimeException("Invoking 'pop' on an empty list.");
+		if (vthis.isEmpty()) bdsThread.runtimeError("Invoking 'pop' on an empty list.");
 		return vthis.remove(vthis.size() - 1);
 	}
 }

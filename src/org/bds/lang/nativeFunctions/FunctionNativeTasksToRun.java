@@ -56,6 +56,7 @@ public class FunctionNativeTasksToRun extends FunctionNative {
 
 	@Override
 	protected Object runFunctionNative(BdsThread bdsThread) {
-		throw new RuntimeException("Unimplemented. This method should never be invoked!");
+		bdsThread.runtimeError("Unimplemented. This method should never be invoked!");
+		return null;
 	}
 }

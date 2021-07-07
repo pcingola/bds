@@ -33,8 +33,8 @@ public class FunctionNativeType extends FunctionNative {
 	@Override
 	protected Object runFunctionNative(BdsThread bdsThread) {
 		Value expr = bdsThread.getValue("expr");
-		if (expr == null) throw new RuntimeException("Could not evaluate expression.");
-		if (expr.getType() == null) throw new RuntimeException("Could not evaluate expression's type: " + expr);
+		if (expr == null) bdsThread.runtimeError("Could not evaluate expression.");
+		if (expr.getType() == null) bdsThread.runtimeError("Could not evaluate expression's type: " + expr);
 		return expr.getType().toString();
 	}
 

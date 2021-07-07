@@ -3,18 +3,19 @@ package org.bds.lang.value;
 import java.io.Serializable;
 import java.util.Set;
 
+import org.bds.BdsLog;
+import org.bds.BdsLogStatic;
 import org.bds.lang.type.Type;
 import org.bds.lang.type.Types;
+import org.bds.run.BdsThreads;
 
 /**
  * Define a value
  * @author pcingola
  */
-public abstract class Value implements Serializable, Cloneable, Comparable<Value> {
+public abstract class Value implements Serializable, Cloneable, Comparable<Value>, BdsLog {
 
 	private static final long serialVersionUID = 3481924830790274005L;
-
-	public static final int MAX_TO_STRING_LEN = 10 * 1024;
 
 	public static final ValueUnique ANY = ValueUnique.get(Types.ANY);
 	public static final ValueUnique VOID = ValueUnique.get(Types.VOID);
@@ -27,7 +28,8 @@ public abstract class Value implements Serializable, Cloneable, Comparable<Value
 		if (v instanceof Integer) return new ValueInt(((Integer) v).longValue());
 		if (v instanceof Float) return new ValueReal(((Float) v).doubleValue());
 		if (v == null) return null;
-		throw new RuntimeException("Cannot create Value from object class " + v.getClass().getCanonicalName());
+		BdsLogStatic.runtimeError("Cannot create Value from object class " + v.getClass().getCanonicalName());
+		return null;
 	}
 
 	public Value() {
@@ -91,7 +93,7 @@ public abstract class Value implements Serializable, Cloneable, Comparable<Value
 	 * Parse value from string
 	 */
 	public void parse(String str) {
-		throw new RuntimeException("String parsing unimplemented for type '" + this + "'");
+		runtimeError("String parsing unimplemented for type '" + this + "'");
 	}
 
 	public abstract void setValue(Value v);

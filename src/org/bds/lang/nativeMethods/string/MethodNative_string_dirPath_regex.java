@@ -63,7 +63,8 @@ public class MethodNative_string_dirPath_regex extends MethodNativeString {
 
 	@Override
 	protected Object runMethodNative(BdsThread bdsThread, Object objThis) {
-		throw new RuntimeException("This method should never be invoked!");
+		bdsThread.runtimeError("This method should never be invoked!");
+		return null;
 	}
 
 }

@@ -1,0 +1,6 @@
+
+string[] strs = []
+
+for(int i=0; i < 10; i++) {
+	println "Hi $i"
+}

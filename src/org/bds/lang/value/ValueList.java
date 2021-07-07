@@ -109,7 +109,7 @@ public class ValueList extends ValueComposite implements Iterable<Value> {
 	 */
 	public Value getValue(long idx) {
 		int max_idx = list.size();
-		if (max_idx == 0) throw new RuntimeException("Cannot get element '" + idx + "' from an empty list");
+		if (max_idx == 0) runtimeError("Cannot get element '" + idx + "' from an empty list");
 		int idx_reminder = (int) (idx % max_idx);
 		int idx_int = (idx_reminder >= 0 ? idx_reminder : max_idx + idx_reminder);
 		return list.get(idx_int);
@@ -152,7 +152,7 @@ public class ValueList extends ValueComposite implements Iterable<Value> {
 		ArrayList<Value> list = (ArrayList<Value>) this.list;
 
 		int iidx = (int) idx;
-		if (idx < 0) throw new RuntimeException("Cannot set list element indexed with negative index value: " + idx);
+		if (idx < 0) runtimeError("Cannot set list element indexed with negative index value: " + idx);
 
 		// Make sure the array is big enough to hold the data
 		if (iidx >= list.size()) {

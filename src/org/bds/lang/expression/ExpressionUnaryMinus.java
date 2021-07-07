@@ -57,7 +57,8 @@ public class ExpressionUnaryMinus extends ExpressionUnary {
 			return "pushr 0.0\n" + expr.toAsm() + "subr\n";
 		}
 
-		throw new RuntimeException("Cannot cast to 'int' or 'real'. This should never happen!");
+		compileError("Cannot cast to 'int' or 'real'. This should never happen!");
+		return "";
 	}
 
 	@Override

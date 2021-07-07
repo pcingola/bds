@@ -41,7 +41,7 @@ public class ValueFunction extends ValueComposite {
 
 	@Override
 	public void parse(String str) {
-		throw new RuntimeException("String parsing unimplemented for type '" + this + "'");
+		runtimeError("String parsing unimplemented for type '" + this + "'");
 	}
 
 	@Override

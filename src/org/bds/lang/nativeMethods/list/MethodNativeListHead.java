@@ -34,7 +34,7 @@ public class MethodNativeListHead extends MethodNativeList {
 
 	@Override
 	public Value runMethod(BdsThread bdsThread, ValueList vthis) {
-		if (vthis.isEmpty()) throw new RuntimeException("Invoking 'head' on an empty list.");
+		if (vthis.isEmpty()) bdsThread.runtimeError("Invoking 'head' on an empty list.");
 		return vthis.getValue(0);
 	}
 }

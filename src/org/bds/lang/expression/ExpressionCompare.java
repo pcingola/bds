@@ -45,7 +45,8 @@ public abstract class ExpressionCompare extends ExpressionBinary {
 		else if (left.isInt() || right.isInt()) return "i";
 		else if (left.isBool() || right.isBool()) return "b";
 		else if (left.isString() || right.isString()) return "s";
-		throw new RuntimeException("Unknown comparisson type: " + left.getReturnType() + ", " + right.getReturnType());
+		compileError("Unknown comparisson type: " + left.getReturnType() + ", " + right.getReturnType());
+		return "";
 	}
 
 	@Override

@@ -26,7 +26,7 @@ public class ExpressionUnaryPlusMinus extends ExpressionUnary {
 	@Override
 	protected void parse(ParseTree tree) {
 		op = tree.getChild(0).getText();
-		if (!op.equals("-") && !op.equals("+")) throw new RuntimeException("Unimplemented operator '" + op + "'. This should never happen!");
+		if (!op.equals("-") && !op.equals("+")) compileError("Unimplemented operator '" + op + "'. This should never happen!");
 
 		expr = (Expression) factory(tree, 1);
 	}
@@ -52,8 +52,8 @@ public class ExpressionUnaryPlusMinus extends ExpressionUnary {
 		case "-":
 			return toAsmUnaryMinus();
 		default:
-			throw new RuntimeException("Unimplemented operator '" + op + "'. This should never happen!");
-
+			compileError("Unimplemented operator '" + op + "'. This should never happen!");
+			return "";
 		}
 	}
 
@@ -76,7 +76,8 @@ public class ExpressionUnaryPlusMinus extends ExpressionUnary {
 			return "pushr 0.0\n" + expr.toAsm() + "subr\n";
 		}
 
-		throw new RuntimeException("Cannot cast to 'int' or 'real'. This should never happen!");
+		compileError("Cannot cast to 'int' or 'real'. This should never happen!");
+		return "";
 	}
 
 	String toAsmUnaryPlus() {

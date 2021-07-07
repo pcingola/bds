@@ -95,7 +95,7 @@ public class ProgramUnit extends BlockWithFile {
 	}
 
 	@Override
-	void lineAndPos(Token token) {
+	protected void lineAndPos(Token token) {
 		// Program Unit refers to the whole program, thus it does not have a "line number"
 		// If we set this, coverage will be calculated incorrectly
 	}

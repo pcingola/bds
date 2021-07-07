@@ -42,7 +42,8 @@ public class FunctionNativeConfigOri extends FunctionNativeConfig {
 
 	@Override
 	protected Object runFunctionNative(BdsThread bdsThread) {
-		throw new RuntimeException("This method should never be invoked!");
+		bdsThread.runtimeError("This method should never be invoked!");
+		return null;
 	}
 
 }

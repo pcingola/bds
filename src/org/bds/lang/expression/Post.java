@@ -43,7 +43,7 @@ public class Post extends Pre {
 			break;
 
 		default:
-			throw new RuntimeException("Unknown operator " + operation);
+			compileError("Unknown operator " + operation);
 		}
 
 		sb.append(ref.toAsmSet());
