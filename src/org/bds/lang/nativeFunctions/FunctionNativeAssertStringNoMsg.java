@@ -30,7 +30,7 @@ public class FunctionNativeAssertStringNoMsg extends FunctionNativeAssert {
 		String expected = bdsThread.getString("expected");
 		String value = bdsThread.getString("map");
 		if (!expected.equals(value)) //
-			throw new RuntimeException("Expecting '" + expected + "', but was '" + value + "'");
+			bdsThread.runtimeError("Expecting '" + expected + "', but was '" + value + "'");
 		return true;
 	}
 }

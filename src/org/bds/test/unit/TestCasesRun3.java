@@ -514,7 +514,7 @@ public class TestCasesRun3 extends TestCasesBase {
 	@Test
 	public void test260_emptyListIndex() {
 		Gpr.debug("Test");
-		runAndCheckError("test/run_260.bds", "Cannot get element '0' from an empty list");
+		runAndCheckError("test/run_260.bds", "Runtime error StatementExpr test/run_260.bds:4,1: Cannot get element '0' from an empty list");
 	}
 
 	@Test
@@ -542,5 +542,4 @@ public class TestCasesRun3 extends TestCasesBase {
 		Gpr.debug("Test");
 		runAndCheck("test/run_264.bds", "objType", "A");
 	}
-
 }

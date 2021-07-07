@@ -61,7 +61,8 @@ public class TypeFunction extends TypeComposite {
 
 	@Override
 	public Value newDefaultValue() {
-		throw new RuntimeException("Cannot instanciate default value for function type " + this);
+		runtimeError("Cannot instantiate default value for function type " + this);
+		return null;
 	}
 
 	/**

@@ -56,7 +56,7 @@ public class ValueClass extends ValueComposite {
 
 		// Fields for this class and all parent classes
 		for (ClassDeclaration cd = tc.getClassDeclaration(); cd != null; cd = cd.getClassParent()) {
-			FieldDeclaration fieldDecls[] = cd.getFieldDecl();
+			FieldDeclaration[] fieldDecls = cd.getFieldDecl();
 			for (FieldDeclaration fieldDecl : fieldDecls) { // Add all fields
 				Type vt = fieldDecl.getType();
 				for (VariableInit vi : fieldDecl.getVarInit()) {
@@ -75,11 +75,11 @@ public class ValueClass extends ValueComposite {
 
 	@Override
 	public void parse(String str) {
-		throw new RuntimeException("String parsing unimplemented for type '" + this + "'");
+		runtimeError("String parsing unimplemented for type '" + this + "'");
 	}
 
 	public void setValue(String name, Value v) {
-		if (isNull()) throw new RuntimeException("Null pointer: Cannot set field '" + getType() + "." + name + "'");
+		if (isNull()) runtimeError("Null pointer: Cannot set field '" + getType() + "." + name + "'");
 		fields.put(name, v);
 	}
 

@@ -33,7 +33,7 @@ public class ExpressionTimesDivMod extends ExpressionDelegateBinary {
 			break;
 
 		default:
-			throw new RuntimeException("Unsuported operator '" + op + "'. This should never happen!");
+			compileError("Unsuported operator '" + op + "'. This should never happen!");
 		}
 	}
 

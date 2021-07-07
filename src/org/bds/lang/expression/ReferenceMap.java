@@ -68,7 +68,7 @@ public class ReferenceMap extends Reference {
 	public void parse(String str) {
 		int idx1 = str.indexOf('{');
 		int idx2 = str.lastIndexOf('}');
-		if ((idx1 <= 0) || (idx2 <= idx1)) throw new RuntimeException("Cannot parse map reference '" + str + "'");
+		if ((idx1 <= 0) || (idx2 <= idx1)) compileError("Cannot parse map reference '" + str + "'");
 
 		// Create VarReference
 		String varName = str.substring(0, idx1);
@@ -148,7 +148,7 @@ public class ReferenceMap extends Reference {
 
 	@Override
 	protected void typeCheckNotNull(SymbolTable symtab, CompilerMessages compilerMessages) {
-		throw new RuntimeException("This method should never be called!");
+		compileError("This method should never be called!");
 	}
 
 }

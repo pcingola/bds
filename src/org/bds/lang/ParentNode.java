@@ -18,7 +18,7 @@ public class ParentNode extends BdsNode {
 
 	@Override
 	protected void parse(ParseTree tree) {
-		throw new RuntimeException("This method should never be invoked!");
+		compileError("This method should never be invoked!");
 	}
 
 }

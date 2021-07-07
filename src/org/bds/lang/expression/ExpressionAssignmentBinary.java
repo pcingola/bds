@@ -32,7 +32,8 @@ public abstract class ExpressionAssignmentBinary extends ExpressionAssignment {
 	 * Create sub-expression for a specific return type
 	 */
 	protected ExpressionBinary createSubExpressionBool(Type leftType) {
-		throw new RuntimeException("This method should not be invoked!");
+		compileError("This method should not be invoked!");
+		return null;
 	}
 
 	@Override

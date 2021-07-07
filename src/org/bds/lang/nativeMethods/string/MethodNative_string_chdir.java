@@ -32,12 +32,12 @@ public class MethodNative_string_chdir extends MethodNativeString {
 		Data dir = bdsThread.data(dirName);
 
 		// Is it remote?
-		if (dir.isRemote()) throw new RuntimeException("Cannot chdir to remote directory '" + dirName + "'");
+		if (dir.isRemote()) bdsThread.runtimeError("Cannot chdir to remote directory '" + dirName + "'");
 
 		// Local dir processing
 		String path = dir.getPath();
-		if (!dir.exists()) throw new RuntimeException("Directory '" + path + "' does not exists");
-		if (!dir.isDirectory()) throw new RuntimeException("Cannot chdir to '" + path + "', not a directory.");
+		if (!dir.exists()) bdsThread.runtimeError("Directory '" + path + "' does not exists");
+		if (!dir.isDirectory()) bdsThread.runtimeError("Cannot chdir to '" + path + "', not a directory.");
 
 		// OK change dir
 		bdsThread.setCurrentDir(path);

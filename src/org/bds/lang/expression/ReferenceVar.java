@@ -124,7 +124,7 @@ public class ReferenceVar extends Reference {
 
 	@Override
 	protected void typeCheckNotNull(SymbolTable symtab, CompilerMessages compilerMessages) {
-		throw new RuntimeException("This method should never be called!");
+		compileError("This method should never be called!");
 	}
 
 }

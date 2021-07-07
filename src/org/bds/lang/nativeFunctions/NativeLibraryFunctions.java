@@ -1,5 +1,7 @@
 package org.bds.lang.nativeFunctions;
 
+import org.bds.BdsLog;
+
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 
@@ -9,7 +11,7 @@ import java.util.ArrayList;
  * @author pcingola
  *
  */
-public class NativeLibraryFunctions {
+public class NativeLibraryFunctions implements BdsLog {
 
 	@SuppressWarnings("rawtypes")
 	public static Class classes[] = { //
@@ -106,7 +108,7 @@ public class NativeLibraryFunctions {
 				functions.add(constructor.newInstance());
 			}
 		} catch (Exception e) {
-			throw new RuntimeException("Error creating native library", e);
+			compileError("Error creating native library", e);
 		}
 	}
 

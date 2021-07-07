@@ -23,7 +23,8 @@ public class ExpressionTaskOptions extends ExpressionList {
 
 	@Override
 	public String toAsm() {
-		throw new RuntimeException("This method should not be called directly!");
+		compileError("This method should not be called directly!");
+		return "";
 	}
 
 	/**

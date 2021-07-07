@@ -482,4 +482,18 @@ public class TestCasesLang extends TestCasesBase {
 		// Return different type of array
 		compileErrors("test/test70.bds", "Cannot cast A[] to B[]");
 	}
+
+	@Test
+	public void test71_castEmptyListOfObjects() {
+		// Initialize with an empty list of objects
+		Gpr.debug("Test");
+		compileOk("test/test71.bds");
+	}
+
+	@Test
+	public void test72_castEmptyMapOfObjects() {
+		// Initialize with an empty map of objects
+		Gpr.debug("Test");
+		compileOk("test/test72.bds");
+	}
 }

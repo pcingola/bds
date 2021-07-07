@@ -23,7 +23,8 @@ public abstract class TypeComposite extends Type {
 
 	@Override
 	public Value newValue(Object v) {
-		throw new RuntimeException("Unimplemented. This method should never be invoked!");
+		compileError("Unimplemented. This method should never be invoked!");
+		return null;
 	}
 
 }

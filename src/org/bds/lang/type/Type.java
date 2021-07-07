@@ -200,7 +200,7 @@ public abstract class Type extends BdsNode implements Comparable<Type> {
 
 	@Override
 	protected void parse(ParseTree tree) {
-		throw new RuntimeException("This method should never be called!");
+		compileError("This method should never be called!");
 	}
 
 	/**
@@ -222,7 +222,8 @@ public abstract class Type extends BdsNode implements Comparable<Type> {
 		else if (isVoid()) return "pushi 0\n"; // Void won't be used anyways (so just use an int)
 		else if (isList() || isMap()) return "new " + toString() + "\n";
 		else if (isClass()) return "pushnull\n";
-		throw new RuntimeException("Unknown default value for type '" + this + "'");
+		compileError("Unknown default value for type '" + this + "'");
+		return null;
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package org.bds;
 
+import org.bds.run.BdsThreads;
 import org.bds.util.Timer;
 
 /**
@@ -9,93 +10,128 @@ import org.bds.util.Timer;
  */
 public interface BdsLog {
 
-	/**
-	 * Show a 'debug' message to STDERR
-	 */
-	default void debug(Object message) {
-		if (isDebug()) {
-			Timer.showStdErr("DEBUG " + debugMessagePrepend() + ": " + (message != null ? message.toString() : "null"));
-		}
-	}
+    default void compileError(Object message) {
+        compileError(message, null);
+    }
 
-	/**
-	 * This string is always prepended to debug messages
-	 */
-	default String debugMessagePrepend() {
-		StackTraceElement ste = new Exception().getStackTrace()[debugMessagePrependOffset()];
-		String logmsg = logMessagePrepend();
+    default void compileError(Object message, Throwable e) {
+        var msg = "Compile error " + toStringClassFileLinePos() + ": " + message.toString();
+        Timer.showStdErr(msg);
+        if (e != null) throw new RuntimeException(msg, e);
+        throw new RuntimeException(msg);
+    }
 
-		// Class where source code is executing (e.g. inherited method)
-		String srcClass = ste.getClassName();
-		int ind = srcClass.lastIndexOf('.');
-		srcClass = srcClass.substring(ind + 1);
+    /**
+     * Show a 'debug' message to STDERR
+     */
+    default void debug(Object message) {
+        if (isDebug()) {
+            Timer.showStdErr("DEBUG " + debugMessagePrepend() + ": " + (message != null ? message.toString() : "null"));
+        }
+    }
 
-		// This class
-		String thisClass = getClass().getSimpleName();
+    /**
+     * This string is always prepended to debug messages
+     */
+    default String debugMessagePrepend() {
+        StackTraceElement ste = new Exception().getStackTrace()[debugMessagePrependOffset()];
+        String logmsg = logMessagePrepend();
 
-		return logmsg //
-				+ (logmsg.isEmpty() ? "" : ", ") //
-				+ (thisClass.equals(srcClass) ? "" : thisClass + " ") // Show class only if different than source code class
-				+ srcClass + "." + ste.getMethodName() + ":" + ste.getLineNumber() //
-		;
-	}
+        // Class where source code is executing (e.g. inherited method)
+        String srcClass = ste.getClassName();
+        int ind = srcClass.lastIndexOf('.');
+        srcClass = srcClass.substring(ind + 1);
 
-	default int debugMessagePrependOffset() {
-		return 2;
-	}
+        // This class
+        String thisClass = getClass().getSimpleName();
 
-	/**
-	 * Show an 'error' message to STDERR
-	 * @param message
-	 */
-	default void error(Object message) {
-		Timer.showStdErr("ERROR: " + (message != null ? message.toString() : "null"));
-	}
+        return logmsg //
+                + (logmsg.isEmpty() ? "" : ", ") //
+                + (thisClass.equals(srcClass) ? "" : thisClass + " ") // Show class only if different than source code class
+                + srcClass + "." + ste.getMethodName() + ":" + ste.getLineNumber() //
+                ;
+    }
 
-	/**
-	 * Debug mode?
-	 */
-	default boolean isDebug() {
-		return Config.get().isDebug();
-	}
+    default int debugMessagePrependOffset() {
+        return 2;
+    }
 
-	/**
-	 * Logging mode?
-	 */
-	default boolean isLog() {
-		return Config.get().isLog();
-	}
+    /**
+     * Show an 'error' message to STDERR
+     *
+     * @param message
+     */
+    default void error(Object message) {
+        Timer.showStdErr("ERROR: " + (message != null ? message.toString() : "null"));
+    }
 
-	/**
-	 * Verbose mode?
-	 */
-	default boolean isVerbose() {
-		return Config.get().isVerbose();
-	}
+    default void fatalError(String message) {
+        var msg = "FATAL_ERROR: " + (message != null ? message : "null");
+        Timer.showStdErr(msg);
+        throw new RuntimeException(msg);
+    }
 
-	/**
-	 * Show a 'log' message to STDERR
-	 * @param message
-	 */
-	default void log(Object message) {
-		if (isVerbose()) {
-			Timer.showStdErr("INFO " + logMessagePrepend() + ": " + (message != null ? message.toString() : "null"));
-		}
-	}
+    /**
+     * Debug mode?
+     */
+    default boolean isDebug() {
+        return Config.get().isDebug();
+    }
 
-	/**
-	 * This string is always prepended to log messages
-	 */
-	default String logMessagePrepend() {
-		return "";
-	}
+    /**
+     * Logging mode?
+     */
+    default boolean isLog() {
+        return Config.get().isLog();
+    }
 
-	/**
-	 * Show a 'warning' message to STDERR
-	 * @param message
-	 */
-	default void warning(Object message) {
-		Timer.showStdErr("WARNING: " + (message != null ? message.toString() : "null"));
-	}
+    /**
+     * Verbose mode?
+     */
+    default boolean isVerbose() {
+        return Config.get().isVerbose();
+    }
 
+    /**
+     * Show a 'log' message to STDERR
+     *
+     * @param message
+     */
+    default void log(Object message) {
+        if (isVerbose()) {
+            Timer.showStdErr("INFO " + logMessagePrepend() + ": " + (message != null ? message.toString() : "null"));
+        }
+    }
+
+    /**
+     * This string is always prepended to log messages
+     */
+    default String logMessagePrepend() {
+        return "";
+    }
+
+    default void runtimeError(Object message) {
+        runtimeError(message, null);
+    }
+
+    default void runtimeError(Object message, Exception e) {
+        var msg = "Runtime error " + toStringClassFileLinePos() + ": " + message.toString();
+        Timer.showStdErr(msg);
+        if (e != null) throw new RuntimeException(msg, e);
+        throw new RuntimeException(msg);
+    }
+
+    /**
+     * Show a 'warning' message to STDERR
+     *
+     * @param message
+     */
+    default void warning(Object message) {
+        Timer.showStdErr("WARNING: " + (message != null ? message.toString() : "null"));
+    }
+
+    default String toStringClassFileLinePos() {
+        var bdsth = BdsThreads.getInstance().getOrRoot();
+        return (bdsth != null ? bdsth.toStringClassFileLinePos() : getClass().getCanonicalName());
+    }
 }

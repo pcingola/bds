@@ -370,7 +370,8 @@ public class ExpressionTask extends ExpressionWithScope {
 			return sb.toString();
 		}
 
-		throw new RuntimeException("Unimplemented for class '" + statement.getClass().getSimpleName() + "'");
+		runtimeError("Unimplemented for class '" + statement.getClass().getSimpleName() + "'");
+		return "";
 	}
 
 	@Override

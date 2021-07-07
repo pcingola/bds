@@ -30,17 +30,20 @@ public class ValueUnique extends ValuePrimitive {
 
 	@Override
 	public boolean asBool() {
-		throw new RuntimeException("Cannot convert type '" + getType() + "' to bool");
+		runtimeError("Cannot convert type '" + getType() + "' to bool");
+		return false;
 	}
 
 	@Override
 	public long asInt() {
-		throw new RuntimeException("Cannot convert type '" + getType() + "' to int");
+		runtimeError("Cannot convert type '" + getType() + "' to int");
+		return 0L;
 	}
 
 	@Override
 	public double asReal() {
-		throw new RuntimeException("Cannot convert type '" + getType() + "' to real");
+		runtimeError("Cannot convert type '" + getType() + "' to real");
+		return 0.0;
 	}
 
 	@Override

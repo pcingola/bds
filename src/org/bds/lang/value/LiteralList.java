@@ -45,16 +45,15 @@ public class LiteralList extends Literal {
 
 	@Override
 	protected ValueList parseValue(ParseTree tree) {
-		throw new RuntimeException("This method should never be invoked!!!");
+		runtimeError("This method should never be invoked!");
+		return null;
 	}
 
 	@Override
 	public Type returnType(SymbolTable symtab) {
 		if (returnType != null) return returnType;
 
-		//---
 		// Calculate elementType
-		//---
 		Type baseType = null;
 		for (BdsNode node : values) {
 			Expression expr = (Expression) node;

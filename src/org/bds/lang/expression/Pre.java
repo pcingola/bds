@@ -52,7 +52,7 @@ public class Pre extends ExpressionUnary {
 			break;
 
 		default:
-			throw new RuntimeException("Unknown operator " + operation);
+			compileError("Unknown operator " + operation);
 		}
 
 		sb.append(ref.toAsmSet());

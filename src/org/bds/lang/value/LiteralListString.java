@@ -15,27 +15,28 @@ import org.bds.symbol.SymbolTable;
  */
 public class LiteralListString extends LiteralList {
 
-	private static final long serialVersionUID = -4999985887360700695L;
+    private static final long serialVersionUID = -4999985887360700695L;
 
-	public LiteralListString(BdsNode parent, ParseTree tree) {
-		super(parent, tree);
-		returnType = TypeList.get(Types.STRING);
-	}
+    public LiteralListString(BdsNode parent, ParseTree tree) {
+        super(parent, tree);
+        returnType = TypeList.get(Types.STRING);
+    }
 
-	@Override
-	public Type returnType(SymbolTable symtab) {
-		if (returnType != null) return returnType;
-		throw new RuntimeException("This should never happen!");
-	}
+    @Override
+    public Type returnType(SymbolTable symtab) {
+        if (returnType != null) return returnType;
+        runtimeError("This should never happen!");
+        return null;
+    }
 
-	public void setValue(ValueList vals) {
-		values = new Expression[vals.size()];
-		int j = 0;
-		for (Value val : vals) {
-			LiteralString lit = new LiteralString(this, null);
-			lit.setValue(val);
-			values[j++] = lit;
-		}
-	}
+    public void setValue(ValueList vals) {
+        values = new Expression[vals.size()];
+        int j = 0;
+        for (Value val : vals) {
+            LiteralString lit = new LiteralString(this, null);
+            lit.setValue(val);
+            values[j++] = lit;
+        }
+    }
 
 }

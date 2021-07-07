@@ -99,7 +99,7 @@ public class ForLoopList extends StatementWithScope {
 			methodHashCode = symtab.findFunction(MethodNativeMapHashCode.class);
 			TypeList tlist = TypeList.get(tmap.getValueType());
 			methodSize = tlist.getSymbolTable().findFunction(MethodNativeListSize.class);
-		} else throw new RuntimeException("Cannot iterate on type " + returnType);
+		} else compileError("Cannot iterate on type " + returnType);
 
 		//
 		// Sample code;
@@ -213,8 +213,9 @@ public class ForLoopList extends StatementWithScope {
 					+ "varpop " + varList + "\n" //
 			;
 		} else {
-			throw new RuntimeException("Cannot iterate on type " + expression.getReturnType());
+			compileError("Cannot iterate on type " + expression.getReturnType());
 		}
+		return "";
 	}
 
 	/**

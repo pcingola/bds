@@ -71,7 +71,8 @@ public class Parameters extends BdsNode implements Comparable<Parameters> {
 
 	@Override
 	public int compareTo(Parameters o) {
-		throw new RuntimeException("!!! Unimplemented!");
+		fatalError("Unimplemented!");
+		return 0;
 	}
 
 	/**

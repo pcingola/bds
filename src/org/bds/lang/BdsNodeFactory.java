@@ -95,10 +95,11 @@ public class BdsNodeFactory implements BdsLog {
 					return classConstructor.newInstance(params);
 				}
 			}
-			throw new RuntimeException("Unknown constructor method for class '" + clazz.getCanonicalName() + "'");
+			compileError("Unknown constructor method for class '" + clazz.getCanonicalName() + "'");
 		} catch (Exception e) {
-			throw new RuntimeException("Error creating object: Class '" + clazz.getCanonicalName() + "'", e);
+			compileError("Error creating object: Class '" + clazz.getCanonicalName() + "'", e);
 		}
+		return null;
 	}
 
 	/**
@@ -113,20 +114,21 @@ public class BdsNodeFactory implements BdsLog {
 			// Find factory method
 			Class[] paramClasses = { BdsNode.class, ParseTree.class };
 			Method factoryMethod = clazz.getMethod("factory", paramClasses);
-			if (factoryMethod == null) throw new RuntimeException("Could not find any public constructors or factory method for class '" + clazz.getCanonicalName() + "'");
+			if (factoryMethod == null) compileError("Could not find any public constructors or factory method for class '" + clazz.getCanonicalName() + "'");
 
 			// Invoke factory method
 			Object[] params = { parent, tree };
 			return (BdsNode) factoryMethod.invoke(null, params);
 		} catch (NoSuchMethodException | SecurityException e) {
-			throw new RuntimeException("Could not find any public constructors or factory method for class '" + clazz.getCanonicalName() + "'", e);
+			compileError("Could not find any public constructors or factory method for class '" + clazz.getCanonicalName() + "'", e);
 		} catch (IllegalAccessException e) {
-			throw new RuntimeException("Could not accedd factory method for class '" + clazz.getCanonicalName() + "'", e);
+			compileError("Could not accedd factory method for class '" + clazz.getCanonicalName() + "'", e);
 		} catch (IllegalArgumentException e) {
-			throw new RuntimeException("Invalid arguments when invoking factory method for class '" + clazz.getCanonicalName() + "'", e);
+			compileError("Invalid arguments when invoking factory method for class '" + clazz.getCanonicalName() + "'", e);
 		} catch (InvocationTargetException e) {
-			throw new RuntimeException("Invalid invokation of factory method for class '" + clazz.getCanonicalName() + "'", e);
+			compileError("Invalid invokation of factory method for class '" + clazz.getCanonicalName() + "'", e);
 		}
+		return null;
 	}
 
 	/**
@@ -178,7 +180,7 @@ public class BdsNodeFactory implements BdsLog {
 		Class clazz = findClass(className);
 
 		// Is it a Type?
-		if (clazz == Type.class) throw new RuntimeException("This should never happen!");
+		if (clazz == Type.class) compileError("This should never happen!");
 
 		// Create class
 		return createBdsNode(clazz, parent, tree);
@@ -201,7 +203,8 @@ public class BdsNodeFactory implements BdsLog {
 			}
 		}
 
-		throw new RuntimeException("Cannot find class '" + className + "'. This should never happen!");
+		compileError("Cannot find class '" + className + "'. This should never happen!");
+		return null;
 	}
 
 	/**
