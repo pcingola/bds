@@ -5,7 +5,7 @@ fileName := "$HOME/z.json"
 firstName := ""
 lastName := ""
 age := 1
-isbool := false
+isbool := ""
 
 class Address {
     string streetAddress
