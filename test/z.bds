@@ -1,6 +1,11 @@
+#!/usr/bin/env bds
 
-string[] strs = []
+file := "$HOME/z.json"
 
-for(int i=0; i < 10; i++) {
-	println "Hi $i"
-}
+firstName := ""
+lastName := ""
+age := 1
+
+
+json(file)
+
