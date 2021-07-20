@@ -1,11 +1,34 @@
 #!/usr/bin/env bds
 
-file := "$HOME/z.json"
+fileName := "$HOME/z.json"
 
 firstName := ""
 lastName := ""
 age := 1
+isbool := false
 
+class Address {
+    string streetAddress
+    string city
+    string state
+    int postalCode
+}
 
-json(file)
+class Phone {
+    string type
+    string number
+}
 
+address := new Address()
+phone := new Phone()
+Phone[] phoneNumbers
+
+println "Reading JSON file '$fileName'"
+json(fileName)
+
+println "firstName = '$firstName'"
+println "lastName = '$lastName'"
+println "age = '$age'"
+println "isbool = '$isbool'"
+println "address = '$address'"
+println "phone = '$phone'"
