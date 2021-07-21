@@ -1,0 +1,39 @@
+#!/usr/bin/env bds
+
+fileName := "$HOME/z.json"
+
+class Address {
+    string streetAddress
+    string city
+    string state
+    int postalCode
+}
+
+class Phone {
+    string type
+    string number
+}
+
+class Person {
+    string firstName, lastName
+    int age
+    bool isbool
+    Address address
+    Phone[] phoneNumbers
+    Phone phone
+}
+
+person := new Person()
+println "Reading JSON file '$fileName'"
+json(fileName, person)
+
+println "person = '$person'"
+
+println "lastName = '$person.lastName'"
+println "age = '$person.age'"
+println "isbool = '$person.isbool'"
+println "address = '$person.address'"
+println "phone = '$person.phone'"
+for(int i=0 ; i < person.phoneNumbers.size(); i++) {
+    println "person.phoneNumbers[$i] = $person.phoneNumbers[i]"
+}
