@@ -26,10 +26,16 @@ public class JsonParser {
     String fileName;
     Data jsonData;
     String jsonTxt;
+    Value bdsObject;
 
     public JsonParser(BdsThread bdsThread, String jsonFileName) {
+        this(bdsThread, jsonFileName, null);
+    }
+
+    public JsonParser(BdsThread bdsThread, String jsonFileName, Value bdsObject) {
         this.bdsThread = bdsThread;
         this.scope = bdsThread.getScope();
+        this.bdsObject = bdsObject;
         this.fileName = jsonFileName;
     }
 
@@ -50,7 +56,8 @@ public class JsonParser {
             JsonObject jobj = rdr.readObject();
             Scope scope = bdsThread.getScope();
             for (Map.Entry<String, JsonValue> e : jobj.entrySet()) {
-                setScope(scope, e.getKey(), e.getValue(), fileName, bdsThread);
+                if (bdsObject != null) setValue(bdsObject, e.getKey(), e.getValue(), fileName, bdsThread);
+                else setScope(scope, e.getKey(), e.getValue(), fileName, bdsThread);
             }
         } catch (FileNotFoundException e) {
             bdsThread.runtimeError("Exception while parsing JSON file '" + fileName + "'", e);
@@ -58,7 +65,7 @@ public class JsonParser {
     }
 
     /**
-     * Set value in scope
+     * Set values from scope
      */
     void setScope(Scope scope, String varName, JsonValue jval, String fileName, BdsThread bdsThread) {
         if (!scope.hasValue(varName)) {

@@ -78,4 +78,11 @@ public class TestCasesJson extends TestCasesBase {
 		runAndCheck("test/json_05.bds", "phoneNumbers", "[{ number: 212 555-1234, type: home }, { number: 646 555-4567, type: fax }]");
 	}
 
+	@Test
+	public void test_06_object() {
+		Gpr.debug("Test");
+		verbose = true;
+		runAndCheck("test/json_06.bds", "person", "{}");
+	}
+
 }

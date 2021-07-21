@@ -1,6 +1,5 @@
 package org.bds.lang.nativeFunctions;
 
-import org.bds.data.Data;
 import org.bds.lang.Parameters;
 import org.bds.lang.type.Type;
 import org.bds.lang.type.Types;
@@ -22,11 +21,11 @@ import java.util.Map;
  *
  * @author pcingola
  */
-public class FunctionNativeJson extends FunctionNative {
+public class FunctionNativeJsonObj extends FunctionNative {
 
     private static final long serialVersionUID = 6415936745404236449L;
 
-    public FunctionNativeJson() {
+    public FunctionNativeJsonObj() {
         super();
     }
 
@@ -35,8 +34,8 @@ public class FunctionNativeJson extends FunctionNative {
         functionName = "json";
         returnType = Types.STRING;
 
-        String argNames[] = {"fileName"};
-        Type argTypes[] = {Types.STRING};
+        String argNames[] = {"fileName", "object"};
+        Type argTypes[] = {Types.STRING, Types.ANY};
         parameters = Parameters.get(argTypes, argNames);
         addNativeFunction();
     }
@@ -44,7 +43,8 @@ public class FunctionNativeJson extends FunctionNative {
     @Override
     protected Object runFunctionNative(BdsThread bdsThread) {
         String jsonFileName = bdsThread.getString("fileName");
-        var jsonParser = new JsonParser(bdsThread, jsonFileName);
+        Value bdsObject = bdsThread.getValue("object");
+        var jsonParser = new JsonParser(bdsThread, jsonFileName, bdsObject);
         return jsonParser.parse();
     }
 
