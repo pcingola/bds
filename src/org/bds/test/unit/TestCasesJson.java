@@ -15,7 +15,7 @@ import java.util.Map;
 public class TestCasesJson extends TestCasesBase {
 
 	@Test
-	public void test_01_globalVariables() {
+	public void test_01_scopeGlobalVariables() {
 		Gpr.debug("Test");
 		Map<String, Object> expectedValues = new HashMap<>();
 		expectedValues.put("firstName", "John");
@@ -27,7 +27,7 @@ public class TestCasesJson extends TestCasesBase {
 	}
 
 	@Test
-	public void test_02_functionVariables() {
+	public void test_02_scopeFunctionVariables() {
 		Gpr.debug("Test");
 		Map<String, Object> expectedValues = new HashMap<>();
 
@@ -47,7 +47,7 @@ public class TestCasesJson extends TestCasesBase {
 	}
 
 	@Test
-	public void test_03_object() {
+	public void test_03_scopeGlobalObject() {
 		Gpr.debug("Test");
 		Map<String, Object> expectedValues = new HashMap<>();
 
@@ -58,6 +58,24 @@ public class TestCasesJson extends TestCasesBase {
 		expectedValues.put("a_postalCode", "10021");
 
 		runAndCheck("test/json_03.bds", expectedValues);
+	}
+
+	@Test
+	public void test_04_scopeFunctionObject() {
+		Gpr.debug("Test");
+		Map<String, Object> expectedValues = new HashMap<>();
+
+		// Function's private variables should be set
+		expectedValues.put("address_private", "{ city: New York, postalCode: 10021, state: NY, streetAddress: 21 2nd Street }");
+		expectedValues.put("address", "{ city: , postalCode: 0, state: , streetAddress:  }");
+
+		runAndCheck("test/json_04.bds", expectedValues);
+	}
+
+	@Test
+	public void test_05_scopeGlobalList() {
+		Gpr.debug("Test");
+		runAndCheck("test/json_05.bds", "phoneNumbers", "[{ number: 212 555-1234, type: home }, { number: 646 555-4567, type: fax }]");
 	}
 
 }
