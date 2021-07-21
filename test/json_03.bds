@@ -1,0 +1,22 @@
+#!/usr/bin/env bds
+
+fileName := "test/json_03.json"
+
+class Address {
+    string streetAddress
+    string city
+    string state
+    int postalCode
+}
+
+address := new Address()
+
+println "Reading JSON file '$fileName'"
+json(fileName)
+
+println "address = $address"
+
+a_streetAddress := address.streetAddress
+a_city := address.city
+a_state := address.state
+a_postalCode := address.postalCode
