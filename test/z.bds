@@ -32,3 +32,6 @@ println "age = '$age'"
 println "isbool = '$isbool'"
 println "address = '$address'"
 println "phone = '$phone'"
+for(int i=0 ; i < phoneNumbers.size(); i++) {
+    println "phoneNumbers[$i] = $phoneNumbers[i]"
+}

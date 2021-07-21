@@ -1,13 +1,10 @@
-package org.bds.lang.nativeFunctions;
+package org.bds.scope;
 
 import org.bds.data.Data;
-import org.bds.lang.Parameters;
 import org.bds.lang.type.Type;
-import org.bds.lang.type.Types;
+import org.bds.lang.type.TypeList;
 import org.bds.lang.value.*;
 import org.bds.run.BdsThread;
-import org.bds.scope.JsonParser;
-import org.bds.scope.Scope;
 import org.bds.util.Gpr;
 
 import javax.json.*;
@@ -22,27 +19,31 @@ import java.util.Map;
  *
  * @author pcingola
  */
-public class FunctionNativeJson extends FunctionNative {
+public class JsonParser {
 
-    private static final long serialVersionUID = 6415936745404236449L;
+    BdsThread bdsThread;
+    Scope scope;
+    String fileName;
+    Data jsonData;
+    String jsonTxt;
 
-    public FunctionNativeJson() {
-        super();
+    public JsonParser(BdsThread bdsThread, String jsonFileName) {
+        this.bdsThread = bdsThread;
+        this.scope = bdsThread.getScope();
+        this.fileName = jsonFileName;
     }
 
-    @Override
-    protected void initFunction() {
-        functionName = "json";
-        returnType = Types.STRING;
-
-        String argNames[] = {"fileName"};
-        Type argTypes[] = {Types.STRING};
-        parameters = Parameters.get(argTypes, argNames);
-        addNativeFunction();
+    public String getJsonTxt() {
+        if (jsonTxt == null)
+            jsonTxt = Gpr.readFile(jsonData.getLocalPath());
+        return jsonTxt;
     }
 
-    void parseJson(String fileName, BdsThread bdsThread) {
-        log("Setting variables from JSON file '" + fileName + "'");
+    /**
+     * Read JSON (local) file, parse it and set environment
+     */
+    void parseJsonFile() {
+        bdsThread.log("Setting variables from JSON file '" + fileName + "'");
         try {
             InputStream is = new FileInputStream(new File(fileName));
             JsonReader rdr = Json.createReader(is);
@@ -61,7 +62,7 @@ public class FunctionNativeJson extends FunctionNative {
      */
     void setScope(Scope scope, String varName, JsonValue jval, String fileName, BdsThread bdsThread) {
         if (!scope.hasValue(varName)) {
-            log("Variable '" + varName + "' not found, skipping");
+            bdsThread.log("Variable '" + varName + "' not found, skipping");
             return;
         }
 
@@ -128,10 +129,18 @@ public class FunctionNativeJson extends FunctionNative {
                 if (val instanceof ValueList) {
                     var jl = (JsonArray) jval;
                     var valList = (ValueList) val;
-                    for(JsonValue jv : jl) {
-                        Gpr.debug("VALUE (from LIST): " + jv);
-                       // TODO: Create new bds Value
-                       // TODO: Append value to list
+                    TypeList listType = valList.getType();
+                    Type itemType = listType.getElementType();
+                    // Create, set and add items to the list
+                    int i = 0;
+                    for (JsonValue jv : jl) {
+                        // Create new bds Value
+                        var itemVal = itemType.newValue();
+                        // Set value
+                        setValue(itemVal, varName + "[" + i + "]", jv, fileName, bdsThread);
+                        // Append value to list
+                        valList.setValue(i, itemVal);
+                        i++;
                     }
                 } else
                     bdsThread.error("Error parsing JSON file '" + fileName + "', cannot convert JSON entry '" + varName + "' type '" + jval.getValueType() + "' to '" + val.getType() + "'");
@@ -142,11 +151,32 @@ public class FunctionNativeJson extends FunctionNative {
         }
     }
 
-    @Override
-    protected Object runFunctionNative(BdsThread bdsThread) {
-        String jsonFileName = bdsThread.getString("fileName");
-        var jsonParser = new JsonParser(bdsThread, jsonFileName);
-        return jsonParser.parse();
+    /**
+     * Download a file (if it's non-local)
+     *
+     * @return True on success, False on error
+     */
+    public boolean downloadData() {
+        jsonData = bdsThread.data(fileName);
+
+        // Download remote file
+        if (jsonData.isRemote() //
+                && !jsonData.isDownloaded() //
+                && !jsonData.download() //
+        ) {
+            bdsThread.fatalError("Failed to download data from file '" + fileName + "'");
+            return false; // Download error
+        }
+
+        return true;
     }
 
+    /**
+     * Parse JSON file and set scope
+     */
+    public String parse() {
+        if (!downloadData()) return "";
+        parseJsonFile();
+        return getJsonTxt();
+    }
 }
