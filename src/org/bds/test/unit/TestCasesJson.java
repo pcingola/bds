@@ -81,8 +81,8 @@ public class TestCasesJson extends TestCasesBase {
 	@Test
 	public void test_06_object() {
 		Gpr.debug("Test");
-		verbose = true;
-		runAndCheck("test/json_06.bds", "person", "{}");
+		var expVal = "{ address: { city: New York, postalCode: 10021, state: NY, streetAddress: 21 2nd Street }, age: 25, firstName: John, isbool: true, lastName: Smith, phone: { number: 212 555-1234, type: home }, phoneNumbers: [{ number: 212 555-1234, type: home }, { number: 646 555-4567, type: fax }] }";
+		runAndCheck("test/json_06.bds", "person", expVal);
 	}
 
 }
