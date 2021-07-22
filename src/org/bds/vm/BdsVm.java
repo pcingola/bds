@@ -23,7 +23,7 @@ import org.bds.lang.type.TypeList;
 import org.bds.lang.type.Types;
 import org.bds.lang.value.Value;
 import org.bds.lang.value.ValueBool;
-import org.bds.lang.value.ValueClass;
+import org.bds.lang.value.ValueObject;
 import org.bds.lang.value.ValueFunction;
 import org.bds.lang.value.ValueInt;
 import org.bds.lang.value.ValueList;
@@ -66,7 +66,7 @@ public class BdsVm implements Serializable, BdsLog {
 	Map<Object, Integer> constantsByObject;
 	boolean debug;
 	ExceptionHandler exceptionHandler; // Current Exception handler (null if we are not in a 'try/catch' statement)
-	ValueClass exceptionValue; // Latest exception thrown (this is mostly used for test cases)
+	ValueObject exceptionValue; // Latest exception thrown (this is mostly used for test cases)
 	Integer exitCode = null; // Default exit code (null means: parse last entry from stack)
 	int fp; // Frame pointer
 	Map<String, FunctionDeclaration> functionsBySignature;
@@ -320,7 +320,7 @@ public class BdsVm implements Serializable, BdsLog {
 	/**
 	 * Throw an exception using an exceptionHandler
 	 */
-	void catchException(ValueClass exceptionValue) {
+	void catchException(ValueObject exceptionValue) {
 		CatchBlockInfo catchBlockInfo = null;
 
 		// Are we already handling an exception?
@@ -458,7 +458,7 @@ public class BdsVm implements Serializable, BdsLog {
 	 * Exception handler: End exception handling and Re-throw pending exception
 	 */
 	void ehEnd() {
-		ValueClass pendingException = exceptionHandler.getPendingException();
+		ValueObject pendingException = exceptionHandler.getPendingException();
 		discardCallFrame(); // Discard CallFrame created in 'ehcreate'
 		exceptionHandler = callFrames[fp].exceptionHandler; // Restore exception handler from previous CallFrame
 		if (pendingException != null) throwException(pendingException); // Rethrow pending exception
@@ -534,7 +534,7 @@ public class BdsVm implements Serializable, BdsLog {
 		return coverageCounter;
 	}
 
-	public ValueClass getExceptionValue() {
+	public ValueObject getExceptionValue() {
 		return exceptionValue;
 	}
 
@@ -834,7 +834,7 @@ public class BdsVm implements Serializable, BdsLog {
 		if (vthis == null) fatalError("Null pointer: Cannot call method '" + fsig + "' on null object.");
 
 		Type type = vthis.getType();
-		if (type.isClass() && ((ValueClass) vthis).isNull()) fatalError("Null pointer: Invoking method '" + fdecl.getFunctionName() + "' on null object type '" + type + "', signature " + fdecl.signatureVarNames());
+		if (type.isClass() && ((ValueObject) vthis).isNull()) fatalError("Null pointer: Invoking method '" + fdecl.getFunctionName() + "' on null object type '" + type + "', signature " + fdecl.signatureVarNames());
 		if (!isSuper) return type.resolve(fdecl);
 
 		//---
@@ -906,7 +906,7 @@ public class BdsVm implements Serializable, BdsLog {
 		Value v1, v2, val;
 		ValueList vlist;
 		ValueMap vmap;
-		ValueClass vclass;
+		ValueObject vclass;
 
 		// In case of recovered checkpoints, the task ID could be repeated (e.g. recovering checkpoints several times)
 		// We append PID to avoid file name collision
@@ -1396,13 +1396,13 @@ public class BdsVm implements Serializable, BdsLog {
 
 			case REFFIELD:
 				name = constantString();
-				vclass = (ValueClass) pop();
+				vclass = (ValueObject) pop();
 				if (vclass == null) {
 					fatalError("Null pointer. Trying to access field '" + name + "' in null object.");
 				} else if (vclass.isNull()) {
 					fatalError("Null pointer: Object is null, cannot access field '" + vclass.getType() + "." + name + "'");
 				} else {
-					val = vclass.getValue(name);
+					val = vclass.getFieldValue(name);
 					push(val);
 				}
 				break;
@@ -1462,13 +1462,13 @@ public class BdsVm implements Serializable, BdsLog {
 
 			case SETFIELD:
 				name = constantString();
-				vclass = (ValueClass) pop();
+				vclass = (ValueObject) pop();
 				vclass.setValue(name, peek()); // We leave the value in the stack
 				break;
 
 			case SETFIELDPOP:
 				name = constantString();
-				vclass = (ValueClass) pop();
+				vclass = (ValueObject) pop();
 				vclass.setValue(name, pop());
 				break;
 
@@ -1558,7 +1558,7 @@ public class BdsVm implements Serializable, BdsLog {
 				break;
 
 			case THROW:
-				throwException((ValueClass) pop()); // Get Exception object to throw
+				throwException((ValueObject) pop()); // Get Exception object to throw
 				break;
 
 			case VAR:
@@ -1724,11 +1724,11 @@ public class BdsVm implements Serializable, BdsLog {
 	/**
 	 * Implement 'throw' opcode
 	 */
-	void throwException(ValueClass exceptionValue) {
+	void throwException(ValueObject exceptionValue) {
 		this.exceptionValue = exceptionValue;
 
 		// Populate Exception's stack trace message, if empty
-		if (exceptionValue.getValue("stackTrace") == null) {
+		if (exceptionValue.getFieldValue("stackTrace") == null) {
 			exceptionValue.setValue("stackTrace", new ValueString(stackTrace()));
 		}
 

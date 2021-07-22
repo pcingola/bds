@@ -9,7 +9,7 @@ import java.util.Map;
 import org.bds.Bds;
 import org.bds.compile.CompilerMessages;
 import org.bds.lang.value.Value;
-import org.bds.lang.value.ValueClass;
+import org.bds.lang.value.ValueObject;
 import org.bds.osCmd.TeeOutputStream;
 import org.bds.run.BdsThread;
 import org.bds.run.RunState;
@@ -174,7 +174,7 @@ public class BdsTest {
 
 	public void checkException(String exceptionType) {
 		BdsVm vm = bds.getBdsRun().getVm();
-		ValueClass evc = vm.getExceptionValue();
+		ValueObject evc = vm.getExceptionValue();
 		Assert.assertTrue(errMsg("No exception found"), evc != null);
 
 		String exType = evc.getType().getCanonicalName();

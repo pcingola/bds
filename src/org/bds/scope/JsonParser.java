@@ -56,8 +56,8 @@ public class JsonParser {
             JsonObject jobj = rdr.readObject();
             Scope scope = bdsThread.getScope();
             for (Map.Entry<String, JsonValue> e : jobj.entrySet()) {
-                if (bdsObject != null) setValue(bdsObject, e.getKey(), e.getValue(), fileName, bdsThread);
-                else setScope(scope, e.getKey(), e.getValue(), fileName, bdsThread);
+                if (bdsObject != null) setObject(e.getKey(), e.getValue());
+                else setScope(e.getKey(), e.getValue());
             }
         } catch (FileNotFoundException e) {
             bdsThread.runtimeError("Exception while parsing JSON file '" + fileName + "'", e);
@@ -67,20 +67,32 @@ public class JsonParser {
     /**
      * Set values from scope
      */
-    void setScope(Scope scope, String varName, JsonValue jval, String fileName, BdsThread bdsThread) {
+    void setObject(String varName, JsonValue jval) {
+        Value val = ((ValueObject) bdsObject).getFieldValue(varName);
+        if (val == null) {
+            bdsThread.log("Field '" + varName + "' not found, in object type '" + val.getType() + "' skipping");
+            return;
+        }
+        setValue(val, varName, jval);
+    }
+
+    /**
+     * Set values from scope
+     */
+    void setScope(String varName, JsonValue jval) {
         if (!scope.hasValue(varName)) {
             bdsThread.log("Variable '" + varName + "' not found, skipping");
             return;
         }
 
         Value val = scope.getValue(varName);
-        setValue(val, varName, jval, fileName, bdsThread);
+        setValue(val, varName, jval);
     }
 
     /**
      * Set bds Value from JSON value
      */
-    void setValue(Value val, String varName, JsonValue jval, String fileName, BdsThread bdsThread) {
+    void setValue(Value val, String varName, JsonValue jval) {
         switch (jval.getValueType()) {
             case NULL:
                 return;
@@ -118,15 +130,23 @@ public class JsonParser {
                 return;
 
             case OBJECT:
-                if (val instanceof ValueClass) {
+                if (val instanceof ValueObject) {
                     var jobj = (JsonObject) jval;
-                    var valClass = (ValueClass) val;
+                    var valObj = (ValueObject) val;
+                    // If the object is 'null' (i.e. not initialized) initialized fields
+                    if( valObj.isNull()) valObj.initializeFields();
                     for (Map.Entry<String, JsonValue> e : jobj.entrySet()) {
                         var fieldName = e.getKey();
-                        var fieldValue = valClass.getValue(fieldName);
-                        if (fieldValue != null) setValue(fieldValue, fieldName, e.getValue(), fileName, bdsThread);
-                        else
-                            bdsThread.error("Error parsing JSON file '" + fileName + "', variable '" + varName + "', class '" + valClass.getType() + "', does not have field '" + fieldName + "'");
+                        // Get field's value, create new value if null
+                        if (valObj.hasField(fieldName)) {
+                            var fieldValue = valObj.getFieldValue(fieldName);
+                            if(fieldValue==null) {
+                                Gpr.debug("CREATE FIELD: " + fieldName + ", TYPE " + valObj.getFieldType(fieldName) );
+                                fieldValue = valObj.getFieldType(fieldName).newValue();
+                            }
+                            setValue(fieldValue, fieldName, e.getValue());
+                        } else
+                            bdsThread.error("Error parsing JSON file '" + fileName + "', variable '" + varName + "', class '" + valObj.getType() + "', does not have field '" + fieldName + "'");
                     }
                 } else
                     bdsThread.error("Error parsing JSON file '" + fileName + "', cannot convert JSON entry '" + varName + "' type '" + jval.getValueType() + "' to '" + val.getType() + "'");
@@ -142,9 +162,9 @@ public class JsonParser {
                     int i = 0;
                     for (JsonValue jv : jl) {
                         // Create new bds Value
-                        var itemVal = itemType.newValue();
+                        var itemVal = itemType.newDefaultValue();
                         // Set value
-                        setValue(itemVal, varName + "[" + i + "]", jv, fileName, bdsThread);
+                        setValue(itemVal, varName + "[" + i + "]", jv);
                         // Append value to list
                         valList.setValue(i, itemVal);
                         i++;
@@ -170,10 +190,7 @@ public class JsonParser {
         if (jsonData.isRemote() //
                 && !jsonData.isDownloaded() //
                 && !jsonData.download() //
-        ) {
-            bdsThread.fatalError("Failed to download data from file '" + fileName + "'");
-            return false; // Download error
-        }
+        ) return false; // Download error
 
         return true;
     }
@@ -182,7 +199,14 @@ public class JsonParser {
      * Parse JSON file and set scope
      */
     public String parse() {
-        if (!downloadData()) return "";
+        if (!downloadData()) {
+            bdsThread.fatalError("Failed to download data from file '" + fileName + "'");
+            return "";
+        }
+        if (bdsObject!=null && !bdsObject.getType().isClass()) {
+            bdsThread.fatalError("Cannot populate non-object type '" + bdsObject.getType() + "'");
+            return "";
+        }
         parseJsonFile();
         return getJsonTxt();
     }

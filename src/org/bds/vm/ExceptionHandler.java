@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bds.lang.value.ValueClass;
+import org.bds.lang.value.ValueObject;
 
 /**
  * Exception handlers are added when try/catch/finally blocks are executed
@@ -21,7 +21,7 @@ public class ExceptionHandler implements Serializable {
 	boolean catchStart, finallyStart; // Exception handling started
 	Map<String, CatchBlockInfo> catchBlocksByClass; // Catch blocks indexed by exception className
 	String finallyLabel; // Finally label for this try/catch/block
-	ValueClass pendingException; // Pending exception (to be re-thrown)
+	ValueObject pendingException; // Pending exception (to be re-thrown)
 
 	public ExceptionHandler(String finallyLabel) {
 		this.finallyLabel = finallyLabel;
@@ -47,7 +47,7 @@ public class ExceptionHandler implements Serializable {
 	/**
 	 * Get catch block info if availble for 'exception'
 	 */
-	public CatchBlockInfo getCatchBlockInfo(ValueClass exception) {
+	public CatchBlockInfo getCatchBlockInfo(ValueObject exception) {
 		if (catchBlocksByClass == null) return null;
 		return catchBlocksByClass.get(exception.getType().getCanonicalName());
 	}
@@ -56,7 +56,7 @@ public class ExceptionHandler implements Serializable {
 		return finallyLabel;
 	}
 
-	public ValueClass getPendingException() {
+	public ValueObject getPendingException() {
 		return pendingException;
 	}
 
@@ -68,7 +68,7 @@ public class ExceptionHandler implements Serializable {
 		return finallyStart;
 	}
 
-	public void setPendingException(ValueClass ex) {
+	public void setPendingException(ValueObject ex) {
 		pendingException = ex;
 	}
 
