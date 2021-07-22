@@ -1,8 +1,5 @@
 package org.bds.lang.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.bds.compile.CompilerMessage.MessageType;
 import org.bds.compile.CompilerMessages;
@@ -13,6 +10,11 @@ import org.bds.lang.type.TypeClass;
 import org.bds.lang.type.Types;
 import org.bds.symbol.SymbolTable;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Variable declaration
  *
@@ -20,257 +22,285 @@ import org.bds.symbol.SymbolTable;
  */
 public class ClassDeclaration extends Block {
 
-	private static final long serialVersionUID = -8891327817053470787L;
+    public static final String VAR_SUPER = "super";
+    public static final String VAR_THIS = "this";
+    private static final long serialVersionUID = -8891327817053470787L;
+    protected String className;
+    protected String classNameParent;
+    protected ClassDeclaration classParent;
+    protected TypeClass classType;
+    protected TypeClass classTypeParent;
+    protected FieldDeclaration[] fieldDecl;
+    protected MethodDeclaration[] methodDecl;
+    protected Map<String, Type> fieldTypes;
 
-	public static final String VAR_SUPER = "super";
-	public static final String VAR_THIS = "this";
+    public ClassDeclaration(BdsNode parent, ParseTree tree) {
+        super(parent, tree);
+    }
 
-	protected String className;
-	protected String classNameParent;
-	protected ClassDeclaration classParent;
-	protected TypeClass classType;
-	protected TypeClass classTypeParent;
-	protected FieldDeclaration fieldDecl[];
-	protected MethodDeclaration methodDecl[];
+    /**
+     * Add 'this' argument to all method declarations
+     */
+    protected void addThisArgToMethods() {
+        for (MethodDeclaration md : methodDecl) {
+            md.addThisArg(getType());
+        }
+    }
 
-	public ClassDeclaration(BdsNode parent, ParseTree tree) {
-		super(parent, tree);
-	}
+    /**
+     * Add type to 'Types' and 'this'
+     */
+    protected void addType(SymbolTable symtab) {
+        // Add type for 'this' object in current table
+        TypeClass t = getType();
+        symtab.addVariable(VAR_THIS, t);
+        symtab.addVariable(VAR_SUPER, t);
+        t.addType(); // Add to Types if needed
+    }
 
-	/**
-	 * Add 'this' argument to all method declarations
-	 */
-	protected void addThisArgToMethods() {
-		for (MethodDeclaration md : methodDecl) {
-			md.addThisArg(getType());
-		}
-	}
+    /**
+     * Default constructor (if none is provided in the program)
+     */
+    protected MethodDeclaration defaultConstructor() {
+        return new MethodDefaultConstructor(getType());
+    }
 
-	/**
-	 * Add type to 'Types' and 'this'
-	 */
-	protected void addType(SymbolTable symtab) {
-		// Add type for 'this' object in current table
-		TypeClass t = getType();
-		symtab.addVariable(VAR_THIS, t);
-		symtab.addVariable(VAR_SUPER, t);
-		t.addType(); // Add to Types if needed
-	}
+    /**
+     * Create a map: fieldName -> fieldType
+     */
+    protected Map<String, Type> fieldTypesByName() {
+        Map<String, Type> ftypes = new HashMap<>();
+        for (ClassDeclaration cd = this; cd != null; cd = cd.getClassParent()) {
+            FieldDeclaration[] fieldDecls = cd.getFieldDecl();
+            for (FieldDeclaration fieldDecl : fieldDecls) { // Add all fields
+                Type vt = fieldDecl.getType();
+                for (VariableInit vi : fieldDecl.getVarInit()) {
+                    String fname = vi.getVarName();
+                    if (!ftypes.containsKey(fname)) // Don't overwrite values 'shadowed' by a child class
+                        ftypes.put(fname, vt);
+                }
+            }
+        }
+        return ftypes;
+    }
 
-	/**
-	 * Default constructor (if none is provided in the program)
-	 */
-	protected MethodDeclaration defaultConstructor() {
-		return new MethodDefaultConstructor(getType());
-	}
+    public String getClassName() {
+        return className;
+    }
 
-	public String getClassName() {
-		return className;
-	}
+    public ClassDeclaration getClassParent() {
+        return classParent;
+    }
 
-	public ClassDeclaration getClassParent() {
-		return classParent;
-	}
+    public TypeClass getClassTypeParent() {
+        return classTypeParent;
+    }
 
-	public TypeClass getClassTypeParent() {
-		return classTypeParent;
-	}
+    public String getExtendsName() {
+        return classNameParent;
+    }
 
-	public String getExtendsName() {
-		return classNameParent;
-	}
+    public FieldDeclaration[] getFieldDecl() {
+        return fieldDecl;
+    }
 
-	public FieldDeclaration[] getFieldDecl() {
-		return fieldDecl;
-	}
+    public Type getFieldType(String name) {
+        if (fieldTypes == null) fieldTypes = fieldTypesByName();
+        return fieldTypes.get(name);
+    }
 
-	public MethodDeclaration[] getMethodDecl() {
-		return methodDecl;
-	}
+    public Map<String, Type> getFieldTypes() {
+        if (fieldTypes == null) fieldTypes = fieldTypesByName();
+        return fieldTypes;
+    }
 
-	/**
-	 * Get this class type
-	 * Note: We use 'returnType' for storing the
-	 */
-	public TypeClass getType() {
-		if (classType == null) {
-			classType = new TypeClass(this);
-		}
-		return classType;
-	}
+    public MethodDeclaration[] getMethodDecl() {
+        return methodDecl;
+    }
 
-	/**
-	 * Any (declared) constructors?
-	 */
-	protected boolean hasConstructor(List<MethodDeclaration> lmd) {
-		for (MethodDeclaration md : lmd)
-			if (isConstructor(md)) return true;
-		return false;
-	}
+    /**
+     * Get this class type
+     * Note: We use 'returnType' for storing the
+     */
+    public TypeClass getType() {
+        if (classType == null) {
+            classType = new TypeClass(this);
+        }
+        return classType;
+    }
 
-	/**
-	 * Is it a constructor method?
-	 */
-	protected boolean isConstructor(FunctionDeclaration fd) {
-		return fd.getFunctionName().equals(className);
-	}
+    /**
+     * Any (declared) constructors?
+     */
+    protected boolean hasConstructor(List<MethodDeclaration> lmd) {
+        for (MethodDeclaration md : lmd)
+            if (isConstructor(md)) return true;
+        return false;
+    }
 
-	public boolean isSubClass() {
-		return classNameParent != null;
-	}
+    /**
+     * Is it a constructor method?
+     */
+    protected boolean isConstructor(FunctionDeclaration fd) {
+        return fd.getFunctionName().equals(className);
+    }
 
-	@Override
-	protected void parse(ParseTree tree) {
-		tree = tree.getChild(0);
-		int idx = 0;
+    public boolean isSubClass() {
+        return classNameParent != null;
+    }
 
-		// Class name
-		if (isTerminal(tree, idx, "class")) idx++; // 'class'
-		className = tree.getChild(idx++).getText();
+    @Override
+    protected void parse(ParseTree tree) {
+        tree = tree.getChild(0);
+        int idx = 0;
 
-		// Extends?
-		if (isTerminal(tree, idx, "extends")) {
-			idx++; // 'extends'
-			classNameParent = tree.getChild(idx++).getText();
-		}
+        // Class name
+        if (isTerminal(tree, idx, "class")) idx++; // 'class'
+        className = tree.getChild(idx++).getText();
 
-		// Class body
-		if (isTerminal(tree, idx, "{")) {
-			parse(tree, ++idx);
-			parseSortStatements();
-		}
+        // Extends?
+        if (isTerminal(tree, idx, "extends")) {
+            idx++; // 'extends'
+            classNameParent = tree.getChild(idx++).getText();
+        }
 
-		// Set VarInit as 'field' initialization
-		for (FieldDeclaration fd : fieldDecl)
-			for (VariableInit vi : fd.getVarInit())
-				vi.setFieldInit(true);
-	}
+        // Class body
+        if (isTerminal(tree, idx, "{")) {
+            parse(tree, ++idx);
+            parseSortStatements();
+        }
 
-	/**
-	 * Parse class declaration and sort statements (variables, methods and other statements)
-	 */
-	protected void parseSortStatements() {
-		List<VarDeclaration> lvd = new ArrayList<>();
-		List<MethodDeclaration> lmd = new ArrayList<>();
-		List<Statement> ls = new ArrayList<>();
+        // Set VarInit as 'field' initialization
+        for (FieldDeclaration fd : fieldDecl)
+            for (VariableInit vi : fd.getVarInit())
+                vi.setFieldInit(true);
+    }
 
-		// Sift statements
-		for (Statement s : statements) {
-			if (s instanceof VarDeclaration) lvd.add((VarDeclaration) s);
-			else if (s instanceof FunctionDeclaration) lmd.add((MethodDeclaration) s);
-			else ls.add(s);
-		}
+    /**
+     * Parse class declaration and sort statements (variables, methods and other statements)
+     */
+    protected void parseSortStatements() {
+        List<VarDeclaration> lvd = new ArrayList<>();
+        List<MethodDeclaration> lmd = new ArrayList<>();
+        List<Statement> ls = new ArrayList<>();
 
-		// Should we add a default constructor?
-		if (!hasConstructor(lmd)) lmd.add(0, defaultConstructor());
+        // Sift statements
+        for (Statement s : statements) {
+            if (s instanceof VarDeclaration) lvd.add((VarDeclaration) s);
+            else if (s instanceof FunctionDeclaration) lmd.add((MethodDeclaration) s);
+            else ls.add(s);
+        }
 
-		// Convert to arrays
-		fieldDecl = lvd.toArray(new FieldDeclaration[0]);
-		methodDecl = lmd.toArray(new MethodDeclaration[0]);
-		statements = ls.toArray(new Statement[0]);
+        // Should we add a default constructor?
+        if (!hasConstructor(lmd)) lmd.add(0, defaultConstructor());
 
-		// Add 'this' argument to all method declarations
-		addThisArgToMethods();
+        // Convert to arrays
+        fieldDecl = lvd.toArray(new FieldDeclaration[0]);
+        methodDecl = lmd.toArray(new MethodDeclaration[0]);
+        statements = ls.toArray(new Statement[0]);
 
-		// Add all methods to TypeClass' symbol table
-		getType().addToSymbolTable();
-	}
+        // Add 'this' argument to all method declarations
+        addThisArgToMethods();
 
-	@Override
-	public Type returnType(SymbolTable symtab) {
-		if (returnType != null) return returnType;
+        // Add all methods to TypeClass' symbol table
+        getType().addToSymbolTable();
+    }
 
-		if (classNameParent != null) {
-			classTypeParent = (TypeClass) Types.get(classNameParent);
-			if (classTypeParent != null) classParent = classTypeParent.getClassDeclaration();
-		}
+    @Override
+    public Type returnType(SymbolTable symtab) {
+        if (returnType != null) return returnType;
 
-		for (VarDeclaration vd : fieldDecl)
-			vd.returnType(symtab);
+        if (classNameParent != null) {
+            classTypeParent = (TypeClass) Types.get(classNameParent);
+            if (classTypeParent != null) classParent = classTypeParent.getClassDeclaration();
+        }
 
-		for (FunctionDeclaration fd : methodDecl)
-			fd.returnType(symtab);
+        for (VarDeclaration vd : fieldDecl)
+            vd.returnType(symtab);
 
-		if (statements != null) {
-			for (Statement s : statements)
-				s.returnType(symtab);
-		}
+        for (FunctionDeclaration fd : methodDecl)
+            fd.returnType(symtab);
 
-		returnType = getType();
-		return returnType;
-	}
+        if (statements != null) {
+            for (Statement s : statements)
+                s.returnType(symtab);
+        }
 
-	@Override
-	public String toAsm() {
-		StringBuilder sb = new StringBuilder();
+        returnType = getType();
+        return returnType;
+    }
 
-		String labelClassEnd = baseLabelName() + "end";
+    @Override
+    public String toAsm() {
+        StringBuilder sb = new StringBuilder();
 
-		sb.append(toAsmNode());
-		sb.append("jmp " + labelClassEnd + "\n"); // Jump to end of class (in case of runaway code
+        String labelClassEnd = baseLabelName() + "end";
 
-		// Compile non-native methods
-		for (FunctionDeclaration fd : methodDecl)
-			if (!fd.isNative()) sb.append(fd.toAsm());
+        sb.append(toAsmNode());
+        sb.append("jmp " + labelClassEnd + "\n"); // Jump to end of class (in case of runaway code
 
-		for (Statement s : statements)
-			sb.append(s.toAsm());
+        // Compile non-native methods
+        for (FunctionDeclaration fd : methodDecl)
+            if (!fd.isNative()) sb.append(fd.toAsm());
 
-		sb.append(labelClassEnd + ":\n");
-		return sb.toString();
-	}
+        for (Statement s : statements)
+            sb.append(s.toAsm());
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("class " + className);
-		if (classNameParent != null) sb.append(" extends " + classNameParent);
+        sb.append(labelClassEnd + ":\n");
+        return sb.toString();
+    }
 
-		sb.append(" {\n");
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class " + className);
+        if (classNameParent != null) sb.append(" extends " + classNameParent);
 
-		if (fieldDecl != null && fieldDecl.length > 0) {
-			sb.append("\t# Variables\n");
-			for (int i = 0; i < fieldDecl.length; i++)
-				sb.append("\t" + fieldDecl[i] + "\n");
-			sb.append("\n");
-		}
+        sb.append(" {\n");
 
-		if (methodDecl != null && methodDecl.length > 0) {
-			sb.append("\t# Methods\n");
-			for (int i = 0; i < methodDecl.length; i++)
-				sb.append("\t" + methodDecl[i].signature() + "\n");
-			sb.append("\n");
-		}
+        if (fieldDecl != null && fieldDecl.length > 0) {
+            sb.append("\t# Variables\n");
+            for (int i = 0; i < fieldDecl.length; i++)
+                sb.append("\t" + fieldDecl[i] + "\n");
+            sb.append("\n");
+        }
 
-		sb.append("}\n");
-		return sb.toString();
-	}
+        if (methodDecl != null && methodDecl.length > 0) {
+            sb.append("\t# Methods\n");
+            for (int i = 0; i < methodDecl.length; i++)
+                sb.append("\t" + methodDecl[i].signature() + "\n");
+            sb.append("\n");
+        }
 
-	@Override
-	public void typeCheckNotNull(SymbolTable symtab, CompilerMessages compilerMessages) {
-		// Class name collides with other names?
-		if (symtab.getVariableTypeLocal(className) != null) {
-			compilerMessages.add(this, "Duplicate local name " + className, MessageType.ERROR);
-		} else if ((className != null) && (getType() != null)) {
-			// Add to symbol table
-			addType(symtab);
-		}
+        sb.append("}\n");
+        return sb.toString();
+    }
 
-		// Check parent class
-		if (classNameParent != null && classTypeParent == null) {
-			compilerMessages.add(this, "Class '" + classNameParent + "' not found", MessageType.ERROR);
-		}
+    @Override
+    public void typeCheckNotNull(SymbolTable symtab, CompilerMessages compilerMessages) {
+        // Class name collides with other names?
+        if (symtab.getVariableTypeLocal(className) != null) {
+            compilerMessages.add(this, "Duplicate local name " + className, MessageType.ERROR);
+        } else if ((className != null) && (getType() != null)) {
+            // Add to symbol table
+            addType(symtab);
+        }
 
-		// Check constructors
-		for (MethodDeclaration md : methodDecl) {
-			if (isConstructor(md) //
-					&& md.getReturnType() != null //
-					&& !md.isNative() //
-					&& !md.getReturnType().isVoid() //
-			) {
-				compilerMessages.add(this, "Constructor return type must be 'void': " + className, MessageType.ERROR);
-			}
-		}
-	}
+        // Check parent class
+        if (classNameParent != null && classTypeParent == null) {
+            compilerMessages.add(this, "Class '" + classNameParent + "' not found", MessageType.ERROR);
+        }
+
+        // Check constructors
+        for (MethodDeclaration md : methodDecl) {
+            if (isConstructor(md) //
+                    && md.getReturnType() != null //
+                    && !md.isNative() //
+                    && !md.getReturnType().isVoid() //
+            ) {
+                compilerMessages.add(this, "Constructor return type must be 'void': " + className, MessageType.ERROR);
+            }
+        }
+    }
 
 }
