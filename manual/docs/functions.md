@@ -18,8 +18,8 @@ assert(string expected, string result)                  | Used for testing: Thro
 assert(string msg, string expected, string result)      | Used for testing: Throw error message `msg` if `result` value is not equal to `expected` (compare `string`)   
 real cbrt(real x)                                       | The cube root of a number    
 real ceil(real x)                                       | The ceiling of a number    
-string{} config(string fileName)                        | Read and parse 'fileName', return &lt;name,value&gt; pairs in a map.
-string{} config(string fileName, string{} defaults)     | Same as `string{} config(string fileName)`, but using `defaults` as default values (if not found in fileName)    
+[string{} config(string fileName)](#config-function)    | Read and parse 'fileName', return &lt;name,value&gt; pairs in a map.
+[string{} config(string fileName, string{} defaults)](#config-function)     | Same as `string{} config(string fileName)`, but using `defaults` as default values (if not found in fileName)    
 real copySign(real x, real y)                           | Returns the first floating-point argument with the sign of the second floating-point argument   
 real cos(real x)                                        | The trigonometric cosine of an angle    
 real cosh(real x)                                       | The hyperbolic cosine of an angle    
@@ -33,6 +33,8 @@ string getVar(string name, string default)              | Get variable's value r
 bool hasVar(string name)                                | Is the variable 'name' defined? This can be used to check the existence of environment variables, which are inherited into the global scope
 real hypot(real x, real y)                              | Returns sqrt(x2 +y2) without intermediate overflow or underflow.    
 real IEEEremainder(real x, real y)                      | Computes the remainder operation on two arguments as prescribed by the IEEE 754 standard..    
+[json(string fileName)](#json)                          | Read JSON file and set all matching variables with JSON's values
+[json(string fileName, object)](#json)                  | Read JSON file and set object's fields with JSON's values
 log(string msg)                                         | Log 'msg' (i.e. show to stderr)    
 logd(string msg)                                        | Log 'msg' (i.e. show to stderr), also show current file name and line number 
 real log(real x)                                        | Natural logarithm of a number    
@@ -88,4 +90,146 @@ The following are valid and equivalent:
 name : value
 name = value
 name \t value
+```
+
+**Usage example**
+
+Code snippet:
+```
+cfg := config('myfile.config')
+println cfg
+```
+
+File contents `myfile.config`
+```
+name1 : value_1
+name2 = value_2_without_quotes
+name2_quotes = "value_2 with quotes"
+name3   value_3
+```
+
+Program output:
+```
+{ name1 => value_1, name2 => value_2_without_quotes, name2_quotes => "value_2 with quotes", name3 => value_3 }
+```
+
+# JSON
+
+The `json(fileName)` function reads a JSON file and sets all matching variables (in current and upper scopes) to the values from the JSON file
+
+**Example 1**
+
+In this code snippet:
+```
+string firstName, lastName
+json("json_example_01.json")    # This statement sets the variables (because they match entries in the JSON file)
+pritnln "firstName=$firstName, lastName=lastName"
+```
+
+Here is the content of `json_example_01.json`:
+```
+{
+    "firstName": "John",
+    "lastName": "Smith",
+    "age": 25,
+}
+```
+
+In the code snippet, the function `json("json_example_01.json")` sets the variables `firstName` and `lastName` because they match entries in the JSON file.
+The output of the program, would be:
+```
+firstName=John, lastName=Smith
+```
+
+**Example 2**
+
+In this code, we also have clases and lists in the JSON file that match the names of local variables:
+```
+class Address {
+    string streetAddress, city, state
+    int postalCode
+}
+
+class Phone {
+    string type, number
+}
+
+string firstName, lastName
+age := 1
+address := new Address()
+Phone[] phoneNumbers
+
+json('json_example_02.json')
+
+println "firstName = '$firstName', lastName = '$lastName', age = '$age'"
+println "address = '$address'"
+println "phoneNumbers = $phoneNumbers"
+```
+
+The JSON file is:
+```
+{
+    "firstName": "John",
+    "lastName": "Smith",
+    "age": 25,
+    "address": {
+        "streetAddress": "21 2nd Street",
+        "city": "New York",
+        "state": "NY",
+        "postalCode": 10021
+    },
+    "phoneNumbers": [
+        {
+            "type": "home",
+            "number": "212 555-1234"
+        },
+        {
+            "type": "fax",
+            "number": "646 555-4567"
+        }
+    ]
+}
+```
+
+And the program's output is:
+```
+firstName = 'John', lastName = 'Smith', age = '25'
+address = '{ city: New York, postalCode: 10021, state: NY, streetAddress: 21 2nd Street }'
+phoneNumbers = [{ number: 212 555-1234, type: home }, { number: 646 555-4567, type: fax }]
+```
+
+bds correctly populates objects (`address`) and arrays of objects (`phoneNumbers[]`)
+
+**Example 3**
+
+In this example we load the data into an object (`Person`) instead of changing variables in the scope, so we invoke `json(fileName, person)` which wil load the JSON data into `person` object
+```
+fileName := "z.json"
+
+class Address {
+    string streetAddress, city, state
+    int postalCode
+}
+
+class Phone {
+    string type, number
+}
+
+class Person {
+    string firstName, lastName
+    int age
+    Address address
+    Phone[] phoneNumbers
+}
+
+person := new Person()
+json('json_example_02.json', person)
+
+println person
+```
+
+Note that the JSON file is the same as last time.
+The output the program is `bds`'s representation of `person` object:
+```
+{ address: { city: New York, postalCode: 10021, state: NY, streetAddress: 21 2nd Street }, age: 25, firstName: John, lastName: Smith, phoneNumbers: [{ number: 212 555-1234, type: home }, { number: 646 555-4567, type: fax }] }
 ```

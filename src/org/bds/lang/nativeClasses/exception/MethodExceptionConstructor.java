@@ -6,7 +6,7 @@ import org.bds.lang.type.Type;
 import org.bds.lang.type.TypeClass;
 import org.bds.lang.type.Types;
 import org.bds.lang.value.Value;
-import org.bds.lang.value.ValueClass;
+import org.bds.lang.value.ValueObject;
 import org.bds.run.BdsThread;
 
 /**
@@ -35,7 +35,7 @@ public class MethodExceptionConstructor extends MethodNative {
 
 	@Override
 	public Value runMethod(BdsThread bdsThread, Value vThis) {
-		ValueClass vclass = (ValueClass) vThis;
+		ValueObject vclass = (ValueObject) vThis;
 		Value message = bdsThread.getValue("message");
 		vclass.setValue("message", message);
 		return vThis; // Return initialized object (ValueClass)

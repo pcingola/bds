@@ -1,6 +1,37 @@
+#!/usr/bin/env bds
 
-string[] strs = []
+fileName := "$HOME/z.json"
 
-for(int i=0; i < 10; i++) {
-	println "Hi $i"
+firstName := ""
+lastName := ""
+age := 1
+isbool := ""
+
+class Address {
+    string streetAddress
+    string city
+    string state
+    int postalCode
+}
+
+class Phone {
+    string type
+    string number
+}
+
+address := new Address()
+phone := new Phone()
+Phone[] phoneNumbers
+
+println "Reading JSON file '$fileName'"
+json(fileName)
+
+println "firstName = '$firstName'"
+println "lastName = '$lastName'"
+println "age = '$age'"
+println "isbool = '$isbool'"
+println "address = '$address'"
+println "phone = '$phone'"
+for(int i=0 ; i < phoneNumbers.size(); i++) {
+    println "phoneNumbers[$i] = $phoneNumbers[i]"
 }
