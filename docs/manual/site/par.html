@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="img/favicon.ico">
-  <title>Introduction - bds programming language</title>
+  <title>Parallel execution - bds programming language</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="css/theme.css" />
@@ -18,8 +18,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Introduction";
-    var mkdocs_page_input_path = "index.md";
+    var mkdocs_page_name = "Parallel execution";
+    var mkdocs_page_input_path = "par.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -56,23 +56,7 @@
                 </ul>
                 <p class="caption"><span class="caption-text">Manual</span></p>
                 <ul class="current">
-                    <li class="toctree-l1 current"><a class="reference internal current" href="index.html">Introduction</a>
-    <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#what">What?</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#why">Why?</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#how">How?</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#paper-citations">Paper &amp; Citations</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#a-word-about-performance">A word about performance</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#why-is-it-called-bds">Why is it called "bds"</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#disclaimer">Disclaimer</a>
-    </li>
-    </ul>
+                    <li class="toctree-l1"><a class="reference internal" href="index.html">Introduction</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="download.html">Download</a>
                     </li>
@@ -108,7 +92,15 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="remote_files.html">Remote files</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="par.html">Parallel execution</a>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="par.html">Parallel execution</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#wait-in-par-context">Wait in 'par' context</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#calling-functions-with-par">Calling functions  with 'par'</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#race-conditions-in-par-and-how-to-avoid-them">Race conditions in 'par' and how to avoid them</a>
+    </li>
+    </ul>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="checkpoints.html">Checkpoints</a>
                     </li>
@@ -156,7 +148,7 @@
         
       
     
-    <li>Introduction</li>
+    <li>Parallel execution</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -168,54 +160,142 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="introduction">Introduction</h1>
-<p>bds is intended as a scripting language for big data pipeline. </p>
-<h3 id="what">What?</h3>
-<p>bds is a cross-system scripting language for working with big data pipelines in computer systems of different sizes and capabilities. </p>
-<h3 id="why">Why?</h3>
-<p>Working with heavyweight computation and big data pipelines involves making use of several specialized programs. 
-Those specialized routines need to be scheduled, called and coordinated; their progress need to be tracked and their results logged. 
-That is the job of another script or program. This is when bds becomes extremely handy.</p>
-<p>Developing traditional shell scripts or small programs to coordinate data pipelines presents a fundamental dilemma. 
-It is not cross-platform, it simply does not work on all environments or it needs adaptations and re-work for the same thing to work on a laptop, server, server farm, cluster and cloud. 
-Often it is simply not possible. 
-Because of that, developing big data pipelines for a different environment is time consuming. 
-The behaviour on the target environment cannot be assumed to be an exact extrapolation of the results obtained on the development environment. 
-This not only is a waste of time, money and energy, it is also reliable source of frustration.</p>
-<p>bds is the solution to the problem.</p>
-<p>With bds, creating jobs for big data is as easy as creating a shell script and it runs seamlessly on any computer system, no matter how small or big it is. 
-If you normally use specialized programs to perform heavyweight computations, then bds is the glue to those commands you need to create a reliable pipeline.</p>
-<h3 id="how">How?</h3>
-<p><strong>Benefits of bds</strong></p>
-<ul>
-<li><strong>Reduced development time</strong> Spend less time debugging your work on big systems with a huge data volumes. Now you can debug the same jobs using a smaller sample on your computer. Get immediate feedback, debug, fix and deploy when it's done. Shorter development cycles means better software.</li>
-<li><strong>System independent</strong> Cross-system, seamless execution, the same program runs on a laptop, server, server farm, cluster or cloud.  No changes to the program required. Work once.</li>
-<li><strong>Easy to learn</strong> The syntax is intuitive and it resembles the syntax of most commonly used programming languages. Reading the code is easy as pi.</li>
-<li><strong>Automatic Checkpointing</strong> If any task fails to execute, bds creates a checkpoint file, serializing all the information from the program. Want to restart were it stopped? No problem, just resume the execution from the checkpoint.  </li>
-<li><strong>Automatic logging</strong> Everything is logged (<code>-log</code> command line option), no explicit actions required. Every time you execute a system command or a task, bds logs the executed commands, stdout &amp; stderr and exit codes.  </li>
-<li><strong>Clean stop with no mess behind</strong> You have a bds running on a terminal and suddenly you realized there is something wrong... Just hit Ctrl-C. All scheduled tasks and running jobs will be terminated, removed from the queue, deallocated from the cluster. A clean stop allows you to focus on the problem at hand without having to worry about restoring a clean state.  </li>
-<li><strong>Task dependencies</strong> In complex pipelines, tasks usually depend on each other.  bds provides ways to easily manage task dependencies.  </li>
-<li><strong>Avoid re-work</strong> Executing the pipeline over and over should not re-do jobs that were completed successfully and moreover are time consuming.  Task dependency based on timestamps is a built-in functionality, thus making it easy to avoid starting from scratch every time.</li>
-<li><strong>Built in debugger</strong> Debugging is an integral part of programming, so it is part of <code>bds</code> language.  Statements <code>breakpoint</code> and <code>debug</code> make debugging part of the language, instead of requiring platform specific tools.</li>
-<li><strong>Built in test cases facility</strong> Code testing is performed in everyday programming, so testing is built in <code>bds</code>.</li>
-</ul>
-<h3 id="paper-citations">Paper &amp; Citations</h3>
-<p>If you are using bds in an academic environment, please cite our <a href="https://doi.org/10.1093/bioinformatics/btu595">paper</a>:</p>
-<pre><code>bds: A scripting language for data pipelines 
-P. Cingolani; R. Sladek; M. Blanchette
-Bioinformatics 2014;
-doi: 10.1093/bioinformatics/btu595
+                <h1 id="parallel-execution-par">Parallel execution <code>par</code></h1>
+<p><code>bds</code> can run parallel code as threads in the same program.</p>
+<p>Sometimes multiple branches of an analysis pipeline must be run in parallel. 
+<code>bds</code> provides a simple <code>par</code> expression to run code in parallel.
+Originally this was called <code>parallel</code>, but then I realized I was too lazy to type all those letters, so I reduced it to <code>par</code> (both of them work if you choose to be more verbose).</p>
+<p>E.g.: File <a href="bds/test_16.bds">test_16.bds</a></p>
+<pre><code>#!/usr/bin/env bds
+
+par {
+    # This block runs in parallel
+    for( int i : range(1, 5) ) {
+        print(&quot;Parallel $i\n&quot;)
+        sleep( 0.2 )
+    }
+}
+
+for( int i : range(1, 5) ) {
+    print(&quot;Main $i\n&quot;)
+    sleep( 0.2 )
+}
 </code></pre>
-<h3 id="a-word-about-performance">A word about performance</h3>
-<p>bds is meant to be used in the context or heavyweight computations.
-Potential delays incurred by bds should not affect the overall time.</p>
-<p>Think about it this way: If you are invoking a set of programs to perform big data computations, these programs usually take hours or days to run.
-The fact that bds takes a few milliseconds more to invoke those programs, really doesn't make any difference.</p>
-<h3 id="why-is-it-called-bds">Why is it called "bds"</h3>
-<p>Because that's the lamest name I could find.</p>
-<h3 id="disclaimer">Disclaimer</h3>
-<p>bds is experimental and under heavy development. Use at your own risk.
-Know side effect include: computer explosions, instant decapitation, spontaneous human combustion, and dead kittens.</p>
+<p>If we run this code:</p>
+<pre><code>$ ./test_16.bds
+Parallel 1
+Main 1
+Parallel 2
+Main 2
+Main 3
+Parallel 3
+Main 4
+Parallel 4
+Parallel 5
+Main 5
+</code></pre>
+<p>Perhaps a more elegant way to write the same code would be:</p>
+<pre><code>#!/usr/bin/env bds
+
+void count(string msg) {
+    for( int i : range(1, 5) ) {
+        print(&quot;$msg $i\n&quot;)
+        sleep( 0.2 )
+    }
+}
+
+par count('Parallel')   # Call function in parallel thread
+count('Main')           # Call function in 'main' thread
+</code></pre>
+<p><code>par</code> also works with optional expressions that must be all 'true' to evaluate the block.</p>
+<pre><code>par( out &lt;- in )  {
+    # This block runs in parallel if 'out' needs to be updated
+    for( int i : range(1, 5) ) {
+        tmp := &quot;$in.$i.tmp&quot;
+        task head -n $i $in | tail -n 1 &gt; $tmp
+    }
+    wait
+    task cat $in.*.tmp &gt; $out
+}
+</code></pre>
+<h3 id="wait-in-par-context">Wait in 'par' context</h3>
+<p><code>par</code> expressions return a 'parallel ID' string that we can use in <code>wait</code> </p>
+<pre><code>pid := par longRunningFunction()    // This function is executed in parallel 
+
+wait pid                            // Wait for parallel to finish
+</code></pre>
+<p>Here <code>wait</code> statement waits until the function "longRunningFunction()" finishes.</p>
+<p>We mentioned before that, by default, a <code>wait</code> statement with no arguments would wait for 'all' tasks to finish.
+Specifically, <code>wait</code> statement waits for all tasks scheduled by the same thread and for all 'parallels'.
+So, <code>wait</code> statement with no arguments, will not restore execution until all threads and tasks triggered by the current thread have finished.</p>
+<h3 id="calling-functions-with-par">Calling functions  with 'par'</h3>
+<p>A function can be called in a parallel thread using <code>par</code> statements.</p>
+<p>E.g.:</p>
+<pre><code>par someFunction(x, y)
+</code></pre>
+<p>It is important to notice that the return value from a <code>par</code> it is a 'parallel ID' (i.e. a thread ID) and not the function's return value.
+This is because the parallel thread could take a long time to process and we don't want to stop execution in the current thread until the function finishes.</p>
+<p>So, this sample code will show the 'parallel ID' independently of the function's return value:</p>
+<pre><code>pid := par someFunction(x, y)  # 'par' returns a thread ID
+print &quot;Parallel ID: $pid\n&quot;
+</code></pre>
+<p><strong>Important:</strong> When calling a function, arguments are evaluated <strong>before</strong> the new thread is created. 
+The reason for this is to simplify race conditions.</p>
+<h3 id="race-conditions-in-par-and-how-to-avoid-them">Race conditions in 'par' and how to avoid them</h3>
+<p>As is the case when creating threads in any programming language, using <code>par</code> can lead to race conditions.</p>
+<p>As an example, consider this code:</p>
+<pre><code>#!/usr/bin/env bds
+
+for( int i : range(0, 10) ) {
+    par {
+        print &quot;Number: $i\n&quot;
+    }
+}   
+</code></pre>
+<p>The output is (comments added for clarification):</p>
+<pre><code>$ ./z.bds
+Number: 0
+Number: 2       # We missed number 1?
+Number: 3
+Number: 4
+Number: 6       # We missed number 5?
+Number: 6       # Two '6'?
+Number: 8
+Number: 8
+Number: 10      # Three number 10?
+Number: 10
+Number: 10
+</code></pre>
+<p>This is clearly not the result we wanted.</p>
+<p>What happened? Well, obviously this had a race condition. 
+From the time thread is created (<code>par</code>), until the variable <code>i</code> is evaluated in <code>print</code> statement (parallel thread), the main thread has already changed <code>i</code>'s value.</p>
+<p>To avoid this type of race condition, when using <code>par</code> to call a function, arguments are evaluated in the current thread.
+Then a new thread is created and the function is invoked.
+See what happens when we refactor the code:</p>
+<pre><code>#!/usr/bin/env bds
+
+void show(int num) {
+    print &quot;Number: $num\n&quot;
+}
+
+for( int i : range(0, 10) ) {
+    par show(i)
+}   
+</code></pre>
+<p>Now the output is what we expect:</p>
+<pre><code>$ ./z.bds
+Number: 0
+Number: 1
+Number: 2
+Number: 3
+Number: 4
+Number: 5
+Number: 6
+Number: 7
+Number: 8
+Number: 9
+Number: 10
+</code></pre>
               
             </div>
           </div>
@@ -223,10 +303,10 @@ Know side effect include: computer explosions, instant decapitation, spontaneous
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="download.html" class="btn btn-neutral float-right" title="Download">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="checkpoints.html" class="btn btn-neutral float-right" title="Checkpoints">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="about.html" class="btn btn-neutral" title="About"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="remote_files.html" class="btn btn-neutral" title="Remote files"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -252,10 +332,10 @@ Know side effect include: computer explosions, instant decapitation, spontaneous
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="about.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="remote_files.html" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="download.html" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="checkpoints.html" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
