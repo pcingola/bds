@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="img/favicon.ico">
-  <title>Introduction - bds programming language</title>
+  <title>Dependency operator - bds programming language</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="css/theme.css" />
@@ -18,8 +18,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Introduction";
-    var mkdocs_page_input_path = "index.md";
+    var mkdocs_page_name = "Dependency operator";
+    var mkdocs_page_input_path = "dep_op.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -56,23 +56,7 @@
                 </ul>
                 <p class="caption"><span class="caption-text">Manual</span></p>
                 <ul class="current">
-                    <li class="toctree-l1 current"><a class="reference internal current" href="index.html">Introduction</a>
-    <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#what">What?</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#why">Why?</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#how">How?</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#paper-citations">Paper &amp; Citations</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#a-word-about-performance">A word about performance</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#why-is-it-called-bds">Why is it called "bds"</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#disclaimer">Disclaimer</a>
-    </li>
-    </ul>
+                    <li class="toctree-l1"><a class="reference internal" href="index.html">Introduction</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="download.html">Download</a>
                     </li>
@@ -102,7 +86,15 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="wait.html">Wait</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="dep_op.html">Dependency operator</a>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="dep_op.html">Dependency operator</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#multiple-dependencies">Multiple dependencies</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#using-in-tasks">Using &lt;- in tasks</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#automatic-task-dependency-detection">Automatic task dependency detection</a>
+    </li>
+    </ul>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="goal.html">Goal</a>
                     </li>
@@ -156,7 +148,7 @@
         
       
     
-    <li>Introduction</li>
+    <li>Dependency operator</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -168,54 +160,124 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="introduction">Introduction</h1>
-<p>bds is intended as a scripting language for big data pipeline. </p>
-<h3 id="what">What?</h3>
-<p>bds is a cross-system scripting language for working with big data pipelines in computer systems of different sizes and capabilities. </p>
-<h3 id="why">Why?</h3>
-<p>Working with heavyweight computation and big data pipelines involves making use of several specialized programs. 
-Those specialized routines need to be scheduled, called and coordinated; their progress need to be tracked and their results logged. 
-That is the job of another script or program. This is when bds becomes extremely handy.</p>
-<p>Developing traditional shell scripts or small programs to coordinate data pipelines presents a fundamental dilemma. 
-It is not cross-platform, it simply does not work on all environments or it needs adaptations and re-work for the same thing to work on a laptop, server, server farm, cluster and cloud. 
-Often it is simply not possible. 
-Because of that, developing big data pipelines for a different environment is time consuming. 
-The behaviour on the target environment cannot be assumed to be an exact extrapolation of the results obtained on the development environment. 
-This not only is a waste of time, money and energy, it is also reliable source of frustration.</p>
-<p>bds is the solution to the problem.</p>
-<p>With bds, creating jobs for big data is as easy as creating a shell script and it runs seamlessly on any computer system, no matter how small or big it is. 
-If you normally use specialized programs to perform heavyweight computations, then bds is the glue to those commands you need to create a reliable pipeline.</p>
-<h3 id="how">How?</h3>
-<p><strong>Benefits of bds</strong></p>
-<ul>
-<li><strong>Reduced development time</strong> Spend less time debugging your work on big systems with a huge data volumes. Now you can debug the same jobs using a smaller sample on your computer. Get immediate feedback, debug, fix and deploy when it's done. Shorter development cycles means better software.</li>
-<li><strong>System independent</strong> Cross-system, seamless execution, the same program runs on a laptop, server, server farm, cluster or cloud.  No changes to the program required. Work once.</li>
-<li><strong>Easy to learn</strong> The syntax is intuitive and it resembles the syntax of most commonly used programming languages. Reading the code is easy as pi.</li>
-<li><strong>Automatic Checkpointing</strong> If any task fails to execute, bds creates a checkpoint file, serializing all the information from the program. Want to restart were it stopped? No problem, just resume the execution from the checkpoint.  </li>
-<li><strong>Automatic logging</strong> Everything is logged (<code>-log</code> command line option), no explicit actions required. Every time you execute a system command or a task, bds logs the executed commands, stdout &amp; stderr and exit codes.  </li>
-<li><strong>Clean stop with no mess behind</strong> You have a bds running on a terminal and suddenly you realized there is something wrong... Just hit Ctrl-C. All scheduled tasks and running jobs will be terminated, removed from the queue, deallocated from the cluster. A clean stop allows you to focus on the problem at hand without having to worry about restoring a clean state.  </li>
-<li><strong>Task dependencies</strong> In complex pipelines, tasks usually depend on each other.  bds provides ways to easily manage task dependencies.  </li>
-<li><strong>Avoid re-work</strong> Executing the pipeline over and over should not re-do jobs that were completed successfully and moreover are time consuming.  Task dependency based on timestamps is a built-in functionality, thus making it easy to avoid starting from scratch every time.</li>
-<li><strong>Built in debugger</strong> Debugging is an integral part of programming, so it is part of <code>bds</code> language.  Statements <code>breakpoint</code> and <code>debug</code> make debugging part of the language, instead of requiring platform specific tools.</li>
-<li><strong>Built in test cases facility</strong> Code testing is performed in everyday programming, so testing is built in <code>bds</code>.</li>
-</ul>
-<h3 id="paper-citations">Paper &amp; Citations</h3>
-<p>If you are using bds in an academic environment, please cite our <a href="https://doi.org/10.1093/bioinformatics/btu595">paper</a>:</p>
-<pre><code>bds: A scripting language for data pipelines 
-P. Cingolani; R. Sladek; M. Blanchette
-Bioinformatics 2014;
-doi: 10.1093/bioinformatics/btu595
+                <h1 id="dependency-operator-">Dependency operator <code>&lt;-</code></h1>
+<p>The dependency operator provides a simple way to see if a file needs to be updated (i.e. recalculated) with respect to some inputs.
+For instance, when we already processed some files and have the corresponding results, we may save some work if the inputs have not changed (like "make" command).</p>
+<p>We introduce the dependency operator <code>&lt;-</code> (pronounced 'dep') which is a "make" style operator.</p>
+<p>The expression <code>out &lt;- in</code> is true if 'out' file needs to be updated.
+More formally, the expression is true if the file name represented by the variable 'out' does not exist, is empty (zero length) or has a creation date before 'in'.
+E.g.:</p>
+<p>File <a href="bds/test_06.bds">test_06.bds</a></p>
+<pre><code>#!/usr/bin/env bds
+
+string inFile  = &quot;in.txt&quot;
+string outFile = &quot;out.txt&quot;
+
+# Create 'in.txt' if it doesn't exist
+if( !inFile.exists() ) {
+    task echo Creating $inFile; echo Hello &gt; $inFile
+}
+
+wait
+
+# Create 'out.txt' only if needs to be updated resepct to 'in.txt'
+if( outFile &lt;- inFile ) {
+    task echo Creating $outFile; cat $inFile &gt; $outFile
+}
 </code></pre>
-<h3 id="a-word-about-performance">A word about performance</h3>
-<p>bds is meant to be used in the context or heavyweight computations.
-Potential delays incurred by bds should not affect the overall time.</p>
-<p>Think about it this way: If you are invoking a set of programs to perform big data computations, these programs usually take hours or days to run.
-The fact that bds takes a few milliseconds more to invoke those programs, really doesn't make any difference.</p>
-<h3 id="why-is-it-called-bds">Why is it called "bds"</h3>
-<p>Because that's the lamest name I could find.</p>
-<h3 id="disclaimer">Disclaimer</h3>
-<p>bds is experimental and under heavy development. Use at your own risk.
-Know side effect include: computer explosions, instant decapitation, spontaneous human combustion, and dead kittens.</p>
+<p>When executing for the first time, both tasks are executed and both files ('in.txt' and 'out.txt') are created.</p>
+<pre><code>$ ./test_06.bds
+Creating in.txt
+Creating out.txt
+</code></pre>
+<p>If we execute for a second time, since files have not changed, no <code>task</code> is executed.</p>
+<pre><code>$ ./test_06.bds
+$
+</code></pre>
+<p>If we now change the contents of 'in.txt', and run the script again, the second <code>task</code> will be executed (because 'out.txt' needs to be updated with respect to 'in.txt')</p>
+<pre><code># Update 'in.txt'
+$ date &gt; in.txt
+
+# Since we updated the input file, the output must be recalculated
+$ ./test_06.bds 
+Creating out.txt
+</code></pre>
+<p><strong>Summary:</strong> If the file 'out.txt' is up to date with respect to 'in.txt', the following condition will be false and the <code>task</code> will not execute</p>
+<pre><code>if( outFile &lt;- inFile ) {
+    task echo Creating $outFile; cat $inFile &gt; $outFile
+}
+</code></pre>
+<h3 id="multiple-dependencies">Multiple dependencies</h3>
+<p>You can have a dependency operator expression <code>out &lt;- in</code>, where either <code>in</code> and <code>out</code> or both can be lists of files. 
+The same rules apply: The operator is true if any out file is missing, zero length or the minimum of modification times in <code>out</code> is less than the maximum modificaton times in <code>in</code></p>
+<p>This can be also used on lists:</p>
+<pre><code>in1 := &quot;in1.txt&quot;
+in2 := &quot;in2.txt&quot;
+out := &quot;out.txt&quot;
+
+if( out &lt;- [in1, in2] ) print(&quot;We should update $out\n&quot;)
+</code></pre>
+<p>or even:</p>
+<pre><code>in1 := &quot;in1.txt&quot;
+in2 := &quot;in2.txt&quot;
+out1 := &quot;out1.txt&quot;
+out2 := &quot;out2.txt&quot;
+
+if( [out1, out2] &lt;- [in1, in2] ) print(&quot;We should update $out1 and $out2\n&quot;)
+</code></pre>
+<h3 id="using-in-tasks">Using <code>&lt;-</code> in <code>tasks</code></h3>
+<p>This construction is so common that we allow for some syntactic sugar. </p>
+<pre><code>task( outFile &lt;- inFile ) { 
+    sys echo Creating $outFile; cat $inFile &gt; $outFile
+}
+</code></pre>
+<p>The above syntax means that <code>task</code> will only be executed if the dependency is satisfied, i.e. <code>outFile</code> needs to be updated respect to <code>inFile</code>.</p>
+<iframe width="640" height="390" src="http://www.youtube.com/embed/oSjhkRuc0I8" frameborder="0" allowfullscreen></iframe>
+
+<h3 id="automatic-task-dependency-detection">Automatic task dependency detection</h3>
+<p>Programming task dependencies can be difficult.
+BDS can help by automatically inferring task dependencies and executing tasks in the correct order.</p>
+<p>In this example, we have two tasks:</p>
+<ul>
+<li>The first task uses an input file 'in.txt', to create an intermediate file 'inter.txt' </li>
+<li>The second task uses the intermediate file 'inter.txt' to create the ouptut file 'out.txt'.</li>
+</ul>
+<p>The script below does not have a <code>wait</code> statement. 
+Instead <code>bds</code> automatically infers that the second task depends on the first one, and does not start execution until the first task begins.
+Notice that we don't tell bds to wait for the first task to finish (there is no explicit <code>wait</code> statement). </p>
+<p>File <a href="bds/test_07.bds">test_07.bds</a></p>
+<pre><code>#!/usr/bin/env bds
+
+# We use ':=' for declaration with type inference
+inFile       := &quot;in.txt&quot;        
+intermediate := &quot;inter.txt&quot;
+outFile      := &quot;out.txt&quot;
+
+task( intermediate &lt;- inFile) {
+    sys echo Creating $intermediate; cat $inFile &gt; $intermediate; sleep 1 ; echo Done $intermediate
+}
+
+task( outFile &lt;- intermediate ) {
+    sys echo Creating $outFile; cat $intermediate &gt; $outFile; echo Done $outFile
+}
+</code></pre>
+<p>As a side note: We used the <code>:=</code> operator to declare variables using type inference. 
+So we can write <code>inFile := "in.txt"</code> instead of <code>string inFile = "in.txt"</code>, which not only is shorter to type, but also makes the code look cleaner.</p>
+<p>Now let's run the script</p>
+<pre><code># Delete old file (if anY)
+$ rm *.txt
+
+# Create input file
+$ date &gt; in.txt
+
+# Run
+$ ./test_07.bds 
+Creating inter.txt
+Done inter.txt
+Creating out.txt
+Done out.txt
+</code></pre>
+<p>Note how the second task is executed only after the first one finished.</p>
               
             </div>
           </div>
@@ -223,10 +285,10 @@ Know side effect include: computer explosions, instant decapitation, spontaneous
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="download.html" class="btn btn-neutral float-right" title="Download">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="goal.html" class="btn btn-neutral float-right" title="Goal">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="about.html" class="btn btn-neutral" title="About"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="wait.html" class="btn btn-neutral" title="Wait"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -252,10 +314,10 @@ Know side effect include: computer explosions, instant decapitation, spontaneous
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="about.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="wait.html" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="download.html" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="goal.html" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

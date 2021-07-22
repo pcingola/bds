@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="img/favicon.ico">
-  <title>Introduction - bds programming language</title>
+  <title>Download - bds programming language</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="css/theme.css" />
@@ -18,8 +18,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Introduction";
-    var mkdocs_page_input_path = "index.md";
+    var mkdocs_page_name = "Download";
+    var mkdocs_page_input_path = "download.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -56,25 +56,21 @@
                 </ul>
                 <p class="caption"><span class="caption-text">Manual</span></p>
                 <ul class="current">
-                    <li class="toctree-l1 current"><a class="reference internal current" href="index.html">Introduction</a>
+                    <li class="toctree-l1"><a class="reference internal" href="index.html">Introduction</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="download.html">Download</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#what">What?</a>
+    <li class="toctree-l2"><a class="reference internal" href="#install">Install</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#why">Why?</a>
+    <li class="toctree-l2"><a class="reference internal" href="#installing-from-source">Installing from source</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#how">How?</a>
+    <li class="toctree-l2"><a class="reference internal" href="#build-jar-solving-missing-java-libraries">Build Jar: Solving missing Java libraries</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#paper-citations">Paper &amp; Citations</a>
+    <li class="toctree-l2"><a class="reference internal" href="#creating-manual-pages">Creating manual pages</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#a-word-about-performance">A word about performance</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#why-is-it-called-bds">Why is it called "bds"</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#disclaimer">Disclaimer</a>
+    <li class="toctree-l2"><a class="reference internal" href="#license">License</a>
     </li>
     </ul>
-                    </li>
-                    <li class="toctree-l1"><a class="reference internal" href="download.html">Download</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="hello.html">Hello world</a>
                     </li>
@@ -156,7 +152,7 @@
         
       
     
-    <li>Introduction</li>
+    <li>Download</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -168,54 +164,85 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="introduction">Introduction</h1>
-<p>bds is intended as a scripting language for big data pipeline. </p>
-<h3 id="what">What?</h3>
-<p>bds is a cross-system scripting language for working with big data pipelines in computer systems of different sizes and capabilities. </p>
-<h3 id="why">Why?</h3>
-<p>Working with heavyweight computation and big data pipelines involves making use of several specialized programs. 
-Those specialized routines need to be scheduled, called and coordinated; their progress need to be tracked and their results logged. 
-That is the job of another script or program. This is when bds becomes extremely handy.</p>
-<p>Developing traditional shell scripts or small programs to coordinate data pipelines presents a fundamental dilemma. 
-It is not cross-platform, it simply does not work on all environments or it needs adaptations and re-work for the same thing to work on a laptop, server, server farm, cluster and cloud. 
-Often it is simply not possible. 
-Because of that, developing big data pipelines for a different environment is time consuming. 
-The behaviour on the target environment cannot be assumed to be an exact extrapolation of the results obtained on the development environment. 
-This not only is a waste of time, money and energy, it is also reliable source of frustration.</p>
-<p>bds is the solution to the problem.</p>
-<p>With bds, creating jobs for big data is as easy as creating a shell script and it runs seamlessly on any computer system, no matter how small or big it is. 
-If you normally use specialized programs to perform heavyweight computations, then bds is the glue to those commands you need to create a reliable pipeline.</p>
-<h3 id="how">How?</h3>
-<p><strong>Benefits of bds</strong></p>
-<ul>
-<li><strong>Reduced development time</strong> Spend less time debugging your work on big systems with a huge data volumes. Now you can debug the same jobs using a smaller sample on your computer. Get immediate feedback, debug, fix and deploy when it's done. Shorter development cycles means better software.</li>
-<li><strong>System independent</strong> Cross-system, seamless execution, the same program runs on a laptop, server, server farm, cluster or cloud.  No changes to the program required. Work once.</li>
-<li><strong>Easy to learn</strong> The syntax is intuitive and it resembles the syntax of most commonly used programming languages. Reading the code is easy as pi.</li>
-<li><strong>Automatic Checkpointing</strong> If any task fails to execute, bds creates a checkpoint file, serializing all the information from the program. Want to restart were it stopped? No problem, just resume the execution from the checkpoint.  </li>
-<li><strong>Automatic logging</strong> Everything is logged (<code>-log</code> command line option), no explicit actions required. Every time you execute a system command or a task, bds logs the executed commands, stdout &amp; stderr and exit codes.  </li>
-<li><strong>Clean stop with no mess behind</strong> You have a bds running on a terminal and suddenly you realized there is something wrong... Just hit Ctrl-C. All scheduled tasks and running jobs will be terminated, removed from the queue, deallocated from the cluster. A clean stop allows you to focus on the problem at hand without having to worry about restoring a clean state.  </li>
-<li><strong>Task dependencies</strong> In complex pipelines, tasks usually depend on each other.  bds provides ways to easily manage task dependencies.  </li>
-<li><strong>Avoid re-work</strong> Executing the pipeline over and over should not re-do jobs that were completed successfully and moreover are time consuming.  Task dependency based on timestamps is a built-in functionality, thus making it easy to avoid starting from scratch every time.</li>
-<li><strong>Built in debugger</strong> Debugging is an integral part of programming, so it is part of <code>bds</code> language.  Statements <code>breakpoint</code> and <code>debug</code> make debugging part of the language, instead of requiring platform specific tools.</li>
-<li><strong>Built in test cases facility</strong> Code testing is performed in everyday programming, so testing is built in <code>bds</code>.</li>
-</ul>
-<h3 id="paper-citations">Paper &amp; Citations</h3>
-<p>If you are using bds in an academic environment, please cite our <a href="https://doi.org/10.1093/bioinformatics/btu595">paper</a>:</p>
-<pre><code>bds: A scripting language for data pipelines 
-P. Cingolani; R. Sladek; M. Blanchette
-Bioinformatics 2014;
-doi: 10.1093/bioinformatics/btu595
+                <h1 id="download-install">Download &amp; Install</h1>
+<p>Binary distributions are available for Linux and OS.X.</p>
+<p><a class="btn btn-large btn-primary" href="https://github.com/pcingola/bds/blob/master/distro/bds_Linux.tgz?raw=true">Download Linux</a>
+<a class="btn btn-large btn-primary" href="https://github.com/pcingola/bds/blob/master/distro/bds_Darwin.tgz?raw=true">Download OS.X</a></p>
+<h3 id="install">Install</h3>
+<p>Uncompress the binary at your <code>HOME</code> directory</p>
+<pre><code>cd 
+tar -xvzf path/to/bds_*.tgz 
 </code></pre>
-<h3 id="a-word-about-performance">A word about performance</h3>
-<p>bds is meant to be used in the context or heavyweight computations.
-Potential delays incurred by bds should not affect the overall time.</p>
-<p>Think about it this way: If you are invoking a set of programs to perform big data computations, these programs usually take hours or days to run.
-The fact that bds takes a few milliseconds more to invoke those programs, really doesn't make any difference.</p>
-<h3 id="why-is-it-called-bds">Why is it called "bds"</h3>
-<p>Because that's the lamest name I could find.</p>
-<h3 id="disclaimer">Disclaimer</h3>
-<p>bds is experimental and under heavy development. Use at your own risk.
-Know side effect include: computer explosions, instant decapitation, spontaneous human combustion, and dead kittens.</p>
+<p><strong>Requirements:</strong> In order to run bds, you need <code>Java 1.11</code>.</p>
+<p><strong>Note:</strong> <code>bds</code>'s directoy <code>.bds</code> is 'hidden', since the name starts with a dot.
+Add <code>bds</code>'s directory to your <code>PATH</code>, by adding the following line to your <code>.bashrc</code> or <code>.bash_profile</code></p>
+<pre><code>export PATH=$PATH:$HOME/.bds
+</code></pre>
+<h3 id="installing-from-source">Installing from source</h3>
+<p>The source code is available at GitHub, here we show how to compile and install.</p>
+<p><strong>Requirements:</strong> In order to complile bds, you need</p>
+<ul>
+<li><a href="http://java.com">Java</a> version 12 or higher</li>
+<li><a href="http://golang.org/">Go</a> version 1.0 or higher</li>
+<li><a href="http://ant.apache.org/">Ant</a> version 1.7 or higher</li>
+</ul>
+<p>The source code is available on <a href="https://github.com/pcingola/bds">Github</a>.
+Download the project as follows:</p>
+<pre><code># Clone repository
+$ git clone https://github.com/pcingola/bds.git
+</code></pre>
+<p>Once you downloaded the project, you can install using the <code>install.sh</code> script:</p>
+<pre><code># Run 'install script
+cd bds
+./scripts/install.sh
+</code></pre>
+<p>Then you should add <code>bds</code> to your PATH. Edit your <code>.bashrc</code> (or <code>.bash_profile</code>) and add the following lines</p>
+<pre><code># bds
+export PATH=$PATH:$HOME/.bds/
+</code></pre>
+<p><strong>Optional:</strong> If you have root access, you can do the following (to get <code>bds</code> available everywhere in your system)</p>
+<pre><code>su -
+cd /usr/bin/
+ln -s /home/your_user/.bds/bds
+</code></pre>
+<h3 id="build-jar-solving-missing-java-libraries">Build Jar: Solving missing Java libraries</h3>
+<p>These are used to build the JAR file</p>
+<p><strong>Build executable jar with dependencies</strong></p>
+<p>Jar with dependencias in directory 'target', e.g. <code>target/bds-2.3-jar-with-dependencies.jar</code></p>
+<pre><code>cd mvn
+mvn clean assembly:assembly
+</code></pre>
+<h3 id="creating-manual-pages">Creating manual pages</h3>
+<p>Maual pages are written in Markdown (<code>*.md</code>) and HTML is created using <code>mkdocs</code> package.
+The source Markdown documents are located in <code>manual/docs/</code>.</p>
+<p>The GitHub pages are published from <code>master</code> branch, direcotory <code>/docs</code>, so manual pages are created in a sub-directory (<code>docs/manual/site</code>)</p>
+<p>Create a virtual environment for <code>mkdocs</code></p>
+<pre><code>mkdir $HOME/bds_docs
+cd $HOME/bds_docs
+virtualenv -p python3 .
+
+# Activate virtualenv and install mkdocs
+. bin/activate
+pip install mkdocs
+
+# Create links to bds project.
+# Here we assume the source code is at `$HOME/workspace/bds`
+BDS_SRC=&quot;$HOME/workspace/bds&quot;
+ln -s $BDS_SRC/manual/mkdocs.yml  # Main configuration file for mkdocs
+ln -s $BDS_SRC/manual/docs        # Source markdown for manual pages
+ln -s $BDS_SRC/docs/manual/site   # GitHub pages are in 'docs' directory
+</code></pre>
+<p>Once the virtual environment for <code>mkdocs</code> is set you can run:</p>
+<pre><code>mkdocs serve    # Change pages and see result in your local bowser
+</code></pre>
+<p>or</p>
+<pre><code>mkdocs build    # Create manual pages
+
+cd $BDS_SRC
+./git/commit    # Publish manual pages (if in master)
+</code></pre>
+<h3 id="license">License</h3>
+<p>bds is open source.</p>
               
             </div>
           </div>
@@ -223,10 +250,10 @@ Know side effect include: computer explosions, instant decapitation, spontaneous
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="download.html" class="btn btn-neutral float-right" title="Download">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="hello.html" class="btn btn-neutral float-right" title="Hello world">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="about.html" class="btn btn-neutral" title="About"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="Introduction"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -252,10 +279,10 @@ Know side effect include: computer explosions, instant decapitation, spontaneous
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="about.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="index.html" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="download.html" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="hello.html" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
