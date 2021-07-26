@@ -16,10 +16,3 @@ fi
 # Tag and push tags 
 git tag -a "$TAG" -m "Release $TAG"
 git push origin "$TAG"
-
-# Also create a release branch
-git checkout -b "$BRANCH"
-git push origin "$BRANCH"
-
-# Back to main branch
-git checkout main
