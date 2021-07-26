@@ -85,4 +85,22 @@ public class TestCasesJson extends TestCasesBase {
 		runAndCheck("test/json_06.bds", "person", expVal);
 	}
 
+	@Test
+	public void test_07_scopeGlobalVariablesMatch() {
+		Gpr.debug("Test");
+		Map<String, Object> expectedValues = new HashMap<>();
+		expectedValues.put("firstName", "John");
+		expectedValues.put("lastName", "Smith");
+		expectedValues.put("anotherName", "Joe");
+		expectedValues.put("anotherName2", "Bill");
+
+		runAndCheck("test/json_07.bds", expectedValues);
+	}
+
+	@Test
+	public void test_08_fieldNamesMatch() {
+		Gpr.debug("Test");
+		runAndCheck("test/json_08.bds", "a", "{ anotherName: Joe, anotherName2: Bill, firstName: John, last_Name: Smith }");
+	}
+
 }

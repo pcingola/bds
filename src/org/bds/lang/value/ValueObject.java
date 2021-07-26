@@ -27,12 +27,16 @@ public class ValueObject extends ValueComposite {
         return vclone;
     }
 
-	public Type getFieldType(String name) {
-		TypeClass tc = (TypeClass) type;
-		return tc.getFieldType(name);
+	public Set<String> getFieldNames() {
+		return fields.keySet();
 	}
 
-	/**
+    public Type getFieldType(String name) {
+        TypeClass tc = (TypeClass) type;
+        return tc.getFieldType(name);
+    }
+
+    /**
      * Get field's value, can be null
      */
     public Value getFieldValue(String name) {
@@ -65,24 +69,10 @@ public class ValueObject extends ValueComposite {
 
         // Fields for this class and all parent classes
         for (Map.Entry<String, Type> e : tc.getFieldTypes().entrySet()) {
-            var fname = e.getKey();
-            var ftype = e.getValue();
-            fields.put(fname, ftype.newDefaultValue());
+            var fieldName = e.getKey();
+            var fieldType = e.getValue();
+            fields.put(fieldName, fieldType.newDefaultValue());
         }
-
-        // TODO: Remove old code
-//		for (ClassDeclaration cd = tc.getClassDeclaration(); cd != null; cd = cd.getClassParent()) {
-//			FieldDeclaration[] fieldDecls = cd.getFieldDecl();
-//			for (FieldDeclaration fieldDecl : fieldDecls) { // Add all fields
-//				Type vt = fieldDecl.getType();
-//				for (VariableInit vi : fieldDecl.getVarInit()) {
-//					String fname = vi.getVarName();
-//					if (!fields.containsKey(fname)) { // Don't overwrite values 'shadowed' by a child class
-//						fields.put(fname, vt.newDefaultValue());
-//					}
-//				}
-//			}
-//		}
     }
 
     public boolean isNull() {

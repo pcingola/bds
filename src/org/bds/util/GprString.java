@@ -71,6 +71,13 @@ public class GprString {
 	}
 
 	/**
+	 * Return a new string without any non-alphanumeric chars
+	 */
+	public static String removeNonAlphaNumeric(String str) {
+		return str.replaceAll("[^a-zA-Z0-9]", "");
+	}
+
+	/**
 	 * Split a muti-line command string
 	 *
 	 * E.g.

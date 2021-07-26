@@ -160,7 +160,7 @@ public class BdsVmAsm {
 	 */
 	void initGlobalFunctions() {
 		// Add all native functions from global scope
-		for (Value v : GlobalScope.get().getValues()) {
+		for (Value v : GlobalScope.get().getValuesLocal()) {
 			if (v.getType().isFunction()) {
 				ValueFunction vf = (ValueFunction) v;
 				FunctionDeclaration fd = vf.getFunctionDeclaration();

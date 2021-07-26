@@ -590,6 +590,28 @@ println person
 The output the program is <code>bds</code>'s representation of <code>person</code> object:</p>
 <pre><code>{ address: { city: New York, postalCode: 10021, state: NY, streetAddress: 21 2nd Street }, age: 25, firstName: John, lastName: Smith, phoneNumbers: [{ number: 212 555-1234, type: home }, { number: 646 555-4567, type: fax }] }
 </code></pre>
+<p><strong>Variable name / Field name matching rules</strong></p>
+<p>A scope variable <code>name</code> or object field <code>name</code> is matched to <code>JSON name</code> according to the following rules (when there is ambiguity, the first matching rule wins):</p>
+<ol>
+<li>Exact match: <code>JSON name</code> equals to <code>name</code> (e.g. <code>myName</code> in JSON matches <code>myName</code> in bds)</li>
+<li>Lowercase match: <code>JSON name</code> in lowercase is equal to <code>name</code> in lowercase (e.g. <code>myNAME</code> in JSON matches <code>myName</code> in bds)</li>
+<li>AlphaNum match: <code>JSON name</code> without any non-alpha-numeric chars, in lowercase is equal to <code>name</code> without any non-alpha-numeric chars lowercase (e.g. <code>my-NAME 2</code> in JSON matches <code>my_name_2</code> in bds)</li>
+<li>First search variables in local scope, then in all parent scopes. The last scope in the search is the Global Scope.</li>
+</ol>
+<p><strong>Variable creation / Field creation rules</strong></p>
+<ol>
+<li>If a scope variable is <code>null</code>, it will NOT be created.</li>
+<li>If an object field is <code>null</code>, it WILL be created.<ol>
+<li>A new object will be created</li>
+<li>Constructor methods ARE NEVER invoked, even if an empty-parameter constructor method exist.</li>
+</ol>
+</li>
+<li>If there is a list of objects, each new JSON object will be APPENDED to the list<ol>
+<li>The list will not be emptied or re-initialized</li>
+<li>New objects will be created and appended to the list</li>
+</ol>
+</li>
+</ol>
               
             </div>
           </div>
