@@ -18,6 +18,9 @@ rm -f "$BDS_JAR" || true
 # Make sure 'bin' dir exists
 mkdir -p bin 
 
+# Find dependencies and copy them to "lib"
+mvn dependency:resolve dependency:copy-dependencies
+
 # Build Jar file
 echo Building JAR file
 ant 

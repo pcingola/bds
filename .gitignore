@@ -8,6 +8,7 @@ bin
 *.pid
 t.bds*
 tmp
+lib/*
 go/bds/bds
 go/bds/pkg
 go/bds/src/github.com
