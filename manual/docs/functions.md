@@ -233,3 +233,23 @@ The output the program is `bds`'s representation of `person` object:
 ```
 { address: { city: New York, postalCode: 10021, state: NY, streetAddress: 21 2nd Street }, age: 25, firstName: John, lastName: Smith, phoneNumbers: [{ number: 212 555-1234, type: home }, { number: 646 555-4567, type: fax }] }
 ```
+
+**Variable name / Field name matching rules**
+
+A scope variable `name` or object field `name` is matched to `JSON name` according to the following rules (when there is ambiguity, the first matching rule wins):
+
+1. Exact match: `JSON name` equals to `name` (e.g. `myName` in JSON matches `myName` in bds)
+1. Lowercase match: `JSON name` in lowercase is equal to `name` in lowercase (e.g. `myNAME` in JSON matches `myName` in bds)
+1. AlphaNum match: `JSON name` without any non-alpha-numeric chars, in lowercase is equal to `name` without any non-alpha-numeric chars lowercase (e.g. `my-NAME 2` in JSON matches `my_name_2` in bds)
+1. First search variables in local scope, then in all parent scopes. The last scope in the search is the Global Scope.
+
+**Variable creation / Field creation rules**
+
+1. If a scope variable is `null`, it will NOT be created.
+1. If an object field is `null`, it WILL be created.
+    1. A new object will be created
+    1. Constructor methods ARE NEVER invoked, even if an empty-parameter constructor method exist.
+1. If there is a list of objects, each new JSON object will be APPENDED to the list
+    1. The list will not be emptied or re-initialized
+    1. New objects will be created and appended to the list
+

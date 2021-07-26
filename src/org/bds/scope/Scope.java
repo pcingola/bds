@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.bds.lang.BdsNode;
 import org.bds.lang.statement.FunctionDeclaration;
@@ -28,7 +29,6 @@ public class Scope implements Iterable<String>, Serializable {
 
 	int id;
 	Scope parent;
-	String parentNodeId;
 	Map<String, Value> values;
 	BdsNode node;
 
@@ -81,6 +81,9 @@ public class Scope implements Iterable<String>, Serializable {
 		values.put(name, value);
 	}
 
+	/**
+	 * Return all names in the scope (including function names)
+	 */
 	public Collection<String> getNames() {
 		return values.keySet();
 	}
@@ -106,7 +109,7 @@ public class Scope implements Iterable<String>, Serializable {
 	}
 
 	/**
-	 * Get value on this scope (or any parent scope)
+	 * Get value in this scope or any parent scope
 	 */
 	public Value getValue(String name) {
 		// Find value on this or any parent scope
@@ -121,14 +124,27 @@ public class Scope implements Iterable<String>, Serializable {
 	}
 
 	/**
-	 * Get value on this scope (only search this scope)
+	 * Get value in this scope
+	 * Note: 'Local' means that only searches this scope (not parent scopes)
 	 */
 	public synchronized Value getValueLocal(String name) {
 		return values.get(name);
 	}
 
-	public Collection<Value> getValues() {
+	/**
+	 * Return a collection of all values
+	 * Note: 'Local' means that only searches this scope (not parent scopes)
+	 */
+	public Collection<Value> getValuesLocal() {
 		return values.values();
+	}
+
+	/**
+	 * Return all variable names (i.e. exclude function names)
+	 * Note: 'Local' means that only searches this scope (not parent scopes)
+	 */
+	public List<String> getVariableNamesLocal() {
+		return values.keySet().stream().filter(this::isVariable).collect(Collectors.toList());
 	}
 
 	public boolean hasValue(String value) {
@@ -147,6 +163,11 @@ public class Scope implements Iterable<String>, Serializable {
 	 */
 	public boolean isEmpty() {
 		return values.isEmpty();
+	}
+
+	public boolean isVariable(String name) {
+		var val = getValueLocal(name);
+		return val != null && !(val instanceof ValueFunction);
 	}
 
 	@Override

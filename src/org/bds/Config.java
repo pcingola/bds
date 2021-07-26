@@ -478,18 +478,6 @@ public class Config implements Serializable, BdsLog {
 		return wallTimeout;
 	}
 
-	//	public void kill() {
-	//		if (tail != null) {
-	//			tail.kill(); // Kill tail process
-	//			tail = null;
-	//		}
-	//
-	//		if (monitorTask != null) {
-	//			// monitorTask.kill();
-	//			monitorTask = null;
-	//		}
-	//	}
-
 	public boolean isClusterPostMortemInfoDisabled() {
 		return clusterPostMortemInfoDisabled;
 	}
