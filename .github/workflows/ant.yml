@@ -47,6 +47,7 @@ jobs:
         pwd
         cat go/bds/bds build/bds.jar > bds_linux
         chmod +x bds_linux
+        ./bds_linux --help
     - name: Upload linux artifact
       uses: actions/upload-artifact@v2
       with:
@@ -95,6 +96,7 @@ jobs:
         pwd
         cat go/bds/bds build/bds.jar > bds_macos
         chmod +x bds_macos
+        ./bds_macos --help
     - name: Upload macos artifact
       uses: actions/upload-artifact@v2
       with:
@@ -120,19 +122,22 @@ jobs:
           name: binary-macos
           path: bds_macos
       - run: |
-          mkdir release
-          mv bds_linux release/bds-linux
-          mv bds_macos release/bds-macos
-          echo ${{ github.sha }} > release/release.txt
-          cd release
-          tar czf bds-linux.tar.gz bds-linux
-          tar czf bds-macos.tar.gz bds-macos
+          mkdir release-linux
+          mkdir release-macos
+          mv bds_linux release-linux/bds
+          mv bds_macos release-macos/bds
+          echo ${{ github.sha }} > release.txt
+          tar -C release-linux -czf bds-linux.tar.gz ./
+          tar -C release-macos -czf bds-macos.tar.gz ./
       - name: List Files
         run: |
-          ls -laht release
+          ls -laht
       - name: Release
         uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: release/*
+          files: |
+             release.txt
+             bds-linux.tar.gz
+             bds-macos.tar.gz
