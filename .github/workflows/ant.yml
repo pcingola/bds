@@ -55,7 +55,7 @@ jobs:
       with:
         name: binary-linux
         path: |
-          bds_linux
+          bds_linux.tar.gz
 
   build-macos:
     runs-on: macos-latest
@@ -106,7 +106,7 @@ jobs:
       with:
         name: binary-macos
         path: |
-          bds_macos
+          bds_macos.tar.gz
          
 
 
