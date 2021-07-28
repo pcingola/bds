@@ -27,6 +27,7 @@ The source code is available at GitHub, here we show how to compile and install.
 - [Java](http://java.com) version 12 or higher
 - [Go](http://golang.org/) version 1.0 or higher
 - [Ant](http://ant.apache.org/) version 1.7 or higher
+- [Maven](https://maven.apache.org/) version 3.8 or higher
 
 
 The source code is available on [Github](https://github.com/pcingola/bds).
