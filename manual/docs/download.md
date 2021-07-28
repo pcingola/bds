@@ -1,14 +1,14 @@
 # Download & Install
 Binary distributions are available for Linux and OS.X.
 
-<a class="btn btn-large btn-primary" href="https://github.com/pcingola/bds/blob/master/distro/bds_Linux.tgz?raw=true">Download Linux</a>
-<a class="btn btn-large btn-primary" href="https://github.com/pcingola/bds/blob/master/distro/bds_Darwin.tgz?raw=true">Download OS.X</a>
+<a class="btn btn-large btn-primary" href="https://github.com/pcingola/bds/releases/latest/download/bds-linux.tar.gz">Download Linux</a>
+<a class="btn btn-large btn-primary" href="https://github.com/pcingola/bds/releases/latest/download/bds-macos.tar.gz">Download OS.X</a>
 
 ###Install
 Uncompress the binary at your `HOME` directory
 ```
 cd 
-tar -xvzf path/to/bds_*.tgz 
+tar -xvzf path/to/bds*.tar.gz
 ```
 
 **Requirements:** In order to run bds, you need `Java 1.11`.
