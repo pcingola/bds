@@ -48,6 +48,8 @@ jobs:
         cat go/bds/bds build/bds.jar > bds_linux
         chmod +x bds_linux
         ./bds_linux --help
+        mv bds_linux bds
+        tar -czf bds-linux.tar.gz bds
     - name: Upload linux artifact
       uses: actions/upload-artifact@v2
       with:
@@ -97,6 +99,8 @@ jobs:
         cat go/bds/bds build/bds.jar > bds_macos
         chmod +x bds_macos
         ./bds_macos --help
+        mv bds_macos bds
+        tar -czf bds-macos.tar.gz bds
     - name: Upload macos artifact
       uses: actions/upload-artifact@v2
       with:
@@ -116,19 +120,13 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: binary-linux
-          path: bds_linux
+          path: .
       - uses: actions/download-artifact@v2
         with:
           name: binary-macos
-          path: bds_macos
+          path: .
       - run: |
-          mkdir release-linux
-          mkdir release-macos
-          mv bds_linux release-linux/bds
-          mv bds_macos release-macos/bds
           echo ${{ github.sha }} > release.txt
-          tar -C release-linux -czf bds-linux.tar.gz ./
-          tar -C release-macos -czf bds-macos.tar.gz ./
       - name: List Files
         run: |
           ls -laht
