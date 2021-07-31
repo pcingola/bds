@@ -1,6 +1,9 @@
 name: BDS Build CI
 
-on: [push]
+on:
+  push:
+    tags:
+      - "v*"
 
 jobs:
   build:
@@ -14,7 +17,6 @@ jobs:
         - os: macos-latest
           name: macos
     steps:
-      - run: echo ${{ matrix.name }}
       - name: Checkout repo
         uses: actions/checkout@v2
       - name: Set up JDK 12
@@ -29,9 +31,7 @@ jobs:
       - name: Run distro.sh
         run: ./scripts/distro.sh ${{ matrix.name }}
         shell: bash
-      - name: LL DISTRO
-        run: ls -al distro
-      - name: Upload linux artifact
+      - name: Upload ${{ matrix.name }} artifact
         uses: actions/upload-artifact@v2
         with:
           name: binary-${{ matrix.name }}
