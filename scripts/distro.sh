@@ -13,7 +13,7 @@ echo "OS: '$OS'"
 "$SCRIPT_DIR/install.sh"
 
 mkdir -p "$DISTRO_DIR"
-cd "$BDS_HOME"
-tar -cvzf "$DISTRO_DIR/bds_$OS.tar.gz" bds bds.config include clusterGeneric
+cd "$BDS_HOME/.."
+tar -cvzf "$DISTRO_DIR/bds_$OS.tar.gz" $(basename $BDS_HOME)
 
 echo "Distro: End"

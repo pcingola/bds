@@ -2,8 +2,8 @@
 Binary distributions are available for Linux and OS.X.
 
 <p>
-<a class="btn btn-large btn-primary" href="https://github.com/pcingola/bds/releases/latest/download/bds-linux.tar.gz">Download Linux</a>
-<a class="btn btn-large btn-primary" href="https://github.com/pcingola/bds/releases/latest/download/bds-macos.tar.gz">Download OS.X</a>
+<a class="btn btn-large btn-primary" href="https://github.com/pcingola/bds/releases/latest/download/bds_linux.tar.gz">Download Linux</a>
+<a class="btn btn-large btn-primary" href="https://github.com/pcingola/bds/releases/latest/download/bds_macos.tar.gz">Download OS.X</a>
 </p>
 <p>
 <a class="btn btn-large btn-primary" href="https://github.com/pcingola/bds">GitHub</a>
