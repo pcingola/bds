@@ -16,5 +16,8 @@ jobs:
         cd $GITHUB_WORKSPACE
         echo "CHANGED_DIR=$(pwd -P)"
         ls -al
+        echo "DIR SCRIPTS:"
+        ls -al ./scripts
+        echo "EXECUTE DISTRO:"
         ./scripts/distro.sh
       shell: bash
