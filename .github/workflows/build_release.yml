@@ -64,5 +64,5 @@ jobs:
         with:
           files: |
             release.txt
-            bds-linux.tar.gz
-            bds-macos.tar.gz
+            bds_linux.tar.gz
+            bds_macos.tar.gz
