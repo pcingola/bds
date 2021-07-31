@@ -1,6 +1,8 @@
 #!/bin/sh -e
 
-echo "Distro: Start"
+echo "Distro: Start "
+pwd -P
+echo "DIR: $(dirname $0)"
 source "$(dirname $0)/config.sh"
 
 # Install files
