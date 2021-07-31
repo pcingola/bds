@@ -3,7 +3,6 @@ set -o pipefail
 
 echo "Distro: Start "
 SCRIPT_DIR=$(cd $(dirname $0); pwd -P)
-echo "$SCRIPT_DIR: '$SCRIPT_DIR'"
 source "$SCRIPT_DIR/config.sh"
 
 # Install files

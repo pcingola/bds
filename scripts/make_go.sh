@@ -2,7 +2,8 @@
 set -o pipefail
 
 echo "Build bds go: Start"
-source "$(dirname $0)/config.sh"
+SCRIPT_DIR=$(cd $(dirname $0); pwd -P)
+source "$SCRIPT_DIR/config.sh"
 
 # Build go program
 echo
