@@ -23,5 +23,5 @@ go clean
 go build 
 go fmt
 
-echo "Build bds go: Finished"
+echo "Build bds go: End"
 

@@ -1,6 +1,7 @@
 #!/bin/bash -eu
 set -o pipefail
 
+echo "Install: Start"
 source "$(dirname $0)/config.sh"
 
 cd "$PROJECT_DIR"
@@ -31,4 +32,5 @@ echo "Copying cluster* files (do not overwrite)"
 cd "$PROJECT_DIR/config"
 cp -rvn cluster* "$BDS_HOME" || true
 
-echo "Done!"
+echo "Install: End"
+

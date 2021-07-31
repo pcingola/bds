@@ -8,6 +8,7 @@ bin
 *.pid
 t.bds*
 tmp
+distro/*
 lib/*
 go/bds/bds
 go/bds/pkg

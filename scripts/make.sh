@@ -27,4 +27,4 @@ echo "Bds executable: '$BDS_BIN'"
 # Remove JAR file and go binary
 rm "$BDS_GO_BIN" "$BDS_JAR"
 
-echo "Build bds: Finished"
+echo "Build bds: End"
