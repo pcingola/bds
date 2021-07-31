@@ -23,7 +23,7 @@ public class Bds implements BdsLog {
 	BdsRun bdsRun;
 	String chekcpointRestoreFile; // Restore file
 	Config config;
-	String configFile = Config.DEFAULT_CONFIG_FILE; // Configuration file
+	String configFile; // Configuration file
 	boolean coverage;
 	double coverageMin = -1; // Min coverage ratio
 	boolean debug; // debug mode

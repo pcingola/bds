@@ -36,7 +36,7 @@ public class Config implements Serializable, BdsLog {
 	private static final String DEFAULT_BDS_EXEC_PATH = "bds"; // Bds command to execute when "bds exec" is invoked by executioners
 	private static final String BDS_INCLUDE_PATH = "BDS_PATH"; // BDS include path (colon separated list of directories to look for include files)
 	private static final String DEFAULT_CONFIG_BASENAME = "bds.config"; // We want to put bds.config together with bds executable
-	private static final String DEFAULT_CONFIG_DIR = DEFAULT_BDS_HOME; // by default BDS_HOME == HOME
+	private static final String DEFAULT_CONFIG_DIR = DEFAULT_BDS_HOME; // By default BDS_HOME == "$HOME/.bds"
 	public static final String DEFAULT_CONFIG_FILE = DEFAULT_CONFIG_DIR + "/" + DEFAULT_CONFIG_BASENAME;
 	private static final String DEFAULT_INCLUDE_DIR = DEFAULT_CONFIG_DIR + "/include";
 	private static final int DEFAULT_MAX_NUMBER_OF_RUNNING_THREADS = 512;
@@ -130,8 +130,6 @@ public class Config implements Serializable, BdsLog {
 	boolean showTaskCode = false; // Always show task's code (sys statements)
 	String sysShell = DEFAULT_SYS_SHELL; // System shell
 	String system = ExecutionerType.LOCAL.toString().toLowerCase(); // System type
-	// !!!!! FIXME: REMOVE?
-	// Tail tail;
 	int tailLines = TailFile.DEFAULT_TAIL; // Number of lines to use in 'tail'
 	int taskFailCount = 0; // Number of times a task is allowed to fail (i.e. number of re-tries)
 	TaskLogger taskLogger;
@@ -196,9 +194,14 @@ public class Config implements Serializable, BdsLog {
 			throw new RuntimeException("Config file '" + configFileName + "' not found");
 		}
 
-		// Create a search path
-		String bdsDir = new File(Gpr.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getParent();
-		String[] searchPaths = { ".", bdsDir, Gpr.HOME, bdsHome };
+		// Create a search path:
+		//   1) Current dir
+		//   2) Dir where bds binary is (JAR file)
+		//   3) bdsHome
+		//   4) User's HOME
+		//   5) DEFAULT_BDS_HOME
+		String bdsJarDir = new File(Gpr.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getParent();
+		String[] searchPaths = { ".", bdsJarDir, bdsHome, Gpr.HOME };
 
 		for (String d : searchPaths) {
 			String cf = d + "/" + DEFAULT_CONFIG_BASENAME;
