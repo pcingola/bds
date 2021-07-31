@@ -9,4 +9,7 @@ jobs:
     - name: Only do this when tagged
       run: echo "Hello tag ${{ github.ref }}"
     - name: Run distro.sh
+      run: set
+    - name: Run distro.sh
       run: ./scripts/distro.sh
+      shell: bash
