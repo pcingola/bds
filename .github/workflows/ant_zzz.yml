@@ -6,8 +6,8 @@ jobs:
   build-zzz:
     runs-on: ubuntu-latest
     steps:
-    - name: Only do this when tagged
-      run: echo "Hello tag ${{ github.ref }}"
+    - name: Checkout repo
+      uses: actions/checkout@v2
     - name: Run distro.sh
       run: set
     - name: Run distro.sh
