@@ -21,4 +21,13 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE
         ./scripts/distro.sh
+        ls -al ./distro/
       shell: bash
+    - name: Copy binary
+      run: cp $GITHUB_WORKSPACE/distro/bds_Linux.tgz ./bds-linux.tar.gz
+    - name: Upload linux artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: binary-linux
+        path: |
+          bds-linux.tar.gz
