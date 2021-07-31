@@ -13,6 +13,7 @@ jobs:
     - name: Run distro.sh
       run: |
         cd $GITHUB_WORKSPACE
-        pwd -P
+        echo "DIR=$(pwd -P)"
+        ls -al
         ./scripts/distro.sh
       shell: bash
