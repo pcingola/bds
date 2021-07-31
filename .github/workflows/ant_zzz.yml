@@ -20,8 +20,10 @@ jobs:
     - name: Run distro.sh
       run: ./scripts/distro.sh
       shell: bash
+    - name: LL DISTRO
+      run: ls -al distro
     - name: Upload linux artifact
       uses: actions/upload-artifact@v2
       with:
         name: binary-linux
-        path: ./distro/bds-linux.tar.gz
+        path: ./distro/bds_Linux.tar.gz

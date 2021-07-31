@@ -11,7 +11,7 @@ echo "Clean old JAR and GO binary"
 rm -f "$BDS_GO_BIN" "$BDS_JAR" || true
 
 # Find dependencies and copy them to "lib"
-mvn dependency:resolve dependency:copy-dependencies
+mvn --batch-mode dependency:resolve dependency:copy-dependencies
 
 # Build Jar file
 echo Building JAR file

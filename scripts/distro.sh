@@ -10,6 +10,6 @@ source "$SCRIPT_DIR/config.sh"
 
 mkdir -p "$DISTRO_DIR"
 cd "$BDS_HOME"
-tar -cvzf "$DISTRO_DIR/bds_$(uname).tgz" bds bds.config include clusterGeneric
+tar -cvzf "$DISTRO_DIR/bds_$(uname).tar.gz" bds bds.config include clusterGeneric
 
 echo "Distro: End"
