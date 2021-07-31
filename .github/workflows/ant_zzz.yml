@@ -8,12 +8,13 @@ jobs:
     steps:
     - name: Checkout repo
       uses: actions/checkout@v2
-    - name: Run distro.sh
+    - name: Set
       run: set
     - name: Run distro.sh
       run: |
+        echo "CURRENT_DIR=$(pwd -P)"
         cd $GITHUB_WORKSPACE
-        echo "DIR=$(pwd -P)"
+        echo "CHANGED_DIR=$(pwd -P)"
         ls -al
         ./scripts/distro.sh
       shell: bash
