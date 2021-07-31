@@ -1,9 +1,11 @@
-#!/bin/sh -e
+#!/bin/bash -eu
+set -o pipefail
 
 echo "Distro: Start "
 pwd -P
-echo "DIR: $(dirname $0)"
-source "$(dirname $0)/config.sh"
+SCRIPT_DIR=$(cd $(dirname $0); pwd -P)
+echo "DIR: 'SCRIPT_DIR'"
+source "SCRIPT_DIR/config.sh"
 
 # Install files
 "$SCRIPT_DIR/install.sh"
