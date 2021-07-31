@@ -3,8 +3,11 @@ name: BDS Build CI
 on: [push]
 
 jobs:
-  build-zzz:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
     steps:
     - name: Checkout repo
       uses: actions/checkout@v2
@@ -18,12 +21,12 @@ jobs:
       with:
         go-version: 1.16.5
     - name: Run distro.sh
-      run: ./scripts/distro.sh
+      run: ./scripts/distro.sh ${{ matrix.os }}
       shell: bash
     - name: LL DISTRO
       run: ls -al distro
     - name: Upload linux artifact
       uses: actions/upload-artifact@v2
       with:
-        name: binary-linux
-        path: ./distro/bds_Linux.tar.gz
+        name: binary
+        path: ./distro/bds_${{ matrix.os }}.tar.gz
