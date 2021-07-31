@@ -2,12 +2,7 @@
 set -o pipefail
 
 echo "Build bds go: Start"
-
-SCRIPT_DIR=$(cd $(dirname $0); pwd -P)
-PROJECT_DIR=$(cd "$SCRIPT_DIR/.."; pwd -P)
-
-# Make sure 'bin' dir exists
-mkdir -p bin
+source "$(dirname $0)/config.sh"
 
 # Build go program
 echo
@@ -16,7 +11,7 @@ cd "$PROJECT_DIR/go/bds/"
 export GOPATH=`pwd`
 export GO111MODULE=auto
 
-# Make sure dependencies are downlaoded
+# Make sure dependencies are downloaded
 go get -v github.com/aws/aws-sdk-go/aws
 go get -v github.com/aws/aws-sdk-go/aws/session
 go get -v github.com/aws/aws-sdk-go/service/ec2

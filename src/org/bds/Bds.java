@@ -317,7 +317,7 @@ public class Bds implements BdsLog {
 					break;
 
 				case "-task":
-					// Checkpoint restore
+					// Checkpoint restore (for tasks)
 					if ((i + 1) < args.length) chekcpointRestoreFile = args[++i];
 					else usage("Option '-task' without checkpoint file argument");
 					bdsRun.setBdsAction(BdsAction.RUN_TASK_IMPROPER);
@@ -360,6 +360,7 @@ public class Bds implements BdsLog {
 					break;
 
 				case "-zzz":
+					// Hidden option for testing purposes
 					bdsRun.setBdsAction(BdsAction.ZZZ);
 					break;
 

@@ -2,21 +2,12 @@
 set -o pipefail
 
 echo "Build bds: Start"
-
-# Delete old jar
-SCRIPT_DIR=$(cd $(dirname $0); pwd -P)
-PROJECT_DIR=$(cd "$SCRIPT_DIR/.."; pwd -P)
-
-BDS_JAR="$PROJECT_DIR/build/bds.jar"
-BDS_BIN="$PROJECT_DIR/build/bds"
-BDS_GO_BIN="$PROJECT_DIR/go/bds/bds"
+source "$(dirname $0)/config.sh"
 
 cd "$PROJECT_DIR"
 
-rm -f "$BDS_JAR" || true
-
-# Make sure 'bin' dir exists
-mkdir -p bin 
+echo "Clean old JAR and GO binary"
+rm -f "$BDS_GO_BIN" "$BDS_JAR" || true
 
 # Find dependencies and copy them to "lib"
 mvn dependency:resolve dependency:copy-dependencies
@@ -28,12 +19,12 @@ ant
 # Build go program
 "$SCRIPT_DIR/make_go.sh"
 
-# Build binay (go executable + JAR file)
+# Build binary (go executable + JAR file)
 cat "$BDS_GO_BIN" "$BDS_JAR" > "$BDS_BIN"
 chmod a+x "$BDS_BIN"
 echo "Bds executable: '$BDS_BIN'"
 
-# Remove JAR file
-rm "$BDS_JAR"
+# Remove JAR file and go binary
+rm "$BDS_GO_BIN" "$BDS_JAR"
 
 echo "Build bds: Finished"

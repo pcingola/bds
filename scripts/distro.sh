@@ -1,14 +1,11 @@
 #!/bin/sh -e
 
-cd `dirname $0`
-dir=`pwd -P`
-cd -
+source "$(dirname $0)/config.sh"
 
 # Install files
-$dir/install.sh
-cp -vf config/bds.config $HOME/.bds/	# Make sure default config file is used
+"$SCRIPT_DIR/install.sh"
 
-cd $HOME
-mkdir -p $dir/../distro/
-tar -cvzf $dir/../distro/bds_`uname`.tgz .bds/bds .bds/bds.config .bds/include
+mkdir -p "$DISTRO_DIR"
+cd "$BDS_HOME"
+tar -cvzf "$DISTRO_DIR/bds_$(uname).tgz bds bds.config include clusterGeneric
 
