@@ -8,7 +8,12 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-    steps:
+        include:
+        - os: ubuntu-latest
+          NAME: linux
+        - os: macos-latest
+          name: macos
+    - run: echo ${{ matrix.name }}
     - name: Checkout repo
       uses: actions/checkout@v2
     - name: Set up JDK 12
@@ -21,12 +26,42 @@ jobs:
       with:
         go-version: 1.16.5
     - name: Run distro.sh
-      run: ./scripts/distro.sh ${{ matrix.os }}
+      run: ./scripts/distro.sh ${{ matrix.name }}
       shell: bash
     - name: LL DISTRO
       run: ls -al distro
     - name: Upload linux artifact
       uses: actions/upload-artifact@v2
       with:
-        name: binary
-        path: ./distro/bds_${{ matrix.os }}.tar.gz
+        name: binary-${{ matrix.name }}
+        path: ./distro/bds_${{ matrix.name }}.tar.gz
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+      - uses: actions/download-artifact@v2
+        with:
+          name: binary-linux
+          path: .
+      - uses: actions/download-artifact@v2
+        with:
+          name: binary-macos
+          path: .
+      - run: |
+          echo ${{ github.sha }} > release.txt
+      - name: List Files
+        run: |
+          ls -laht
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: |
+            release.txt
+            bds-linux.tar.gz
+            bds-macos.tar.gz
