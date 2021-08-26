@@ -573,5 +573,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="dependency" level="project" />
   </component>
 </module>

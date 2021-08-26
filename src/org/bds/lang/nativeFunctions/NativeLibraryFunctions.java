@@ -15,7 +15,8 @@ public class NativeLibraryFunctions implements BdsLog {
 
 	@SuppressWarnings("rawtypes")
 	public static Class classes[] = { //
-			FunctionNativeAssertBool.class //
+			FunctionNativeAddResource.class //
+			, FunctionNativeAssertBool.class //
 			, FunctionNativeAssertBoolNoMsg.class //
 			, FunctionNativeAssertInt.class //
 			, FunctionNativeAssertIntNoMsg.class //

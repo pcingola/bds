@@ -3,7 +3,7 @@
 addResource('gpu', 1)
 
 for(int i=0; i < 3; i++) {
-	task(gpu := 2) {
+	task(gpu := 1) {
 		sys echo "Start task $i"
 		sys sleep 1
 		sys echo "End task $i"
