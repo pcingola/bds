@@ -21,6 +21,7 @@ import org.junit.runners.Suite.SuiteClasses;
 		TestCasesRun.class, // Running bds code
 		TestCasesRun2.class, // Running bds code
 		TestCasesRun3.class, // Running bds code (classes / object)
+		TestCasesCustomResources.class, // Custom resource allocation in tasks (e.g. GPU, FFPGA, etc.)
 		TestCasesJson.class, // JSON parsing
 		TestCasesTesting.class, // Check bds unit testing system
 		TestCasesCommandLineOptions.class, // Check command line options

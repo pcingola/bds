@@ -17,6 +17,7 @@ nav:
     - 'Tasks: Detached': task_detached.md
     - 'Tasks: Improper': task_imp.md
     - 'Tasks: Cloud AWS': task_aws.md
+    - 'Tasks: Resources': task_resources.md
     - 'Wait': wait.md
     - 'Dependency operator': dep_op.md
     - 'Goal': goal.md

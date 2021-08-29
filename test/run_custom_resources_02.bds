@@ -1,12 +1,12 @@
 #!/usr/bin/env bds
 
-addResource('gpu', 1)
+addResource('gpu', 4)
 
 for(int i=0; i < 3; i++) {
-	task(gpu := 2) {
-		sys echo "Start task $i"
+	task(gpu := 1) {
+		sys echo "Start"
 		sys sleep 1
-		sys echo "End task $i"
+		sys echo "End"
 	}
 }
 println "Scheduled"
