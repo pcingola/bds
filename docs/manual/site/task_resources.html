@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="img/favicon.ico">
-  <title>Hello world - bds programming language</title>
+  <title>Tasks: Resources - bds programming language</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="css/theme.css" />
@@ -18,8 +18,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Hello world";
-    var mkdocs_page_input_path = "hello.md";
+    var mkdocs_page_name = "Tasks: Resources";
+    var mkdocs_page_input_path = "task_resources.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -60,15 +60,7 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="download.html">Download</a>
                     </li>
-                    <li class="toctree-l1 current"><a class="reference internal current" href="hello.html">Hello world</a>
-    <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#run-a-shell-command">Run a shell command</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#run-a-shell-command-on-a-cluster">Run a shell command on a cluster</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#cluster-cloud-datacenter-or-local-computer">Cluster, cloud, datacenter or local computer</a>
-    </li>
-    </ul>
+                    <li class="toctree-l1"><a class="reference internal" href="hello.html">Hello world</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="language.html">Language</a>
                     </li>
@@ -92,7 +84,13 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="task_aws.html">Tasks: Cloud AWS</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="task_resources.html">Tasks: Resources</a>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="task_resources.html">Tasks: Resources</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#basic-resources">Basic resources</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#custom-reosurces">Custom reosurces</a>
+    </li>
+    </ul>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="wait.html">Wait</a>
                     </li>
@@ -150,7 +148,7 @@
         
       
     
-    <li>Hello world</li>
+    <li>Tasks: Resources</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -162,48 +160,52 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="hello-world">Hello world</h1>
-<p>As we all know, showing that we can print "Hello world" is more important than showing that the language is Turing complete.  </p>
-<p>Create a simple program and execute it. File <a href="bds/test_01.bds">test_01.bds</a></p>
-<pre><code>#!/usr/bin/env bds
+                <h1 id="resources">Resources</h1>
+<p>Task resources refer to CPUs and memory consumed by each <code>task</code>.
+Whenever a <code>task</code> is defined, we should set the resources used by the task, so that bds can correctly account for them. 
+This allows bds to correctly schedule each <code>task</code> when the resources are available.</p>
+<p><strong>Example:</strong></p>
+<p>For instance, imagine that you have a laptop with 8 CPUs and 16G of memory, and you want to run five tasks which consume 8 CPUs and 2G of memory each: </p>
+<pre><code>for(int i=0; i &lt; 5; i++ ) {
+    task (cpus := 8, mem := 2 * G) sys my_command_cpus param_1 param_2
+}   
+</code></pre>
+<p>In this example <code>bds</code> will run only one task at a time, because each <code>task</code> consumes all available CPUs (the limitation in not on the memory).</p>
+<p>Similarly, in the same laptop with 8 CPUs and 16G of RAM, if you want to run these tasks, each consuming 8G of memory:</p>
+<pre><code>for(int i=0; i &lt; 10; i++ ) {
+    task (mem := 8 * G) sys my_command_mem param_1 param_2
+}
+</code></pre>
+<p>In this case <code>bds</code> will run two tasks in parallel, because each <code>task</code> consumes half the available memory.</p>
+<p><strong>Clusters:</strong> If these tasks are running in a cluster environment, each task would be issued with the appropriate CPUs and memory parameters, so that the cluster system can schedule the job in an appropriate node (keep in mind tha most cluster systems will kill task that consume more resources that the ones declared).</p>
+<h3 id="basic-resources">Basic resources</h3>
+<p>The basic resources you can add to a task are:
+- <code>cpus</code>: Number of CPUs / cores consumed by the task. The default is <code>cpus := 1</code>
+- <code>mem</code>: Amount of memory used by the task. The default value is <code>mem := -1</code>, which doesn't use the resource (e.g. in a cluster system it will use the cluster's default setting).</p>
+<h3 id="custom-reosurces">Custom reosurces</h3>
+<p>There are other resources than <code>cpus</code> and <code>mem</code> that you might need to define.
+Typical examples are special hardware accelerator cards (GPUs, TPUs, FFPGA, etc.).
+So <code>bds</code> provides a generic mechanism to define them using the <code>addResources()</code> built-in function.</p>
+<h1 id="adding-a-new-resource">Adding a new resource</h1>
+<p>The function <code>addResource(...)</code> lets you defined a new resource.</p>
+<pre><code>addResources(resourceName, count):
+</code></pre>
+<ul>
+<li><code>resourceName</code>: A string defining a resource name (e.g. 'gpus'). This string MUST be a valid name.</li>
+<li><code>count</code>: The number of resources available (an integer number).</li>
+</ul>
+<p>How it works:
+- When running the <code>addResurces</code>, a number of <code>count</code> new resources will be attached to the current execution system (as defined by the current value of <code>system</code> variable (by default is <code>system := 'local'</code>)
+- A global variable with the same name as <code>resourceName</code> and type <code>int</code> is created, so it can be used in <code>task</code> statements (the variable is set to zero, so by default all tasks consume zero of these new resources)  </p>
+<p><strong>Example:</strong> Adding 8 GPUs (to the local system) and using them in a task that consumes 1 GPU and 2 CPUs</p>
+<pre><code>addResource('gpus', 8)  # Here 8 gpus are defined
+                        # Also a global variable is created `gpus := 0`
 
-print &quot;Hello world\n&quot;
+for(int i=0; i &lt; 5; i++ ) {
+    # Each task consumes 1 GPU and 2 CPUs
+    task (gpus := 1, cpus := 2 ) sys my_gpu_command parameter_1 parameter_2 
+}
 </code></pre>
-<pre><code>$ ./test_01.bds 
-Hello world
-</code></pre>
-<h3 id="run-a-shell-command">Run a shell command</h3>
-<p>This time we do it by running a system command (<code>echo</code>), using bds' <code>sys</code> expression. 
-A <code>sys</code> executes the command immediately in the local computer and waits until the command finishes.
-Everything after <code>sys</code> until the end of the line is interpreted as an OS command.
-File <a href="bds/test_02.bds">test_02.bds</a></p>
-<pre><code>#!/usr/bin/env bds
-
-sys echo Hello world
-</code></pre>
-<p>Run it:</p>
-<pre><code>$ ./test_02.bds 
-hello world
-</code></pre>
-<h3 id="run-a-shell-command-on-a-cluster">Run a shell command on a cluster</h3>
-<p>now let's run the same in as a 'task'. tasks schedule the system command for execution (either locally, on a cluster, etc.).
-File <a href="bds/test_03.bds">test_03.bds</a></p>
-<pre><code>#!/usr/bin/env bds
-
-task echo Hello world
-</code></pre>
-<p>Just run the script to execute tasks locally</p>
-<pre><code>$ ./test_03.bds
-Hello world
-</code></pre>
-<p>You can also execute on a cluster, for instance, if you are on a cluster's head node, just run:</p>
-<pre><code>$ bds -s cluster ./test_03.bds
-Hello world
-</code></pre>
-<p>Note that in order to execute on another architecture (cluster), we did not change the bds program, we just added a command line option.</p>
-<h3 id="cluster-cloud-datacenter-or-local-computer">Cluster, cloud, datacenter or local computer</h3>
-<p>Programs can be executed on different computer systems of different sizes without changing the code.</p>
-<iframe width="640" height="390" src="http://www.youtube.com/embed/WnwBIa4G-mE" frameborder="0" allowfullscreen></iframe>
               
             </div>
           </div>
@@ -211,10 +213,10 @@ Hello world
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="language.html" class="btn btn-neutral float-right" title="Language">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="wait.html" class="btn btn-neutral float-right" title="Wait">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="download.html" class="btn btn-neutral" title="Download"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="task_aws.html" class="btn btn-neutral" title="Tasks: Cloud AWS"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -240,10 +242,10 @@ Hello world
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="download.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="task_aws.html" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="language.html" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="wait.html" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
