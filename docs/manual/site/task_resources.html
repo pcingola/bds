@@ -179,9 +179,11 @@ This allows bds to correctly schedule each <code>task</code> when the resources 
 <p>In this case <code>bds</code> will run two tasks in parallel, because each <code>task</code> consumes half the available memory.</p>
 <p><strong>Clusters:</strong> If these tasks are running in a cluster environment, each task would be issued with the appropriate CPUs and memory parameters, so that the cluster system can schedule the job in an appropriate node (keep in mind tha most cluster systems will kill task that consume more resources that the ones declared).</p>
 <h3 id="basic-resources">Basic resources</h3>
-<p>The basic resources you can add to a task are:
-- <code>cpus</code>: Number of CPUs / cores consumed by the task. The default is <code>cpus := 1</code>
-- <code>mem</code>: Amount of memory used by the task. The default value is <code>mem := -1</code>, which doesn't use the resource (e.g. in a cluster system it will use the cluster's default setting).</p>
+<p>The basic resources you can add to a task are:</p>
+<ul>
+<li><code>cpus</code>: Number of CPUs / cores consumed by the task. The default is <code>cpus := 1</code></li>
+<li><code>mem</code>: Amount of memory used by the task. The default value is <code>mem := -1</code>, which doesn't use the resource (e.g. in a cluster system it will use the cluster's default setting).</li>
+</ul>
 <h3 id="custom-reosurces">Custom reosurces</h3>
 <p>There are other resources than <code>cpus</code> and <code>mem</code> that you might need to define.
 Typical examples are special hardware accelerator cards (GPUs, TPUs, FFPGA, etc.).

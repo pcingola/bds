@@ -27,6 +27,7 @@ In this case `bds` will run two tasks in parallel, because each `task` consumes 
 ### Basic resources
 
 The basic resources you can add to a task are:
+
 - `cpus`: Number of CPUs / cores consumed by the task. The default is `cpus := 1`
 - `mem`: Amount of memory used by the task. The default value is `mem := -1`, which doesn't use the resource (e.g. in a cluster system it will use the cluster's default setting).
 
