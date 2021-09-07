@@ -67,14 +67,14 @@ public abstract class CheckTasksRunning implements BdsLog {
 		Set<Task> taskFound = findRunningTasks();
 
 		// If any 'running' tasks was not not found, mark is as finished ('ERROR')
-		tasksRunning(taskFound);
+		if( taskFound != null )	tasksRunning(taskFound);
 	}
 
 	/**
 	 * Find a running task given a PID
 	 */
 	protected Set<Task> findRunningTaskByPid(Set<String> pids) {
-		HashSet<Task> tasks = new HashSet<>();
+		Set<Task> tasks = new HashSet<>();
 
 		// Find task by PID
 		for (Task t : executioner.getTasksRunning()) {
@@ -163,7 +163,6 @@ public abstract class CheckTasksRunning implements BdsLog {
 
 		// Any 'running' task that was not found should be marked as finished/ERROR
 		for (Task task : executioner.getTasksRunning()) {
-
 			if (!taskFoundId.contains(task) // Task not found by command?
 					&& (task.elapsedSecs() > TASK_STATE_MIN_START_TIME) // Make sure that it's been running for a while (otherwise it might that the task has just started and the cluster is not reporting it yet)
 					&& !task.isDone() // Is the task "not finished"?
@@ -180,9 +179,7 @@ public abstract class CheckTasksRunning implements BdsLog {
 			}
 		}
 
-		//---
 		// Any task to mark as finished/ERROR?
-		//---
 		if (finished != null) {
 			for (Task task : finished) {
 				String tpid = task.getPid() != null ? task.getPid() : "";

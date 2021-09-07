@@ -1,15 +1,9 @@
 #!/usr/bin/env bds
 
-addResource('gpu', 1)
-
-for(int i=0; i < 3; i++) {
-	task(gpu := 2) {
-		sys echo "Start task $i"
-		sys sleep 1
-		sys echo "End task $i"
-	}
-}
-println "Scheduled"
+system = 'slurm'
+task(timeout := 1) sys echo hi
+println "Task scheduled, creating checkpoint"
+checkpoint "test/checkpoint_29.chp"
 wait
 println "Done!"
 
