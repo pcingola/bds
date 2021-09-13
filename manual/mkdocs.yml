@@ -9,6 +9,7 @@ nav:
     - 'Language': language.md
     - 'Special operators': special.md
     - 'Data types': data_types.md
+    - 'Classes': classes.md
     - 'Functions': functions.md
     - 'Global variables': global_vars.md
     - 'Pipelines': pipelines.md
