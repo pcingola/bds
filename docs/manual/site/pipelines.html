@@ -213,7 +213,7 @@ Done 8
 The rest is executed when the first tasks finish.</p>
 <p><strong>Warning:</strong> Task execution order is not guaranteed (e.g. a cluster scheduler can decide to run tasks out of order).
 We'll see how to coordinate tasks later.</p>
-<iframe width="640" height="390" src="http://www.youtube.com/embed/ehFfU8vLwi8" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ehFfU8vLwi8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <h3 id="running-on-a-cluster">Running on a cluster</h3>
 <p>Here we show how exactly the same script is run on a cluster, keep in mind that not a single line of code changed. 
@@ -221,7 +221,7 @@ We copy tha same script (used in the previous section) to a cluster.
 We execute it, but now the tasks are scheduled using MOAB, Torque, PBS or Grid Engine.</p>
 <pre><code>$ bds -s cluster test_04.bds
 </code></pre>
-<iframe width="640" height="390" src="http://www.youtube.com/embed/o47wxUdYzvk" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/o47wxUdYzvk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <h3 id="task-dependencies">Task dependencies</h3>
 <p>In a typical pipeline we must be able to control task execution which depends on previously executed tasks.
@@ -274,7 +274,7 @@ Bye 8
 <li>We then run the same script on a cluster. Again, this is done simply by using <code>-s cluster</code> command line. The video shows how tasks are scheduled and on the cluster, always honoring the <code>wait</code> statement</li>
 <li>The exit code of a <code>bds</code> script is 0 if all tasks executed without any problems, and non-zero if any task failed.</li>
 </ul>
-<iframe width="640" height="390" src="http://www.youtube.com/embed/vTekXn3sKzs" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/vTekXn3sKzs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <h3 id="dependency-operator-">Dependency operator '<code>&lt;-</code>'</h3>
 <p>The dependency operator provides a simple way to see if a file needs to be updated (i.e. recalculated) with respect to some inputs.
@@ -328,7 +328,7 @@ Creating out.txt
   sys echo Creating $outFile; cat $inFile &gt; $outFile
 }
 </code></pre>
-<iframe width="640" height="390" src="http://www.youtube.com/embed/oSjhkRuc0I8" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/oSjhkRuc0I8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <h3 id="automatic-task-dependency-detection">Automatic task dependency detection</h3>
 <p>Programming task dependencies can be difficult.

@@ -50,7 +50,7 @@ The rest is executed when the first tasks finish.
 **Warning:** Task execution order is not guaranteed (e.g. a cluster scheduler can decide to run tasks out of order).
 We'll see how to coordinate tasks later.
 
-<iframe width="640" height="390" src="http://www.youtube.com/embed/ehFfU8vLwi8" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ehFfU8vLwi8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 ### Running on a cluster 
@@ -62,7 +62,7 @@ We execute it, but now the tasks are scheduled using MOAB, Torque, PBS or Grid E
 $ bds -s cluster test_04.bds
 ```
 
-<iframe width="640" height="390" src="http://www.youtube.com/embed/o47wxUdYzvk" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/o47wxUdYzvk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         
 ### Task dependencies
         
@@ -121,7 +121,7 @@ Bye 8
 * We then run the same script on a cluster. Again, this is done simply by using `-s cluster` command line. The video shows how tasks are scheduled and on the cluster, always honoring the `wait` statement
 * The exit code of a `bds` script is 0 if all tasks executed without any problems, and non-zero if any task failed.
 
-<iframe width="640" height="390" src="http://www.youtube.com/embed/vTekXn3sKzs" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/vTekXn3sKzs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ### Dependency operator '`<-`' 
 
@@ -190,7 +190,7 @@ task( outFile <- inFile ) {
 }
 ```
 
-<iframe width="640" height="390" src="http://www.youtube.com/embed/oSjhkRuc0I8" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/oSjhkRuc0I8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         
 ### Automatic task dependency detection 
         
