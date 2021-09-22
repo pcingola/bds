@@ -94,10 +94,10 @@ The above syntax means that `task` will only be executed if the dependency is sa
 <iframe width="560" height="315" src="https://www.youtube.com/embed/oSjhkRuc0I8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
-### Automatic task dependency detection 
+### Task dependency detection 
 
 Programming task dependencies can be difficult.
-BDS can help by automatically inferring task dependencies and executing tasks in the correct order.
+BDS can help by inferring task dependencies and executing tasks in the correct order.
 
 In this example, we have two tasks:
 
