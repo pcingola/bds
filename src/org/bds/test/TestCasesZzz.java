@@ -20,14 +20,7 @@ public class TestCasesZzz extends TestCasesBaseAws {
 	}
 
 	@Test
-	public void test265_try_catch_parent_exception_class() {
-		runAndCheck("test/run_265.bds", "out", "try_start catch finally");
+	public void test268_try_catch_exception_class_defined_after_function() {
+		runOk("test/run_268.bds");
 	}
-
-	@Test
-	public void test266_try_catch_exception_class() {
-		verbose = true;
-		runAndCheck("test/run_266.bds", "out", "try_start catch finally");
-	}
-
 }

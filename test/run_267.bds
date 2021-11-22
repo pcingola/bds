@@ -1,13 +1,8 @@
 #!/usr/bin/env bds
 
-
-void f() {
-    throw new MyException()
-}
-
 try {
     println "TRY"
-    f()
+    throw new MyException()
 } catch(MyException e) {
     println "CATCH"
 }

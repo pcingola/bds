@@ -552,4 +552,10 @@ public class TestCasesRun3 extends TestCasesBase {
 	public void test266_try_catch_exception_class() {
 		runAndCheck("test/run_266.bds", "out", "try_start catch finally");
 	}
+
+	@Test
+	public void test267_try_catch_exception_class_defined_after() {
+		runOk("test/run_267.bds");
+	}
+
 }
