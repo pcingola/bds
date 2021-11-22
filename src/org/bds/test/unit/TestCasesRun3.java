@@ -542,4 +542,14 @@ public class TestCasesRun3 extends TestCasesBase {
 		Gpr.debug("Test");
 		runAndCheck("test/run_264.bds", "objType", "A");
 	}
+
+	@Test
+	public void test265_try_catch_parent_exception_class() {
+		runAndCheck("test/run_265.bds", "out", "try_start catch finally");
+	}
+
+	@Test
+	public void test266_try_catch_exception_class() {
+		runAndCheck("test/run_266.bds", "out", "try_start catch finally");
+	}
 }

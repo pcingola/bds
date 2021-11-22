@@ -1,0 +1,22 @@
+#!/usr/bin/env bds
+
+class MyException extends Exception { }
+class OurException extends MyException { }
+
+out := ''
+
+try {
+	out += 'try_start '
+    println "TRY"
+    throw new OurException()
+	out += 'try_end'
+} catch(Exception e) {
+	out += 'catch '
+    println "CATCH Exception"
+} finally {
+	out += 'finally'
+    println "FINALY"
+}
+
+println "out = '$out'"
+

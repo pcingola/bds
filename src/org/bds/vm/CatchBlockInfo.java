@@ -1,5 +1,9 @@
 package org.bds.vm;
 
+import org.bds.lang.type.Type;
+import org.bds.lang.type.TypeClass;
+import org.bds.lang.type.TypeClassException;
+
 import java.io.Serializable;
 
 /**
@@ -19,6 +23,17 @@ public class CatchBlockInfo implements Serializable {
 		this.handlerLabel = handlerLabel;
 		exceptionClassName = exceptionClass;
 		this.variableName = variableName;
+	}
+
+	/**
+	 * Can this exception type be handled?
+	 */
+	public boolean handles(Type exceptionType) {
+		// Does it match any parent (Exception) class
+		for(TypeClass exType = (TypeClass) exceptionType; exType instanceof TypeClass; exType = exType.getParentTypeClass()) {
+			if(exType.getCanonicalName().equals(exceptionClassName))return true;
+		}
+		return false;
 	}
 
 	@Override

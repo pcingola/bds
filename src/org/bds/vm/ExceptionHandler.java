@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.bds.lang.value.ValueObject;
 
@@ -19,7 +18,7 @@ public class ExceptionHandler implements Serializable {
 	private static final long serialVersionUID = 1193221593865738652L;
 
 	boolean catchStart, finallyStart; // Exception handling started
-	Map<String, CatchBlockInfo> catchBlocksByClass; // Catch blocks indexed by exception className
+	List<CatchBlockInfo> catchBlocks; // Catch blocks (sorted in order of appearance)
 	String finallyLabel; // Finally label for this try/catch/block
 	ValueObject pendingException; // Pending exception (to be re-thrown)
 
@@ -29,9 +28,9 @@ public class ExceptionHandler implements Serializable {
 	}
 
 	public void addHandler(String handlerLabel, String exceptionClassName, String variableName) {
-		if (catchBlocksByClass == null) catchBlocksByClass = new HashMap<>();
+		if (catchBlocks == null) catchBlocks = new ArrayList<>();
 		CatchBlockInfo cb = new CatchBlockInfo(handlerLabel, exceptionClassName, variableName);
-		catchBlocksByClass.put(exceptionClassName, cb);
+		catchBlocks.add(cb);
 	}
 
 	public void catchStart() {
@@ -45,11 +44,16 @@ public class ExceptionHandler implements Serializable {
 	}
 
 	/**
-	 * Get catch block info if availble for 'exception'
+	 * Get catch block info if available for 'exception'
 	 */
 	public CatchBlockInfo getCatchBlockInfo(ValueObject exception) {
-		if (catchBlocksByClass == null) return null;
-		return catchBlocksByClass.get(exception.getType().getCanonicalName());
+		if (catchBlocks == null) return null;
+		var exType = exception.getType();
+		for(CatchBlockInfo cb: catchBlocks) {
+			if( cb.handles(exType))
+				return cb;
+		}
+		return null;
 	}
 
 	public String getFinallyLabel() {
@@ -80,12 +84,9 @@ public class ExceptionHandler implements Serializable {
 		if (isFinallyStart()) sb.append(", finalStart: true");
 		sb.append("\n");
 		sb.append("Pending exception: " + (pendingException != null ? pendingException.getType().getCanonicalName() : "null") + "\n");
-		if (catchBlocksByClass != null) {
-			List<String> keys = new ArrayList<>();
-			keys.addAll(catchBlocksByClass.keySet());
-			Collections.sort(keys);
-			for (String key : keys)
-				sb.append("\t" + catchBlocksByClass.get(key) + "\n");
+		if (catchBlocks != null) {
+			for (CatchBlockInfo cb: catchBlocks)
+				sb.append("\t" + cb + "\n");
 		}
 		return sb.toString();
 	}

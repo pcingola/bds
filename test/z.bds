@@ -1,10 +1,16 @@
 #!/usr/bin/env bds
 
-system = 'slurm'
-task(timeout := 1) sys echo hi
-println "Task scheduled, creating checkpoint"
-checkpoint "test/checkpoint_29.chp"
-wait
-println "Done!"
+class MyException extends Exception { }
+class OurException extends Exception { }
 
+try {
+    println "TRY"
+    throw new MyException()
+} catch(Exception e) {
+    println "CATCH Exception"
+} finally {
+    println "FINALY"
+}
+
+println "OK"
 
