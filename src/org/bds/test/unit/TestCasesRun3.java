@@ -291,6 +291,28 @@ public class TestCasesRun3 extends TestCasesBase {
 		Gpr.debug("Test");
 		Map<String, Object> expectedValues = new HashMap<>();
 		expectedValues.put("f11", "true");
+		expectedValues.put("f12", "true");
+		expectedValues.put("f21", "true");
+		expectedValues.put("f22", "false");
+
+		expectedValues.put("try11", "true");
+		expectedValues.put("try12", "false");
+		expectedValues.put("catch11", "true");
+		expectedValues.put("finally11", "true");
+
+		expectedValues.put("try21", "true");
+		expectedValues.put("try22", "true");
+		expectedValues.put("catch21", "false");
+		expectedValues.put("finally21", "true");
+
+		runAndCheck("test/run_235.bds", expectedValues);
+	}
+
+	@Test
+	public void test235_tryCatch_rev() {
+		Gpr.debug("Test");
+		Map<String, Object> expectedValues = new HashMap<>();
+		expectedValues.put("f11", "true");
 		expectedValues.put("f12", "false");
 		expectedValues.put("f21", "true");
 		expectedValues.put("f22", "false");
@@ -305,11 +327,12 @@ public class TestCasesRun3 extends TestCasesBase {
 		expectedValues.put("catch21", "true");
 		expectedValues.put("finally21", "true");
 
-		runAndCheck("test/run_235.bds", expectedValues);
+		runAndCheck("test/run_235_rev.bds", expectedValues);
 	}
 
 	@Test
 	public void test236_tryCatch() {
+		verbose = true;
 		Gpr.debug("Test");
 		Map<String, Object> expectedValues = new HashMap<>();
 		expectedValues.put("f11", "true");
@@ -541,5 +564,33 @@ public class TestCasesRun3 extends TestCasesBase {
 		// Invoke a method on a null object
 		Gpr.debug("Test");
 		runAndCheck("test/run_264.bds", "objType", "A");
+	}
+
+	@Test
+	public void test265_try_catch_parent_exception_class() {
+		runAndCheck("test/run_265.bds", "out", "try_start catch finally");
+	}
+
+	@Test
+	public void test266_try_catch_exception_class() {
+		runAndCheck("test/run_266.bds", "out", "try_start catch finally");
+	}
+
+	@Test
+	public void test267_try_catch_exception_class_defined_after() {
+		runOk("test/run_267.bds");
+	}
+
+	@Test
+	public void test268_try_catch_nested() {
+		var expectedStdout = "START\n" //
+				+ "TRY 1: Start\n" //
+				+ "TRY 2: Start\n" //
+				+ "CATCH 2\n" //
+				+ "FINALLY 2\n" //
+				+ "TRY 1: End\n" //
+				+ "FINALLY 1\n" //
+				+ "END\n";
+		runAndCheckStdout("test/z.bds", expectedStdout);
 	}
 }

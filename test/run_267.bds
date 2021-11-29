@@ -1,0 +1,13 @@
+#!/usr/bin/env bds
+
+try {
+    println "TRY"
+    throw new MyException()
+} catch(MyException e) {
+    println "CATCH"
+}
+
+class MyException extends Exception { }
+
+println "OK"
+

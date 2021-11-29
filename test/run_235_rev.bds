@@ -6,6 +6,7 @@ bool finally11, finally21
 bool f11, f12, f21, f22
 
 class MyException extends Exception { }
+class My2Exception extends Exception { }
 
 void f1() {
 	f11 = true
@@ -15,7 +16,7 @@ void f1() {
         f2()
         try12 = true
         println "TRY f1: End"
-    } catch (Exception e1) {
+    } catch (My2Exception e1) {
         catch11 = true
         println "CATCH f1"
     } finally {
@@ -39,7 +40,7 @@ try {
     f1()
     try22 = true
     println "TRY Main: End"
-} catch(MyException e2) {
+} catch(Exception e2) {
     catch21 = true
     println "CATCH Main"
 } finally {

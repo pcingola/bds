@@ -44,8 +44,8 @@ public class BdsCompiler implements BdsLog {
 	}
 
 	/**
-	 * Add symbols: Classes, functons, methods, etc.
-	 * This step is necesary for forward resolution (i.e. when the
+	 * Add symbols: Classes, functions, methods, etc.
+	 * This step is necessary for forward resolution (i.e. when the
 	 * definition of the class is after the first time it's used)
 	 * @return true on error, false on success
 	 */
@@ -79,7 +79,7 @@ public class BdsCompiler implements BdsLog {
 		// Type-checking
 		if (typeChecking()) return null;
 
-		// Cleanup: Free some memory by reseting structure we won't use any more
+		// Cleanup: Free some memory by resetting structure we won't use any more
 		TypeCheckedNodes.get().reset();
 
 		// OK
