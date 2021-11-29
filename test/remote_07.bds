@@ -1,6 +1,6 @@
 
 in := 'http://pcingola.github.io/bds/index.html'
-in2	:= 'https://pcingola.github.io/bds/manual/site/about/index.html'
+in2	:= 'https://pcingola.github.io/bds/manual/site/about.html'
 out := 'tmp_remote_07.txt'
 
 out.rm()
