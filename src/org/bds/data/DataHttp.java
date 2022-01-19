@@ -9,6 +9,7 @@ import org.jsoup.select.Elements;
 
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.net.Proxy;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
@@ -129,7 +130,17 @@ public class DataHttp extends DataRemote {
         try {
             // Read HTML page
             String baseUrl = uri.toURL().toString();
-            Document doc = Jsoup.connect(baseUrl).get();
+            org.jsoup.Connection jsoupConnection = Jsoup.connect(baseUrl);
+
+            // Use proxy?
+            Proxy proxy = GprHttp.getProxyFromEnv();
+            if (proxy != null) {
+                log("Using proxy " + proxy);
+                jsoupConnection = jsoupConnection.proxy(proxy);
+            }
+
+            // Get html document
+            Document doc = jsoupConnection.get();
 
             // Parse html, add all 'href' links
             Elements links = doc.select("a[href]");

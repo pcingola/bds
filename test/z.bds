@@ -2,7 +2,7 @@
 
 
 # url := "http://www.google.com/"
-url := "http://www.google.com"
-println "Reading page"
-page := url.read()
-println "Done\npage = $page"
+url := "http://ftp.ensembl.org/pub/release-105/fasta/"
+println "Reading dir"
+for(string d: url.dir()) println "d: '$d'"
+println "Done"
