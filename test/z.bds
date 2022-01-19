@@ -1,26 +1,8 @@
 #!/usr/bin/env bds
 
 
-class MyException extends Exception { }
-
-println "START"
-try {
-	println "TRY 1: Start"
-	try {
-		println "TRY 2: Start"
-		throw new MyException()
-		println "TRY 2: End"
-	} catch(MyException e) {
-		println "CATCH 2"
-	} finally {
-		println "FINALLY 2"
-	}
-	println "TRY 1: End"
-} catch(Exception e) {
-	println "CATCH 1"
-} finally {
-	println "FINALLY 1"
-}
-
-println "END"
-
+# url := "http://www.google.com/"
+url := "http://www.google.com"
+println "Reading page"
+page := url.read()
+println "Done\npage = $page"

@@ -10,8 +10,7 @@ antlr4="java -Xmx1g -cp $jar org.antlr.v4.Tool"
 grun="java -Xmx1g -cp .:$jar org.antlr.v4.runtime.misc.TestRig"
 
 # Delete old files
-touch tmp.java tmp.class
-rm *.class *.java *.interp *.tokens
+rm -vf *.class *.java *.interp *.tokens
 
 # Compile
 echo Create Lexer and Parser
