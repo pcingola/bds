@@ -1,8 +1,7 @@
 #!/usr/bin/env bds
 
 
-# url := "http://www.google.com/"
-url := "http://ftp.ensembl.org/pub/release-105/fasta/"
-println "Reading dir"
-for(string d: url.dir()) println "d: '$d'"
-println "Done"
+url := "ftp://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/clinvar.vcf.gz"
+println "Start"
+ok := url.exists()
+println "Done: $ok"
