@@ -97,7 +97,10 @@ public class FtpConnectionFactory extends TimerTask implements BdsLog {
 
             // Check for proxy
             Proxy proxy = GprHttp.getProxyFromEnv(GprHttp.ENV_PROXY_FTP);
-            if (proxy != null) ftp.setProxy(proxy);
+            if (proxy != null) {
+                log("Using FTP proxy " + proxy);
+                ftp.setProxy(proxy);
+            }
 
             // Connect
             try {
