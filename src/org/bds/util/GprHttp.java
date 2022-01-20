@@ -10,6 +10,7 @@ import java.net.*;
  */
 public class GprHttp {
 
+    public static final String ENV_PROXY_FTP = "ftp_proxy";
     public static final String ENV_PROXY_HTTTP = "http_proxy";
     public static final String ENV_PROXY_HTTTPS = "https_proxy";
 
