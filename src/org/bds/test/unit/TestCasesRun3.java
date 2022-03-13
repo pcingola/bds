@@ -591,6 +591,6 @@ public class TestCasesRun3 extends TestCasesBase {
 				+ "TRY 1: End\n" //
 				+ "FINALLY 1\n" //
 				+ "END\n";
-		runAndCheckStdout("test/z.bds", expectedStdout); // FIXME: z.bds !!!!!!!!!!!
+		runAndCheckStdout("test/run_268.bds", expectedStdout);
 	}
 }
