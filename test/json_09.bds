@@ -5,6 +5,6 @@ var2 := globalVar               # Assign globalVar value to class member
 println("Before:\n\tglobalVar = '$globalVar'\n\tvar2 = '$var2'")
 
 # Loading json that sets 'globalVar'
-json('test/z.json')
+json('test/json_09.json')
 println("After:\n\tglobalVar = '$globalVar'\n\tvar2 = '$var2'")
 

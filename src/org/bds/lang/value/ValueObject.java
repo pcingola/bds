@@ -2,6 +2,7 @@ package org.bds.lang.value;
 
 import org.bds.lang.type.Type;
 import org.bds.lang.type.TypeClass;
+import org.bds.scope.ValuesGetSet;
 
 import java.util.*;
 
@@ -10,7 +11,7 @@ import java.util.*;
  *
  * @author pcingola
  */
-public class ValueObject extends ValueComposite {
+public class ValueObject extends ValueComposite implements ValuesGetSet {
 
     private static final long serialVersionUID = -1443386366370835828L;
 
@@ -27,9 +28,10 @@ public class ValueObject extends ValueComposite {
         return vclone;
     }
 
-	public Set<String> getFieldNames() {
-		return fields.keySet();
-	}
+    public Set<String> getFieldNames() {
+        if (isNull()) return new HashSet<>();
+        return fields.keySet();
+    }
 
     public Type getFieldType(String name) {
         TypeClass tc = (TypeClass) type;
@@ -42,6 +44,17 @@ public class ValueObject extends ValueComposite {
     public Value getFieldValue(String name) {
         return fields.get(name);
     }
+
+    @Override
+    public Collection<String> getNames() {
+        return getFieldNames();
+    }
+
+    @Override
+    public Value getValue(String name) {
+        return fields.get(name);
+    }
+
 
     /**
      * Does the class have a field 'name'?

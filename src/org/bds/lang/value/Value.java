@@ -19,6 +19,7 @@ public abstract class Value implements Serializable, Cloneable, Comparable<Value
 
 	public static final ValueUnique ANY = ValueUnique.get(Types.ANY);
 	public static final ValueUnique VOID = ValueUnique.get(Types.VOID);
+	public static final ValueUnique NULL = ValueUnique.get(Types.NULL);
 
 	public static Value factory(Object v) {
 		if (v instanceof Boolean) return new ValueBool((Boolean) v);

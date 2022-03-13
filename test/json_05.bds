@@ -12,5 +12,5 @@ Phone[] phoneNumbers
 println "Reading JSON file '$fileName'"
 json(fileName)
 
-println "phoneNumbers = phoneNumbers"
+println "phoneNumbers = $phoneNumbers"
 

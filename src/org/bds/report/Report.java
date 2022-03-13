@@ -167,7 +167,7 @@ public class Report implements BdsLog {
 
 		// Scope symbols
 		ArrayList<String> names = new ArrayList<>();
-		names.addAll(scope.getNames());
+		names.addAll(scope.getNamesLocal());
 		Collections.sort(names);
 
 		if (!names.isEmpty()) {
