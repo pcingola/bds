@@ -56,6 +56,7 @@ public class TestCasesIntegrationTaskDetached extends TestCasesBase {
 	@Test
 	public void test03_TwoDetachedOneDependent() {
 		Gpr.debug("Test");
+		verbose = true;
 		String outFile = "tmp.run_task_detached_03.txt";
 
 		String catout = "Task 1: Start\n" + //
