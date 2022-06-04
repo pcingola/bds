@@ -13,12 +13,20 @@ class MyException extends Exception { } # sadfasdf
 
 
 
+real realnum
+string mystring
+bool mybool
+string [] strs
+zzz sdfsdf
+zzz()[] sdfsdf
+zzz{} sdfsdf
+zzz() sdfsdf
+
+string{} strs
 int[] a = 'asdfasd'
 int{} a = 'asdfasd'
+
 int{string} a = 'asdfasd'
-real b
-string s1sdfg
-bool b1
 string{int} sints
 
 i := 32452345 + 45234

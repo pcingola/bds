@@ -1,0 +1,234 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "bds",
+	"patterns": [
+		{
+			"include": "#code"
+		}
+	],
+	"repository": {
+		"bools": {
+			"patterns": [
+				{
+					"name": "keyword.control.bds",
+					"match": "\\b(true|false)\\b"
+				}
+			]
+		},
+		"code": {
+			"patterns": [
+				{
+					"include": "#comments"
+				},
+				{
+					"include": "#literals"
+				},
+				{
+					"include": "#var-declaration"
+				},
+				{
+					"include": "#keywords"
+				}
+			]
+		},
+		"comments": {
+			"patterns": [
+				{
+					"include": "#comments-multi-line"
+				},
+				{
+					"include": "#comments-inline-shebang"
+				},
+				{
+					"include": "#comments-inline-hash"
+				},
+				{
+					"include": "#comments-inline-help"
+				},
+				{
+					"include": "#comments-inline-slash"
+				},
+				{
+					"include": "#comments-help"
+				}
+			]
+		},
+		"comments-inline-hash": {
+			"begin": "#",
+			"end": "$",
+			"name": "comment.line.hash.bds"
+		},
+		"comments-inline-help": {
+			"begin": "\\b(help)\\b",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.help.bds"
+				}
+			},
+			"end": "$",
+			"name": "string.literal.help"
+		},
+		"comments-inline-shebang": {
+			"begin": "#!",
+			"end": "$",
+			"name": "punctuation.section.embedded"
+		},
+		"comments-inline-slash": {
+			"begin": "//",
+			"end": "$",
+			"name": "comment.line.slash.bds"
+		},
+		"comments-multi-line": {
+			"begin": "/\\*",
+			"end": "\\*/",
+			"name": "comment.multi.line.bds"
+		},
+		"keywords": {
+			"patterns": [
+				{
+					"name": "keyword.control.bds",
+					"match": "\\b(catch|class|finally|for|if|print|println|return|try|while)\\b"
+				},
+				{
+					"begin": "\\b(include)\\b",
+					"beginCaptures": {
+						"0": {
+							"name": "keyword.include.bds"
+						}
+					},
+					"end": "$",
+					"name": "string.include.single.bds"
+				},
+				{
+					"begin": "\\b(new)\\b",
+					"beginCaptures": {
+						"0": {
+							"name": "keyword.operator.new"
+						}
+					},
+					"end": "\\s+",
+					"name": "punctuation.section.embedded"
+				},
+				{
+					"begin": "\\b(sys)\\b",
+					"beginCaptures": {
+						"0": {
+							"name": "keyword.sys.bds"
+						}
+					},
+					"end": "$",
+					"name": "punctuation.section.embedded"
+				},
+				{
+					"match": "(<<|>>|~|\\^)",
+					"name": "keyword.operator.bitwise.bds"
+				},
+				{
+					"match": "(==|!=|<=|>=|<|>)",
+					"name": "keyword.operator.comparison.bds"
+				},
+				{
+					"match": "([+*/%-]=)",
+					"name": "keyword.operator.assignment.arithmetic.bds"
+				},
+				{
+					"match": "(:=)",
+					"name": "keyword.operator.cast"
+				},
+				{
+					"match": "(=)",
+					"name": "keyword.operator.assignment.bds"
+				},
+				{
+					"match": "(\\-\\-|\\+\\+)",
+					"name": "keyword.operator.increment-decrement.bds"
+				},
+				{
+					"match": "(\\-|\\+|\\*|\\/|%)",
+					"name": "keyword.operator.arithmetic.bds"
+				},
+				{
+					"match": "(!|&&|\\|\\|)",
+					"name": "keyword.operator.logical.bds"
+				},
+				{
+					"match": "(\\||&)",
+					"name": "keyword.operator.bitwise.bds"
+				}
+			]
+		},
+		"literals": {
+			"patterns": [
+				{
+					"include": "#strings"
+				},
+				{
+					"include": "#numbers"
+				},
+				{
+					"include": "#bools"
+				}
+			]
+		},
+		"numbers": {
+			"patterns": [
+				{
+					"match": "(?x)\n(?<!\\$)\n(\n  \\b[0-9]([0-9_]*[0-9])?\\.\\B(?!\\.)\n  |\n  \\b[0-9]([0-9_]*[0-9])?\\.([Ee][+-]?[0-9]([0-9_]*[0-9])?)[FfDd]?\\b\n  |\n  \\b[0-9]([0-9_]*[0-9])?\\.([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]\\b\n  |\n  \\b[0-9]([0-9_]*[0-9])?\\.([0-9]([0-9_]*[0-9])?)([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]?\\b\n  |\n  (?<!\\.)\\B\\.[0-9]([0-9_]*[0-9])?([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]?\\b\n  |\n  \\b[0-9]([0-9_]*[0-9])?([Ee][+-]?[0-9]([0-9_]*[0-9])?)[FfDd]?\\b\n  |\n  \\b[0-9]([0-9_]*[0-9])?([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]\\b\n  |\n  \\b(0|[1-9]([0-9_]*[0-9])?)(?!\\.)[Ll]?\\b\n)\n(?!\\$)",
+					"name": "constant.numeric.decimal.bds"
+				}
+			]
+		},
+		"strings": {
+			"patterns": [
+				{
+					"include": "#strings-double"
+				},
+				{
+					"include": "#strings-single"
+				}
+			]
+		},
+		"strings-double": {
+			"name": "string.quoted.double.bds",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.bds",
+					"match": "\\\\."
+				}
+			]
+		},
+		"strings-single": {
+			"name": "string.quoted.single.bds",
+			"begin": "'",
+			"end": "'"
+		},
+		"var-declaration": {
+			"patterns": [
+				{
+					"include": "#var-declaration-primitive-array"
+				},
+				{
+					"include": "#var-declaration-primitive"
+				}
+			]
+		},
+		"var-declaration-primitive": {
+			"match": "\\b(zzz|bool|int|real|string|void)\\b\\s+(\\w+)",
+			"captures": {
+				"1": {
+					"name": "storage.type.primitive.bds"
+				},
+				"2": {
+					"name": "entity.name.variable.bds"
+				}
+			}
+		},
+		"var-declaration-primitive-array": {
+			"match": "\\b(zzz)\\b\\s*((\\[\\])|(\\{\\}))*\\s+(\\w+)",
+			"name": "debug"
+		}
+	},
+	"scopeName": "source.bds"
+}

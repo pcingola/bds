@@ -1,0 +1,477 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "bds",
+	"patterns": [
+		{
+			"include": "#code"
+		}
+	],
+	"repository": {
+		"all-types": {
+			"patterns": [
+				{
+					"include": "#primitive-arrays"
+				},
+				{
+					"include": "primitive-hash"
+				},
+				{
+					"include": "#primitive-types"
+				},
+				{
+					"include": "#object-types"
+				}
+			]
+		},
+		"bools": {
+			"patterns": [
+				{
+					"name": "keyword.control.bds",
+					"match": "\\b(true|false)\\b"
+				}
+			]
+		},
+		"class": {
+			"begin": "(?=\\w?[\\w\\s-]*\\b(?:class)\\s+[\\w$]+)",
+			"end": "}",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.section.class.end.bracket.curly.bds"
+				}
+			},
+			"name": "meta.class.bds",
+			"patterns": [
+				{
+					"include": "#comments"
+				},
+				{
+					"match": "(class)\\s+(\\w+)",
+					"captures": {
+						"1": {
+							"name": "storage.modifier.bds"
+						},
+						"2": {
+							"name": "entity.name.type.class.bds"
+						}
+					},
+					"name": "meta.class.identifier.bds"
+				},
+				{
+					"match": "(extends)\\s+(\\w+)",
+					"captures": {
+						"1": {
+							"name": "storage.modifier.bds"
+						},
+						"2": {
+							"name": "entity.name.type.class.bds"
+						}
+					}
+				},
+				{
+					"begin": "{",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.section.class.begin.bracket.curly.bds"
+						}
+					},
+					"end": "(?=})",
+					"name": "meta.class.body.bds",
+					"patterns": [
+						{
+							"include": "#code"
+						}
+					]
+				}
+			]
+		},
+		"code": {
+			"patterns": [
+				{
+					"include": "#comments"
+				},
+				{
+					"include": "#literals"
+				},
+				{
+					"include": "#class"
+				},
+				{
+					"include": "#function-call"
+				},
+				{
+					"include": "#method-call"
+				},
+				{
+					"include": "#variables"
+				},
+				{
+					"include": "#all-types"
+				},
+				{
+					"include": "#keywords"
+				}
+			]
+		},
+		"comments": {
+			"patterns": [
+				{
+					"include": "#comments-multi-line"
+				},
+				{
+					"include": "#comments-inline-shebang"
+				},
+				{
+					"include": "#comments-inline-hash"
+				},
+				{
+					"include": "#comments-inline-help"
+				},
+				{
+					"include": "#comments-inline-slash"
+				},
+				{
+					"include": "#comments-help"
+				}
+			]
+		},
+		"comments-inline-hash": {
+			"begin": "#",
+			"end": "$",
+			"name": "comment.line.hash.bds"
+		},
+		"comments-inline-help": {
+			"begin": "\\b(help)\\b",
+			"beginCaptures": {
+				"0": {
+					"name": "keyword.help.bds"
+				}
+			},
+			"end": "$",
+			"name": "string.literal.help"
+		},
+		"comments-inline-shebang": {
+			"begin": "#!",
+			"end": "$",
+			"name": "punctuation.section.embedded"
+		},
+		"comments-inline-slash": {
+			"begin": "//",
+			"end": "$",
+			"name": "comment.line.slash.bds"
+		},
+		"comments-multi-line": {
+			"begin": "/\\*",
+			"end": "\\*/",
+			"name": "comment.multi.line.bds"
+		},
+		"function-call": {
+			"begin": "([A-Za-z_$][\\w$]*)\\s*(\\()",
+			"beginCaptures": {
+				"1": {
+					"name": "entity.name.function.bds"
+				},
+				"2": {
+					"name": "punctuation.definition.parameters.begin.bracket.round.bds"
+				}
+			},
+			"end": "\\)",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.parameters.end.bracket.round.bds"
+				}
+			},
+			"name": "meta.function-call.bds",
+			"patterns": [
+				{
+					"include": "#code"
+				}
+			]
+		},
+		"keywords": {
+			"patterns": [
+				{
+					"name": "keyword.control.bds",
+					"match": "\\b(break|case|default|exit|for|if|return|switch|try|while)\\b"
+				},
+				{
+					"name": "keyword.message.bds",
+					"match": "\\b(print|println|error|warning)\\b"
+				},
+				{
+					"name": "keyword.exception.bds",
+					"match": "\\b(catch|finally|throw|try)\\b"
+				},
+				{
+					"name": "keyword.debug.bds",
+					"match": "\\b(breakpoint|debug)\\b"
+				},
+				{
+					"name": "keyword.task.bds",
+					"match": "\\b(checkpoint|wait)\\b"
+				},
+				{
+					"begin": "\\b(include)\\b",
+					"beginCaptures": {
+						"0": {
+							"name": "keyword.include.bds"
+						}
+					},
+					"end": "$",
+					"name": "string.include.single.bds"
+				},
+				{
+					"begin": "\\b(new)\\b",
+					"beginCaptures": {
+						"0": {
+							"name": "keyword.operator.new"
+						}
+					},
+					"end": "\\s+",
+					"name": "punctuation.section.embedded"
+				},
+				{
+					"begin": "\\b(sys)\\b",
+					"beginCaptures": {
+						"0": {
+							"name": "keyword.sys.bds"
+						}
+					},
+					"end": "$",
+					"name": "punctuation.section.embedded"
+				},
+				{
+					"match": "(<<|>>|~|\\^)",
+					"name": "keyword.operator.bitwise.bds"
+				},
+				{
+					"match": "(==|!=|<=|>=|<|>)",
+					"name": "keyword.operator.comparison.bds"
+				},
+				{
+					"match": "([+*/%-]=)",
+					"name": "keyword.operator.assignment.arithmetic.bds"
+				},
+				{
+					"match": "(:=)",
+					"name": "keyword.operator.cast"
+				},
+				{
+					"match": "(=)",
+					"name": "keyword.operator.assignment.bds"
+				},
+				{
+					"match": "(\\-\\-|\\+\\+)",
+					"name": "keyword.operator.increment-decrement.bds"
+				},
+				{
+					"match": "(\\-|\\+|\\*|\\/|%)",
+					"name": "keyword.operator.arithmetic.bds"
+				},
+				{
+					"match": "(!|&&|\\|\\|)",
+					"name": "keyword.operator.logical.bds"
+				},
+				{
+					"match": "(\\||&)",
+					"name": "keyword.operator.bitwise.bds"
+				}
+			]
+		},
+		"literals": {
+			"patterns": [
+				{
+					"include": "#strings"
+				},
+				{
+					"include": "#numbers"
+				},
+				{
+					"include": "#bools"
+				}
+			]
+		},
+		"method-call": {
+			"begin": "(\\.)\\s*([A-Za-z_$][\\w$]*)\\s*(\\()",
+			"beginCaptures": {
+				"1": {
+					"name": "punctuation.separator.period.bds"
+				},
+				"2": {
+					"name": "entity.name.function.bds"
+				},
+				"3": {
+					"name": "punctuation.definition.parameters.begin.bracket.round.bds"
+				}
+			},
+			"end": "\\)",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.parameters.end.bracket.round.bds"
+				}
+			},
+			"name": "meta.method-call.bds",
+			"patterns": [
+				{
+					"include": "#code"
+				}
+			]
+		},
+		"numbers": {
+			"patterns": [
+				{
+					"match": "(?x)\n(?<!\\$)\n(\n  \\b[0-9]([0-9_]*[0-9])?\\.\\B(?!\\.)\n  |\n  \\b[0-9]([0-9_]*[0-9])?\\.([Ee][+-]?[0-9]([0-9_]*[0-9])?)[FfDd]?\\b\n  |\n  \\b[0-9]([0-9_]*[0-9])?\\.([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]\\b\n  |\n  \\b[0-9]([0-9_]*[0-9])?\\.([0-9]([0-9_]*[0-9])?)([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]?\\b\n  |\n  (?<!\\.)\\B\\.[0-9]([0-9_]*[0-9])?([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]?\\b\n  |\n  \\b[0-9]([0-9_]*[0-9])?([Ee][+-]?[0-9]([0-9_]*[0-9])?)[FfDd]?\\b\n  |\n  \\b[0-9]([0-9_]*[0-9])?([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]\\b\n  |\n  \\b(0|[1-9]([0-9_]*[0-9])?)(?!\\.)[Ll]?\\b\n)\n(?!\\$)",
+					"name": "constant.numeric.decimal.bds"
+				}
+			]
+		},
+		"parens": {
+			"patterns": [
+				{
+					"begin": "\\(",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.bracket.round.bds"
+						}
+					},
+					"end": "\\)",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.bracket.round.bds"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#code"
+						}
+					]
+				},
+				{
+					"begin": "\\[",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.bracket.square.bds"
+						}
+					},
+					"end": "\\]",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.bracket.square.bds"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#code"
+						}
+					]
+				},
+				{
+					"begin": "{",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.bracket.curly.bds"
+						}
+					},
+					"end": "}",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.bracket.curly.bds"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#code"
+						}
+					]
+				}
+			]
+		},
+		"primitive-arrays": {
+			"patterns": [
+				{
+					"begin": "\\b(bool|int|real|string)\\b\\s*(?=\\[)",
+					"beginCaptures": {
+						"1": {
+							"name": "storage.type.primitive.array.bds"
+						}
+					},
+					"end": "(?!\\s*\\[)",
+					"patterns": [
+						{
+							"include": "#parens"
+						}
+					]
+				}
+			]
+		},
+		"primitive-hash": {
+			"patterns": [
+				{
+					"begin": "\\b(bool|int|real|string|void)\\b\\s*(?=\\{)",
+					"beginCaptures": {
+						"1": {
+							"name": "storage.type.primitive.array.bds"
+						}
+					},
+					"end": "(?!\\s*\\})",
+					"patterns": [
+						{
+							"include": "#parens"
+						}
+					]
+				}
+			]
+		},
+		"primitive-types": {
+			"match": "\\b(bool|string|int|real|void)\\b",
+			"name": "storage.type.primitive.bds"
+		},
+		"strings": {
+			"patterns": [
+				{
+					"include": "#strings-double"
+				},
+				{
+					"include": "#strings-single"
+				}
+			]
+		},
+		"strings-double": {
+			"name": "string.quoted.double.bds",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.bds",
+					"match": "\\\\."
+				}
+			]
+		},
+		"strings-single": {
+			"name": "string.quoted.single.bds",
+			"begin": "'",
+			"end": "'"
+		},
+		"variables": {
+			"begin": "(?x)\n(?=\n  \\b\n  (\n    (void|bool|int|real|string)\n    |\n    (?>(\\w+\\.)*[A-Z_]+\\w*) # e.g. `bdsx.ws.rs.Response`, or `String`\n  )\n  \\b\n  \\s*\n  (\n    <[\\w<>,\\.?\\s\\[\\]]*> # e.g. `HashMap<Integer, String>`, or `List<bds.lang.String>`\n  )?\n  \\s*\n  (\n    (\\[\\])* # int[][]\n  )?\n  \\s+\n  [A-Za-z_$][\\w$]* # At least one identifier after space\n  ([\\w\\[\\],$][\\w\\[\\],\\s]*)? # possibly primitive array or additional identifiers\n  \\s*(=|$)\n)",
+			"end": "(?=\\=|:|;)",
+			"name": "meta.definition.variable.bds",
+			"patterns": [
+				{
+					"match": "([A-Za-z$_][\\w$]*)(?=\\s*(\\[\\])*\\s*(=|,|$))",
+					"captures": {
+						"1": {
+							"name": "variable.other.definition.bds"
+						}
+					}
+				},
+				{
+					"include": "#all-types"
+				},
+				{
+					"include": "#code"
+				}
+			]
+		}
+	},
+	"scopeName": "source.bds"
+}
