@@ -32,14 +32,16 @@ func(12, 34+2 * (   1 +2), 4564 * 12)
 # Comment
 
 int[] sdf   help asfasdfjhaskjdhfkd
-// int asa
-// string sad
-// bool[] bsdf
-// string sadfa, asdf
-// string{} strs
+int asa
+string sad
+bool[] bsdf
+string sadfa, asdf
+string{} strs
 
-// Demux demux
-// Demux[] demuxes
+# FIXME: !!!!
+# TODO: !!!!
+Demux demux
+Demux[] demuxes
 
 while(i < 10) {
     f(i++)

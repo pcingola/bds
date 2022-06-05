@@ -9,28 +9,13 @@ while(i < 1) {
     a := new Sample(1, 456 + 7, asd[7])
 }
 
-for(i = 0; i < 10; i++) println 'ssdf'
-
-for(int i : numbers) println 'ssdf'
-
-func(sadfa)
-
-if(i < 0) {
-    println 'Negative'
-    while(i < 1) {
-        println 'sadf'
-        i++
-    }
-} else {
-    println 'positive'
+try {
+    f(x)
+} catch() {
+    asdfasdf = 9
+} finally {
+    println "sadf"
 }
-
-if(i < 0) println 'Negative'
-else println 'positive'
-
-try { sdfdasf }
-catch asdfasdf = 9
-finally println "sadf"
 
 while (i < 10) println('hi' + 42)
 

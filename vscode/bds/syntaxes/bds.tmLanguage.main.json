@@ -69,6 +69,54 @@
 				}
 			]
 		},
+		"catch-block": {
+			"name": "meta.statement.catch.block.bds",
+			"begin": "\\b(catch)\\s*\\((.*?)\\)\\s*\\{",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.catch"
+				},
+				"2": {
+					"name": "meta.statement.catch.expression",
+					"patterns": [
+						{
+							"include": "#expression"
+						}
+					]
+				}
+			},
+			"contentName": "statement.catch.block",
+			"patterns": [
+				{
+					"include": "#statement"
+				}
+			],
+			"end": "\\}"
+		},
+		"catch-standalone": {
+			"name": "meta.statement.catch.standalone.bds",
+			"begin": "\\b(catch)\\s*\\((.*?)\\)\\s*",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.catch"
+				},
+				"2": {
+					"name": "meta.statement.catch.expression",
+					"patterns": [
+						{
+							"include": "#expression"
+						}
+					]
+				}
+			},
+			"contentName": "statement.catch.standalone",
+			"patterns": [
+				{
+					"include": "#statement"
+				}
+			],
+			"end": "$"
+		},
 		"class": {
 			"begin": "(?=\\w?[\\w\\s-]*\\b(?:class)\\s+[\\w$]+)",
 			"end": "}",
@@ -755,6 +803,12 @@
 				},
 				{
 					"include": "#for-iterable-standalone"
+				},
+				{
+					"include": "#catch-block"
+				},
+				{
+					"include": "#catch-standalone"
 				},
 				{
 					"include": "#statement-block"
