@@ -131,7 +131,7 @@
 					"include": "#class"
 				},
 				{
-					"include": "#statements"
+					"include": "#statement"
 				},
 				{
 					"include": "#expression"
@@ -208,6 +208,9 @@
 					"include": "#function-call"
 				},
 				{
+					"include": "#method-call"
+				},
+				{
 					"include": "#assignment"
 				},
 				{
@@ -221,6 +224,9 @@
 				},
 				{
 					"include": "#expression-unary"
+				},
+				{
+					"include": "#variable-name"
 				}
 			]
 		},
@@ -286,6 +292,30 @@
 				}
 			]
 		},
+		"if-else": {
+			"name": "meta.statement.if.else.bds",
+			"begin": "\\b(if)\\s*\\((.*?)\\)\\s*(else)",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.while"
+				},
+				"2": {
+					"name": "meta.statement.while.expression",
+					"patterns": [
+						{
+							"include": "#expression"
+						}
+					]
+				}
+			},
+			"contentName": "statement.while.block",
+			"patterns": [
+				{
+					"include": "#statement-block"
+				}
+			],
+			"end": "(?=\\})"
+		},
 		"keywords": {
 			"patterns": [
 				{
@@ -332,6 +362,7 @@
 			]
 		},
 		"method-call": {
+			"name": "meta.method-call.bds",
 			"begin": "(\\.)\\s*([A-Za-z_$][\\w$]*)\\s*(\\()",
 			"beginCaptures": {
 				"1": {
@@ -344,16 +375,16 @@
 					"name": "punctuation.definition.parameters.begin.bracket.round.bds"
 				}
 			},
+			"contentName": "meta.method-call.args",
 			"end": "\\)",
 			"endCaptures": {
 				"0": {
 					"name": "punctuation.definition.parameters.end.bracket.round.bds"
 				}
 			},
-			"name": "meta.method-call.bds",
 			"patterns": [
 				{
-					"include": "#code"
+					"include": "#args"
 				}
 			]
 		},
@@ -511,19 +542,19 @@
 				}
 			]
 		},
-		"statements": {
+		"statement": {
 			"patterns": [
 				{
 					"include": "#keywords"
 				},
 				{
-					"include": "#method-call"
+					"include": "#statement-standalone"
 				},
 				{
-					"include": "#statements-standalone"
+					"include": "#statement-unary"
 				},
 				{
-					"include": "#statements-unary"
+					"include": "#while"
 				},
 				{
 					"include": "#statement-block"
@@ -533,11 +564,11 @@
 				}
 			]
 		},
-		"statements-standalone": {
+		"statement-standalone": {
 			"name": "keyword.statement.standalone.bds",
 			"match": "\\b(break|continue)\\b"
 		},
-		"statements-unary": {
+		"statement-unary": {
 			"name": "meta.statement.unary.bds",
 			"begin": "\\b(breakpoint|checkpoint|debug|error|exit|kill|print|println|return|throw|wait|warning)\\b",
 			"beginCaptures": {
@@ -545,15 +576,10 @@
 					"name": "keyword.statement.unary.bds"
 				}
 			},
-			"contentName":"statement.unary.expression.bds",
+			"contentName": "statement.unary.expression.bds",
 			"patterns": [
 				{
-					"name": "statement.unary.expression",
-					"patterns": [
-						{
-							"include": "#expression"
-						}
-					]
+					"include": "#expression"
 				}
 			],
 			"end": "$"
@@ -643,6 +669,10 @@
 			],
 			"end": "}"
 		},
+		"variable-name": {
+			"name": "variable.other.name",
+			"match": "([A-Za-z]\\w+)"
+		},
 		"variables": {
 			"begin": "(?x)\n(?=\n  \\b\n  (\n    (void|bool|int|real|string)\n    |\n    (?>(\\w+\\.)*[A-Z_]+\\w*) # e.g. `bdsx.ws.rs.Response`, or `String`\n  )\n  \\b\n  \\s*\n  (\n    <[\\w<>,\\.?\\s\\[\\]]*> # e.g. `HashMap<Integer, String>`, or `List<bds.lang.String>`\n  )?\n  \\s*\n  (\n    (\\[\\])* # int[][]\n  )?\n  \\s+\n  [A-Za-z_$][\\w$]* # At least one identifier after space\n  ([\\w\\[\\],$][\\w\\[\\],\\s]*)? # possibly primitive array or additional identifiers\n  \\s*(=|$)\n)",
 			"end": "(?=\\=|:|;|$)",
@@ -663,6 +693,30 @@
 					"include": "#code"
 				}
 			]
+		},
+		"while": {
+			"name": "meta.statement.while.bds",
+			"begin": "\\b(while)\\s*\\((.*?)\\)\\s*(?=\\{)",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.while"
+				},
+				"2": {
+					"name": "meta.statement.while.expression",
+					"patterns": [
+						{
+							"include": "#expression"
+						}
+					]
+				}
+			},
+			"contentName": "statement.while.block",
+			"patterns": [
+				{
+					"include": "#statement"
+				}
+			],
+			"end": "(?=\\})"
 		}
 	},
 	"scopeName": "source.bds"

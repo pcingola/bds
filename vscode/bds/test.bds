@@ -1,3 +1,16 @@
 # TEST FILE: test.bds
 
-println 'sadfasdf'
+if(i < 0) {
+    println 'Negative'
+} else {
+    println 'positive'
+}
+
+if(i < 0) println 'Negative'
+else println 'positive'
+
+while (i < 10) {
+    if(i < 2) continue
+    println("i: $i")
+}
+
