@@ -1,7 +1,26 @@
 # TEST FILE: test.bds
 
+include asdfdsf
+
+while(i < 1) println 'sadf'
+
+while(i < 1) {
+    println 'sadf'
+    a := new Sample(1, 456 + 7, asd[7])
+}
+
+for(i = 0; i < 10; i++) println 'ssdf'
+
+for(int i : numbers) println 'ssdf'
+
+func(sadfa)
+
 if(i < 0) {
     println 'Negative'
+    while(i < 1) {
+        println 'sadf'
+        i++
+    }
 } else {
     println 'positive'
 }
@@ -9,8 +28,16 @@ if(i < 0) {
 if(i < 0) println 'Negative'
 else println 'positive'
 
+try { sdfdasf }
+catch asdfasdf = 9
+finally println "sadf"
+
+while (i < 10) println('hi' + 42)
+
 while (i < 10) {
-    if(i < 2) continue
-    println("i: $i")
+    println('i:', i++)
+    sys echo 'hi'
 }
+
+
 

@@ -11,24 +11,32 @@
 	],
 	"repository": {
 		"test": {
-			"begin": "(.*)\\s*(:=)\\s*",
+			"name": "debug",
+			"begin": "\\b(while)\\s*\\((.*?)\\)\\s*(?=\\{)",
 			"beginCaptures": {
 				"1": {
-					"name": "storage.variable.name"
+					"name": "keyword.control.while"
 				},
 				"2": {
-					"name": "keyword.operator.assignment.bds"
-				},
-				"3": {
-					"patterns": [
-						{
-							"include": "#code"
-						}
-					]
+					"name": "meta.statement.while.expression"
 				}
 			},
-			"end": "$",
-			"name": "debug.1"
+			"contentName": "statement.while.block",
+			"end": "(?=\\})"
+		},
+		"test2": {
+			"name": "debug",
+			"begin": "\\b(while)\\s*\\((.*?)\\)\\s*",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.while"
+				},
+				"2": {
+					"name": "meta.statement.while.expression"
+				}
+			},
+			"contentName": "statement.while.block",
+			"end": "$"
 		}
 	},
 	"scopeName": "source.bds"
