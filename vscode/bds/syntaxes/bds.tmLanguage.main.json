@@ -23,6 +23,44 @@
 				}
 			]
 		},
+		"args": {
+			"name": "storage.args",
+			"match": "(.*)(,(.*))*",
+			"captures": {
+				"1": {
+					"patterns": [
+						{
+							"include": "#expression"
+						}
+					]
+				},
+				"2": {
+					"patterns": [
+						{
+							"include": "#args"
+						}
+					]
+				}
+			}
+		},
+		"assignment": {
+			"name": "keyword.operator.assignment.bds",
+			"begin": "(\\w+)\\s*(=|:=|\\+=|\\-=|/=|\\*=|\\&=|\\|=)\\s*",
+			"beginCaptures": {
+				"1": {
+					"name": "variable.other.definition.bds"
+				},
+				"2": {
+					"name": "keyword.operator.assignment.java"
+				}
+			},
+			"end": "$",
+			"patterns": [
+				{
+					"include": "#expression"
+				}
+			]
+		},
 		"bools": {
 			"patterns": [
 				{
@@ -90,28 +128,16 @@
 					"include": "#comments"
 				},
 				{
-					"include": "#literals"
-				},
-				{
 					"include": "#class"
 				},
 				{
-					"include": "#function-call"
+					"include": "#statements"
 				},
 				{
-					"include": "#method-call"
-				},
-				{
-					"include": "#sys-bare"
-				},
-				{
-					"include": "#variables"
+					"include": "#expression"
 				},
 				{
 					"include": "#all-types"
-				},
-				{
-					"include": "#keywords"
 				}
 			]
 		},
@@ -167,6 +193,76 @@
 			"end": "\\*/",
 			"name": "comment.multi.line.bds"
 		},
+		"expression": {
+			"patterns": [
+				{
+					"include": "#literals"
+				},
+				{
+					"include": "#sys"
+				},
+				{
+					"include": "#task"
+				},
+				{
+					"include": "#function-call"
+				},
+				{
+					"include": "#assignment"
+				},
+				{
+					"include": "#pre-increment"
+				},
+				{
+					"include": "#post-increment"
+				},
+				{
+					"include": "#expression-binary"
+				},
+				{
+					"include": "#expression-unary"
+				}
+			]
+		},
+		"expression-binary": {
+			"match": "(.*?)(\\-|\\+|\\*|\\/|%|==|!=|<=|>=|<|>|&&|\\|\\||\\||&|<<|>>|~|\\^)(.*)",
+			"name": "keyword.operator.expression.binary.bds",
+			"captures": {
+				"1": {
+					"name": "variable.other.definition.bds",
+					"patterns": [
+						{
+							"include": "#expression"
+						}
+					]
+				},
+				"2": {
+					"name": "keyword.operator.binary.expression"
+				},
+				"3": {
+					"name": "variable.other.definition.bds",
+					"patterns": [
+						{
+							"include": "#expression"
+						}
+					]
+				}
+			}
+		},
+		"expression-unary": {
+			"match": "(!|~)(.*)",
+			"name": "keyword.operator.unary.bds",
+			"captures": {
+				"1": {
+					"name": "variable.other.definition.bds",
+					"patterns": [
+						{
+							"include": "#expression"
+						}
+					]
+				}
+			}
+		},
 		"function-call": {
 			"begin": "([A-Za-z_$][\\w$]*)\\s*(\\()",
 			"beginCaptures": {
@@ -186,31 +282,19 @@
 			"name": "meta.function-call.bds",
 			"patterns": [
 				{
-					"include": "#code"
+					"include": "#args"
 				}
 			]
 		},
 		"keywords": {
 			"patterns": [
 				{
-					"name": "keyword.control.bds",
-					"match": "\\b(break|case|default|exit|for|if|return|switch|try|while)\\b"
-				},
-				{
-					"name": "keyword.message.bds",
-					"match": "\\b(print|println|error|warning)\\b"
-				},
-				{
 					"name": "keyword.exception.bds",
 					"match": "\\b(catch|finally|throw|try)\\b"
 				},
 				{
-					"name": "keyword.debug.bds",
-					"match": "\\b(breakpoint|debug)\\b"
-				},
-				{
 					"name": "keyword.task.bds",
-					"match": "\\b(checkpoint|wait)\\b"
+					"match": "\\b(checkpoint|goal|par|parallel)\\b"
 				},
 				{
 					"begin": "\\b(include)\\b",
@@ -231,42 +315,6 @@
 					},
 					"end": "\\s+",
 					"name": "punctuation.section.embedded"
-				},
-				{
-					"match": "(<<|>>|~|\\^)",
-					"name": "keyword.operator.bitwise.bds"
-				},
-				{
-					"match": "(==|!=|<=|>=|<|>)",
-					"name": "keyword.operator.comparison.bds"
-				},
-				{
-					"match": "([+*/%-]=)",
-					"name": "keyword.operator.assignment.arithmetic.bds"
-				},
-				{
-					"match": "(:=)",
-					"name": "keyword.operator.cast"
-				},
-				{
-					"match": "(=)",
-					"name": "keyword.operator.assignment.bds"
-				},
-				{
-					"match": "(\\-\\-|\\+\\+)",
-					"name": "keyword.operator.increment-decrement.bds"
-				},
-				{
-					"match": "(\\-|\\+|\\*|\\/|%)",
-					"name": "keyword.operator.arithmetic.bds"
-				},
-				{
-					"match": "(!|&&|\\|\\|)",
-					"name": "keyword.operator.logical.bds"
-				},
-				{
-					"match": "(\\||&)",
-					"name": "keyword.operator.bitwise.bds"
 				}
 			]
 		},
@@ -320,6 +368,7 @@
 		"parens": {
 			"patterns": [
 				{
+					"name": "meta.block.paren",
 					"begin": "\\(",
 					"beginCaptures": {
 						"0": {
@@ -339,6 +388,7 @@
 					]
 				},
 				{
+					"name": "meta.block.square.braces",
 					"begin": "\\[",
 					"beginCaptures": {
 						"0": {
@@ -358,6 +408,7 @@
 					]
 				},
 				{
+					"name": "meta.block.curly.braces",
 					"begin": "{",
 					"beginCaptures": {
 						"0": {
@@ -375,6 +426,28 @@
 							"include": "#code"
 						}
 					]
+				}
+			]
+		},
+		"pre-increment": {
+			"match": "(\\-\\-|\\+\\+)(.*)",
+			"name": "keyword.operator.increment-decrement.bds",
+			"pattern": [
+				{
+					"2": {
+						"name": "variable.other.definition.bds"
+					}
+				}
+			]
+		},
+		"post-increment": {
+			"match": "(.*)(\\-\\-|\\+\\+)",
+			"name": "keyword.operator.increment-decrement.bds",
+			"pattern": [
+				{
+					"1": {
+						"name": "variable.other.definition.bds"
+					}
 				}
 			]
 		},
@@ -418,6 +491,73 @@
 			"match": "\\b(bool|string|int|real|void)\\b",
 			"name": "storage.type.primitive.bds"
 		},
+		"statement-block": {
+			"name": "meta.statement.block.curly.braces",
+			"begin": "{",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.bracket.curly.bds"
+				}
+			},
+			"end": "}",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.bracket.curly.bds"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#code"
+				}
+			]
+		},
+		"statements": {
+			"patterns": [
+				{
+					"include": "#keywords"
+				},
+				{
+					"include": "#method-call"
+				},
+				{
+					"include": "#statements-standalone"
+				},
+				{
+					"include": "#statements-unary"
+				},
+				{
+					"include": "#statement-block"
+				},
+				{
+					"include": "#variables"
+				}
+			]
+		},
+		"statements-standalone": {
+			"name": "keyword.statement.standalone.bds",
+			"match": "\\b(break|continue)\\b"
+		},
+		"statements-unary": {
+			"name": "meta.statement.unary.bds",
+			"begin": "\\b(breakpoint|checkpoint|debug|error|exit|kill|print|println|return|throw|wait|warning)\\b",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.statement.unary.bds"
+				}
+			},
+			"contentName":"statement.unary.expression.bds",
+			"patterns": [
+				{
+					"name": "statement.unary.expression",
+					"patterns": [
+						{
+							"include": "#expression"
+						}
+					]
+				}
+			],
+			"end": "$"
+		},
 		"strings": {
 			"patterns": [
 				{
@@ -444,11 +584,64 @@
 			"begin": "'",
 			"end": "'"
 		},
-		"sys-bare": {
+		"sys": {
 			"name": "string.sys.command",
 			"begin": "\\b(sys|task)\\b\\s+",
-			"beginCaptures": {"1":{"name":"keyword.sys.bare"}},
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.sys.bare"
+				}
+			},
 			"end": "[^\\\\](\\r)?\\n"
+		},
+		"task": {
+			"patterns": [
+				{
+					"include": "#task-params-block"
+				},
+				{
+					"include": "#task-bare-params"
+				}
+			]
+		},
+		"task-bare-params": {
+			"name": "string.task.statement",
+			"begin": "\\b(task)\\s*\\((.*)\\)",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.task.bare.params"
+				},
+				"2": {
+					"patterns": [
+						{
+							"include": "#code"
+						}
+					]
+				}
+			},
+			"end": "[^\\\\](\\r)?\\n"
+		},
+		"task-params-block": {
+			"name": "string.task.statement",
+			"begin": "\\b(task|dep)\\s*(\\((.*)\\))?\\s*\\{",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.task.params.block"
+				},
+				"2": {
+					"patterns": [
+						{
+							"include": "#code"
+						}
+					]
+				}
+			},
+			"patterns": [
+				{
+					"include": "#code"
+				}
+			],
+			"end": "}"
 		},
 		"variables": {
 			"begin": "(?x)\n(?=\n  \\b\n  (\n    (void|bool|int|real|string)\n    |\n    (?>(\\w+\\.)*[A-Z_]+\\w*) # e.g. `bdsx.ws.rs.Response`, or `String`\n  )\n  \\b\n  \\s*\n  (\n    <[\\w<>,\\.?\\s\\[\\]]*> # e.g. `HashMap<Integer, String>`, or `List<bds.lang.String>`\n  )?\n  \\s*\n  (\n    (\\[\\])* # int[][]\n  )?\n  \\s+\n  [A-Za-z_$][\\w$]* # At least one identifier after space\n  ([\\w\\[\\],$][\\w\\[\\],\\s]*)? # possibly primitive array or additional identifiers\n  \\s*(=|$)\n)",

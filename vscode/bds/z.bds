@@ -1,5 +1,33 @@
 #!/usr/bin/env bds
 
+
+a := 'asdfasdf'
+z := 34 + fsdf(a + x)
+
+zx = 42
+zx = zx + 1 * f(45)
+b += 1
+b -= 1
+b /= 2
+b *= 4
+b &= 345
+b |= 234
+
+if( as < 42 ) {
+    while( a++ < 10) {
+        println "hi"
+        if( a < 5 ) {
+            continue
+        }
+        println "sadfasdf"
+    }
+}
+
+break
+
+func(12, 34+2 * (   1 +2), 4564 * 12)
+
+
 // Comment
 # Comment
 
@@ -13,14 +41,28 @@ int[] sdf   help asfasdfjhaskjdhfkd
 // Demux demux
 // Demux[] demuxes
 
-sys echo 'hi' 
-    cat z.txt 
-    | grep test 
-    | head -n 10 Z
+while(i < 10) {
+    f(i++)
+}
+
+sys echo 'hi' \
+    cat z.txt \
+    | grep test \
+    | head -n 10
+
+
 
 
 
 string s = 54674
+
+# Multi-line literal
+string ss = "asdf
+asdfasdf
+asdfasdfs
+asdfasdf
+asdfasdfasd"
+
 
 class Demux extends Pipeline {
 
@@ -37,11 +79,11 @@ class Demux extends Pipeline {
         val.read().split('\n')
     }
 
-    int func(srting s) {
+    int func(string s) {
         try {
             println('sadfasf')
         } catch(Exception n) {
-
+            println('nothing to do')
         } finally {
             println('Finally')
         }
@@ -69,25 +111,21 @@ int func(int x, real re, string str, Demux demux) {
     return x + 23
 }
 
+task(mem = 3*G, ffpga=1) sys cat x.txt \
+    | grep hi \
+    | head -n 1
 
-/*
 
-(?x)
-(?=
-    \\b
-    (
-        (void|bool|int|real|string)
-        |
-        (?>(\\w+\\.)*[A-Z_]+\\w*) # e.g. `package.sub.MyClass`, or `MyClass`
-    )
-    \\b
-    \\s*
-    (
-        (\\[\\])*
-    )?
-    \\s+
-    [A-Za-z_$][\\w$]* # At least one identifier after space
-    \\s*(=|$)
-)
+task(mem = 3*G, ffpga=1, cpus=calc(6) ) cat x.txt \
+    | grep hi \
+    | head -n 1
 
-*/
+task(mem = 3*G, ffpga=1, cpus=calc(6)) {
+    println "Starts"
+    sys cat x.txt \
+        | grep hi \
+        | head -n 1
+    sys echo 'Hi' there
+    func(a + 234)
+    println "End"
+}

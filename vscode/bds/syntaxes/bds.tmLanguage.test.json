@@ -4,13 +4,31 @@
 	"patterns": [
 		{
 			"include": "#test"
+		},
+		{
+			"include": "#test2"
 		}
 	],
 	"repository": {
 		"test": {
-			"begin": "\\b(sys|task)\\b\\s+",
-			"end": "[^\\\\](\\r)?\\n",
-			"name": "debug"
+			"begin": "(.*)\\s*(:=)\\s*",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.variable.name"
+				},
+				"2": {
+					"name": "keyword.operator.assignment.bds"
+				},
+				"3": {
+					"patterns": [
+						{
+							"include": "#code"
+						}
+					]
+				}
+			},
+			"end": "$",
+			"name": "debug.1"
 		}
 	},
 	"scopeName": "source.bds"
