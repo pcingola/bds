@@ -1,0 +1,93 @@
+#!/usr/bin/env bds
+
+// Comment
+# Comment
+
+int[] sdf   help asfasdfjhaskjdhfkd
+// int asa
+// string sad
+// bool[] bsdf
+// string sadfa, asdf
+// string{} strs
+
+// Demux demux
+// Demux[] demuxes
+
+sys echo 'hi' 
+    cat z.txt 
+    | grep test 
+    | head -n 10 Z
+
+
+
+string s = 54674
+
+class Demux extends Pipeline {
+
+    // OK
+    string sads
+    int asdf
+    string[] sadfas
+    string{} strs
+    Sample[] samples
+
+    /* OK */ 
+
+    void Demux(int val) {
+        val.read().split('\n')
+    }
+
+    int func(srting s) {
+        try {
+            println('sadfasf')
+        } catch(Exception n) {
+
+        } finally {
+            println('Finally')
+        }
+        return 'hi'
+    }
+}
+
+class Demux {
+    string sads
+    int asdf
+
+    void Demux(int val) {
+        val.read().split('\n')
+
+        sys echo 'hi'
+        task echo 'asdf' \
+            sadfasdf
+            asfasdfjhaskjdhfkd
+
+    }
+}
+
+int func(int x, real re, string str, Demux demux) {
+    // My function
+    return x + 23
+}
+
+
+/*
+
+(?x)
+(?=
+    \\b
+    (
+        (void|bool|int|real|string)
+        |
+        (?>(\\w+\\.)*[A-Z_]+\\w*) # e.g. `package.sub.MyClass`, or `MyClass`
+    )
+    \\b
+    \\s*
+    (
+        (\\[\\])*
+    )?
+    \\s+
+    [A-Za-z_$][\\w$]* # At least one identifier after space
+    \\s*(=|$)
+)
+
+*/

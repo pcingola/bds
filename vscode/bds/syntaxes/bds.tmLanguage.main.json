@@ -445,14 +445,10 @@
 			"end": "'"
 		},
 		"sys-bare": {
-			"name": "meta.sys.bare",
-			"begin": "\\b(sys)\\b",
-			"beginCaptures": {
-				"1": {
-					"name": "keyword.sys.bare"
-				}
-			},
-			"end": "(?!\\\\$)"
+			"name": "string.sys.command",
+			"begin": "\\b(sys|task)\\b\\s+",
+			"beginCaptures": {"1":{"name":"keyword.sys.bare"}},
+			"end": "[^\\\\](\\r)?\\n"
 		},
 		"variables": {
 			"begin": "(?x)\n(?=\n  \\b\n  (\n    (void|bool|int|real|string)\n    |\n    (?>(\\w+\\.)*[A-Z_]+\\w*) # e.g. `bdsx.ws.rs.Response`, or `String`\n  )\n  \\b\n  \\s*\n  (\n    <[\\w<>,\\.?\\s\\[\\]]*> # e.g. `HashMap<Integer, String>`, or `List<bds.lang.String>`\n  )?\n  \\s*\n  (\n    (\\[\\])* # int[][]\n  )?\n  \\s+\n  [A-Za-z_$][\\w$]* # At least one identifier after space\n  ([\\w\\[\\],$][\\w\\[\\],\\s]*)? # possibly primitive array or additional identifiers\n  \\s*(=|$)\n)",

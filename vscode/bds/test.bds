@@ -1,0 +1,7 @@
+# TEST FILE: test.bds
+
+sys cat x.txt \
+    | grep hi \
+    | head -n 1
+
+// Comment 

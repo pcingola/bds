@@ -1,0 +1,17 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "bds",
+	"patterns": [
+		{
+			"include": "#test"
+		}
+	],
+	"repository": {
+		"test": {
+			"begin": "\\b(sys|task)\\b\\s+",
+			"end": "[^\\\\](\\r)?\\n",
+			"name": "debug"
+		}
+	},
+	"scopeName": "source.bds"
+}
