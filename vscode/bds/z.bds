@@ -1,23 +1,25 @@
 #!/usr/bin/env bds
 
 
-a := 'asdfasdf'
+a := 'asdfasdf' help sadasdfasdf
 z := 34 + fsdf(a + x)
 
 zx = 42
 zx = zx + 1 * f(45)
 b += 1
-b -= 1
-b /= 2
-b *= 4
-b &= 345
-b |= 234
+b -= 1  /* sadfasfd */
+b /= 2 /* sdf */
+b *= 4 / 4 //Comment
+b &= 345    # comment
+b |= 234  // asdfadsf
+
+Demux[] demux
 
 if( as < 42 ) {
-    while( a++ < 10) {
-        println "hi"
-        if( a < 5 ) {
-            continue
+    while( a++ < 10) {  
+        println "hi"    # Comment
+        if( a < 5 ) {   # Comment
+            continue    // Comment
         }
         println "sadfasdf"
     }
@@ -25,23 +27,22 @@ if( as < 42 ) {
 
 break
 
-func(12, 34+2 * (   1 +2), 4564 * 12)
+func(12)          # fasdfsdfa
 
 
 // Comment
 # Comment
 
-int[] sdf   help asfasdfjhaskjdhfkd
+int[] sd_f   help asfasdfjhaskjdhfkd
 int asa
 string sad
-bool[] bsdf
+bool[] bsdf // asdfa
 string sadfa, asdf
 string{} strs
 
 # FIXME: !!!!
-# TODO: !!!!
 Demux demux
-Demux[] demuxes
+Demux[] demuxes help demuxes 
 
 while(i < 10) {
     f(i++)
@@ -52,10 +53,6 @@ sys echo 'hi' \
     | grep test \
     | head -n 10
 
-
-
-
-
 string s = 54674
 
 # Multi-line literal
@@ -65,9 +62,7 @@ asdfasdfs
 asdfasdf
 asdfasdfasd"
 
-
 class Demux extends Pipeline {
-
     // OK
     string sads
     int asdf
@@ -110,7 +105,7 @@ class Demux {
 
 int func(int x, real re, string str, Demux demux) {
     // My function
-    return x + 23
+    return(x + 23)
 }
 
 task(mem = 3*G, ffpga=1) sys cat x.txt \

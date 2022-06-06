@@ -26,16 +26,22 @@
 		},
 		"test2": {
 			"name": "debug",
-			"begin": "\\b(while)\\s*\\((.*?)\\)\\s*",
+			"begin": "\\s*ZZZ\\{\\s*\\})?\\s+",
 			"beginCaptures": {
 				"1": {
-					"name": "keyword.control.while"
-				},
-				"2": {
-					"name": "meta.statement.while.expression"
+					"name": "storage.type.varible.definition.type",
+					"patterns": [
+						{
+							"include": "#type"
+						}
+					]
 				}
 			},
-			"contentName": "statement.while.block",
+			"patterns": [
+				{
+					"include": "#expression"
+				}
+			],
 			"end": "$"
 		}
 	},

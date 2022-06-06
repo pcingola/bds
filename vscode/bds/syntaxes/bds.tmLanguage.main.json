@@ -3,26 +3,10 @@
 	"name": "bds",
 	"patterns": [
 		{
-			"include": "#code"
+			"include": "#statement"
 		}
 	],
 	"repository": {
-		"all-types": {
-			"patterns": [
-				{
-					"include": "#primitive-arrays"
-				},
-				{
-					"include": "primitive-hash"
-				},
-				{
-					"include": "#primitive-types"
-				},
-				{
-					"include": "#object-types"
-				}
-			]
-		},
 		"args": {
 			"name": "storage.args",
 			"match": "(.*)(,(.*))*",
@@ -44,11 +28,11 @@
 			}
 		},
 		"assignment": {
-			"name": "keyword.operator.assignment.bds",
+			"name": "meta.expression.assignment.bds",
 			"begin": "(\\w+)\\s*(=|:=|\\+=|\\-=|/=|\\*=|\\&=|\\|=)\\s*",
 			"beginCaptures": {
 				"1": {
-					"name": "variable.other.definition.bds"
+					"name": "variable.name.definition.bds"
 				},
 				"2": {
 					"name": "keyword.operator.assignment.bds"
@@ -118,6 +102,7 @@
 			"end": "$"
 		},
 		"class": {
+			"name": "meta.class.bds",
 			"begin": "(?=\\w?[\\w\\s-]*\\b(?:class)\\s+[\\w$]+)",
 			"end": "}",
 			"endCaptures": {
@@ -125,11 +110,7 @@
 					"name": "punctuation.section.class.end.bracket.curly.bds"
 				}
 			},
-			"name": "meta.class.bds",
 			"patterns": [
-				{
-					"include": "#comments"
-				},
 				{
 					"match": "(class)\\s+(\\w+)",
 					"captures": {
@@ -164,28 +145,9 @@
 					"name": "meta.class.body.bds",
 					"patterns": [
 						{
-							"include": "#code"
+							"include": "#statement"
 						}
 					]
-				}
-			]
-		},
-		"code": {
-			"patterns": [
-				{
-					"include": "#comments"
-				},
-				{
-					"include": "#class"
-				},
-				{
-					"include": "#statement"
-				},
-				{
-					"include": "#expression"
-				},
-				{
-					"include": "#all-types"
 				}
 			]
 		},
@@ -212,37 +174,41 @@
 			]
 		},
 		"comments-inline-hash": {
+			"name": "comment.line.hash.bds",
 			"begin": "#",
-			"end": "$",
-			"name": "comment.line.hash.bds"
+			"end": "$"
 		},
 		"comments-inline-help": {
-			"begin": "\\b(help)\\b",
+			"name": "string.literal.help",
+			"begin": "\\s*(help)\\s+",
 			"beginCaptures": {
 				"1": {
 					"name": "keyword.help.bds"
 				}
 			},
-			"end": "$",
-			"name": "string.literal.help"
+			"end": "$"
 		},
 		"comments-inline-shebang": {
-			"begin": "#!",
-			"end": "$",
-			"name": "punctuation.section.embedded"
+			"name": "punctuation.section.embedded",
+			"begin": "^#!",
+			"end": "$"
 		},
 		"comments-inline-slash": {
-			"begin": "//",
-			"end": "$",
-			"name": "comment.line.slash.bds"
+			"name": "comment.line.slash.bds",
+			"begin": "\\s*//",
+			"end": "$"
 		},
 		"comments-multi-line": {
-			"begin": "/\\*",
-			"end": "\\*/",
-			"name": "comment.multi.line.bds"
+			"name": "comment.multi.line.bds",
+			"begin": "\\s*\\/\\*",
+			"end": "\\*/"
 		},
 		"expression": {
+			"name": "meta.expression.bds",
 			"patterns": [
+				{
+					"include": "#comments"
+				},
 				{
 					"include": "#literals"
 				},
@@ -271,22 +237,57 @@
 					"include": "#post-increment"
 				},
 				{
-					"include": "#expression-binary"
+					"include": "#expression-binary-unambiguous"
+				},
+				{
+					"include": "#expression-binary-ambiguous"
 				},
 				{
 					"include": "#expression-unary"
 				},
 				{
-					"include": "#variable-name"
+					"include": "#variable-reference-array"
+				},
+				{
+					"include": "#variable-reference-hash"
+				},
+				{
+					"include": "#variable-reference"
 				}
 			]
 		},
-		"expression-binary": {
-			"match": "(.*?)(\\-|\\+|\\*|\\/|%|==|!=|<=|>=|<|>|&&|\\|\\||\\||&|<<|>>|~|\\^)(.*)",
-			"name": "keyword.operator.expression.binary.bds",
+		"expression-statement": {
+			"name": "meta.expression.statement.bds",
+			"patterns": [
+				{
+					"include": "#sys"
+				},
+				{
+					"include": "#task"
+				},
+				{
+					"include": "#function-call"
+				},
+				{
+					"include": "#method-call"
+				},
+				{
+					"include": "#assignment"
+				},
+				{
+					"include": "#pre-increment"
+				},
+				{
+					"include": "#post-increment"
+				}
+			]
+		},
+		"expression-binary-ambiguous": {
+			"name": "meta.expression.binary.ambiguous.bds",
+			"match": "(.*?)(?<![/\\*])(/|\\*)(?![/\\*])(.*)",
 			"captures": {
 				"1": {
-					"name": "variable.other.definition.bds",
+					"name": "meta.expression.binary.ambiguous.lhs.bds",
 					"patterns": [
 						{
 							"include": "#expression"
@@ -297,7 +298,32 @@
 					"name": "keyword.operator.binary.expression"
 				},
 				"3": {
-					"name": "variable.other.definition.bds",
+					"name": "meta.expression.binary.ambiguous.rhs.bds",
+					"patterns": [
+						{
+							"include": "#expression"
+						}
+					]
+				}
+			}
+		},
+		"expression-binary-unambiguous": {
+			"name": "meta.expression.binary.ambiguous.bds",
+			"match": "(.*?)(\\-|\\+|%|==|!=|<=|>=|<|>|&&|\\|\\||\\||&|<<|>>|~|\\^)(.*)",
+			"captures": {
+				"1": {
+					"name": "meta.expression.binary.unambiguous.lhs.bds",
+					"patterns": [
+						{
+							"include": "#expression"
+						}
+					]
+				},
+				"2": {
+					"name": "keyword.operator.binary.expression"
+				},
+				"3": {
+					"name": "meta.expression.binary.unambiguous.rhs.bds",
 					"patterns": [
 						{
 							"include": "#expression"
@@ -308,10 +334,10 @@
 		},
 		"expression-unary": {
 			"match": "(!|~)(.*)",
-			"name": "keyword.operator.unary.bds",
+			"name": "meta.expression.unary.bds",
 			"captures": {
 				"1": {
-					"name": "variable.other.definition.bds",
+					"name": "meta.expression.unary.expression.bds",
 					"patterns": [
 						{
 							"include": "#expression"
@@ -465,22 +491,14 @@
 			"end": "$"
 		},
 		"function-call": {
-			"begin": "([A-Za-z_$][\\w$]*)\\s*(\\()",
+			"name": "meta.function-call.bds",
+			"begin": "([a-z_$][\\w$]*)\\s*\\(",
 			"beginCaptures": {
 				"1": {
 					"name": "entity.name.function.bds"
-				},
-				"2": {
-					"name": "punctuation.definition.parameters.begin.bracket.round.bds"
 				}
 			},
 			"end": "\\)",
-			"endCaptures": {
-				"0": {
-					"name": "punctuation.definition.parameters.end.bracket.round.bds"
-				}
-			},
-			"name": "meta.function-call.bds",
 			"patterns": [
 				{
 					"include": "#args"
@@ -489,7 +507,7 @@
 		},
 		"if-block": {
 			"name": "meta.statement.if.block.bds",
-			"begin": "\\b(if)\\s*\\((.*?)\\)\\s*\\{",
+			"begin": "\\s*(if)\\s*\\((.*?)\\)\\s*\\{",
 			"beginCaptures": {
 				"1": {
 					"name": "keyword.control.if"
@@ -513,7 +531,7 @@
 		},
 		"if-standalone": {
 			"name": "meta.statement.if.standalone.bds",
-			"begin": "\\b(if)\\s*\\((.*?)\\)\\s*",
+			"begin": "\\s*(if)\\s*\\((.*?)\\)\\s*",
 			"beginCaptures": {
 				"1": {
 					"name": "keyword.control.if"
@@ -536,16 +554,17 @@
 			"end": "$"
 		},
 		"include": {
+			"name": "string.include.single.bds",
 			"begin": "\\s*(include)\\s+",
 			"beginCaptures": {
 				"0": {
 					"name": "keyword.control.bds"
 				}
 			},
-			"end": "$",
-			"name": "string.include.single.bds"
+			"end": "$"
 		},
 		"literals": {
+			"name": "meta.literal.bds",
 			"patterns": [
 				{
 					"include": "#strings"
@@ -586,14 +605,11 @@
 			]
 		},
 		"numbers": {
-			"patterns": [
-				{
-					"match": "(?x)\n(?<!\\$)\n(\n  \\b[0-9]([0-9_]*[0-9])?\\.\\B(?!\\.)\n  |\n  \\b[0-9]([0-9_]*[0-9])?\\.([Ee][+-]?[0-9]([0-9_]*[0-9])?)[FfDd]?\\b\n  |\n  \\b[0-9]([0-9_]*[0-9])?\\.([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]\\b\n  |\n  \\b[0-9]([0-9_]*[0-9])?\\.([0-9]([0-9_]*[0-9])?)([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]?\\b\n  |\n  (?<!\\.)\\B\\.[0-9]([0-9_]*[0-9])?([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]?\\b\n  |\n  \\b[0-9]([0-9_]*[0-9])?([Ee][+-]?[0-9]([0-9_]*[0-9])?)[FfDd]?\\b\n  |\n  \\b[0-9]([0-9_]*[0-9])?([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]\\b\n  |\n  \\b(0|[1-9]([0-9_]*[0-9])?)(?!\\.)[Ll]?\\b\n)\n(?!\\$)",
-					"name": "constant.numeric.decimal.bds"
-				}
-			]
+			"name": "constant.numeric.decimal.bds",
+			"match": "(?x)\n(?<!\\$)\n(\n  \\b[0-9]([0-9_]*[0-9])?\\.\\B(?!\\.)\n  |\n  \\b[0-9]([0-9_]*[0-9])?\\.([Ee][+-]?[0-9]([0-9_]*[0-9])?)[FfDd]?\\b\n  |\n  \\b[0-9]([0-9_]*[0-9])?\\.([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]\\b\n  |\n  \\b[0-9]([0-9_]*[0-9])?\\.([0-9]([0-9_]*[0-9])?)([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]?\\b\n  |\n  (?<!\\.)\\B\\.[0-9]([0-9_]*[0-9])?([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]?\\b\n  |\n  \\b[0-9]([0-9_]*[0-9])?([Ee][+-]?[0-9]([0-9_]*[0-9])?)[FfDd]?\\b\n  |\n  \\b[0-9]([0-9_]*[0-9])?([Ee][+-]?[0-9]([0-9_]*[0-9])?)?[FfDd]\\b\n  |\n  \\b(0|[1-9]([0-9_]*[0-9])?)(?!\\.)[Ll]?\\b\n)\n(?!\\$)"
 		},
 		"new": {
+			"name": "meta.new.bds",
 			"begin": "\\b(new)\\s+(\\w+)\\(",
 			"beginCaptures": {
 				"1": {
@@ -608,8 +624,7 @@
 					"include": "#args"
 				}
 			],
-			"end": "\\)",
-			"name": "punctuation.section.embedded"
+			"end": "\\)"
 		},
 		"parens": {
 			"patterns": [
@@ -629,7 +644,7 @@
 					},
 					"patterns": [
 						{
-							"include": "#code"
+							"include": "#expression"
 						}
 					]
 				},
@@ -649,7 +664,7 @@
 					},
 					"patterns": [
 						{
-							"include": "#code"
+							"include": "#expression"
 						}
 					]
 				},
@@ -669,73 +684,33 @@
 					},
 					"patterns": [
 						{
-							"include": "#code"
+							"include": "#expression"
 						}
 					]
 				}
 			]
 		},
 		"pre-increment": {
-			"match": "(\\-\\-|\\+\\+)(.*)",
 			"name": "keyword.operator.increment-decrement.bds",
+			"match": "(\\-\\-|\\+\\+)(.*)",
 			"pattern": [
 				{
 					"2": {
-						"name": "variable.other.definition.bds"
+						"name": "variable.name.preincrement.bds"
 					}
 				}
 			]
 		},
 		"post-increment": {
-			"match": "(.*)(\\-\\-|\\+\\+)",
 			"name": "keyword.operator.increment-decrement.bds",
+			"match": "(.*)(\\-\\-|\\+\\+)",
 			"pattern": [
 				{
 					"1": {
-						"name": "variable.other.definition.bds"
+						"name": "variable.name.postincrement.bds"
 					}
 				}
 			]
-		},
-		"primitive-arrays": {
-			"patterns": [
-				{
-					"begin": "\\b(bool|int|real|string)\\b\\s*(?=\\[)",
-					"beginCaptures": {
-						"1": {
-							"name": "storage.type.primitive.array.bds"
-						}
-					},
-					"end": "(?!\\s*\\[)",
-					"patterns": [
-						{
-							"include": "#parens"
-						}
-					]
-				}
-			]
-		},
-		"primitive-hash": {
-			"patterns": [
-				{
-					"begin": "\\b(bool|int|real|string|void)\\b\\s*(?=\\{)",
-					"beginCaptures": {
-						"1": {
-							"name": "storage.type.primitive.array.bds"
-						}
-					},
-					"end": "(?!\\s*\\})",
-					"patterns": [
-						{
-							"include": "#parens"
-						}
-					]
-				}
-			]
-		},
-		"primitive-types": {
-			"match": "\\b(bool|string|int|real|void)\\b",
-			"name": "storage.type.primitive.bds"
 		},
 		"statement-block": {
 			"name": "meta.statement.block.curly.braces",
@@ -753,14 +728,18 @@
 			},
 			"patterns": [
 				{
-					"include": "#code"
+					"include": "#statement"
 				}
 			]
 		},
 		"statement": {
+			"name": "meta.statement.bds",
 			"patterns": [
 				{
-					"include": "#keywords"
+					"include": "#comments"
+				},
+				{
+					"include": "#class"
 				},
 				{
 					"include": "#statement-standalone"
@@ -811,13 +790,22 @@
 					"include": "#catch-standalone"
 				},
 				{
+					"include": "#switch-block"
+				},
+				{
+					"include": "#switch-case"
+				},
+				{
+					"include": "#switch-default"
+				},
+				{
 					"include": "#statement-block"
 				},
 				{
-					"include": "#variables"
+					"include": "#variable-definition"
 				},
 				{
-					"include": "#expression"
+					"include": "#expression-statement"
 				}
 			]
 		},
@@ -925,6 +913,56 @@
 			},
 			"end": "[^\\\\](\\r)?\\n"
 		},
+		"switch-block": {
+			"name": "meta.statement.switch.block.bds",
+			"begin": "\\b(switch)\\s*\\((.*?)\\)\\s*\\{",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.switch"
+				},
+				"2": {
+					"name": "meta.statement.switch.expression",
+					"patterns": [
+						{
+							"include": "#expression"
+						}
+					]
+				}
+			},
+			"contentName": "statement.switch.block",
+			"patterns": [
+				{
+					"include": "#statement"
+				}
+			],
+			"end": "\\}"
+		},
+		"switch-case": {
+			"name": "meta.statement.switch.case.block.bds",
+			"match": "\\s*(case)\\s*(.*)\\s*:",
+			"captures": {
+				"1": {
+					"name": "keyword.control.switch.case"
+				},
+				"2": {
+					"name": "statement.switch.case.expression",
+					"patterns": [
+						{
+							"include": "#expression"
+						}
+					]
+				}
+			}
+		},
+		"switch-default": {
+			"name": "meta.statement.switch.default.block.bds",
+			"match": "\\s*(default)\\s*:",
+			"captures": {
+				"1": {
+					"name": "keyword.control.switch.default"
+				}
+			}
+		},
 		"task": {
 			"patterns": [
 				{
@@ -945,7 +983,7 @@
 				"2": {
 					"patterns": [
 						{
-							"include": "#code"
+							"include": "#statement"
 						}
 					]
 				}
@@ -962,42 +1000,112 @@
 				"2": {
 					"patterns": [
 						{
-							"include": "#code"
+							"include": "#expression"
 						}
 					]
 				}
 			},
 			"patterns": [
 				{
-					"include": "#code"
+					"include": "#statement"
 				}
 			],
 			"end": "}"
 		},
-		"variable-name": {
-			"name": "variable.other.name",
-			"match": "([A-Za-z]\\w+)"
-		},
-		"variables": {
-			"begin": "(?x)\n(?=\n  \\b\n  (\n    (void|bool|int|real|string)\n    |\n    (?>(\\w+\\.)*[A-Z_]+\\w*) # e.g. `bdsx.ws.rs.Response`, or `String`\n  )\n  \\b\n  \\s*\n  (\n    <[\\w<>,\\.?\\s\\[\\]]*> # e.g. `HashMap<Integer, String>`, or `List<bds.lang.String>`\n  )?\n  \\s*\n  (\n    (\\[\\])* # int[][]\n  )?\n  \\s+\n  [A-Za-z_$][\\w$]* # At least one identifier after space\n  ([\\w\\[\\],$][\\w\\[\\],\\s]*)? # possibly primitive array or additional identifiers\n  \\s*(=|$)\n)",
-			"end": "(?=\\=|:|;|$)",
-			"name": "meta.definition.variable.bds",
+		"type": {
 			"patterns": [
 				{
-					"match": "([A-Za-z$_][\\w$]*)(?=\\s*(\\[\\])*\\s*(=|,|$))",
-					"captures": {
-						"1": {
-							"name": "variable.other.definition.bds"
-						}
-					}
+					"include": "#type-array"
 				},
 				{
-					"include": "#all-types"
+					"include": "#type-hash"
 				},
 				{
-					"include": "#code"
+					"include": "#type-primitive"
 				}
 			]
+		},
+		"type-array": {
+			"name": "type.array",
+			"match": "\\s*(bool|int|real|string|[A-Z]\\w*)\\s*\\[\\s*\\]",
+			"captures": {
+				"1": {
+					"name": "storage.type.array.bds"
+				}
+			}
+		},
+		"type-hash": {
+			"name": "type.hash",
+			"match": "\\s*(bool|int|real|string|[A-Z]\\w*)\\s*\\{(.*)\\}",
+			"captures": {
+				"1": {
+					"name": "storage.type.hash.bds"
+				},
+				"2": {
+					"name": "storage.type.hash.key.bds",
+					"patterns": [
+						{
+							"include": "#type"
+						}
+					]
+				}
+			}
+		},
+		"type-primitive": {
+			"name": "storage.type.bds",
+			"match": "\\s*(bool|int|real|string|[A-Z]\\w*)\\s*"
+		},
+		"variable-definition": {
+			"name": "meta.variable.definition",
+			"begin": "\\s*(bool|int|real|string|[A-Z]\\w*)(\\{.*\\})?(\\[\\s*\\])?\\s+",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.type.varible.definition.type",
+					"patterns": [
+						{
+							"include": "#type"
+						}
+					]
+				},
+				"2": {
+					"name": "storage.type.varible.definition.key.type"
+				},
+				"3": {
+					"name": "storage.type.varible.definition.key.type"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#expression"
+				}
+			],
+			"end": "$"
+		},
+		"variable-reference": {
+			"name": "variable.name.reference",
+			"match": "([a-z_]\\w*)"
+		},
+		"variable-reference-array": {
+			"name": "variable.name.array",
+			"begin": "([a-z_]\\w*)\\[",
+			"patterns": [
+				{
+					"name": "variable.reference.array.expression",
+					"include": "#expression"
+				}
+			],
+			"end": "\\]"
+		},
+		"variable-reference-hash": {
+			"name": "variable.name.hash",
+			"begin": "([a-z_]\\w*)\\{",
+			"patterns": [
+				{
+					"name": "variable.reference.hash.expression",
+					"include": "#expression"
+				}
+			],
+			"end": "\\}"
 		},
 		"while-block": {
 			"name": "meta.statement.while.bds",

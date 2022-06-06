@@ -1,28 +1,25 @@
 # TEST FILE: test.bds
 
-include asdfdsf
 
-while(i < 1) println 'sadf'
+int asadf, sadfa, asdf = 3245 + fx(56) // OK
+l := 42 # HGG
+string[Sample] aasd = 'safsd' + sdfa help Great # dfgsdfg
 
-while(i < 1) {
-    println 'sadf'
-    a := new Sample(1, 456 + 7, asd[7])
-}
-
-try {
-    f(x)
-} catch() {
-    asdfasdf = 9
-} finally {
-    println "sadf"
-}
-
-while (i < 10) println('hi' + 42)
-
-while (i < 10) {
-    println('i:', i++)
-    sys echo 'hi'
-}
+int dsadf
+string demux = 'asdf' + 1  help asdfasdfajhfskdsa sakjd fkajd
+string demux = 'asdf' / 2 # asdfasdfajhfskdsa sakjd fkajd
+string demux = 'asdf'  // asdfasdfajhfskdsa sakjd fkajd
+string[] strs
+string{int} strs
+string{} strs
 
 
+string{int} asdf /* asdfasdf */
+string{Samples[]} asdf // sdafsdf
+string{Sample} asdf # sdfadsf
+Demux demux # fdgsdfgklsjl
+Demux[] demuxhash
+Demux{} demuxlist
 
+
+string{int} aasd = 'safsd' help Great
