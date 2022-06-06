@@ -9,3 +9,11 @@ A simple script-language for "Big Data" piplines.
 - [Issues](https://github.com/pcingola/bds/issues): Report issues, bugs or request features
 
 # Author: [Pablo Cingolani](https://www.linkedin.com/in/pablocingolani/)
+
+# Syntax highlight for VSCode
+
+Copy the `vscode/bds` directory VSCode's extentions dir:
+```
+cp -rvf vscode/bds $HOME/.vscode/extensions
+```
+
