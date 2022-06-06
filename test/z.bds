@@ -1,7 +1,41 @@
 #!/usr/bin/env bds
 
+include 'asdfsaf'
 
-class MyException extends Exception { }
+
+// Comment
+# Comment
+/*
+Multi line comments
+*/
+
+class MyException extends Exception { } # sadfasdf
+
+
+
+int[] a = 'asdfasd'
+int{} a = 'asdfasd'
+int{string} a = 'asdfasd'
+real b
+string s1sdfg
+bool b1
+string{int} sints
+
+i := 32452345 + 45234
+
+b := true
+s2 := 'hi there'		help ahsjkdfhkajsdhfkja
+s3 := "hi there"
+
+println('asdfasdf')
+sys sdfgsdfg
+
+
+void f(int x) {
+
+}
+
+task sadfasdfasdf asd fa sdfasdf 
 
 println "START"
 try {

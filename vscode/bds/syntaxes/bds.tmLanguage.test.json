@@ -1,0 +1,49 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "bds",
+	"patterns": [
+		{
+			"include": "#test"
+		},
+		{
+			"include": "#test2"
+		}
+	],
+	"repository": {
+		"test": {
+			"name": "debug",
+			"begin": "\\b(while)\\s*\\((.*?)\\)\\s*(?=\\{)",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.while"
+				},
+				"2": {
+					"name": "meta.statement.while.expression"
+				}
+			},
+			"contentName": "statement.while.block",
+			"end": "(?=\\})"
+		},
+		"test2": {
+			"name": "debug",
+			"begin": "\\s*ZZZ\\{\\s*\\})?\\s+",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.type.varible.definition.type",
+					"patterns": [
+						{
+							"include": "#type"
+						}
+					]
+				}
+			},
+			"patterns": [
+				{
+					"include": "#expression"
+				}
+			],
+			"end": "$"
+		}
+	},
+	"scopeName": "source.bds"
+}
