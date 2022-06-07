@@ -428,7 +428,7 @@
 		},
 		"for-iterable-block": {
 			"name": "meta.statement.for.iterable.block.bds",
-			"begin": "\\s*(for)\\s*\\((.*?):(.*?)\\)\\s*\\{",
+			"begin": "\\s*(for)\\s*\\(\\s*(.*?)\\s*:\\s*(.*?)\\s*\\)\\s*\\{",
 			"beginCaptures": {
 				"1": {
 					"name": "keyword.control.for"
@@ -492,7 +492,7 @@
 		},
 		"function-call": {
 			"name": "meta.function-call.bds",
-			"begin": "([a-z_$][\\w$]*)\\s*\\(",
+			"begin": "([A-Za-z_$][\\w$]*)\\s*\\(",
 			"beginCaptures": {
 				"1": {
 					"name": "entity.name.function.bds"
@@ -579,7 +579,7 @@
 		},
 		"method-call": {
 			"name": "meta.method-call.bds",
-			"begin": "(\\.)\\s*([A-Za-z_$][\\w$]*)\\s*(\\()",
+			"begin": "([\\.\\w]+\\.)\\s*([A-Za-z_$][\\w$]*)\\s*(\\()",
 			"beginCaptures": {
 				"1": {
 					"name": "punctuation.separator.period.bds"
@@ -802,6 +802,9 @@
 					"include": "#statement-block"
 				},
 				{
+					"include": "#function-definition"
+				},
+				{
 					"include": "#variable-definition"
 				},
 				{
@@ -889,12 +892,10 @@
 		},
 		"strings-double": {
 			"name": "string.quoted.double.bds",
-			"begin": "\"",
-			"end": "\"",
+			"match": "\"(.*)\"",
 			"patterns": [
 				{
-					"name": "constant.character.escape.bds",
-					"match": "\\\\."
+					"name": "constant.character.escape.bds"
 				}
 			]
 		},
@@ -1027,7 +1028,7 @@
 		},
 		"type-array": {
 			"name": "type.array",
-			"match": "\\s*(bool|int|real|string|[A-Z]\\w*)\\s*\\[\\s*\\]",
+			"match": "\\s*(bool|int|real|string|void|[A-Z]\\w*)\\s*\\[\\s*\\]",
 			"captures": {
 				"1": {
 					"name": "storage.type.array.bds"
@@ -1036,7 +1037,7 @@
 		},
 		"type-hash": {
 			"name": "type.hash",
-			"match": "\\s*(bool|int|real|string|[A-Z]\\w*)\\s*\\{(.*)\\}",
+			"match": "\\s*(bool|int|real|string|void|[A-Z]\\w*)\\s*\\{(.*)\\}",
 			"captures": {
 				"1": {
 					"name": "storage.type.hash.bds"
@@ -1053,11 +1054,11 @@
 		},
 		"type-primitive": {
 			"name": "storage.type.bds",
-			"match": "\\s*(bool|int|real|string|[A-Z]\\w*)\\s*"
+			"match": "\\s*(bool|int|real|string|void|[A-Z]\\w*)\\s*"
 		},
 		"variable-definition": {
 			"name": "meta.variable.definition",
-			"begin": "\\s*(bool|int|real|string|[A-Z]\\w*)(\\{.*\\})?(\\[\\s*\\])?\\s+",
+			"begin": "\\s*(bool|int|real|string|void|[A-Z]\\w*)(\\{.*\\})?(\\[\\s*\\])?\\s+",
 			"beginCaptures": {
 				"1": {
 					"name": "storage.type.varible.definition.type",
