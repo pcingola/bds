@@ -14,8 +14,21 @@ class Aggregation extends Pipeline {
 	string ngbJsonFilePath = ''
 
 	void Aggregation(SequencingData sd) {
-		println( "hi/2", "$samplePath/programs.txt" )
+		sys $echo
+		sys cat
+
+		println "hi/2", "$samplePath.is[5]/programs.txt"
+
+		sys cat $sample.id["hi"] in in \
+				| grep 'hi'\
+				| head -n 1
+
+		task(asd := asdf, mem := 8 * G, fun(sdf, sdf, this.asss()) ) {
+			
+		}
+
 		sequencingData = sd
+		this.func(sadfasd , true)
 		solveBio = new SolveBio(sd, solveBioUploadImport, solveBioVault)
 		multiQc = new MultiQc(sequencingData)
 	}
@@ -23,6 +36,9 @@ class Aggregation extends Pipeline {
 	void Aggregation(SequencingData sd, Seq2c seq2c) {
 		this.Aggregation(sd)
 		this.seq2c = seq2c
+		this.seq(asdfasd, sdfaadf )
+		asdf = true | false
+		
 	}
 
 	void combineConfigurationFiles() {
@@ -90,7 +106,7 @@ class Aggregation extends Pipeline {
 		yamlConfig := bcbio.createConfig(fqsDemux, false)
 		wait
 
-		if (createSamplesDirectories) {
+		 if(createSamplesDirectories) {
 			# Create dir+links for each sample
 			for(SequencedSample s : sequencingData.uniqueSamples()) createBcbio(s)
 		}
@@ -299,7 +315,7 @@ class Aggregation extends Pipeline {
 		lcmd := logApiCmd('INFO', 'Upload to NGB: Upload to NGB. Finished')
 		ngbRegisterCommand := getNgbRegisterProjectCommand()
 		task(output <- inFiles, system := 'local', taskName := "uploadToNgb_$taskId", retry := 3) {
-			sys $modules
+			sys $module
 			sys cd $bcbio.analysisDir/bcbio
 			sys $ngbRegisterCommand
 			sys date > $output
