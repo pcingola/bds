@@ -130,7 +130,7 @@ public class ExpressionNew extends MethodCall {
 		TypeClass tthis = (TypeClass) expresionThis.getReturnType();
 
 		for (ClassDeclaration cd = tthis.getClassDeclaration(); cd != null; cd = cd.getClassParent()) {
-			FieldDeclaration fieldDecls[] = cd.getFieldDecl();
+			FieldDeclaration[] fieldDecls = cd.getFieldDecl();
 			for (FieldDeclaration fieldDecl : fieldDecls) {
 				sb.append(fieldDecl.toAsm());
 			}

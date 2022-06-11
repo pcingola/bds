@@ -20,7 +20,7 @@ import org.bds.lang.GenericNode;
 public class CompilerMessages implements Iterable<CompilerMessage> {
 
 	// Store error messages by thread (we may want to parallelize compilation at some point)
-	private static HashMap<Thread, CompilerMessages> compilerMessagesByThread = new HashMap<Thread, CompilerMessages>();
+	private static final HashMap<Thread, CompilerMessages> compilerMessagesByThread = new HashMap<Thread, CompilerMessages>();
 
 	String fileName;
 
@@ -83,7 +83,7 @@ public class CompilerMessages implements Iterable<CompilerMessage> {
 
 	/** only for special cases, returns false */
 	public boolean addError(String msg) {
-		add((BdsNode) null, msg, MessageType.ERROR);
+		add(null, msg, MessageType.ERROR);
 		return false;
 	}
 

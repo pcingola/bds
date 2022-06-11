@@ -127,12 +127,12 @@ The report is roughly divided in these sections: Program, Timeline, Parallel, Ta
 ####Html report: Program 
 Program name, command line arguments, system type, execution start time and elapsed time, etc.
 
-![bds report main section](bds_report_main.png)
+![bds report main section](img/bds_report_main.png)
 
 ####Html report: Timeline
 Shows the timeline for all tasks (keep in mind that the colors have no meaning).
 
-![bds report timeline section](bds_report_timeline.png)
+![bds report timeline section](img/bds_report_timeline.png)
 
 ####Html report: Tasks
 Several details about each executed task: 
@@ -143,12 +143,12 @@ Several details about each executed task:
 - Fourth column: Dependencies input files, output files and task IDs of dependecies.
 - Fifth column: Program shell file, STDOUT (tail 10 lines), STDERR (tail 10 lines), output file checking, post-mortem information.
 
-![bds report tasks section](bds_report_task_details.png)
+![bds report tasks section](img/bds_report_task_details.png)
 
 *Note:* The second column is colored in red when the task had execution 'ERROR' state.
 
 ####Html report: Parallel
 Detail about execution threads. Only usefull if your program has `par` statements, in this example there are no `par` statements, so the section only contains one item (main thread) whihc executed all the tasks.
 
-![bds report parallel section](bds_report_par.png)
+![bds report parallel section](img/bds_report_par.png)
 

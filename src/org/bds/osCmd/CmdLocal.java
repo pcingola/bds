@@ -37,7 +37,7 @@ public class CmdLocal extends Cmd {
 	protected String pid; // Only if child process reports PID and readPid is true
 	protected String feedStdin; // Feed this string to stdin when the process starts
 
-	public CmdLocal(String id, String args[]) {
+	public CmdLocal(String id, String[] args) {
 		super(id, args);
 	}
 
@@ -135,7 +135,7 @@ public class CmdLocal extends Cmd {
 
 		// Add command and arguments
 		if (notifyTaskState != null && (notifyTaskState instanceof ExecutionerFileSystem) && (task != null)) {
-			String argsKill[] = ((ExecutionerFileSystem) notifyTaskState).osKillCommand(task);
+			String[] argsKill = ((ExecutionerFileSystem) notifyTaskState).osKillCommand(task);
 			if (argsKill != null) {
 				for (String arg : argsKill)
 					args.add(arg);
@@ -204,7 +204,7 @@ public class CmdLocal extends Cmd {
 				char ch = (char) r;
 				if (ch == '\n') break;
 				sb.append(ch);
-				if (i >= MAX_PID_LINE_LENGTH) throw new RuntimeException("PID line too long!\n" + sb.toString());
+				if (i >= MAX_PID_LINE_LENGTH) throw new RuntimeException("PID line too long!\n" + sb);
 			}
 
 			// Parse line. Format "PID \t pidNum \t childPidNum"

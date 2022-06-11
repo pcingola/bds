@@ -19,14 +19,14 @@ public class FunctionNative_toRadians_real extends FunctionNative {
 		functionName = "toRadians";
 		returnType = Types.REAL;
 
-		String argNames[] = { "angdeg" };
-		Type argTypes[] = { Types.REAL };
+		String[] argNames = { "angdeg" };
+		Type[] argTypes = { Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}
 
 	@Override
 	protected Object runFunctionNative(BdsThread bdsThread) {
-		return (Double) Math.toRadians(bdsThread.getReal("angdeg"));
+		return Math.toRadians(bdsThread.getReal("angdeg"));
 	}
 }

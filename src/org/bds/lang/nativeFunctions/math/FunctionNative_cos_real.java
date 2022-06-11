@@ -19,14 +19,14 @@ public class FunctionNative_cos_real extends FunctionNative {
 		functionName = "cos";
 		returnType = Types.REAL;
 
-		String argNames[] = { "a" };
-		Type argTypes[] = { Types.REAL };
+		String[] argNames = { "a" };
+		Type[] argTypes = { Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}
 
 	@Override
 	protected Object runFunctionNative(BdsThread bdsThread) {
-		return (Double) Math.cos(bdsThread.getReal("a"));
+		return Math.cos(bdsThread.getReal("a"));
 	}
 }

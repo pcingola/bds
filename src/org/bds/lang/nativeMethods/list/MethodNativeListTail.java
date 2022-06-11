@@ -25,8 +25,8 @@ public class MethodNativeListTail extends MethodNativeList {
 		functionName = "tail";
 		returnType = classType;
 
-		String argNames[] = { "this" };
-		Type argTypes[] = { classType };
+		String[] argNames = { "this" };
+		Type[] argTypes = { classType };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeMethodToClassScope();
 	}

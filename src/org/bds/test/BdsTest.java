@@ -32,8 +32,8 @@ public class BdsTest {
 	public boolean verbose;
 	public boolean testCases; // Is this a bds-test? i.e. should it run as 'bds --test'?
 	public Boolean compileOk;
-	public String args[]; // Command line arguments (for 'bds', not for the script)
-	public String scriptArgs[]; // Command line arguments for the bds script
+	public String[] args; // Command line arguments (for 'bds', not for the script)
+	public String[] scriptArgs; // Command line arguments for the bds script
 	public String fileName;
 	public CompilerMessages compilerMessages;
 	public Bds bds;
@@ -47,11 +47,11 @@ public class BdsTest {
 		this(fileName, null, null, verbose, debug);
 	}
 
-	public BdsTest(String fileName, String args[], boolean verbose, boolean debug) {
+	public BdsTest(String fileName, String[] args, boolean verbose, boolean debug) {
 		this(fileName, args, null, verbose, debug);
 	}
 
-	public BdsTest(String fileName, String args[], String scriptArgs[], boolean verbose, boolean debug) {
+	public BdsTest(String fileName, String[] args, String[] scriptArgs, boolean verbose, boolean debug) {
 		this.fileName = fileName;
 		this.args = args;
 		this.scriptArgs = scriptArgs;
@@ -280,8 +280,8 @@ public class BdsTest {
 
 			if (!expectedValue.toString().equals(val.toString())) {
 				Assert.assertEquals(errMsg("Variable '" + varName + "' does not match:\n"//
-						+ "\tExpected : '" + expectedValue.toString() + "'" //
-						+ "\tActual   : '" + val.toString() + "'" //
+						+ "\tExpected : '" + expectedValue + "'" //
+						+ "\tActual   : '" + val + "'" //
 				) //
 						, expectedValue.toString() //
 						, val.toString() //
@@ -353,7 +353,7 @@ public class BdsTest {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("ERROR: " + msg + "\n");
-		sb.append("\t" + toString());
+		sb.append("\t" + this);
 
 		return sb.toString();
 	}
@@ -433,8 +433,8 @@ public class BdsTest {
 		if (checkpointFileName == null) chpFileName = fileName + ".chp";
 		if (verbose) System.err.println("\n\n\nRecovering from checkpoint file '" + chpFileName + "'\n\n\n");
 		if (debug) Gpr.debug("CheckPoint file name : " + chpFileName);
-		String args2[] = { "-r", chpFileName };
-		String args2v[] = { "-v", "-r", chpFileName };
+		String[] args2 = { "-r", chpFileName };
+		String[] args2v = { "-v", "-r", chpFileName };
 		Bds bigDataScript2 = new Bds(verbose ? args2v : args2);
 		bigDataScript2.getBdsRun().setStackCheck(true);
 		bigDataScript2.run();

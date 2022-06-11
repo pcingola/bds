@@ -28,8 +28,8 @@ public class MethodNativeMapRemove extends MethodNativeMap {
 		functionName = "remove";
 		returnType = Types.BOOL;
 
-		String argNames[] = { "this", "key" };
-		Type argTypes[] = { mapType, mapType.getKeyType() };
+		String[] argNames = { "this", "key" };
+		Type[] argTypes = { mapType, mapType.getKeyType() };
 		parameters = Parameters.get(argTypes, argNames);
 
 		addNativeMethodToClassScope();

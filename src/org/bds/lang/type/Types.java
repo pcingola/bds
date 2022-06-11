@@ -21,7 +21,7 @@ public class Types {
 	public final static TypeString STRING = new TypeString();
 	public final static TypeVoid VOID = new TypeVoid(); // Void for side-effect functions
 
-	public final static Type BASE_TYPES[] = { ANY, BOOL, INT, REAL, STRING };
+	public final static Type[] BASE_TYPES = { ANY, BOOL, INT, REAL, STRING };
 
 	public static void add(Type type) {
 		String key = type.getCanonicalName();

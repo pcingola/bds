@@ -23,8 +23,8 @@ public class FunctionNativeHasVar extends FunctionNative {
 		functionName = "hasVar";
 		returnType = Types.STRING;
 
-		String argNames[] = { "name" };
-		Type argTypes[] = { Types.STRING };
+		String[] argNames = { "name" };
+		Type[] argTypes = { Types.STRING };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

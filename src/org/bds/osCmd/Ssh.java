@@ -34,7 +34,7 @@ import com.jcraft.jsch.UserInfo;
 public class Ssh implements BdsLog {
 
 	public static String defaultKnownHosts = Gpr.HOME + "/.ssh/known_hosts";
-	public static String defaultKnownIdentity[] = { Gpr.HOME + "/.ssh/id_rsa" };
+	public static String[] defaultKnownIdentity = { Gpr.HOME + "/.ssh/id_rsa" };
 
 	public static int MAX_ITER_DISCONNECT = 600;
 	public static int WAIT_DISCONNECT = 100;
@@ -82,8 +82,8 @@ public class Ssh implements BdsLog {
 				sb.append((char) c);
 			} while (c != '\n');
 
-			if (b == 1) throw new Exception("SCP command error: " + sb.toString());
-			if (b == 2) throw new Exception("SCP command fatal error: " + sb.toString());
+			if (b == 1) throw new Exception("SCP command error: " + sb);
+			if (b == 2) throw new Exception("SCP command fatal error: " + sb);
 		}
 
 		return b;

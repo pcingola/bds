@@ -19,14 +19,14 @@ public class FunctionNative_pow_real_real extends FunctionNative {
 		functionName = "pow";
 		returnType = Types.REAL;
 
-		String argNames[] = { "a", "b" };
-		Type argTypes[] = { Types.REAL, Types.REAL };
+		String[] argNames = { "a", "b" };
+		Type[] argTypes = { Types.REAL, Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}
 
 	@Override
 	protected Object runFunctionNative(BdsThread bdsThread) {
-		return (Double) Math.pow(bdsThread.getReal("a"), bdsThread.getReal("b"));
+		return Math.pow(bdsThread.getReal("a"), bdsThread.getReal("b"));
 	}
 }

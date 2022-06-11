@@ -33,8 +33,8 @@ public class FunctionNativeLog extends FunctionNative {
 		format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		format.setTimeZone(TimeZone.getTimeZone("GMT"));
 
-		String argNames[] = { "str" };
-		Type argTypes[] = { Types.STRING };
+		String[] argNames = { "str" };
+		Type[] argTypes = { Types.STRING };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

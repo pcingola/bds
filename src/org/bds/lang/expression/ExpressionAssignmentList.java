@@ -23,7 +23,7 @@ public class ExpressionAssignmentList extends ExpressionAssignment {
 
 	private static final long serialVersionUID = -6552994245332708707L;
 
-	Expression lefts[];
+	Expression[] lefts;
 
 	public ExpressionAssignmentList(BdsNode parent, ParseTree tree) {
 		super(parent, tree);

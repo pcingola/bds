@@ -27,8 +27,8 @@ public class FunctionNativeRangeReal extends FunctionNative {
 		functionName = "range";
 		returnType = TypeList.get(Types.REAL);
 
-		String argNames[] = { "min", "max", "step" };
-		Type argTypes[] = { Types.REAL, Types.REAL, Types.REAL };
+		String[] argNames = { "min", "max", "step" };
+		Type[] argTypes = { Types.REAL, Types.REAL, Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

@@ -71,7 +71,7 @@ public class CheckTasksRunningCmd extends CheckTasksRunning {
 	 */
 	protected Set<Task> parseCommandOutput() {
 		// For each line in stdout...
-		String lines[] = cmdExecResult.stdOut.split("\n");
+		String[] lines = cmdExecResult.stdOut.split("\n");
 
 		// Parse PIDs
 		Set<String> pids = parseCommandOutput(lines);
@@ -84,7 +84,7 @@ public class CheckTasksRunningCmd extends CheckTasksRunning {
 	 * Parse command output, extract all PIDs
 	 * For each PID, find the corresponding task, add task 'taskFoundId' (HashSet<String>)
 	 */
-	public Set<String> parseCommandOutput(String lines[]) {
+	public Set<String> parseCommandOutput(String[] lines) {
 		HashSet<String> pids = new HashSet<>();
 
 		// Parse lines
@@ -105,7 +105,7 @@ public class CheckTasksRunningCmd extends CheckTasksRunning {
 				// => Try other methods
 
 				// Split fields
-				String fields[] = line.split("\\s+");
+				String[] fields = line.split("\\s+");
 
 				// Obtain PID (found in column number 'cmdPidColumn')
 				if ((0 <= cmdPidColumn) && (cmdPidColumn < fields.length)) {

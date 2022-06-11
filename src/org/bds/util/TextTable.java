@@ -6,18 +6,18 @@ package org.bds.util;
  */
 public class TextTable {
 
-	String columnNames[];
-	String data[][];
-	int columnLen[];
+	String[] columnNames;
+	String[][] data;
+	int[] columnLen;
 	String prepend;
 
-	public TextTable(String columnNames[], String data[][]) {
+	public TextTable(String[] columnNames, String[][] data) {
 		this.columnNames = columnNames;
 		this.data = data;
 		prepend = "";
 	}
 
-	public TextTable(String columnNames[], String data[][], String prepend) {
+	public TextTable(String[] columnNames, String[][] data, String prepend) {
 		this.columnNames = columnNames;
 		this.data = data;
 		this.prepend = prepend;

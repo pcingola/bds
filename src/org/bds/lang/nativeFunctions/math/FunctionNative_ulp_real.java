@@ -19,14 +19,14 @@ public class FunctionNative_ulp_real extends FunctionNative {
 		functionName = "ulp";
 		returnType = Types.REAL;
 
-		String argNames[] = { "a" };
-		Type argTypes[] = { Types.REAL };
+		String[] argNames = { "a" };
+		Type[] argTypes = { Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}
 
 	@Override
 	protected Object runFunctionNative(BdsThread bdsThread) {
-		return (Double) Math.ulp(bdsThread.getReal("d"));
+		return Math.ulp(bdsThread.getReal("d"));
 	}
 }

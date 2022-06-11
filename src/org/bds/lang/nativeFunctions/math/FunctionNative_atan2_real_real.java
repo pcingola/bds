@@ -19,8 +19,8 @@ public class FunctionNative_atan2_real_real extends FunctionNative {
 		functionName = "atan2";
 		returnType = Types.REAL;
 
-		String argNames[] = { "y", "x" };
-		Type argTypes[] = { Types.REAL, Types.REAL };
+		String[] argNames = { "y", "x" };
+		Type[] argTypes = { Types.REAL, Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

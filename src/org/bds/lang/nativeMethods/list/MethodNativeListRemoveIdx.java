@@ -26,8 +26,8 @@ public class MethodNativeListRemoveIdx extends MethodNativeList {
 		functionName = "removeIdx";
 		returnType = baseType;
 
-		String argNames[] = { "this", "idx" };
-		Type argTypes[] = { classType, Types.INT };
+		String[] argNames = { "this", "idx" };
+		Type[] argTypes = { classType, Types.INT };
 		parameters = Parameters.get(argTypes, argNames);
 
 		addNativeMethodToClassScope();

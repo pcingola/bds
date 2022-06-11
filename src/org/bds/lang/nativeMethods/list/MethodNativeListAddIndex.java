@@ -26,8 +26,8 @@ public class MethodNativeListAddIndex extends MethodNativeList {
 		functionName = "add";
 		returnType = baseType;
 
-		String argNames[] = { "this", "idx", "toPush" };
-		Type argTypes[] = { classType, Types.INT, baseType };
+		String[] argNames = { "this", "idx", "toPush" };
+		Type[] argTypes = { classType, Types.INT, baseType };
 		parameters = Parameters.get(argTypes, argNames);
 
 		addNativeMethodToClassScope();

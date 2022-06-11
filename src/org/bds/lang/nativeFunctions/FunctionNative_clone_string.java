@@ -18,8 +18,8 @@ public class FunctionNative_clone_string extends FunctionNative {
 		functionName = "clone";
 		returnType = Types.STRING;
 
-		String argNames[] = { "x" };
-		Type argTypes[] = { Types.STRING };
+		String[] argNames = { "x" };
+		Type[] argTypes = { Types.STRING };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

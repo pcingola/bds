@@ -36,7 +36,7 @@ public class TestCasesCommandLineOptions extends TestCasesBase {
 		Config.reset();
 
 		// Create command line
-		String args[] = { "-log" };
+		String[] args = { "-log" };
 		BdsTest bdsTest = new BdsTest("test/cmdLineOptions_01.bds", args, verbose, debug);
 
 		// Run script
@@ -57,7 +57,7 @@ public class TestCasesCommandLineOptions extends TestCasesBase {
 				.collect(Collectors.toSet()) //
 		;
 
-		String exts[] = { "sh", "exitCode", "stderr", "stdout" };
+		String[] exts = { "sh", "exitCode", "stderr", "stdout" };
 		for (String ext : exts) {
 			boolean ok = files.stream().anyMatch(f -> f.endsWith("." + ext));
 			Assert.assertTrue("Log file starting with '" + prefix + "' and ending with '" + ext + "' not found in dir '" + dir + "'", ok);

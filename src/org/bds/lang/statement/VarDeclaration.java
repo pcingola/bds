@@ -25,7 +25,7 @@ public class VarDeclaration extends Statement {
 
 	protected boolean implicit;
 	protected Type type;
-	protected VariableInit varInit[];
+	protected VariableInit[] varInit;
 
 	public static VarDeclaration get(BdsNode parent, Type type, String varName, Expression expression) {
 		VarDeclaration vd = new VarDeclaration(parent, null);

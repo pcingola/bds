@@ -24,8 +24,8 @@ public class FunctionNativeRandInt extends FunctionNative {
 		functionName = "randInt";
 		returnType = Types.INT;
 
-		String argNames[] = {};
-		Type argTypes[] = {};
+		String[] argNames = {};
+		Type[] argTypes = {};
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

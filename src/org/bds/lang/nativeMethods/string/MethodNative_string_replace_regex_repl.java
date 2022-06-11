@@ -19,8 +19,8 @@ public class MethodNative_string_replace_regex_repl extends MethodNativeString {
 		classType = Types.STRING;
 		returnType = Types.STRING;
 
-		String argNames[] = { "this", "regex", "repl" };
-		Type argTypes[] = { Types.STRING, Types.STRING, Types.STRING };
+		String[] argNames = { "this", "regex", "repl" };
+		Type[] argTypes = { Types.STRING, Types.STRING, Types.STRING };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeMethodToClassScope();
 	}

@@ -19,8 +19,8 @@ public class FunctionNativeAssertString extends FunctionNativeAssert {
 		functionName = "assert";
 		returnType = Types.BOOL;
 
-		String argNames[] = { "msg", "expected", "map" };
-		Type argTypes[] = { Types.STRING, Types.STRING, Types.STRING };
+		String[] argNames = { "msg", "expected", "map" };
+		Type[] argTypes = { Types.STRING, Types.STRING, Types.STRING };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

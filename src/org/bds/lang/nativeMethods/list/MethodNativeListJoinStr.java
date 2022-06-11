@@ -27,8 +27,8 @@ public class MethodNativeListJoinStr extends MethodNativeListJoin {
 		functionName = "join";
 		returnType = Types.STRING;
 
-		String argNames[] = { "this", "separator" };
-		Type argTypes[] = { classType, Types.STRING };
+		String[] argNames = { "this", "separator" };
+		Type[] argTypes = { classType, Types.STRING };
 
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeMethodToClassScope();

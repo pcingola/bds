@@ -30,8 +30,7 @@ public class ExpressionCond extends Expression {
 	public boolean isReturnTypesNotNull() {
 		if (expr == null || expr.getReturnType() == null) return false;
 		if (exprTrue == null || exprTrue.getReturnType() == null) return false;
-		if (exprFalse == null || exprFalse.getReturnType() == null) return false;
-		return true;
+		return exprFalse != null && exprFalse.getReturnType() != null;
 	}
 
 	//	@Override

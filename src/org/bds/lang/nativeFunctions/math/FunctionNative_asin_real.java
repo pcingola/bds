@@ -20,8 +20,8 @@ public class FunctionNative_asin_real extends FunctionNative {
 		functionName = "asin";
 		returnType = Types.REAL;
 
-		String argNames[] = { "a" };
-		Type argTypes[] = { Types.REAL };
+		String[] argNames = { "a" };
+		Type[] argTypes = { Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

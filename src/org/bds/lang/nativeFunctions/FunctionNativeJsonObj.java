@@ -26,8 +26,8 @@ public class FunctionNativeJsonObj extends FunctionNative {
         functionName = "json";
         returnType = Types.STRING;
 
-        String argNames[] = {"fileName", "object"};
-        Type argTypes[] = {Types.STRING, Types.ANY};
+        String[] argNames = {"fileName", "object"};
+        Type[] argTypes = {Types.STRING, Types.ANY};
         parameters = Parameters.get(argTypes, argNames);
         addNativeFunction();
     }

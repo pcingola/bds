@@ -27,8 +27,8 @@ public class FunctionNativeConfigOri extends FunctionNativeConfig {
 		functionName = "config";
 		returnType = TypeMap.get(Types.STRING, Types.STRING);
 
-		String argNames[] = { "file", "configOri" };
-		Type argTypes[] = { Types.STRING, returnType };
+		String[] argNames = { "file", "configOri" };
+		Type[] argTypes = { Types.STRING, returnType };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

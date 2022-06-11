@@ -120,7 +120,7 @@ public class TestCasesIntegrationDataRemote extends TestCasesBase {
 
 		Assert.assertEquals("Path: " + durl.getPath(), "", durl.getPath());
 		Assert.assertEquals("Canonical: " + durl.getAbsolutePath(), "", durl.getAbsolutePath());
-		Assert.assertEquals("URL: " + durl.toString(), url, durl.toString());
+		Assert.assertEquals("URL: " + durl, url, durl.toString());
 	}
 
 	/**

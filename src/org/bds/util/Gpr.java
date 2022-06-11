@@ -64,9 +64,7 @@ public class Gpr {
 		if (inputFile.exists() && inputFile.canRead()) return true;
 
 		inputFile = new File(fileName + ".gz");
-		if (inputFile.exists() && inputFile.canRead()) return true;
-
-		return false;
+		return inputFile.exists() && inputFile.canRead();
 	}
 
 	/**
@@ -215,8 +213,7 @@ public class Gpr {
 			if (s == null || s.isEmpty()) return false;
 			if (s.equalsIgnoreCase("true")) return true; // 'true'
 			if (s.equalsIgnoreCase("t")) return true; // Abreviation of 'true'
-			if (Gpr.parseIntSafe(s) != 0) return true; // A non-zero number
-			return false;
+			return Gpr.parseIntSafe(s) != 0; // A non-zero number
 		} catch (Exception e) {
 			return false;
 		}
@@ -302,7 +299,7 @@ public class Gpr {
 	public static String read(InputStream is) {
 		if (is == null) return null;
 		StringBuffer strb = new StringBuffer();
-		char buff[] = new char[10240];
+		char[] buff = new char[10240];
 		int len = 0;
 
 		try {
@@ -390,7 +387,7 @@ public class Gpr {
 	public static String readFile(String fileName, boolean showExceptions) {
 		BufferedReader inFile;
 		StringBuffer strb = new StringBuffer();
-		char buff[] = new char[10240];
+		char[] buff = new char[10240];
 		int len = 0;
 		try {
 			// Open
@@ -419,7 +416,7 @@ public class Gpr {
 	 * @param file
 	 * @return
 	 */
-	public static String removeExt(String file, String fileExtensions[]) {
+	public static String removeExt(String file, String[] fileExtensions) {
 		for (String ext : fileExtensions)
 			if (file.toLowerCase().endsWith(ext)) return file.substring(0, file.length() - ext.length());
 

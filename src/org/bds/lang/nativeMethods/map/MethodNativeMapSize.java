@@ -28,8 +28,8 @@ public class MethodNativeMapSize extends MethodNativeMap {
 		functionName = "size";
 		returnType = Types.INT;
 
-		String argNames[] = { "this" };
-		Type argTypes[] = { mapType };
+		String[] argNames = { "this" };
+		Type[] argTypes = { mapType };
 		parameters = Parameters.get(argTypes, argNames);
 
 		addNativeMethodToClassScope();

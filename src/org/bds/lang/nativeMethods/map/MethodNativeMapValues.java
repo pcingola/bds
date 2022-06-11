@@ -28,8 +28,8 @@ public class MethodNativeMapValues extends MethodNativeMap {
 		functionName = "values";
 		returnType = TypeList.get(mapType.getValueType());
 
-		String argNames[] = { "this" };
-		Type argTypes[] = { mapType };
+		String[] argNames = { "this" };
+		Type[] argTypes = { mapType };
 		parameters = Parameters.get(argTypes, argNames);
 
 		addNativeMethodToClassScope();

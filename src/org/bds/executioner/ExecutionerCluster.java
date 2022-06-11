@@ -35,18 +35,18 @@ public class ExecutionerCluster extends ExecutionerFileSystem {
 	protected final String CLUSTER_DEFAULT_RUN_COMMAND_STDOUT_OPTION = "-o";
 	protected final String CLUSTER_DEFAULT_RUN_COMMAND_STDERR_OPTION = "-e";
 
-	protected String clusterRunCommand[];
-	protected String clusterKillCommand[];
-	protected String clusterStatCommand[];
-	protected String clusterPostMortemInfoCommand[];
+	protected String[] clusterRunCommand;
+	protected String[] clusterKillCommand;
+	protected String[] clusterStatCommand;
+	protected String[] clusterPostMortemInfoCommand;
 
 	protected String clusterRunCommandStdOutOption;
 	protected String clusterRunCommandStdErrOption;
 
-	protected String clusterRunAdditionalArgs[];
-	protected String clusterKillAdditionalArgs[];
-	protected String clusterStatAdditionalArgs[];
-	protected String clusterPostMortemAdditionalArgs[];
+	protected String[] clusterRunAdditionalArgs;
+	protected String[] clusterKillAdditionalArgs;
+	protected String[] clusterStatAdditionalArgs;
+	protected String[] clusterPostMortemAdditionalArgs;
 
 	protected String memParam;
 	protected String cpuParam;
@@ -65,10 +65,10 @@ public class ExecutionerCluster extends ExecutionerFileSystem {
 		super(config);
 
 		// Define commands
-		String runCommand[] = { "qsub" };
-		String killCommand[] = { "qdel" };
-		String statCommand[] = { "qstat" };
-		String postMortemInfoCommand[] = { "qstat", "-f" };
+		String[] runCommand = { "qsub" };
+		String[] killCommand = { "qdel" };
+		String[] statCommand = { "qstat" };
+		String[] postMortemInfoCommand = { "qstat", "-f" };
 
 		blockRunTasks = true;
 
@@ -395,7 +395,7 @@ public class ExecutionerCluster extends ExecutionerFileSystem {
 		if (postMortemDisabled) return;
 
 		// Get command line arguments and execute them
-		String cmd[] = getCommandPostMortemInfo();
+		String[] cmd = getCommandPostMortemInfo();
 		if (cmd.length <= 0) return;
 		if (task.getPid() == null || task.getPid().isEmpty()) return;
 

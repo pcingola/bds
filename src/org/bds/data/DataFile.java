@@ -178,7 +178,7 @@ public class DataFile extends Data {
 
 	@Override
 	public ArrayList<Data> list() {
-		String files[] = file.list();
+		String[] files = file.list();
 		ArrayList<Data> list = new ArrayList<>();
 		if (files == null) return list;
 

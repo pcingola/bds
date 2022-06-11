@@ -14,7 +14,7 @@ public abstract class HealthCondition {
 
 	public enum Light {
 		Green, Yellow, Red
-	};
+	}
 
 	HostSsh host;
 	HostHealth healthRed, healthYellow;

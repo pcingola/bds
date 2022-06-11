@@ -19,8 +19,8 @@ public class LiteralMap extends Literal {
 
 	private static final long serialVersionUID = 5866903221831301923L;
 
-	Expression keys[];
-	Expression values[];
+	Expression[] keys;
+	Expression[] values;
 
 	public LiteralMap(BdsNode parent, ParseTree tree) {
 		super(parent, tree);

@@ -28,8 +28,8 @@ public class FunctionNativeConfig extends FunctionNative {
 		functionName = "config";
 		returnType = TypeMap.get(Types.STRING, Types.STRING);
 
-		String argNames[] = { "file" };
-		Type argTypes[] = { Types.STRING };
+		String[] argNames = { "file" };
+		Type[] argTypes = { Types.STRING };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

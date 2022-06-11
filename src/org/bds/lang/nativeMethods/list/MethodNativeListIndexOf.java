@@ -27,8 +27,8 @@ public class MethodNativeListIndexOf extends MethodNativeList {
 		functionName = "indexOf";
 		returnType = Types.INT;
 
-		String argNames[] = { "this", "toFind" };
-		Type argTypes[] = { classType, baseType };
+		String[] argNames = { "this", "toFind" };
+		Type[] argTypes = { classType, baseType };
 		parameters = Parameters.get(argTypes, argNames);
 
 		addNativeMethodToClassScope();

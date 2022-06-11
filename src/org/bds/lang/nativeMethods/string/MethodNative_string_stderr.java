@@ -21,8 +21,8 @@ public class MethodNative_string_stderr extends MethodNativeString {
 		classType = Types.STRING;
 		returnType = Types.STRING;
 
-		String argNames[] = { "this" };
-		Type argTypes[] = { Types.STRING };
+		String[] argNames = { "this" };
+		Type[] argTypes = { Types.STRING };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeMethodToClassScope();
 	}

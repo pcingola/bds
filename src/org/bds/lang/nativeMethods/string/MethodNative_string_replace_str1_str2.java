@@ -19,8 +19,8 @@ public class MethodNative_string_replace_str1_str2 extends MethodNativeString {
 		classType = Types.STRING;
 		returnType = Types.STRING;
 
-		String argNames[] = { "this", "str1", "str2" };
-		Type argTypes[] = { Types.STRING, Types.STRING, Types.STRING };
+		String[] argNames = { "this", "str1", "str2" };
+		Type[] argTypes = { Types.STRING, Types.STRING, Types.STRING };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeMethodToClassScope();
 	}

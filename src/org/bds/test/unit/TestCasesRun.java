@@ -510,7 +510,7 @@ public class TestCasesRun extends TestCasesBase {
 	public void test60() {
 		Gpr.debug("Test");
 		String fileName = "test/run_60.bds";
-		String args[] = { fileName, "-b" };
+		String[] args = { fileName, "-b" };
 		runAndCheck(fileName, args, "b", true);
 	}
 
@@ -518,7 +518,7 @@ public class TestCasesRun extends TestCasesBase {
 	public void test61() {
 		Gpr.debug("Test");
 		String fileName = "test/run_60.bds";
-		String args[] = { fileName, "-b", "true" };
+		String[] args = { fileName, "-b", "true" };
 		runAndCheck(fileName, args, "b", true);
 	}
 
@@ -526,7 +526,7 @@ public class TestCasesRun extends TestCasesBase {
 	public void test62() {
 		Gpr.debug("Test");
 		String fileName = "test/run_60.bds";
-		String args[] = { fileName, "-b", "false" };
+		String[] args = { fileName, "-b", "false" };
 		runAndCheck(fileName, args, "b", false);
 	}
 

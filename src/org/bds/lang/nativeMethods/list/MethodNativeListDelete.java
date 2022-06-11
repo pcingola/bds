@@ -26,8 +26,8 @@ public class MethodNativeListDelete extends MethodNativeList {
 		functionName = "delete";
 		returnType = Types.VOID;
 
-		String argNames[] = { "this" };
-		Type argTypes[] = { classType };
+		String[] argNames = { "this" };
+		Type[] argTypes = { classType };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeMethodToClassScope();
 	}

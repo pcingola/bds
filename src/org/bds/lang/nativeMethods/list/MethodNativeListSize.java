@@ -27,8 +27,8 @@ public class MethodNativeListSize extends MethodNativeList {
 		functionName = "size";
 		returnType = Types.INT;
 
-		String argNames[] = { "this" };
-		Type argTypes[] = { classType };
+		String[] argNames = { "this" };
+		Type[] argTypes = { classType };
 		parameters = Parameters.get(argTypes, argNames);
 
 		addNativeMethodToClassScope();

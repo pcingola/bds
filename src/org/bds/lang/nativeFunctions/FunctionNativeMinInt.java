@@ -24,8 +24,8 @@ public class FunctionNativeMinInt extends FunctionNative {
 		functionName = "min";
 		returnType = Types.INT;
 
-		String argNames[] = { "n1", "n2" };
-		Type argTypes[] = { returnType, returnType };
+		String[] argNames = { "n1", "n2" };
+		Type[] argTypes = { returnType, returnType };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

@@ -19,14 +19,14 @@ public class FunctionNative_sin_real extends FunctionNative {
 		functionName = "sin";
 		returnType = Types.REAL;
 
-		String argNames[] = { "a" };
-		Type argTypes[] = { Types.REAL };
+		String[] argNames = { "a" };
+		Type[] argTypes = { Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}
 
 	@Override
 	protected Object runFunctionNative(BdsThread bdsThread) {
-		return (Double) Math.sin(bdsThread.getReal("a"));
+		return Math.sin(bdsThread.getReal("a"));
 	}
 }

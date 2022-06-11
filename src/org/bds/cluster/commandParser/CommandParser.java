@@ -33,7 +33,7 @@ public class CommandParser implements BdsLog {
 	 */
 	String createCmd(String cmd) {
 		StringBuilder sb = new StringBuilder();
-		String cmds[] = cmd.split(";");
+		String[] cmds = cmd.split(";");
 		for (String c : cmds) {
 			c = c.trim();
 			sb.append("echo '#" + c + "';" + c + ";");
@@ -65,7 +65,7 @@ public class CommandParser implements BdsLog {
 				String command = null;
 
 				result.replace('\r', ' ');
-				String res[] = result.split("\n");
+				String[] res = result.split("\n");
 				ArrayList<String> lines = new ArrayList<String>();
 
 				for (String line : res) {
@@ -102,7 +102,7 @@ public class CommandParser implements BdsLog {
 		}
 	}
 
-	public void parse(String cmdResult[]) {
+	public void parse(String[] cmdResult) {
 		throw new RuntimeException("This should never be invoked!");
 	}
 
@@ -112,7 +112,7 @@ public class CommandParser implements BdsLog {
 	 * @param lines
 	 */
 	public void parse(String command, ArrayList<String> lines) {
-		String cmdResult[] = lines.toArray(EMPTY_STRING_ARRAY);
+		String[] cmdResult = lines.toArray(EMPTY_STRING_ARRAY);
 
 		CommandParser cp = null;
 

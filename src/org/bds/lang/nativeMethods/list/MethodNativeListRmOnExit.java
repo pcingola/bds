@@ -26,8 +26,8 @@ public class MethodNativeListRmOnExit extends MethodNativeList {
 		functionName = "rmOnExit";
 		returnType = Types.VOID;
 
-		String argNames[] = { "this" };
-		Type argTypes[] = { classType };
+		String[] argNames = { "this" };
+		Type[] argTypes = { classType };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeMethodToClassScope();
 	}

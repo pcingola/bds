@@ -53,7 +53,7 @@ public class GprString {
 		if (str == null || str.isEmpty()) return -1;
 
 		char cprev = ' ';
-		char chars[] = str.toCharArray();
+		char[] chars = str.toCharArray();
 		boolean quote = false;
 		for (int i = 0; i < chars.length; cprev = chars[i], i++) {
 			char c = chars[i];

@@ -54,13 +54,13 @@ public class BdsVm implements Serializable, BdsLog {
 
 	public static final int CALL_STACK_SIZE = 1024; // Only this many nested stacks
 	public static final String LABEL_MAIN = "main";
-	private static final OpCode OPCODES[] = OpCode.values();
+	private static final OpCode[] OPCODES = OpCode.values();
 	private static final long serialVersionUID = 6533146851765102340L;
 	public static final int SLEEP_TIME_FREEZE = 200; // Milliseconds
 	public static final int STACK_SIZE = 100 * 1024; // Initial stack size
 	BdsThread bdsThread;
 	CallFrame[] callFrames; // Call Frame stack
-	int code[]; // Compile assembly code (OopCodes)
+	int[] code; // Compile assembly code (OopCodes)
 	List<Object> constants;
 	Map<Integer, Integer> coverageCounter; // Count how many times a nodeId was traversed
 	Map<Object, Integer> constantsByObject;
@@ -737,7 +737,7 @@ public class BdsVm implements Serializable, BdsLog {
 	 */
 	public boolean popBool() {
 		Value v = pop();
-		return v != null ? v.asBool() : false;
+		return v != null && v.asBool();
 	}
 
 	/**
@@ -1704,7 +1704,7 @@ public class BdsVm implements Serializable, BdsLog {
 
 		if (bdsNode == null) return "";
 
-		String lines[] = bdsNode.toString().split("\n");
+		String[] lines = bdsNode.toString().split("\n");
 		String line = lines[0];
 		String format = "%-" + maxFileLineLen + "s: \t%s";
 		return String.format(format, fileLine, line);

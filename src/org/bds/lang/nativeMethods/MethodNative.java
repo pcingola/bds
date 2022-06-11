@@ -38,7 +38,7 @@ public abstract class MethodNative extends MethodDeclaration {
 	/**
 	 * Convert an array to a list
 	 */
-	protected ValueList arrayString2valuelist(String strs[]) {
+	protected ValueList arrayString2valuelist(String[] strs) {
 		TypeList typeList = TypeList.get(Types.STRING);
 		ValueList vlist = new ValueList(typeList);
 

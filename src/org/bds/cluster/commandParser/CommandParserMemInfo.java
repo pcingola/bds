@@ -17,12 +17,12 @@ public class CommandParserMemInfo extends CommandParser {
 	}
 
 	@Override
-	public void parse(String cmdResult[]) {
+	public void parse(String[] cmdResult) {
 		long swap, swapFree, mem, memFree;
 		swap = swapFree = mem = memFree = -1;
 
 		for (int line = 0; line < cmdResult.length; line++) {
-			String fields[] = cmdResult[line].replace(':', ' ').split("\\s+");
+			String[] fields = cmdResult[line].replace(':', ' ').split("\\s+");
 			if (fields[0].equalsIgnoreCase("MemTotal")) {
 				mem = Gpr.parseIntSafe(fields[1]);
 				host.getResources().setMem(mem);

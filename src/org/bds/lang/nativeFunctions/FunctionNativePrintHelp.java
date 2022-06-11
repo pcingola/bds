@@ -24,8 +24,8 @@ public class FunctionNativePrintHelp extends FunctionNative {
 		functionName = "printHelp";
 		returnType = Types.BOOL;
 
-		String argNames[] = {};
-		Type argTypes[] = {};
+		String[] argNames = {};
+		Type[] argTypes = {};
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

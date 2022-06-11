@@ -23,9 +23,9 @@ public class MethodNativeListFilter extends MethodNativeList {
 	protected void initMethod(Type baseType) {
 		functionName = "filter";
 		classType = TypeList.get(baseType);
-		returnType = TypeList.get(baseType);;
+		returnType = TypeList.get(baseType);
 
-		// Functional methods not implemented
+        // Functional methods not implemented
 		//		TypeFunction typeFunc = TypeFunction.get(Parameters.get(baseType, ""), Types.BOOL);
 		//		String argNames[] = { "this", "f" };
 		//		Type argTypes[] = { classType, typeFunc };

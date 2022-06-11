@@ -28,8 +28,8 @@ public class MethodNativeMapHashCode extends MethodNativeMap {
 		functionName = "hashCode";
 		returnType = Types.INT;
 
-		String argNames[] = { "this" };
-		Type argTypes[] = { mapType };
+		String[] argNames = { "this" };
+		Type[] argTypes = { mapType };
 		parameters = Parameters.get(argTypes, argNames);
 
 		addNativeMethodToClassScope();

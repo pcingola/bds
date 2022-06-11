@@ -19,14 +19,14 @@ public class FunctionNative_copySign_real_real extends FunctionNative {
 		functionName = "copySign";
 		returnType = Types.REAL;
 
-		String argNames[] = { "magnitude", "sign" };
-		Type argTypes[] = { Types.REAL, Types.REAL };
+		String[] argNames = { "magnitude", "sign" };
+		Type[] argTypes = { Types.REAL, Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}
 
 	@Override
 	protected Object runFunctionNative(BdsThread bdsThread) {
-		return (Double) Math.copySign(bdsThread.getReal("magnitude"), bdsThread.getReal("sign"));
+		return Math.copySign(bdsThread.getReal("magnitude"), bdsThread.getReal("sign"));
 	}
 }

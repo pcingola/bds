@@ -24,8 +24,8 @@ public class FunctionNativeSleep extends FunctionNative {
 		functionName = "sleep";
 		returnType = Types.BOOL;
 
-		String argNames[] = { "seconds" };
-		Type argTypes[] = { Types.INT };
+		String[] argNames = { "seconds" };
+		Type[] argTypes = { Types.INT };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

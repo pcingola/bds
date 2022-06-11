@@ -19,14 +19,14 @@ public class FunctionNative_toDegrees_real extends FunctionNative {
 		functionName = "toDegrees";
 		returnType = Types.REAL;
 
-		String argNames[] = { "angrad" };
-		Type argTypes[] = { Types.REAL };
+		String[] argNames = { "angrad" };
+		Type[] argTypes = { Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}
 
 	@Override
 	protected Object runFunctionNative(BdsThread bdsThread) {
-		return (Double) Math.toDegrees(bdsThread.getReal("angrad"));
+		return Math.toDegrees(bdsThread.getReal("angrad"));
 	}
 }

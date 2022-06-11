@@ -15,7 +15,7 @@ public abstract class ValuePrimitive extends Value {
 	}
 
 	protected void toString(StringBuilder sb, Set<Value> done) {
-		sb.append(toString());
+		sb.append(this);
 	}
 
 }

@@ -27,8 +27,8 @@ public class FunctionNativeAddResource extends FunctionNative {
 		functionName = "addResource";
 		returnType = Types.BOOL;
 
-		String argNames[] = { "resourceName", "count" };
-		Type argTypes[] = { Types.STRING, Types.INT };
+		String[] argNames = { "resourceName", "count" };
+		Type[] argTypes = { Types.STRING, Types.INT };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

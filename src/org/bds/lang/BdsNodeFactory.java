@@ -23,7 +23,7 @@ public class BdsNodeFactory implements BdsLog {
 
 	private static BdsNodeFactory bdsNodeFactory = new BdsNodeFactory();
 
-	public static final String packageNames[] = { //
+	public static final String[] packageNames = { //
 			"org.bds.lang.expression" //
 			, "org.bds.lang.statement" //
 			, "org.bds.lang.type" //
@@ -241,8 +241,7 @@ public class BdsNodeFactory implements BdsLog {
 	public boolean isIgnore(ParseTree tree) {
 		String className = className(tree);
 		if (className.equals("Eol")) return true;
-		if (className.equals("StatmentEol")) return true;
-		return false;
+		return className.equals("StatmentEol");
 	}
 
 	/**
@@ -274,7 +273,7 @@ public class BdsNodeFactory implements BdsLog {
 	 */
 	String stripPackageName(String className) {
 		if (className.indexOf('.') < 0) return className;
-		String cn[] = className.split("\\.");
+		String[] cn = className.split("\\.");
 		return cn[cn.length - 1];
 	}
 }

@@ -115,7 +115,7 @@ public class StreamGobbler extends Thread {
 		running = true;
 		try {
 			// Create buffer
-			byte buffer[] = new byte[BUFFER_SIZE];
+			byte[] buffer = new byte[BUFFER_SIZE];
 			int num = 0;
 
 			// Create redirect file (if any)

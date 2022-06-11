@@ -25,8 +25,8 @@ public class MethodNativeListPush extends MethodNativeList {
 		functionName = "push";
 		returnType = baseType;
 
-		String argNames[] = { "this", "toPush" };
-		Type argTypes[] = { classType, baseType };
+		String[] argNames = { "this", "toPush" };
+		Type[] argTypes = { classType, baseType };
 		parameters = Parameters.get(argTypes, argNames);
 
 		addNativeMethodToClassScope();

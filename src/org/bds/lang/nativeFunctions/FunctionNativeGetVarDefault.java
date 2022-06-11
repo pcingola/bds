@@ -24,8 +24,8 @@ public class FunctionNativeGetVarDefault extends FunctionNative {
 		functionName = "getVar";
 		returnType = Types.STRING;
 
-		String argNames[] = { "name", "default" };
-		Type argTypes[] = { Types.STRING, Types.STRING };
+		String[] argNames = { "name", "default" };
+		Type[] argTypes = { Types.STRING, Types.STRING };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

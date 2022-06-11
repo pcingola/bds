@@ -19,14 +19,14 @@ public class FunctionNative_log10_real extends FunctionNative {
 		functionName = "log10";
 		returnType = Types.REAL;
 
-		String argNames[] = { "a" };
-		Type argTypes[] = { Types.REAL };
+		String[] argNames = { "a" };
+		Type[] argTypes = { Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}
 
 	@Override
 	protected Object runFunctionNative(BdsThread bdsThread) {
-		return (Double) Math.log10(bdsThread.getReal("a"));
+		return Math.log10(bdsThread.getReal("a"));
 	}
 }

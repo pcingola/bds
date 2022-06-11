@@ -25,8 +25,8 @@ public class MethodNativeListPop extends MethodNativeList {
 		functionName = "pop";
 		returnType = baseType;
 
-		String argNames[] = { "this" };
-		Type argTypes[] = { classType };
+		String[] argNames = { "this" };
+		Type[] argTypes = { classType };
 		parameters = Parameters.get(argTypes, argNames);
 
 		addNativeMethodToClassScope();

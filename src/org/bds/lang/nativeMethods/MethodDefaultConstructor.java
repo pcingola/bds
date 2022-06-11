@@ -28,8 +28,8 @@ public class MethodDefaultConstructor extends MethodNative {
 		functionName = ct.getClassName();
 		returnType = classType;
 
-		String argNames[] = { "this" };
-		Type argTypes[] = { classType };
+		String[] argNames = { "this" };
+		Type[] argTypes = { classType };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeMethodToClassScope();
 	}

@@ -333,7 +333,6 @@ public class BdsCompiler implements BdsLog {
 
 		// Any error messages?
 		if (!CompilerMessages.get().isEmpty()) System.err.println("Compiler messages:\n" + CompilerMessages.get());
-		if (CompilerMessages.get().hasErrors()) return true;
-		return false;
+		return CompilerMessages.get().hasErrors();
 	}
 }

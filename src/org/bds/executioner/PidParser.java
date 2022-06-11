@@ -7,6 +7,6 @@ package org.bds.executioner;
  */
 public interface PidParser {
 
-	public String parsePidLine(String line);
+	String parsePidLine(String line);
 
 }

@@ -17,8 +17,8 @@ public class CommandParserUptime extends CommandParser {
 	}
 
 	@Override
-	public void parse(String cmdResult[]) {
-		String fields[] = cmdResult[0].replace(',', ' ').split("\\s+");
+	public void parse(String[] cmdResult) {
+		String[] fields = cmdResult[0].replace(',', ' ').split("\\s+");
 
 		if (debug) {
 			for (int i = 0; i < fields.length; i++)

@@ -101,7 +101,7 @@ public class DataS3 extends DataRemote {
 			// Download from S3
 			GetObjectRequest req = GetObjectRequest.builder().bucket(bucketName).key(key).build();
 			getS3Client().getObject(req, ResponseTransformer.toFile(Paths.get(localPath)));
-			log("Donwload from '" + toString() + "' to '" + localPath + "' finished.");
+			log("Donwload from '" + this + "' to '" + localPath + "' finished.");
 
 			// Update last modified info
 			updateLocalFileLastModified();

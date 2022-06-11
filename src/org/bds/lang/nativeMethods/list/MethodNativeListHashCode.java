@@ -27,8 +27,8 @@ public class MethodNativeListHashCode extends MethodNativeList {
 		functionName = "hashCode";
 		returnType = Types.INT;
 
-		String argNames[] = { "this" };
-		Type argTypes[] = { classType };
+		String[] argNames = { "this" };
+		Type[] argTypes = { classType };
 		parameters = Parameters.get(argTypes, argNames);
 
 		addNativeMethodToClassScope();

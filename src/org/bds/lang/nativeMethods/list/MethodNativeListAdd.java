@@ -27,8 +27,8 @@ public class MethodNativeListAdd extends MethodNativeList {
 		functionName = "add";
 		returnType = classType;
 
-		String argNames[] = { "this", "toPush" };
-		Type argTypes[] = { classType, baseType };
+		String[] argNames = { "this", "toPush" };
+		Type[] argTypes = { classType, baseType };
 		parameters = Parameters.get(argTypes, argNames);
 
 		addNativeMethodToClassScope();

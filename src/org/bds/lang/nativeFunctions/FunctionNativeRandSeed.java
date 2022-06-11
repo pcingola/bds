@@ -24,8 +24,8 @@ public class FunctionNativeRandSeed extends FunctionNative {
 		functionName = "randSeed";
 		returnType = Types.VOID;
 
-		String argNames[] = { "seed" };
-		Type argTypes[] = { Types.INT };
+		String[] argNames = { "seed" };
+		Type[] argTypes = { Types.INT };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

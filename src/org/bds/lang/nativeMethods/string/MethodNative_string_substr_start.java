@@ -20,8 +20,8 @@ public class MethodNative_string_substr_start extends MethodNativeString {
 		classType = Types.STRING;
 		returnType = Types.STRING;
 
-		String argNames[] = { "this", "start" };
-		Type argTypes[] = { Types.STRING, Types.INT };
+		String[] argNames = { "this", "start" };
+		Type[] argTypes = { Types.STRING, Types.INT };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeMethodToClassScope();
 	}

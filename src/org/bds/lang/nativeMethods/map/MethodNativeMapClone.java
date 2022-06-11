@@ -26,8 +26,8 @@ public class MethodNativeMapClone extends MethodNativeMap {
 		functionName = "clone";
 		returnType = mapType;
 
-		String argNames[] = { "this" };
-		Type argTypes[] = { mapType };
+		String[] argNames = { "this" };
+		Type[] argTypes = { mapType };
 		parameters = Parameters.get(argTypes, argNames);
 
 		addNativeMethodToClassScope();

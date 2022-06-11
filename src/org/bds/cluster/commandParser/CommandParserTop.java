@@ -17,11 +17,11 @@ public class CommandParserTop extends CommandParser {
 	}
 
 	@Override
-	public void parse(String cmdResult[]) {
+	public void parse(String[] cmdResult) {
 		long memFree = -1, memUsed = -1;
 		for (int line = 0; line < cmdResult.length; line++) {
 			String lineStr = cmdResult[line].trim();
-			String fields[] = lineStr.split(":");
+			String[] fields = lineStr.split(":");
 
 			if (fields.length > 1) {
 				String name = fields[0].trim();
@@ -32,10 +32,10 @@ public class CommandParserTop extends CommandParser {
 				if (name.equalsIgnoreCase("PhysMem")) {
 
 					// Split fields by semicolon
-					String memFields[] = value.split(",");
+					String[] memFields = value.split(",");
 					for (int fieldNum = 0; fieldNum < memFields.length; fieldNum++) {
 						// Split by space
-						String memSubFields[] = memFields[fieldNum].replace('.', ' ').trim().split("\\s+");
+						String[] memSubFields = memFields[fieldNum].replace('.', ' ').trim().split("\\s+");
 
 						if (debug) Gpr.debug("memFields[" + fieldNum + "] : " + memFields[fieldNum]);
 

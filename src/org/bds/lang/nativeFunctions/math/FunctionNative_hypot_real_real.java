@@ -19,14 +19,14 @@ public class FunctionNative_hypot_real_real extends FunctionNative {
 		functionName = "hypot";
 		returnType = Types.REAL;
 
-		String argNames[] = { "x", "y" };
-		Type argTypes[] = { Types.REAL, Types.REAL };
+		String[] argNames = { "x", "y" };
+		Type[] argTypes = { Types.REAL, Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}
 
 	@Override
 	protected Object runFunctionNative(BdsThread bdsThread) {
-		return (Double) Math.hypot(bdsThread.getReal("x"), bdsThread.getReal("y"));
+		return Math.hypot(bdsThread.getReal("x"), bdsThread.getReal("y"));
 	}
 }

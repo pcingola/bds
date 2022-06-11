@@ -58,16 +58,15 @@ public class StatementInclude extends BlockWithFile {
 	 * Find the appropriate include file name
 	 */
 	public static String includeFileName(String includedFilename) {
-		if (includedFilename.startsWith("\'") || includedFilename.startsWith("\"")) includedFilename = includedFilename.substring(1); // Remove leading quotes
-		if (includedFilename.endsWith("\'") || includedFilename.endsWith("\"")) includedFilename = includedFilename.substring(0, includedFilename.length() - 1).trim(); // Remove trailing quotes
+		if (includedFilename.startsWith("'") || includedFilename.startsWith("\"")) includedFilename = includedFilename.substring(1); // Remove leading quotes
+		if (includedFilename.endsWith("'") || includedFilename.endsWith("\"")) includedFilename = includedFilename.substring(0, includedFilename.length() - 1).trim(); // Remove trailing quotes
 		if (!includedFilename.endsWith(".bds")) includedFilename += ".bds"; // Append '.bds' if needed (it's optional)
 		return includedFilename;
 	}
 
 	private static boolean isValidFileName(String fileName) {
-		if (fileName == null || fileName.length() == 0 || !fileName.trim().equals(fileName)) return false;
-		return true;
-	}
+        return fileName != null && fileName.length() != 0 && fileName.trim().equals(fileName);
+    }
 
 	public StatementInclude(BdsNode parent, ParseTree tree) {
 		super(parent, tree);

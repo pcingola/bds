@@ -17,7 +17,7 @@ public class ExpressionList extends Expression {
 
 	private static final long serialVersionUID = -7620532827417450679L;
 
-	protected Expression expressions[];
+	protected Expression[] expressions;
 
 	public ExpressionList(BdsNode parent, ParseTree tree) {
 		super(parent, tree);

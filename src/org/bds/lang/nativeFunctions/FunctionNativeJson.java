@@ -35,8 +35,8 @@ public class FunctionNativeJson extends FunctionNative {
         functionName = "json";
         returnType = Types.STRING;
 
-        String argNames[] = {"fileName"};
-        Type argTypes[] = {Types.STRING};
+        String[] argNames = {"fileName"};
+        Type[] argTypes = {Types.STRING};
         parameters = Parameters.get(argTypes, argNames);
         addNativeFunction();
     }

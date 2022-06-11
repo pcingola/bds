@@ -18,8 +18,8 @@ public class FunctionNative_clone_int extends FunctionNative {
 		functionName = "clone";
 		returnType = Types.INT;
 
-		String argNames[] = { "x" };
-		Type argTypes[] = { Types.INT };
+		String[] argNames = { "x" };
+		Type[] argTypes = { Types.INT };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

@@ -216,7 +216,7 @@ public class TestCasesRun2 extends TestCasesBase {
 		;
 
 		// Run and capture stdout
-		String args[] = { "-quiet" };
+		String[] args = { "-quiet" };
 		String stdout = runAndReturnStdout("test/run_124.bds", args);
 		if (verbose) System.err.println("STDOUT: " + stdout);
 
@@ -536,11 +536,11 @@ public class TestCasesRun2 extends TestCasesBase {
 		String stdout = runAndReturnStdout(bdsFile);
 
 		// Parse STDOUT
-		String lines[] = stdout.split("\n");
+		String[] lines = stdout.split("\n");
 		Assert.assertEquals("No lines found?", 3, lines.length);
 
 		for (String line : lines) {
-			String fields[] = line.split(":");
+			String[] fields = line.split(":");
 			Assert.assertEquals("Cannot parse line:\n" + line, 2, fields.length);
 
 			int positiveNumber = Gpr.parseIntSafe(fields[1]);
@@ -658,7 +658,7 @@ public class TestCasesRun2 extends TestCasesBase {
 	@Test
 	public void test159_task_prelude() {
 		Gpr.debug("Test");
-		String args[] = { "-c", "test/test159_prelude_task.config" };
+		String[] args = { "-c", "test/test159_prelude_task.config" };
 		runAndCheckStdout("test/run_159.bds", "=== TASK PRELUDE local ===", args, false);
 	}
 

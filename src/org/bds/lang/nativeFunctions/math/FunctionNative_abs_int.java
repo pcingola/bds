@@ -20,8 +20,8 @@ public class FunctionNative_abs_int extends FunctionNative {
 		functionName = "abs";
 		returnType = Types.INT;
 
-		String argNames[] = { "x" };
-		Type argTypes[] = { Types.INT };
+		String[] argNames = { "x" };
+		Type[] argTypes = { Types.INT };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

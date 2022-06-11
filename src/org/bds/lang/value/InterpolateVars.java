@@ -21,9 +21,9 @@ public class InterpolateVars extends Literal {
 	static boolean debug = false;
 
 	// boolean useLiteral;
-	String literals[]; // This is used in case of interpolated string literal
-	String exprStrs[];
-	Expression exprs[]; // This is used in case of interpolated string literal; Usually these are VarReferences, but they might change to generic expressions in the future
+	String[] literals; // This is used in case of interpolated string literal
+	String[] exprStrs;
+	Expression[] exprs; // This is used in case of interpolated string literal; Usually these are VarReferences, but they might change to generic expressions in the future
 
 	public InterpolateVars(BdsNode parent, ParseTree tree) {
 		super(parent, tree);
@@ -118,7 +118,7 @@ public class InterpolateVars extends Literal {
 		if (str.equals("$")) return -1;
 
 		char cprev = ' ';
-		char chars[] = str.toCharArray();
+		char[] chars = str.toCharArray();
 
 		int countBraces = 0, countCurly = 0;
 		boolean quote = false;

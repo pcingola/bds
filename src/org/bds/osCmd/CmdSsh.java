@@ -12,7 +12,7 @@ public class CmdSsh extends Cmd {
 
 	Ssh ssh;
 
-	public CmdSsh(String cmdId, String args[]) {
+	public CmdSsh(String cmdId, String[] args) {
 		super(cmdId, args);
 	}
 

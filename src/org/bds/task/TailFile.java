@@ -31,8 +31,7 @@ public abstract class TailFile implements Serializable, BdsLog {
 	 */
 	private static boolean isNewLine(byte[] buf, int idx, int idxMax) {
 		if (buf[idx] == '\n') return true; // Lines terminated by '\n'
-		if (idx < idxMax && buf[idx] == '\r' && buf[idx + 1] != '\n') return true; // Lines terminated by '\r' (e.g. progress lines in 'wget')
-		return false;
+		return idx < idxMax && buf[idx] == '\r' && buf[idx + 1] != '\n'; // Lines terminated by '\r' (e.g. progress lines in 'wget')
 
 	}
 

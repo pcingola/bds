@@ -10,7 +10,7 @@ public class ValueArgs extends ValueComposite {
 
 	private static final long serialVersionUID = -721120684142267125L;
 
-	Value values[];
+	Value[] values;
 
 	public ValueArgs(int n) {
 		super(null);
@@ -25,7 +25,7 @@ public class ValueArgs extends ValueComposite {
 		ValueArgs va = new ValueArgs(values.length);
 
 		// Populate values with clones for each value
-		Value newValues[] = va.values;
+		Value[] newValues = va.values;
 		for (int i = 0; i < values.length; i++) {
 			newValues[i] = values[i].clone();
 		}

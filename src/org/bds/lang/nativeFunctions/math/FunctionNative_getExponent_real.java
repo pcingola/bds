@@ -19,8 +19,8 @@ public class FunctionNative_getExponent_real extends FunctionNative {
 		functionName = "getExponent";
 		returnType = Types.INT;
 
-		String argNames[] = { "d" };
-		Type argTypes[] = { Types.REAL };
+		String[] argNames = { "d" };
+		Type[] argTypes = { Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

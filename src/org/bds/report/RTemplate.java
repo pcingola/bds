@@ -134,7 +134,7 @@ public class RTemplate {
 
 		// Add last bit
 		if (found) {
-			String linePart = line.substring(prevIdx, line.length());
+			String linePart = line.substring(prevIdx);
 			lineParts.add(linePart);
 			if (debug) Gpr.debug("\t\tpart: '" + linePart + "'");
 		}

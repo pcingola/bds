@@ -19,14 +19,14 @@ public class FunctionNative_ceil_real extends FunctionNative {
 		functionName = "ceil";
 		returnType = Types.REAL;
 
-		String argNames[] = { "a" };
-		Type argTypes[] = { Types.REAL };
+		String[] argNames = { "a" };
+		Type[] argTypes = { Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}
 
 	@Override
 	protected Object runFunctionNative(BdsThread bdsThread) {
-		return (Double) Math.ceil(bdsThread.getReal("a"));
+		return Math.ceil(bdsThread.getReal("a"));
 	}
 }

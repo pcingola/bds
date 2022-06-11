@@ -7,7 +7,7 @@ package org.bds;
  */
 public class BdsLogger {
 
-	private static Logger logger = new Logger();
+	private static final Logger logger = new Logger();
 
 	public static void debug(Object msg) {
 		logger.debug(msg);
@@ -30,4 +30,4 @@ class Logger implements BdsLog {
 		return 3;
 	}
 
-};
+}

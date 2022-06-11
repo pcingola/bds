@@ -44,7 +44,7 @@ public class TestCasesTail extends TestCasesBase {
 	public void test05() {
 		// Lines larger than buffer size
 		String tail = TailFile.tail("test/tail_05.txt");
-		String lines[] = tail.split("\n");
+		String[] lines = tail.split("\n");
 
 		Assert.assertEquals(10, lines.length);
 		for (int i = 0; i < lines.length; i++)

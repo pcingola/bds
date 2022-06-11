@@ -478,6 +478,6 @@ public abstract class Data implements Comparable<Data>, Serializable, BdsLog {
 	public String url() {
 		if (urlStr == null) urlStr = createUrl();
 		return urlStr;
-	};
+	}
 
 }

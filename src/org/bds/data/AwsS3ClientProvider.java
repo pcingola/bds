@@ -23,8 +23,8 @@ public class AwsS3ClientProvider implements BdsLog {
 	private static final Map<Long, AwsS3ClientProvider> awsS3ClientProvider = new HashMap<>();
 
 	boolean debug;
-	private Map<String, S3Client> s3clientByRegion;
-	private Map<String, Timer> timerByRegion;
+	private final Map<String, S3Client> s3clientByRegion;
+	private final Map<String, Timer> timerByRegion;
 
 	/**
 	 * Get an S3Client for 'region'

@@ -10,7 +10,7 @@ import org.bds.Config;
  */
 public class CheckTasksRunningCluster extends CheckTasksRunningCmd {
 
-	public CheckTasksRunningCluster(Config config, Executioner executioner, String cmdArgs[]) {
+	public CheckTasksRunningCluster(Config config, Executioner executioner, String[] cmdArgs) {
 		super(config, executioner);
 		defaultCmdArgs = cmdArgs;
 	}

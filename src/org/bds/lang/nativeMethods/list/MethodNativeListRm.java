@@ -26,8 +26,8 @@ public class MethodNativeListRm extends MethodNativeList {
 		functionName = "rm";
 		returnType = Types.VOID;
 
-		String argNames[] = { "this" };
-		Type argTypes[] = { classType };
+		String[] argNames = { "this" };
+		Type[] argTypes = { classType };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeMethodToClassScope();
 	}

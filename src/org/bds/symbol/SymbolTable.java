@@ -394,7 +394,7 @@ public class SymbolTable implements Serializable, Iterable<String> {
 		}
 
 		// Show header
-		sb.append("\n---------- SymbolTable " + getName() + "  ----------\n" + sbThis.toString());
+		sb.append("\n---------- SymbolTable " + getName() + "  ----------\n" + sbThis);
 
 		// Show parent table
 		SymbolTable parent = getParent();

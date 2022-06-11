@@ -14,7 +14,7 @@ public class ForInit extends Statement {
 	private static final long serialVersionUID = -5184554138462446111L;
 
 	VarDeclaration varDeclaration;
-	Expression expressions[];
+	Expression[] expressions;
 
 	public ForInit(BdsNode parent, ParseTree tree) {
 		super(parent, tree);

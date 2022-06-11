@@ -40,7 +40,7 @@ public class TestCasesBase implements BdsLog {
 		Assert.assertTrue("Coverage ration expected: " + coverageRatioExp + ", but got " + coverageRatio, Math.abs(coverageRatio - coverageRatioExp) < epsilon);
 	}
 
-	protected void checkInterpolate(String str, String strings[], String vars[]) {
+	protected void checkInterpolate(String str, String[] strings, String[] vars) {
 		InterpolateVars iv = new InterpolateVars(null, null);
 		iv.parse(str);
 		log("String: " + str + "\tInterpolation result: |" + iv + "|");
@@ -120,7 +120,7 @@ public class TestCasesBase implements BdsLog {
 	 * Check that a file compiles without any errors, runs and all variables have their expected values
 	 */
 	protected BdsTest runAndCheck(String fileName, Map<String, Object> expectedValues, List<String> argsAfterList) {
-		String argsAfter[] = argsAfterList.toArray(new String[0]);
+		String[] argsAfter = argsAfterList.toArray(new String[0]);
 		BdsTest bdsTest = new BdsTest(fileName, null, argsAfter, verbose, debug);
 		bdsTest.run();
 		bdsTest.checkRunOk();
@@ -180,7 +180,7 @@ public class TestCasesBase implements BdsLog {
 	 * Check that StdOut has a string
 	 */
 	protected BdsTest runAndCheckHelp(String fileName, String expectedStdout) {
-		String argsAfter[] = { "-h" };
+		String[] argsAfter = { "-h" };
 		BdsTest bdsTest = new BdsTest(fileName, null, argsAfter, verbose, debug);
 		bdsTest.run();
 		bdsTest.checkStdout(expectedStdout);
@@ -215,7 +215,7 @@ public class TestCasesBase implements BdsLog {
 	/**
 	 * Check that StdOut has all strings in 'expectedStdout' (or that the strings are NOT present if 'negate' is true)
 	 */
-	protected String runAndCheckStdout(String fileName, List<String> expectedStdout, String args[], boolean negate) {
+	protected String runAndCheckStdout(String fileName, List<String> expectedStdout, String[] args, boolean negate) {
 		BdsTest bdsTest = new BdsTest(fileName, args, verbose, debug);
 		bdsTest.run();
 		bdsTest.checkRunOk();
@@ -239,7 +239,7 @@ public class TestCasesBase implements BdsLog {
 		return runAndCheckStdout(fileName, expectedStdout, null, negate);
 	}
 
-	protected String runAndCheckStdout(String fileName, String expectedStdout, String args[], boolean negate) {
+	protected String runAndCheckStdout(String fileName, String expectedStdout, String[] args, boolean negate) {
 		return runAndCheckStdout(fileName, expectedStdout, args, null, negate);
 	}
 
@@ -247,7 +247,7 @@ public class TestCasesBase implements BdsLog {
 	 * Check that 'expectedStdout' is included in the script's STDOUT
 	 * (or that it is NOT included, if 'negate' is set)
 	 */
-	protected String runAndCheckStdout(String fileName, String expectedStdout, String args[], String scriptAgrs[], boolean negate) {
+	protected String runAndCheckStdout(String fileName, String expectedStdout, String[] args, String[] scriptAgrs, boolean negate) {
 		BdsTest bdsTest = new BdsTest(fileName, args, scriptAgrs, verbose, debug);
 		bdsTest.run();
 		bdsTest.checkRunOk();
@@ -299,7 +299,7 @@ public class TestCasesBase implements BdsLog {
 	/**
 	 * Run a bds program and capture stdout (while still showing it)
 	 */
-	protected String runAndReturnStdout(String fileName, String args[]) {
+	protected String runAndReturnStdout(String fileName, String[] args) {
 		BdsTest bdsTest = new BdsTest(fileName, args, verbose, debug);
 		bdsTest.run();
 		bdsTest.checkRunOk();

@@ -103,42 +103,35 @@ public class Task implements Serializable, BdsLog {
 
 		switch (newState) {
 		case SCHEDULED:
-			if (taskState == TaskState.NONE) return true;
-			return false;
+			return taskState == TaskState.NONE;
 
-		case STARTED:
-			if (taskState == TaskState.SCHEDULED) return true;
-			return false;
+			case STARTED:
+			return taskState == TaskState.SCHEDULED;
 
-		case START_FAILED:
-			if (taskState == TaskState.SCHEDULED || taskState == TaskState.KILLED) return true;
-			return false;
+			case START_FAILED:
+			return taskState == TaskState.SCHEDULED || taskState == TaskState.KILLED;
 
-		case RUNNING:
-			if (taskState == TaskState.STARTED) return true;
-			return false;
+			case RUNNING:
+			return taskState == TaskState.STARTED;
 
-		case ERROR:
+			case ERROR:
 			return true;
 
 		case ERROR_TIMEOUT:
 		case FINISHED:
-			if (taskState == TaskState.RUNNING) return true;
-			return false;
+			return taskState == TaskState.RUNNING;
 
-		case KILLED:
-			if ((taskState == TaskState.RUNNING) // A task can be killed while running...
+			case KILLED:
+			// or even if it was not scheduled
+			return (taskState == TaskState.RUNNING) // A task can be killed while running...
 					|| (taskState == TaskState.STARTED) // or right after it started
 					|| (taskState == TaskState.SCHEDULED) // or even if it was not started
-					|| (taskState == TaskState.NONE) // or even if it was not scheduled
-			) return true;
-			return false;
+					|| (taskState == TaskState.NONE);
 
-		case DETACHED:
-			if (taskState == TaskState.STARTED) return true;
-			return false;
+			case DETACHED:
+			return taskState == TaskState.STARTED;
 
-		default:
+			default:
 			debug("Cannot change from state '" + taskState + "' to '" + newState + "'");
 			return false;
 		}
@@ -402,7 +395,7 @@ public class Task implements Serializable, BdsLog {
 			}
 
 		if (hint.length() < maxHintLen) return hint.toString();
-		return hint.toString().substring(0, maxHintLen);
+		return hint.substring(0, maxHintLen);
 	}
 
 	public String getProgramTxt() {

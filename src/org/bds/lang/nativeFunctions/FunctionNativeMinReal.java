@@ -24,8 +24,8 @@ public class FunctionNativeMinReal extends FunctionNative {
 		functionName = "min";
 		returnType = Types.REAL;
 
-		String argNames[] = { "n1", "n2" };
-		Type argTypes[] = { returnType, returnType };
+		String[] argNames = { "n1", "n2" };
+		Type[] argTypes = { returnType, returnType };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

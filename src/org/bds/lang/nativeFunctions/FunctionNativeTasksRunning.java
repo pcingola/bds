@@ -32,8 +32,8 @@ public class FunctionNativeTasksRunning extends FunctionNative {
 		functionName = "tasksRunning";
 		returnType = TypeList.get(Types.STRING);
 
-		String argNames[] = {};
-		Type argTypes[] = {};
+		String[] argNames = {};
+		Type[] argTypes = {};
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

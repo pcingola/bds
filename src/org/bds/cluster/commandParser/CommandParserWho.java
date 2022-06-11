@@ -20,11 +20,11 @@ public class CommandParserWho extends CommandParser {
 	}
 
 	@Override
-	public void parse(String cmdResult[]) {
+	public void parse(String[] cmdResult) {
 		HashSet<String> users = new HashSet<String>();
 
 		for (int line = 0; line < cmdResult.length; line++) {
-			String fields[] = cmdResult[line].split("\\s+");
+			String[] fields = cmdResult[line].split("\\s+");
 			if (fields[0].length() > 0) users.add(fields[0]);
 		}
 

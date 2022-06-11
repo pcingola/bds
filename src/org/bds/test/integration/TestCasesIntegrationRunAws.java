@@ -168,7 +168,7 @@ public class TestCasesIntegrationRunAws extends TestCasesBaseAws {
 		dout2.delete();
 
 		// Run script and check that 'expectedStdout' is in STDOUT
-		String args[] = { "-inTxt", inTxt };
+		String[] args = { "-inTxt", inTxt };
 		runAndCheckStdout(script, expectedStdout, null, args, false);
 
 		// Check: Check that the output file exists
@@ -261,7 +261,7 @@ public class TestCasesIntegrationRunAws extends TestCasesBaseAws {
 		dout2.delete();
 
 		// Run script and check that 'expectedStdout' is in STDOUT
-		String args[] = { "-inTxt", inTxt };
+		String[] args = { "-inTxt", inTxt };
 		runAndCheckStdout(script, expectedStdout, null, args, false);
 
 		// Check: Check that the output file exists

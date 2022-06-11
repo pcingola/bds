@@ -24,8 +24,8 @@ public class FunctionNativeToIntFromReal extends FunctionNative {
 		functionName = "toInt";
 		returnType = Types.INT;
 
-		String argNames[] = { "num" };
-		Type argTypes[] = { Types.REAL };
+		String[] argNames = { "num" };
+		Type[] argTypes = { Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

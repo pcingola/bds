@@ -61,7 +61,7 @@ public class ExecutionerClusterGeneric extends ExecutionerCluster {
 			args.add(arg);
 
 		// Convert to string[]
-		String argv[] = args.toArray(Cmd.ARGS_ARRAY_TYPE);
+		String[] argv = args.toArray(Cmd.ARGS_ARRAY_TYPE);
 		if (debug) {
 			log("Custom script command line arguments:");
 			for (int i = 0; i < argv.length; i++) {
@@ -80,7 +80,7 @@ public class ExecutionerClusterGeneric extends ExecutionerCluster {
 	 * Parse command line arguments
 	 */
 	protected String[] getCommandLine(String configParam) {
-		String cmd[] = config.getStringArray(configParam, true);
+		String[] cmd = config.getStringArray(configParam, true);
 
 		// Some basic path conversions for the command
 		String cmdPath = cmd[0];

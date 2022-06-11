@@ -19,8 +19,8 @@ public class MethodNative_string_lastIndexOf_str extends MethodNativeString {
 		classType = Types.STRING;
 		returnType = Types.INT;
 
-		String argNames[] = { "this", "str" };
-		Type argTypes[] = { Types.STRING, Types.STRING };
+		String[] argNames = { "this", "str" };
+		Type[] argTypes = { Types.STRING, Types.STRING };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeMethodToClassScope();
 	}

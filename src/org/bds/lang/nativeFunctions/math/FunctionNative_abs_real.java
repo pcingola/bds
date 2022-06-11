@@ -19,14 +19,14 @@ public class FunctionNative_abs_real extends FunctionNative {
 		functionName = "abs";
 		returnType = Types.REAL;
 
-		String argNames[] = { "a" };
-		Type argTypes[] = { Types.REAL };
+		String[] argNames = { "a" };
+		Type[] argTypes = { Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}
 
 	@Override
 	protected Object runFunctionNative(BdsThread bdsThread) {
-		return (Double) Math.abs(bdsThread.getReal("a"));
+		return Math.abs(bdsThread.getReal("a"));
 	}
 }

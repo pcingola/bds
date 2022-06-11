@@ -23,8 +23,8 @@ public class FunctionNativeRandIntRange extends FunctionNative {
 		functionName = "randInt";
 		returnType = Types.INT;
 
-		String argNames[] = { "range" };
-		Type argTypes[] = { Types.INT };
+		String[] argNames = { "range" };
+		Type[] argTypes = { Types.INT };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

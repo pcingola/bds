@@ -18,12 +18,12 @@ public class Parameters extends BdsNode implements Comparable<Parameters> {
 
 	public static final Parameters EMPTY = new Parameters(null, null);
 
-	VarDeclaration varDecl[];
+	VarDeclaration[] varDecl;
 
 	/**
 	 * Create a list of 'num' parameters
 	 */
-	public static Parameters get(Type types[], String names[]) {
+	public static Parameters get(Type[] types, String[] names) {
 		Parameters params = new Parameters(null, null);
 		params.varDecl = new VarDeclaration[types.length];
 
@@ -58,7 +58,7 @@ public class Parameters extends BdsNode implements Comparable<Parameters> {
 	 */
 	public void addThis(TypeClass typeThis) {
 		// Copy to new array (shifted by 1)
-		VarDeclaration newVarDecl[] = new VarDeclaration[varDecl.length + 1];
+		VarDeclaration[] newVarDecl = new VarDeclaration[varDecl.length + 1];
 		for (int i = 0; i < varDecl.length; i++)
 			newVarDecl[i + 1] = varDecl[i];
 

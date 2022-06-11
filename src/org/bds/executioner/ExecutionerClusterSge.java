@@ -24,7 +24,7 @@ public class ExecutionerClusterSge extends ExecutionerCluster {
 		super(config);
 
 		// Postmortem needs "-j"
-		String postMortemInfoCommand[] = { "qstat", "-f", "-j" };
+		String[] postMortemInfoCommand = { "qstat", "-f", "-j" };
 		clusterPostMortemInfoCommand = postMortemInfoCommand;
 
 		// When running qsub you get a line lie this:

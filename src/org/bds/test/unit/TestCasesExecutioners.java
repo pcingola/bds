@@ -50,7 +50,7 @@ public class TestCasesExecutioners extends TestCasesBase {
 		String fileName = "test/test_parsePidQstatRegex_qstat.txt";
 		if (verbose) System.out.println("Reading file '" + fileName + "'");
 		String file = Gpr.readFile(fileName);
-		String lines[] = file.split("\n");
+		String[] lines = file.split("\n");
 		Set<String> pids = ctr.parseCommandOutput(lines);
 
 		// Check that all IDs are there
@@ -83,7 +83,7 @@ public class TestCasesExecutioners extends TestCasesBase {
 		String fileName = "test/test_parsePidQstatColumn_qstat.txt";
 		if (verbose) System.out.println("Reading file '" + fileName + "'");
 		String file = Gpr.readFile(fileName);
-		String lines[] = file.split("\n");
+		String[] lines = file.split("\n");
 		Set<String> pids = ctr.parseCommandOutput(lines);
 
 		// Check that all IDs are there

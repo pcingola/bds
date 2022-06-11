@@ -20,10 +20,10 @@ public class ExecutionerClusterFake extends ExecutionerCluster {
 		fakeClusterDir = config.getFakeClusterDir();
 
 		// Define commands
-		String runCommand[] = { fakeClusterDir + "/qsub" };
-		String killCommand[] = { fakeClusterDir + "/qdel" };
-		String statCommand[] = { fakeClusterDir + "/qstat" };
-		String postMortemInfoCommand[] = { fakeClusterDir + "/qstat", "-f" };
+		String[] runCommand = { fakeClusterDir + "/qsub" };
+		String[] killCommand = { fakeClusterDir + "/qdel" };
+		String[] statCommand = { fakeClusterDir + "/qstat" };
+		String[] postMortemInfoCommand = { fakeClusterDir + "/qstat", "-f" };
 
 		clusterRunCommand = runCommand;
 		clusterKillCommand = killCommand;

@@ -20,8 +20,8 @@ public class MethodNative_string_download_localname extends MethodNativeString {
 		classType = Types.STRING;
 		returnType = Types.STRING;
 
-		String argNames[] = { "this", "localName" };
-		Type argTypes[] = { Types.STRING, Types.STRING };
+		String[] argNames = { "this", "localName" };
+		Type[] argTypes = { Types.STRING, Types.STRING };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeMethodToClassScope();
 	}

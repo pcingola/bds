@@ -14,7 +14,7 @@ public class ValueUnique extends ValuePrimitive {
 
 	private static final long serialVersionUID = 8806864117675019213L;
 
-	private static Map<Type, ValueUnique> valueUniqueByType = new HashMap<>();
+	private static final Map<Type, ValueUnique> valueUniqueByType = new HashMap<>();
 
 	protected Type type;
 

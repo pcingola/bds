@@ -11,4 +11,5 @@ public class Zzz {
 
 class A { int data; }
 
-class B extends A {;}
+class B extends A {
+}

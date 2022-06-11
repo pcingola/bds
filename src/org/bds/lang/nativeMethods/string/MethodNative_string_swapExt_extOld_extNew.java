@@ -19,8 +19,8 @@ public class MethodNative_string_swapExt_extOld_extNew extends MethodNativeStrin
 		classType = Types.STRING;
 		returnType = Types.STRING;
 
-		String argNames[] = { "this", "extOld", "extNew" };
-		Type argTypes[] = { Types.STRING, Types.STRING, Types.STRING };
+		String[] argNames = { "this", "extOld", "extNew" };
+		Type[] argTypes = { Types.STRING, Types.STRING, Types.STRING };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeMethodToClassScope();
 	}

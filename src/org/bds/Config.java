@@ -298,7 +298,7 @@ public class Config implements Serializable, BdsLog {
 			// Add BDS_PATH environment variable
 			String bdsPath = System.getenv(BDS_INCLUDE_PATH);
 			if ((bdsPath != null) && !bdsPath.isEmpty()) {
-				String incPaths[] = bdsPath.split(":");
+				String[] incPaths = bdsPath.split(":");
 				for (String incPath : incPaths) {
 					if (!incPath.isEmpty()) includePath.add(incPath);
 				}
@@ -409,7 +409,7 @@ public class Config implements Serializable, BdsLog {
 		}
 
 		// Convert to string array
-		String valsArray[] = vals.toArray(EMPTY_STRING_ARRAY);
+		String[] valsArray = vals.toArray(EMPTY_STRING_ARRAY);
 
 		// Show
 		if (isDebug()) {

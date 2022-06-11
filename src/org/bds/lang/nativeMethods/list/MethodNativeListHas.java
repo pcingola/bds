@@ -27,8 +27,8 @@ public class MethodNativeListHas extends MethodNativeList {
 		functionName = "has";
 		returnType = Types.BOOL;
 
-		String argNames[] = { "this", "toCheck" };
-		Type argTypes[] = { classType, baseType };
+		String[] argNames = { "this", "toCheck" };
+		Type[] argTypes = { classType, baseType };
 		parameters = Parameters.get(argTypes, argNames);
 
 		addNativeMethodToClassScope();

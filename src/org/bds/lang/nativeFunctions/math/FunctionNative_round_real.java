@@ -19,14 +19,14 @@ public class FunctionNative_round_real extends FunctionNative {
 		functionName = "round";
 		returnType = Types.INT;
 
-		String argNames[] = { "a" };
-		Type argTypes[] = { Types.REAL };
+		String[] argNames = { "a" };
+		Type[] argTypes = { Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}
 
 	@Override
 	protected Object runFunctionNative(BdsThread bdsThread) {
-		return (Long) Math.round(bdsThread.getReal("a"));
+		return Math.round(bdsThread.getReal("a"));
 	}
 }

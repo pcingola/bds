@@ -19,8 +19,8 @@ public class FunctionNativeAssertStringNoMsg extends FunctionNativeAssert {
 		functionName = "assert";
 		returnType = Types.BOOL;
 
-		String argNames[] = { "expected", "map" };
-		Type argTypes[] = { Types.STRING, Types.STRING };
+		String[] argNames = { "expected", "map" };
+		Type[] argTypes = { Types.STRING, Types.STRING };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

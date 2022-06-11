@@ -17,10 +17,10 @@ public class CommandParserSystemProfiler extends CommandParser {
 	}
 
 	@Override
-	public void parse(String cmdResult[]) {
+	public void parse(String[] cmdResult) {
 		for (int line = 0; line < cmdResult.length; line++) {
 			String lineStr = cmdResult[line].trim();
-			String fields[] = lineStr.split(":", 2);
+			String[] fields = lineStr.split(":", 2);
 
 			if (fields.length > 1) {
 				String name = fields[0].trim();

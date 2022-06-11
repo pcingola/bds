@@ -21,8 +21,8 @@ public class TestCasesInterpolate extends TestCasesBase {
 	@Test
 	public void test00() {
 		Gpr.debug("Test");
-		String strings[] = { "Hello $i" };
-		String vars[] = { "" };
+		String[] strings = { "Hello $i" };
+		String[] vars = { "" };
 
 		checkInterpolate("Hello \\$i", strings, vars);
 	}
@@ -30,8 +30,8 @@ public class TestCasesInterpolate extends TestCasesBase {
 	@Test
 	public void test01() {
 		Gpr.debug("Test");
-		String strings[] = { "Hello " };
-		String vars[] = { "i" };
+		String[] strings = { "Hello " };
+		String[] vars = { "i" };
 
 		checkInterpolate("Hello $i", strings, vars);
 	}
@@ -39,8 +39,8 @@ public class TestCasesInterpolate extends TestCasesBase {
 	@Test
 	public void test02() {
 		Gpr.debug("Test");
-		String strings[] = { "Hello ", " " };
-		String vars[] = { "i", "j" };
+		String[] strings = { "Hello ", " " };
+		String[] vars = { "i", "j" };
 
 		checkInterpolate("Hello $i $j", strings, vars);
 	}
@@ -48,8 +48,8 @@ public class TestCasesInterpolate extends TestCasesBase {
 	@Test
 	public void test03() {
 		Gpr.debug("Test");
-		String strings[] = { "Hello ", "" };
-		String vars[] = { "i", "j" };
+		String[] strings = { "Hello ", "" };
+		String[] vars = { "i", "j" };
 
 		checkInterpolate("Hello $i$j", strings, vars);
 	}
@@ -57,8 +57,8 @@ public class TestCasesInterpolate extends TestCasesBase {
 	@Test
 	public void test04() {
 		Gpr.debug("Test");
-		String strings[] = { "l[1] : " };
-		String vars[] = { "l[1]" };
+		String[] strings = { "l[1] : " };
+		String[] vars = { "l[1]" };
 
 		checkInterpolate("l[1] : $l[1]", strings, vars);
 	}
@@ -66,8 +66,8 @@ public class TestCasesInterpolate extends TestCasesBase {
 	@Test
 	public void test05() {
 		Gpr.debug("Test");
-		String strings[] = { "m{'Helo'} : " };
-		String vars[] = { "m{\"Helo\"}" };
+		String[] strings = { "m{'Helo'} : " };
+		String[] vars = { "m{\"Helo\"}" };
 
 		checkInterpolate("m{'Helo'} : $m{'Helo'}", strings, vars);
 	}
@@ -75,8 +75,8 @@ public class TestCasesInterpolate extends TestCasesBase {
 	@Test
 	public void test06() {
 		Gpr.debug("Test");
-		String strings[] = { "m{'Helo'} : " };
-		String vars[] = { "m{l[i]}" };
+		String[] strings = { "m{'Helo'} : " };
+		String[] vars = { "m{l[i]}" };
 
 		checkInterpolate("m{'Helo'} : $m{$l[$i]}", strings, vars);
 	}
@@ -84,8 +84,8 @@ public class TestCasesInterpolate extends TestCasesBase {
 	@Test
 	public void test07() {
 		Gpr.debug("Test");
-		String strings[] = { "Hello $" };
-		String vars[] = { "" };
+		String[] strings = { "Hello $" };
+		String[] vars = { "" };
 
 		checkInterpolate("Hello $", strings, vars);
 	}
@@ -93,8 +93,8 @@ public class TestCasesInterpolate extends TestCasesBase {
 	@Test
 	public void test08() {
 		Gpr.debug("Test");
-		String strings[] = { "Hello $\n" };
-		String vars[] = { "" };
+		String[] strings = { "Hello $\n" };
+		String[] vars = { "" };
 
 		checkInterpolate("Hello $\n", strings, vars);
 	}
@@ -102,8 +102,8 @@ public class TestCasesInterpolate extends TestCasesBase {
 	@Test
 	public void test09() {
 		Gpr.debug("Test");
-		String strings[] = { "m{'Helo'} : " };
-		String vars[] = { "m{s}" };
+		String[] strings = { "m{'Helo'} : " };
+		String[] vars = { "m{s}" };
 
 		checkInterpolate("m{'Helo'} : $m{$s}", strings, vars);
 	}
@@ -111,8 +111,8 @@ public class TestCasesInterpolate extends TestCasesBase {
 	@Test
 	public void test10() {
 		Gpr.debug("Test");
-		String strings[] = { "l[1] : '", "'\\n" };
-		String vars[] = { "l[1]", "" };
+		String[] strings = { "l[1] : '", "'\\n" };
+		String[] vars = { "l[1]", "" };
 
 		checkInterpolate("l[1] : '$l[1]'\\n", strings, vars);
 	}
@@ -120,8 +120,8 @@ public class TestCasesInterpolate extends TestCasesBase {
 	@Test
 	public void test11() {
 		Gpr.debug("Test");
-		String strings[] = { "List with variable index: '", "'\\n" };
-		String vars[] = { "l[s]", "" };
+		String[] strings = { "List with variable index: '", "'\\n" };
+		String[] vars = { "l[s]", "" };
 
 		checkInterpolate("List with variable index: '$l[$s]'\\n", strings, vars);
 	}
@@ -129,8 +129,8 @@ public class TestCasesInterpolate extends TestCasesBase {
 	@Test
 	public void test12() {
 		Gpr.debug("Test");
-		String strings[] = { "List with variable index: {", "}\\n" };
-		String vars[] = { "l[s]", "" };
+		String[] strings = { "List with variable index: {", "}\\n" };
+		String[] vars = { "l[s]", "" };
 
 		checkInterpolate("List with variable index: {$l[$s]}\\n", strings, vars);
 	}
@@ -138,8 +138,8 @@ public class TestCasesInterpolate extends TestCasesBase {
 	@Test
 	public void test13() {
 		Gpr.debug("Test");
-		String strings[] = { "List with variable index: [", "]\\n" };
-		String vars[] = { "l[s]", "" };
+		String[] strings = { "List with variable index: [", "]\\n" };
+		String[] vars = { "l[s]", "" };
 
 		checkInterpolate("List with variable index: [$l[$s]]\\n", strings, vars);
 	}
@@ -147,8 +147,8 @@ public class TestCasesInterpolate extends TestCasesBase {
 	@Test
 	public void test14() {
 		Gpr.debug("Test");
-		String strings[] = { "Map with list and variable index: ", };
-		String vars[] = { "m{l[s]}", "" };
+		String[] strings = { "Map with list and variable index: ", };
+		String[] vars = { "m{l[s]}", "" };
 
 		checkInterpolate("Map with list and variable index: $m{$l[$s]}", strings, vars);
 	}
@@ -156,8 +156,8 @@ public class TestCasesInterpolate extends TestCasesBase {
 	@Test
 	public void test15() {
 		Gpr.debug("Test");
-		String strings[] = { "Map with list and variable index: {", "}\\n" };
-		String vars[] = { "m{l[s]}", "" };
+		String[] strings = { "Map with list and variable index: {", "}\\n" };
+		String[] vars = { "m{l[s]}", "" };
 
 		checkInterpolate("Map with list and variable index: {$m{$l[$s]}}\\n", strings, vars);
 	}
@@ -241,8 +241,8 @@ public class TestCasesInterpolate extends TestCasesBase {
 	@Test
 	public void test21() {
 		Gpr.debug("Test");
-		String strings[] = { "this is string interpolation\\n\\tint i = ", " and str = \"", "\" and both " };
-		String vars[] = { "i", "str", "str", "i" };
+		String[] strings = { "this is string interpolation\\n\\tint i = ", " and str = \"", "\" and both " };
+		String[] vars = { "i", "str", "str", "i" };
 
 		checkInterpolate("this is string interpolation\\n\\tint i = $i and str = \"$str\" and both $str$i", strings, vars);
 	}
@@ -250,8 +250,8 @@ public class TestCasesInterpolate extends TestCasesBase {
 	@Test
 	public void test22() {
 		Gpr.debug("Test");
-		String strings[] = { "this is string interpolation: int i = ", " and str = \\\"", "\\\" and both " };
-		String vars[] = { "i", "str", "str", "i" };
+		String[] strings = { "this is string interpolation: int i = ", " and str = \\\"", "\\\" and both " };
+		String[] vars = { "i", "str", "str", "i" };
 
 		checkInterpolate("this is string interpolation: int i = $i and str = \\\"$str\\\" and both $str$i", strings, vars);
 	}
@@ -259,8 +259,8 @@ public class TestCasesInterpolate extends TestCasesBase {
 	@Test
 	public void test23() {
 		Gpr.debug("Test");
-		String strings[] = { "Hello " };
-		String vars[] = { "a.x" };
+		String[] strings = { "Hello " };
+		String[] vars = { "a.x" };
 
 		checkInterpolate("Hello $a.x", strings, vars);
 	}
@@ -278,8 +278,8 @@ public class TestCasesInterpolate extends TestCasesBase {
 	@Test
 	public void test25() {
 		Gpr.debug("Test");
-		String strings[] = { "Hello " };
-		String vars[] = { "a.x.z[56]" };
+		String[] strings = { "Hello " };
+		String[] vars = { "a.x.z[56]" };
 
 		checkInterpolate("Hello $a.x.z[56]", strings, vars);
 	}
@@ -287,8 +287,8 @@ public class TestCasesInterpolate extends TestCasesBase {
 	@Test
 	public void test26() {
 		Gpr.debug("Test");
-		String strings[] = { "Hello " };
-		String vars[] = { "a.x.z[56]{\"hi\"}" };
+		String[] strings = { "Hello " };
+		String[] vars = { "a.x.z[56]{\"hi\"}" };
 
 		checkInterpolate("Hello $a.x.z[56]{'hi'}", strings, vars);
 	}

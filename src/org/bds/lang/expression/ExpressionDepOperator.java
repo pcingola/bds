@@ -26,10 +26,10 @@ public class ExpressionDepOperator extends Expression {
 	public static final String DEP_OPERATOR = "<-";
 	public static final String DEP_SEPARATOR = ",";
 
-	Expression left[];
-	Expression right[];
+	Expression[] left;
+	Expression[] right;
 
-	public ExpressionDepOperator(BdsNode parent, Expression left[], Expression right[]) {
+	public ExpressionDepOperator(BdsNode parent, Expression[] left, Expression[] right) {
 		super(parent, null);
 		this.left = left;
 		this.right = right;
@@ -103,7 +103,7 @@ public class ExpressionDepOperator extends Expression {
 	 * Evaluate all expressions in the array.
 	 * Append all results to 'varName' (if varName is not null)
 	 */
-	public String toAsmArray(Expression exprs[], String varName, boolean pushDeps) {
+	public String toAsmArray(Expression[] exprs, String varName, boolean pushDeps) {
 		StringBuilder sb = new StringBuilder();
 
 		// Create list

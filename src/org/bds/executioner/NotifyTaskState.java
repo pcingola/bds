@@ -13,16 +13,16 @@ public interface NotifyTaskState {
 	/**
 	 * Task has finished. It may have finished with an error condition.
 	 */
-	public void taskFinished(Task task, TaskState taskState);
+    void taskFinished(Task task, TaskState taskState);
 
 	/**
 	 * Task running
 	 */
-	public void taskRunning(Task task);
+    void taskRunning(Task task);
 
 	/**
 	 * Task started
 	 */
-	public void taskStarted(Task task);
+    void taskStarted(Task task);
 
 }

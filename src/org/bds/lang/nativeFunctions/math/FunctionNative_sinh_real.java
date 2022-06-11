@@ -19,14 +19,14 @@ public class FunctionNative_sinh_real extends FunctionNative {
 		functionName = "sinh";
 		returnType = Types.REAL;
 
-		String argNames[] = { "x" };
-		Type argTypes[] = { Types.REAL };
+		String[] argNames = { "x" };
+		Type[] argTypes = { Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}
 
 	@Override
 	protected Object runFunctionNative(BdsThread bdsThread) {
-		return (Double) Math.sinh(bdsThread.getReal("x"));
+		return Math.sinh(bdsThread.getReal("x"));
 	}
 }

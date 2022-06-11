@@ -24,8 +24,8 @@ public class MethodNative_string_readLines extends MethodNativeString {
 		classType = Types.STRING;
 		returnType = TypeList.get(Types.STRING);
 
-		String argNames[] = { "this" };
-		Type argTypes[] = { Types.STRING };
+		String[] argNames = { "this" };
+		Type[] argTypes = { Types.STRING };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeMethodToClassScope();
 	}

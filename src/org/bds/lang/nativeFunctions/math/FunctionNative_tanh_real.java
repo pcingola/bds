@@ -19,14 +19,14 @@ public class FunctionNative_tanh_real extends FunctionNative {
 		functionName = "tanh";
 		returnType = Types.REAL;
 
-		String argNames[] = { "x" };
-		Type argTypes[] = { Types.REAL };
+		String[] argNames = { "x" };
+		Type[] argTypes = { Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}
 
 	@Override
 	protected Object runFunctionNative(BdsThread bdsThread) {
-		return (Double) Math.tanh(bdsThread.getReal("x"));
+		return Math.tanh(bdsThread.getReal("x"));
 	}
 }

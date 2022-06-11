@@ -17,16 +17,16 @@ public class CommandParserCpuInfo extends CommandParser {
 	}
 
 	@Override
-	public void parse(String cmdResult[]) {
+	public void parse(String[] cmdResult) {
 		int countCpus = 0;
 
 		for (int line = 0; line < cmdResult.length; line++) {
-			String fields[] = cmdResult[line].trim().replace(':', ' ').split("\\s+");
+			String[] fields = cmdResult[line].trim().replace(':', ' ').split("\\s+");
 
 			if (fields[0].equalsIgnoreCase("processor")) countCpus++;
 
 			if (fields[0].equalsIgnoreCase("model")) {
-				String cpuInfo[] = cmdResult[line].split(":");
+				String[] cpuInfo = cmdResult[line].split(":");
 				host.getHealth().setCpuInfo(cpuInfo[1].replaceAll("\\s+", " ").trim()); // Collapse multiple spaces and trim
 			}
 

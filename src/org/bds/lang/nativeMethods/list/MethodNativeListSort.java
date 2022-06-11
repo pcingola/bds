@@ -25,8 +25,8 @@ public class MethodNativeListSort extends MethodNativeList {
 		functionName = "sort";
 		returnType = classType;
 
-		String argNames[] = { "this" };
-		Type argTypes[] = { classType };
+		String[] argNames = { "this" };
+		Type[] argTypes = { classType };
 		parameters = Parameters.get(argTypes, argNames);
 
 		addNativeMethodToClassScope();

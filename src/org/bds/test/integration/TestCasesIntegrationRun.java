@@ -62,9 +62,9 @@ public class TestCasesIntegrationRun extends TestCasesBase {
 				+ "Iter 5, Task 1: End\n" //
 				+ "Iter 5, Task 2: Start\n" //
 				+ "Iter 5, Task 2: End\n" //
-		;;
+		;
 
-		String stdout = runAndReturnStdout("test/run_117.bds");
+        String stdout = runAndReturnStdout("test/run_117.bds");
 
 		if (stdout.indexOf(expectedStdout) < 0) {
 			String msg = "Cannot find desired output:\n" //

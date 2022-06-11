@@ -26,8 +26,8 @@ public class MethodNativeMapGet extends MethodNativeMap {
 		functionName = "get";
 		returnType = mapType.getValueType();
 
-		String argNames[] = { "this", "key", "defaultValue" };
-		Type argTypes[] = { mapType, mapType.getKeyType(), returnType };
+		String[] argNames = { "this", "key", "defaultValue" };
+		Type[] argTypes = { mapType, mapType.getKeyType(), returnType };
 		parameters = Parameters.get(argTypes, argNames);
 
 		addNativeMethodToClassScope();

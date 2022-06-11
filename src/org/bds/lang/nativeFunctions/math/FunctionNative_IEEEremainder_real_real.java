@@ -19,14 +19,14 @@ public class FunctionNative_IEEEremainder_real_real extends FunctionNative {
 		functionName = "IEEEremainder";
 		returnType = Types.REAL;
 
-		String argNames[] = { "f1", "f2" };
-		Type argTypes[] = { Types.REAL, Types.REAL };
+		String[] argNames = { "f1", "f2" };
+		Type[] argTypes = { Types.REAL, Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}
 
 	@Override
 	protected Object runFunctionNative(BdsThread bdsThread) {
-		return (Double) Math.IEEEremainder(bdsThread.getReal("f1"), bdsThread.getReal("f2"));
+		return Math.IEEEremainder(bdsThread.getReal("f1"), bdsThread.getReal("f2"));
 	}
 }

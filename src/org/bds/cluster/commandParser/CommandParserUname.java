@@ -17,8 +17,8 @@ public class CommandParserUname extends CommandParser {
 	}
 
 	@Override
-	public void parse(String cmdResult[]) {
-		String fields[] = cmdResult[0].split("\\s+");
+	public void parse(String[] cmdResult) {
+		String[] fields = cmdResult[0].split("\\s+");
 
 		if (debug) {
 			for (int i = 0; i < fields.length; i++)

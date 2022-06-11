@@ -27,8 +27,8 @@ public class MethodNativeListCount extends MethodNativeList {
 		functionName = "count";
 		returnType = Types.INT;
 
-		String argNames[] = { "this", "toCount" };
-		Type argTypes[] = { classType, baseType };
+		String[] argNames = { "this", "toCount" };
+		Type[] argTypes = { classType, baseType };
 		parameters = Parameters.get(argTypes, argNames);
 
 		addNativeMethodToClassScope();

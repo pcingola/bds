@@ -18,8 +18,8 @@ public class FunctionNative_clone_bool extends FunctionNative {
 		functionName = "clone";
 		returnType = Types.BOOL;
 
-		String argNames[] = { "x" };
-		Type argTypes[] = { Types.BOOL };
+		String[] argNames = { "x" };
+		Type[] argTypes = { Types.BOOL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

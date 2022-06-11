@@ -19,14 +19,14 @@ public class FunctionNative_cosh_real extends FunctionNative {
 		functionName = "cosh";
 		returnType = Types.REAL;
 
-		String argNames[] = { "x" };
-		Type argTypes[] = { Types.REAL };
+		String[] argNames = { "x" };
+		Type[] argTypes = { Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}
 
 	@Override
 	protected Object runFunctionNative(BdsThread bdsThread) {
-		return (Double) Math.cosh(bdsThread.getReal("x"));
+		return Math.cosh(bdsThread.getReal("x"));
 	}
 }

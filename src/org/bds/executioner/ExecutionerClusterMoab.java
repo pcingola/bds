@@ -15,10 +15,10 @@ public class ExecutionerClusterMoab extends ExecutionerCluster {
 		super(config);
 
 		// Define commands
-		String execCommand[] = { "msub" };
-		String killCommand[] = { "canceljob" };
-		String statCommand[] = { "showq" };
-		String postMortemInfoCommand[] = { "checkjob", "-v" };
+		String[] execCommand = { "msub" };
+		String[] killCommand = { "canceljob" };
+		String[] statCommand = { "showq" };
+		String[] postMortemInfoCommand = { "checkjob", "-v" };
 
 		clusterRunCommand = execCommand;
 		clusterKillCommand = killCommand;

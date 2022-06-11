@@ -23,8 +23,8 @@ public class FunctionNativePrintErr extends FunctionNative {
 		functionName = "printErr";
 		returnType = Types.STRING;
 
-		String argNames[] = { "str" };
-		Type argTypes[] = { Types.STRING };
+		String[] argNames = { "str" };
+		Type[] argTypes = { Types.STRING };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

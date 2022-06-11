@@ -26,8 +26,8 @@ public class FunctionNativeGetModulePath extends FunctionNative {
 		functionName = "getModulePath";
 		returnType = Types.STRING;
 
-		String argNames[] = {};
-		Type argTypes[] = {};
+		String[] argNames = {};
+		Type[] argTypes = {};
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

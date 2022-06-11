@@ -176,7 +176,7 @@ public class BdsVmAsm {
 		typeByName = new HashMap<>();
 
 		// Add basic types (this is used mostly when writing assembly code)
-		Type types[] = { Types.ANY, Types.BOOL, Types.INT, Types.REAL, Types.STRING };
+		Type[] types = { Types.ANY, Types.BOOL, Types.INT, Types.REAL, Types.STRING };
 
 		// Add primitive types
 		for (Type t : types)
@@ -203,8 +203,7 @@ public class BdsVmAsm {
 		for (int i = 0; i < line.length(); i++) {
 			char c = line.charAt(i);
 			if (Character.isWhitespace(c)) continue;
-			if (c == '#') return true; // First non-whitespace is '#'
-			return false;
+			return c == '#'; // First non-whitespace is '#'
 		}
 		return true; // Only whitespaces
 	}
@@ -238,7 +237,7 @@ public class BdsVmAsm {
 	 * Parse an opcode
 	 */
 	OpCode opcode(String line) {
-		String s[] = line.split("\\s+", 2);
+		String[] s = line.split("\\s+", 2);
 		String op = s[0].toUpperCase();
 		try {
 			return OpCode.valueOf(op);
@@ -251,7 +250,7 @@ public class BdsVmAsm {
 	 * Parse a parameter
 	 */
 	String param(String line) {
-		String s[] = line.split("\\s+", 2);
+		String[] s = line.split("\\s+", 2);
 		return s.length > 1 ? s[1] : null;
 	}
 

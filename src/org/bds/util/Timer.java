@@ -7,7 +7,7 @@ public class Timer implements Serializable {
 
 	private static final long serialVersionUID = 1749543702279403162L;
 
-	private static Timer timer = new Timer(); // Keep track of time (since first class instantiation)
+	private static final Timer timer = new Timer(); // Keep track of time (since first class instantiation)
 
 	Date start;
 	Date end;

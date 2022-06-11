@@ -22,7 +22,7 @@ public abstract class Cmd extends Thread implements BdsLog {
 
 	protected boolean debug;
 	protected String id;
-	protected String commandArgs[]; // Command and arguments
+	protected String[] commandArgs; // Command and arguments
 	protected String error = ""; // Errors
 	private boolean executing = false; // Command state: Executing
 	private boolean started = false; // Command state: Started
@@ -33,7 +33,7 @@ public abstract class Cmd extends Thread implements BdsLog {
 	protected NotifyTaskState notifyTaskState; // Notify executioner when command finishes executing
 	protected PidParser pidParser; // Parse PID from command line
 
-	public Cmd(String id, String args[]) {
+	public Cmd(String id, String[] args) {
 		this.id = id;
 		commandArgs = args;
 		resources = new HostResources();

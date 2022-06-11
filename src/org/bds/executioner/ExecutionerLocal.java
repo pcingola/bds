@@ -16,8 +16,8 @@ import org.bds.util.Gpr;
  */
 public class ExecutionerLocal extends ExecutionerFileSystem {
 
-	public static String LOCAL_KILL_COMMAND[] = { "bds", "kill" };
-	public static String LOCAL_STAT_COMMAND[] = { "ps" };
+	public static String[] LOCAL_KILL_COMMAND = { "bds", "kill" };
+	public static String[] LOCAL_STAT_COMMAND = { "ps" };
 
 	private static final String[] TASK_LOGGER_INTERNAL_KILL = { TaskLogger.CMD_KILL };
 
@@ -36,7 +36,7 @@ public class ExecutionerLocal extends ExecutionerFileSystem {
 		task.createProgramFile(); // We must create a program file
 
 		// Create command line
-		String args[] = createBdsExecCmdArgs(task);
+		String[] args = createBdsExecCmdArgs(task);
 
 		avoidTextFileBusyError();
 

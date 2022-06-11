@@ -24,8 +24,8 @@ public class FunctionNativeGetVar extends FunctionNative {
 		functionName = "getVar";
 		returnType = Types.STRING;
 
-		String argNames[] = { "name" };
-		Type argTypes[] = { Types.STRING };
+		String[] argNames = { "name" };
+		Type[] argTypes = { Types.STRING };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

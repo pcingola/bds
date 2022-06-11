@@ -25,8 +25,8 @@ public class MethodNativeListReverse extends MethodNativeList {
 		functionName = "reverse";
 		returnType = TypeList.get(baseType);
 
-		String argNames[] = { "this" };
-		Type argTypes[] = { classType };
+		String[] argNames = { "this" };
+		Type[] argTypes = { classType };
 		parameters = Parameters.get(argTypes, argNames);
 
 		addNativeMethodToClassScope();

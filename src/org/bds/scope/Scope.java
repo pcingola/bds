@@ -107,7 +107,7 @@ public class Scope implements Iterable<String>, Serializable, ValuesGetSet {
 
     public String getScopeNameCode() {
         if (node == null) return "" + id;
-        String lines[] = node.toString().split("\n");
+        String[] lines = node.toString().split("\n");
         String line = lines[0];
         return (node.getFileName() != null ? node.getFileName() + ":" + node.getLineNum() + "\t" : "") + line;
     }

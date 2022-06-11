@@ -18,8 +18,8 @@ public class FunctionNativeAssertBoolNoMsg extends FunctionNativeAssert {
 		functionName = "assert";
 		returnType = Types.BOOL;
 
-		String argNames[] = { "cond" };
-		Type argTypes[] = { Types.BOOL };
+		String[] argNames = { "cond" };
+		Type[] argTypes = { Types.BOOL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

@@ -27,8 +27,8 @@ public class FunctionNativeRangeInt extends FunctionNative {
 		functionName = "range";
 		returnType = TypeList.get(Types.INT);
 
-		String argNames[] = { "min", "max" };
-		Type argTypes[] = { Types.INT, Types.INT };
+		String[] argNames = { "min", "max" };
+		Type[] argTypes = { Types.INT, Types.INT };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

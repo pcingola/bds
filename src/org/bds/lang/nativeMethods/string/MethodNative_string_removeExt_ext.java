@@ -19,8 +19,8 @@ public class MethodNative_string_removeExt_ext extends MethodNativeString {
 		classType = Types.STRING;
 		returnType = Types.STRING;
 
-		String argNames[] = { "this", "ext" };
-		Type argTypes[] = { Types.STRING, Types.STRING };
+		String[] argNames = { "this", "ext" };
+		Type[] argTypes = { Types.STRING, Types.STRING };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeMethodToClassScope();
 	}

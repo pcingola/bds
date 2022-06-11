@@ -18,8 +18,8 @@ public class FunctionNative_clone_real extends FunctionNative {
 		functionName = "clone";
 		returnType = Types.REAL;
 
-		String argNames[] = { "x" };
-		Type argTypes[] = { Types.REAL };
+		String[] argNames = { "x" };
+		Type[] argTypes = { Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

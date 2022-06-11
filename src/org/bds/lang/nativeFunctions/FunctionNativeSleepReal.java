@@ -24,8 +24,8 @@ public class FunctionNativeSleepReal extends FunctionNative {
 		functionName = "sleep";
 		returnType = Types.BOOL;
 
-		String argNames[] = { "seconds" };
-		Type argTypes[] = { Types.REAL };
+		String[] argNames = { "seconds" };
+		Type[] argTypes = { Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

@@ -19,14 +19,14 @@ public class FunctionNative_nextAfter_real_real extends FunctionNative {
 		functionName = "nextAfter";
 		returnType = Types.REAL;
 
-		String argNames[] = { "start", "direction" };
-		Type argTypes[] = { Types.REAL, Types.REAL };
+		String[] argNames = { "start", "direction" };
+		Type[] argTypes = { Types.REAL, Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}
 
 	@Override
 	protected Object runFunctionNative(BdsThread bdsThread) {
-		return (Double) Math.nextAfter(bdsThread.getReal("start"), bdsThread.getReal("direction"));
+		return Math.nextAfter(bdsThread.getReal("start"), bdsThread.getReal("direction"));
 	}
 }

@@ -14,7 +14,7 @@ import org.bds.lang.BdsNode;
 public class Block extends StatementWithScope {
 
 	private static final long serialVersionUID = -8981215874906264612L;
-	protected Statement statements[];
+	protected Statement[] statements;
 
 	public Block(BdsNode parent, ParseTree tree) {
 		super(parent, tree);

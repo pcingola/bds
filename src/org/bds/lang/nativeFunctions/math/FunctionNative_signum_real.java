@@ -19,8 +19,8 @@ public class FunctionNative_signum_real extends FunctionNative {
 		functionName = "signum";
 		returnType = Types.REAL;
 
-		String argNames[] = { "d" };
-		Type argTypes[] = { Types.REAL };
+		String[] argNames = { "d" };
+		Type[] argTypes = { Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

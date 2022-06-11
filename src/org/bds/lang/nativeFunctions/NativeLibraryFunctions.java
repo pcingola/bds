@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class NativeLibraryFunctions implements BdsLog {
 
 	@SuppressWarnings("rawtypes")
-	public static Class classes[] = { //
+	public static Class[] classes = { //
 			FunctionNativeAddResource.class //
 			, FunctionNativeAssertBool.class //
 			, FunctionNativeAssertBoolNoMsg.class //

@@ -27,8 +27,8 @@ public class MethodNativeListIsEmpty extends MethodNativeList {
 		functionName = "isEmpty";
 		returnType = Types.BOOL;
 
-		String argNames[] = { "this" };
-		Type argTypes[] = { classType };
+		String[] argNames = { "this" };
+		Type[] argTypes = { classType };
 		parameters = Parameters.get(argTypes, argNames);
 
 		addNativeMethodToClassScope();

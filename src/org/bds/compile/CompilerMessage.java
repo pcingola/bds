@@ -9,9 +9,9 @@ public class CompilerMessage implements Comparable<CompilerMessage> {
 
 	public enum MessageType {
 		ERROR, WARNING, INFO
-	};
+	}
 
-	protected final String fileName;
+    protected final String fileName;
 	protected final int lineNum, charPosInLine;
 	protected final String message;
 	protected final MessageType type;

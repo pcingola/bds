@@ -24,8 +24,8 @@ public class FunctionNativeToIntFromBool extends FunctionNative {
 		functionName = "toInt";
 		returnType = Types.INT;
 
-		String argNames[] = { "num" };
-		Type argTypes[] = { Types.BOOL };
+		String[] argNames = { "num" };
+		Type[] argTypes = { Types.BOOL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

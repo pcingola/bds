@@ -116,7 +116,7 @@ public class VmDebugger implements Serializable {
 					System.err.println("\ts         : Step");
 					System.err.println("\tt         : show stack Trace");
 					System.err.println("\tv varname : show Variable 'varname'");
-					System.err.println("");
+					System.err.println();
 					break;
 
 				case "p":

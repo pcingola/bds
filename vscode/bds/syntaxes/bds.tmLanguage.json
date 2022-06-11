@@ -93,8 +93,16 @@
 					"name": "keyword.control.throw.bds"
 				},
 				{
-					"match": "\\b(breakpoint|case|catch|checkpoint|class|continue|debug|default|else|exit|extends|for|if|print|println|return|switch|task|try|wait|while)\\b",
+					"match": "\\b(breakpoint|case|catch|checkpoint|class|continue|debug|default|dep|else|exit|extends|finally|for|goal|if|include|print|println|return|switch|task|try|wait|while)\\b",
 					"name": "keyword.control.bds"
+				},
+				{
+					"match": "\\b(args|allowEmpty|canFail|cpus|cpusLocal|mem|node|ppwd|programName|programPath|programPid|queue|retry|system|taskName|timeout|walltimeout)\\b",
+					"name": "keyword.variable.name.bds"
+				},
+				{
+					"match": "\\b(K|M|G|T|P|E|PI|minute|hour|day|week)\\b",
+					"name": "keyword.variable.name.bds"
 				},
 				{
 					"match": "\\b(int|bool|string|void|real)\\b",
@@ -103,6 +111,10 @@
 				{
 					"match": "\\b(true|false)\\b",
 					"name": "variable.other.constant"
+				},
+				{
+					"match": "<-",
+					"name": "keyword.control.dep"
 				},
 				{
 					"match": "(<<|>>>?|~|\\^)",
@@ -121,11 +133,11 @@
 					"name": "keyword.operator.assignment.arithmetic.bds"
 				},
 				{
-					"match": "(:=)",
+					"match": ":=",
 					"name": "keyword.control.type.inference"
 				},
 				{
-					"match": "(=)",
+					"match": "=",
 					"name": "keyword.operator.assignment"
 				},
 				{

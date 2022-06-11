@@ -17,11 +17,11 @@ public class CommandParserDf extends CommandParser {
 	}
 
 	@Override
-	public void parse(String cmdResult[]) {
+	public void parse(String[] cmdResult) {
 		long total = 0, avail = 0;
 
 		for (int line = 1; line < cmdResult.length; line++) {
-			String fields[] = cmdResult[line].split("\\s+");
+			String[] fields = cmdResult[line].split("\\s+");
 
 			if (fields.length >= 6) {
 				total += Gpr.parseLongSafe(fields[1]);

@@ -26,8 +26,8 @@ public class FunctionNativeTime extends FunctionNative {
 		functionName = "time";
 		returnType = Types.INT;
 
-		String argNames[] = {};
-		Type argTypes[] = {};
+		String[] argNames = {};
+		Type[] argTypes = {};
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

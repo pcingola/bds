@@ -19,14 +19,14 @@ public class FunctionNative_atan_real extends FunctionNative {
 		functionName = "atan";
 		returnType = Types.REAL;
 
-		String argNames[] = { "a" };
-		Type argTypes[] = { Types.REAL };
+		String[] argNames = { "a" };
+		Type[] argTypes = { Types.REAL };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}
 
 	@Override
 	protected Object runFunctionNative(BdsThread bdsThread) {
-		return (Double) Math.atan(bdsThread.getReal("a"));
+		return Math.atan(bdsThread.getReal("a"));
 	}
 }

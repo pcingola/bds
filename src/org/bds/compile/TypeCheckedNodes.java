@@ -11,7 +11,7 @@ import org.bds.lang.BdsNode;
  */
 public class TypeCheckedNodes {
 
-	private static TypeCheckedNodes typeCheckedNodes = new TypeCheckedNodes();
+	private static final TypeCheckedNodes typeCheckedNodes = new TypeCheckedNodes();
 
 	public static TypeCheckedNodes get() {
 		return typeCheckedNodes;

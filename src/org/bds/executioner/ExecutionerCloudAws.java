@@ -33,7 +33,7 @@ import software.amazon.awssdk.services.ec2.model.StopInstancesRequest;
  */
 public class ExecutionerCloudAws extends ExecutionerCloud {
 
-	public static final String KILL_COMMAND[] = { "@aws_ec2_terminate" };
+	public static final String[] KILL_COMMAND = { "@aws_ec2_terminate" };
 
 	protected ExecutionerCloudAws(Config config) {
 		super(config);
@@ -44,7 +44,7 @@ public class ExecutionerCloudAws extends ExecutionerCloud {
 	public synchronized Cmd createRunCmd(Task task) {
 		task.createProgramFile(); // We must create a program file
 		debug("Running task " + task.getId());
-		String qurl = ((QueueThreadAwsSqs) queueThread).getQueueId();
+		String qurl = queueThread.getQueueId();
 		CmdAws cmd = new CmdAws(task, qurl);
 		return cmd;
 	}

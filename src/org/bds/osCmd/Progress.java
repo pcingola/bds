@@ -2,8 +2,8 @@ package org.bds.osCmd;
 
 public interface Progress {
 
-	public int getProgress();
+	int getProgress();
 
-	public void progress();
+	void progress();
 
 }

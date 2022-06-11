@@ -12,5 +12,5 @@ public interface LineFilter {
 	 * @param line
 	 * @return A new string replacing the line, or null if the line does not pass the filter (e.g. should not be processed any further
 	 */
-	public String filter(String line);
+    String filter(String line);
 }

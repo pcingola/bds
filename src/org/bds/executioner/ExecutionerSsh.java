@@ -36,7 +36,7 @@ public class ExecutionerSsh extends ExecutionerFileSystem {
 		// Add nodes from config file
 		String nodes = config.getClusterSshNodes();
 		if (config.isDebug()) System.err.println("Ssh nodes string (config): '" + nodes + "'");
-		String sshNodes[] = nodes.split(",");
+		String[] sshNodes = nodes.split(",");
 		for (String sshNode : sshNodes) {
 			if (config.isDebug()) System.err.println("\tAdding ssh node : '" + sshNode + "'");
 			system.add(new HostSsh(system, sshNode.trim()));

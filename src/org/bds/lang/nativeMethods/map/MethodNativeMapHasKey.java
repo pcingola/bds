@@ -28,8 +28,8 @@ public class MethodNativeMapHasKey extends MethodNativeMap {
 		functionName = "hasKey";
 		returnType = Types.BOOL;
 
-		String argNames[] = { "this", "key" };
-		Type argTypes[] = { mapType, mapType.getKeyType() };
+		String[] argNames = { "this", "key" };
+		Type[] argTypes = { mapType, mapType.getKeyType() };
 		parameters = Parameters.get(argTypes, argNames);
 
 		addNativeMethodToClassScope();

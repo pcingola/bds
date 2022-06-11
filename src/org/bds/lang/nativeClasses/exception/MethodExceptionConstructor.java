@@ -27,8 +27,8 @@ public class MethodExceptionConstructor extends MethodNative {
 		functionName = ct.getClassName();
 		returnType = classType;
 
-		String argNames[] = { "this", "message" };
-		Type argTypes[] = { classType, Types.STRING };
+		String[] argNames = { "this", "message" };
+		Type[] argTypes = { classType, Types.STRING };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeMethodToClassScope();
 	}

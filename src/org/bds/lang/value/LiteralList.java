@@ -19,7 +19,7 @@ public class LiteralList extends Literal {
 
 	private static final long serialVersionUID = -7535741001316384850L;
 
-	Expression values[];
+	Expression[] values;
 
 	public LiteralList(BdsNode parent, ParseTree tree) {
 		super(parent, tree);

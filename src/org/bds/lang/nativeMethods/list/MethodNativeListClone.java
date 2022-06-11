@@ -27,8 +27,8 @@ public class MethodNativeListClone extends MethodNativeList {
 		functionName = "clone";
 		returnType = classType;
 
-		String argNames[] = { "this" };
-		Type argTypes[] = { classType };
+		String[] argNames = { "this" };
+		Type[] argTypes = { classType };
 		parameters = Parameters.get(argTypes, argNames);
 
 		addNativeMethodToClassScope();

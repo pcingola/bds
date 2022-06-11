@@ -91,7 +91,7 @@ public class DataHttp extends DataRemote {
 
             // Copy to file
             int count = 0, total = 0, lastShown = 0;
-            byte data[] = new byte[BUFFER_SIZE];
+            byte[] data = new byte[BUFFER_SIZE];
             while ((count = is.read(data, 0, BUFFER_SIZE)) != -1) {
                 os.write(data, 0, count);
                 total += count;
@@ -104,7 +104,7 @@ public class DataHttp extends DataRemote {
                     }
                 }
             }
-            if (verbose) System.err.println("");
+            if (verbose) System.err.println();
 
             // Close streams
             is.close();

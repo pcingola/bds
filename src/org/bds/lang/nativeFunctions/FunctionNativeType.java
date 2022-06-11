@@ -24,8 +24,8 @@ public class FunctionNativeType extends FunctionNative {
 		functionName = "type";
 		returnType = Types.STRING;
 
-		String argNames[] = { "expr" };
-		Type argTypes[] = { Types.ANY };
+		String[] argNames = { "expr" };
+		Type[] argTypes = { Types.ANY };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}

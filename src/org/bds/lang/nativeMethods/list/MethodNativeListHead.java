@@ -25,8 +25,8 @@ public class MethodNativeListHead extends MethodNativeList {
 		functionName = "head";
 		returnType = baseType;
 
-		String argNames[] = { "this" };
-		Type argTypes[] = { classType };
+		String[] argNames = { "this" };
+		Type[] argTypes = { classType };
 		parameters = Parameters.get(argTypes, argNames);
 
 		addNativeMethodToClassScope();

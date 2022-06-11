@@ -59,12 +59,10 @@ public class JsonParser {
         jsonData = bdsThread.data(fileName);
 
         // Download remote file
-        if (jsonData.isRemote() //
-                && !jsonData.isDownloaded() //
-                && !jsonData.download() //
-        ) return false; // Download error
-
-        return true;
+        //
+        return !jsonData.isRemote() //
+                || jsonData.isDownloaded() //
+                || jsonData.download(); // Download error
     }
 
     public String getJsonTxt() {
@@ -245,7 +243,7 @@ public class JsonParser {
             // Set value from JSON
             if (itemType.isClass()) {
                 // List item is an object, we recurse to set fields
-                if (jv instanceof JsonObject) setValueObject((ValueObject) bdsItemVal, jitemName, (JsonObject) jv);
+                if (jv instanceof JsonObject) setValueObject(bdsItemVal, jitemName, (JsonObject) jv);
                 else
                     bdsThread.error("Could not set list value for type " + itemType + " from JSON file '" + fileName + "', field '" + jitemName + "'. Not a JSON object, JSON value: " + jv);
             } else if (itemType.isList()) {

@@ -19,14 +19,14 @@ public class FunctionNative_scalb_real_int extends FunctionNative {
 		functionName = "scalb";
 		returnType = Types.REAL;
 
-		String argNames[] = { "d", "scaleFactor" };
-		Type argTypes[] = { Types.REAL, Types.INT };
+		String[] argNames = { "d", "scaleFactor" };
+		Type[] argTypes = { Types.REAL, Types.INT };
 		parameters = Parameters.get(argTypes, argNames);
 		addNativeFunction();
 	}
 
 	@Override
 	protected Object runFunctionNative(BdsThread bdsThread) {
-		return (Double) Math.scalb(bdsThread.getReal("d"), (int) bdsThread.getInt("scaleFactor"));
+		return Math.scalb(bdsThread.getReal("d"), (int) bdsThread.getInt("scaleFactor"));
 	}
 }
