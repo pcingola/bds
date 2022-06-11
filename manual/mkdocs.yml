@@ -5,6 +5,7 @@ nav:
   - Manual:
     - 'Introduction': index.md
     - 'Download': download.md
+    - 'Syntax highlight': syntax_highlight.md
     - 'Hello world': hello.md
     - 'Language': language.md
     - 'Special operators': special.md
@@ -34,5 +35,4 @@ nav:
     - 'bds command line': bdscmdline.md
     - 'Config file': bdsconfig.md
     - 'Bds VM': bds_vm.md
-    - 'VSCode extension': vscode_extension.md
 theme: readthedocs

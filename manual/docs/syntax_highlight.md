@@ -1,6 +1,5 @@
 # Syntax highlight 
 
-
 There are a couple of extentions for syntax highlighting you can use.
 
 - The VIM syntax highlight module for bds can be found [here](https://github.com/serine/bdsSyntaxHighlight)
