@@ -26,6 +26,11 @@ public class LanguageServerBds implements LanguageServer, LanguageClientAware {
     private LanguageClient languageClient;
     private int shutdown = 1;
 
+    public LanguageServerBds() {
+        this.textDocumentService = new TextDocumentServiceBds(this);
+        this.workspaceService = new WorkspaceServiceBds(this);
+    }
+
     @Override
     public void cancelProgress(WorkDoneProgressCancelParams params) {
         LanguageServer.super.cancelProgress(params);

@@ -377,9 +377,12 @@ public class Bds implements BdsLog {
         }
 
         // Sanity checks
-        if (bdsRun.getBdsAction() == BdsAction.CHECK_PID_REGEX) {
+        var action = bdsRun.getBdsAction();
+        if (action == BdsAction.CHECK_PID_REGEX //
+                || action == BdsAction.RUN_LANGUAGE_SERVER //
+                || action == BdsAction.ZZZ //
+        ) {
             // OK: Nothing to check
-        } else if (bdsRun.getBdsAction() == BdsAction.ZZZ) {
             // OK: Nothing to check
         } else if ((programFileName == null) && (chekcpointRestoreFile == null)) {
             // No file name => Error
