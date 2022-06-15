@@ -553,6 +553,7 @@ public class BdsRun implements BdsLog {
         InputStream in = System.in;
         OutputStream out = System.out;
         try {
+            log("Starting Language Server (LSP)");
             LanguageServerBds server = new LanguageServerBds();
             Launcher<LanguageClient> launcher = Launcher.createLauncher(server, LanguageClient.class, in, out);
             LanguageClient client = launcher.getRemoteProxy();

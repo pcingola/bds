@@ -18,8 +18,48 @@ let client: LanguageClient;
 export function activate(context: ExtensionContext) {
 	// The server is implemented in node
 
+	const serverScriptPath = context.asAbsolutePath(
+		path.join('server', 'bds.sh')
+	);
+
+	const serverOptions: ServerOptions = {
+		command: serverScriptPath,
+		transport: TransportKind.stdio
+	  };
+
+	console.log('serverOptions: ' + JSON.stringify(serverOptions));
+
+	// Options to control the language client
+	const clientOptions: LanguageClientOptions = {
+		// Register the server for plain text documents
+		documentSelector: [{ scheme: 'file', language: 'plaintext' }],
+		synchronize: {
+			// Notify the server about file changes to '.clientrc files contained in the workspace
+			fileEvents: workspace.createFileSystemWatcher('**/.clientrc')
+		}
+	};
+	console.log('clientOptions: ' + JSON.stringify(clientOptions));
+
+	// Create the language client and start the client.
+	client = new LanguageClient(
+		'languageServerExample',
+		'Language Server Example',
+		serverOptions,
+		clientOptions
+	);
+
+	// Start the client. This will also launch the server
+	console.log('Starting language server');
+	client.start();
+
+}
+
+export function activateOri(context: ExtensionContext) {
+	// The server is implemented in node
+
 	const serverModule = context.asAbsolutePath(
-		path.join('server', 'out', 'server.js')
+		// path.join('server', 'out', 'server.js')
+		path.join('server', 'bds.sh')
 	);
 	console.log('serverModule: ' + serverModule);
 	// The debug options for the server
