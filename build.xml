@@ -72,7 +72,6 @@
 	    <zipfileset excludes="META-INF/*.SF" src="target/dependency/slf4j-simple-1.7.25.jar"/>
 	    <zipfileset excludes="META-INF/*.SF" src="target/dependency/sqs-2.15.11.jar"/>
 	    <zipfileset excludes="META-INF/*.SF" src="target/dependency/utils-2.15.11.jar"/>
-
         </jar>
     </target>
 
