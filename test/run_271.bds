@@ -1,0 +1,21 @@
+#!/usr/bin/env bds
+
+tmp := "/tmp"
+
+tmpDir := "$tmp/run_271/rm_on_exit"
+tmpDir.mkdir()
+tmpDir.rmOnExit()
+for(int i=0 ; i < 10; i++ ) {
+    tmpFile := "$tmpDir/$i\.tmp"
+    tmpFile.write("OK\t$i")
+    println "Created file '$tmpFile'"
+}
+
+txtDir := "$tmp/run_271/no_rm_on_exit"
+txtDir.mkdir()
+for(int i=0 ; i < 10; i++ ) {
+    txtFile := "$txtDir/$i\.txt"
+    txtFile.write("OK\t$i")
+    println "Created file '$txtFile'"
+}
+

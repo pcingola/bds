@@ -34,6 +34,7 @@ public class MethodNative_string_rmOnExit extends MethodNativeString {
 
 	@Override
 	protected Object runMethodNative(BdsThread bdsThread, Object objThis) {
+		// Since we've implemented 'runMethod', there is no need to implement 'runMethodNative'
 		bdsThread.runtimeError("This method should never be invoked!");
 		return null;
 	}

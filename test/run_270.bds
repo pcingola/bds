@@ -1,0 +1,19 @@
+#!/usr/bin/env bds
+
+tmp := "/tmp"
+
+tmpFile := "$tmp/run_270.tmp"
+tmpFile.write("OK")
+tmpFile.rmOnExit()
+println "Created file '$tmpFile'"
+
+txtFile := "$tmp/run_270.txt"
+txtFile.write("OK")
+println "Created file '$txtFile'"
+
+error "Error: Stopping early"
+
+# This should not execute
+txtFile.rm()
+println "You should never see this line..."
+

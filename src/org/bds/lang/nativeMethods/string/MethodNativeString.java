@@ -24,6 +24,10 @@ public abstract class MethodNativeString extends MethodNative {
 		return Value.factory(ret);
 	}
 
+	/**
+	 * Run method that returns a java-native (primitive) object, such as Integer, Double, String, etc.
+	 * The java object is converted into a bds object
+	 */
 	protected abstract Object runMethodNative(BdsThread bdsThread, Object objThis);
 
 }

@@ -1,0 +1,17 @@
+#!/usr/bin/env bds
+
+tmp := "/tmp"
+
+tmpFiles := ["$tmp/run_274.1.tmp", "$tmp/run_274.2.tmp", "$tmp/run_274.3.tmp"]
+for(string f: tmpFiles) {
+    f.write("OK")
+}
+tmpFiles.rmOnExit()
+println "Created file '$tmpFiles'"
+
+txtFile := "$tmp/run_274.txt"
+txtFile.write("OK")
+println "Created file '$txtFile'"
+
+println "Cancel the previous rmOnExit for file '$tmpFiles'"
+tmpFiles.rmOnExitCancel()
