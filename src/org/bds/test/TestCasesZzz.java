@@ -21,6 +21,4 @@ public class TestCasesZzz extends TestCasesBaseAws {
         Config.get().load();
     }
 
-
-
 }
