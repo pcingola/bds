@@ -41,7 +41,6 @@ public class TestCasesCustomResources extends TestCasesBase {
 	@Test
 	public void test03_notEnoughResources() {
 		Gpr.debug("Test");
-		verbose = true;
 		runAndCheckError("test/run_custom_resources_03.bds", "Error in wait statement, file test/run_custom_resources_03.bds, line 13");
 	}
 }

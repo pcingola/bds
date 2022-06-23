@@ -333,7 +333,6 @@ public class TestCasesRun3 extends TestCasesBase {
 
     @Test
     public void test236_tryCatch() {
-        verbose = true;
         Gpr.debug("Test");
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("f11", "true");
