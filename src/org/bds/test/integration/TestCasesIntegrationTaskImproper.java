@@ -9,10 +9,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test cases Classes / Objects
+ * Tests for improper tasks (i.e. tasks that execute arbitrary bds code)
  *
  * @author pcingola
- *
  */
 public class TestCasesIntegrationTaskImproper extends TestCasesBase {
 

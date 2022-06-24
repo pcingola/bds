@@ -8,10 +8,9 @@ import org.junit.Test;
 import junit.framework.Assert;
 
 /**
- * Test cases Classes / Objects
+ * Test cases for detached tasks (executed on local computer)
  *
  * @author pcingola
- *
  */
 public class TestCasesIntegrationTaskDetached extends TestCasesBase {
 
