@@ -66,7 +66,6 @@ public class TestCasesIntegrationTaskDataRemote extends TestCasesBase {
 	 */
 	@Test
 	public void test04_TaskUrlInDoubleQuotes() {
-		verbose = true;
 		runAndCheck("test/remote_04.bds", "first", "<!DOCTYPE html>");
 	}
 
@@ -102,7 +101,6 @@ public class TestCasesIntegrationTaskDataRemote extends TestCasesBase {
 	 */
 	@Test
 	public void test08_TaskUrlRemoteListReplace() {
-		verbose = true;
 		runAndCheck("test/remote_08.bds", "first", "<!DOCTYPE html>");
 	}
 
