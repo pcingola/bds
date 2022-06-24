@@ -18,7 +18,6 @@ public class TestCasesRun3 extends TestCasesBase {
 
     @Test
     public void test201() {
-        Gpr.debug("Test");
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("z", "{ i: 0, r: 0.0, s:  }");
         expectedValues.put("z2", "{ i: 0, r: 0.0, s:  }");
@@ -28,37 +27,31 @@ public class TestCasesRun3 extends TestCasesBase {
 
     @Test
     public void test202() {
-        Gpr.debug("Test");
         runAndCheck("test/run_202.bds", "z", "{ i: 42, r: 1.234, s: Hi }");
     }
 
     @Test
     public void test203() {
-        Gpr.debug("Test");
         runAndCheck("test/run_203.bds", "j", "42");
     }
 
     @Test
     public void test204() {
-        Gpr.debug("Test");
         runAndCheck("test/run_204.bds", "j", "42");
     }
 
     @Test
     public void test205() {
-        Gpr.debug("Test");
         runAndCheck("test/run_205.bds", "z", null);
     }
 
     @Test
     public void test206() {
-        Gpr.debug("Test");
         runAndCheck("test/run_206.bds", "j", "44");
     }
 
     @Test
     public void test207() {
-        Gpr.debug("Test");
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("j", "42");
         expectedValues.put("s", "bye");
@@ -68,97 +61,81 @@ public class TestCasesRun3 extends TestCasesBase {
 
     @Test
     public void test208() {
-        Gpr.debug("Test");
         runAndCheck("test/run_208.bds", "z", "{ i: 7, l: [one, dos, three], m: { one => uno, three => tres, two => deux } }");
     }
 
     @Test
     public void test209() {
-        Gpr.debug("Test");
         runAndCheckStderr("test/run_209.bds", "Null pointer. Trying to access field 'i' in null object.");
     }
 
     @Test
     public void test210() {
-        Gpr.debug("Test");
         runAndCheckStderr("test/run_210.bds", "Null pointer: Cannot call method 'Zzz.set(Zzz,int) -> void' on null object.");
     }
 
     @Test
     public void test211() {
-        Gpr.debug("Test");
         runAndCheck("test/run_211.bds", "z", "{ i: 7 }");
     }
 
     @Test
     public void test212() {
-        Gpr.debug("Test");
         runAndCheck("test/run_212.bds", "z", "{ i: 42 }");
     }
 
     @Test
     public void test213() {
-        Gpr.debug("Test");
         runAndCheck("test/run_213.bds", "z", "{ i: 7 }");
     }
 
     @Test
     public void test214() {
-        Gpr.debug("Test");
         runAndCheck("test/run_214.bds", "z", "{ i: 42 }");
     }
 
     @Test
     public void test215() {
-        Gpr.debug("Test");
         runAndCheck("test/run_215.bds", "z", "{ i: 42, j: 7 }");
     }
 
     @Test
     public void test216() {
-        Gpr.debug("Test");
         runAndCheck("test/run_216.bds", "z", "{ i: 21, j: 17, next: { i: 42, next: null } }");
     }
 
     @Test
     public void test217() {
-        Gpr.debug("Test");
         runAndCheck("test/run_217.bds", "x", "43");
     }
 
     @Test
     public void test218() {
-        Gpr.debug("Test");
         runAndCheck("test/run_218.bds", "x", "50");
     }
 
     @Test
     public void test219() {
-        Gpr.debug("Test");
         runAndCheck("test/run_219.bds", "x", "50");
     }
 
     @Test
     public void test220() {
-        Gpr.debug("Test");
         runAndCheck("test/run_220.bds", "x", "50");
     }
 
     @Test
     public void test221() {
-        Gpr.debug("Test");
         runAndCheck("test/run_221.bds", "z", "46");
     }
 
     @Test
     public void test222() {
-        Gpr.debug("Test");
         runAndCheck("test/run_222.bds", "z", "7");
     }
 
     @Test
     public void test223_list_of_list() {
-        Gpr.debug("Test");
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("l", "[[hi, bye], [hola, adios]]");
         expectedValues.put("typel", "string[][]");
@@ -169,7 +146,6 @@ public class TestCasesRun3 extends TestCasesBase {
 
     @Test
     public void test224_map_of_lists() {
-        Gpr.debug("Test");
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("m", "{ en => [hi, bye, hello], sp => [hola, adios] }");
         expectedValues.put("typem", "string[]{string}");
@@ -180,25 +156,21 @@ public class TestCasesRun3 extends TestCasesBase {
 
     @Test
     public void test225_super() {
-        Gpr.debug("Test");
         runAndCheck("test/run_225.bds", "ret", "2");
     }
 
     @Test
     public void test226_refref() {
-        Gpr.debug("Test");
         runAndCheck("test/run_226.bds", "ret", "42");
     }
 
     @Test
     public void test227_refref() {
-        Gpr.debug("Test");
         runAndCheck("test/run_227.bds", "ret", "42");
     }
 
     @Test
     public void test228_method_call() {
-        Gpr.debug("Test");
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("ret1", "1");
         expectedValues.put("ret2", "2");
@@ -208,7 +180,6 @@ public class TestCasesRun3 extends TestCasesBase {
 
     @Test
     public void test229_super() {
-        Gpr.debug("Test");
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("af", "1");
         expectedValues.put("ag", "2");
@@ -222,7 +193,6 @@ public class TestCasesRun3 extends TestCasesBase {
 
     @Test
     public void test230_tryCatch() {
-        Gpr.debug("Test");
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("try1", "true");
         expectedValues.put("catch1", "false");
@@ -233,7 +203,6 @@ public class TestCasesRun3 extends TestCasesBase {
 
     @Test
     public void test231_tryCatch() {
-        Gpr.debug("Test");
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("try1", "true");
         expectedValues.put("catch1", "true");
@@ -244,7 +213,6 @@ public class TestCasesRun3 extends TestCasesBase {
 
     @Test
     public void test232_tryCatch() {
-        Gpr.debug("Test");
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("f1", "true");
         expectedValues.put("f2", "false");
@@ -258,7 +226,6 @@ public class TestCasesRun3 extends TestCasesBase {
 
     @Test
     public void test233_tryCatch() {
-        Gpr.debug("Test");
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("f1", "true");
         expectedValues.put("f2", "true");
@@ -272,7 +239,6 @@ public class TestCasesRun3 extends TestCasesBase {
 
     @Test
     public void test234_tryCatch() {
-        Gpr.debug("Test");
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("try11", "true");
         expectedValues.put("try12", "false");
@@ -289,7 +255,6 @@ public class TestCasesRun3 extends TestCasesBase {
 
     @Test
     public void test235_tryCatch() {
-        Gpr.debug("Test");
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("f11", "true");
         expectedValues.put("f12", "true");
@@ -311,7 +276,6 @@ public class TestCasesRun3 extends TestCasesBase {
 
     @Test
     public void test235_tryCatch_rev() {
-        Gpr.debug("Test");
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("f11", "true");
         expectedValues.put("f12", "false");
@@ -333,7 +297,6 @@ public class TestCasesRun3 extends TestCasesBase {
 
     @Test
     public void test236_tryCatch() {
-        Gpr.debug("Test");
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("f11", "true");
         expectedValues.put("f12", "false");
@@ -355,7 +318,6 @@ public class TestCasesRun3 extends TestCasesBase {
 
     @Test
     public void test237_tryCatch() {
-        Gpr.debug("Test");
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("main1", "true");
         expectedValues.put("main2", "true");
@@ -369,7 +331,6 @@ public class TestCasesRun3 extends TestCasesBase {
 
     @Test
     public void test238_tryCatch() {
-        Gpr.debug("Test");
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("main1", "true");
         expectedValues.put("main2", "false");
@@ -384,7 +345,6 @@ public class TestCasesRun3 extends TestCasesBase {
 
     @Test
     public void test239_tryCatch() {
-        Gpr.debug("Test");
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("main1", "true");
         expectedValues.put("main2", "false");
@@ -399,7 +359,6 @@ public class TestCasesRun3 extends TestCasesBase {
 
     @Test
     public void test240_tryCatch() {
-        Gpr.debug("Test");
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("main1", "true");
         expectedValues.put("main2", "false");
@@ -414,7 +373,6 @@ public class TestCasesRun3 extends TestCasesBase {
 
     @Test
     public void test241_tryCatch() {
-        Gpr.debug("Test");
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("main1", "true");
         expectedValues.put("main2", "false");
@@ -431,7 +389,6 @@ public class TestCasesRun3 extends TestCasesBase {
 
     @Test
     public void test242_derivedMethodParamNames() {
-        Gpr.debug("Test");
         runAndCheck("test/run_242.bds", "ret", "n:hi");
     }
 
@@ -506,63 +463,53 @@ public class TestCasesRun3 extends TestCasesBase {
 
     @Test
     public void test255_getModuleName() {
-        Gpr.debug("Test");
         runAndCheck("test/run_255.bds", "b", "run_255.bds");
     }
 
     @Test
     public void test256_getModuleName() {
-        Gpr.debug("Test");
         runAndCheck("test/run_256.bds", "db", "test");
     }
 
     @Test
     public void test257_randIntDivisionByZero() {
-        Gpr.debug("Test");
         runAndCheck("test/run_257.bds", "r", "0");
     }
 
     @Test
     public void test258_infiniteRecursionPrint() {
-        Gpr.debug("Test");
         runOk("test/run_258.bds");
     }
 
     @Test
     public void test259_infiniteRecursionFor() {
-        Gpr.debug("Test");
         runOk("test/run_259.bds");
     }
 
     @Test
     public void test260_emptyListIndex() {
-        Gpr.debug("Test");
         runAndCheckError("test/run_260.bds", "Runtime error StatementExpr test/run_260.bds:4,1: Cannot get element '0' from an empty list");
     }
 
     @Test
     public void test261_invalidKey() {
-        Gpr.debug("Test");
         runAndCheckError("test/run_261.bds", "Invalid key 'hi' in map.");
     }
 
     @Test
     public void test262_simpleClassCast() {
-        Gpr.debug("Test");
         runOk("test/run_262.bds");
     }
 
     @Test
     public void test263_invokeMethodOnNullObject() {
         // Invoke a method on a null object
-        Gpr.debug("Test");
         runAndCheckError("test/run_263.bds", "Null pointer: Invoking method 'z' on null object type 'Z', signature z(Z this) -> void");
     }
 
     @Test
     public void test264_typeOfClass() {
         // Invoke a method on a null object
-        Gpr.debug("Test");
         runAndCheck("test/run_264.bds", "objType", "A");
     }
 

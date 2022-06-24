@@ -18,7 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test cases for DataRemote files
+ * Test cases for DataRemote S3 files
  *
  * @author pcingola
  *
@@ -50,7 +50,6 @@ public class TestCasesIntegrationDataRemoteS3 extends TestCasesBaseAws {
 	 */
 	@Test
 	public void test01_parseUrlS3() {
-		Gpr.debug("Test");
 
 		String bucket = awsBucketName();
 		String region = awsRegion();
@@ -73,7 +72,6 @@ public class TestCasesIntegrationDataRemoteS3 extends TestCasesBaseAws {
 	 */
 	@Test
 	public void test01_parseUrlS3VirtualHost() {
-		Gpr.debug("Test");
 
 		String bucket = awsBucketName();
 		String region = awsRegion();
@@ -93,7 +91,6 @@ public class TestCasesIntegrationDataRemoteS3 extends TestCasesBaseAws {
 	 */
 	@Test
 	public void test12_UploadS3() {
-		Gpr.debug("Test");
 		runAndCheck("test/remote_12.bds", "ok", "true");
 	}
 
@@ -102,7 +99,6 @@ public class TestCasesIntegrationDataRemoteS3 extends TestCasesBaseAws {
 	 */
 	@Test
 	public void test13_S3() {
-		Gpr.debug("Test");
 		String bucket = awsBucketName();
 		String expectedOutput = "" //
 				+ "canonical      : test_remote_13_file_does_not_exits_in_S3.txt\n" //
@@ -128,7 +124,6 @@ public class TestCasesIntegrationDataRemoteS3 extends TestCasesBaseAws {
 	 */
 	@Test
 	public void test14_S3() {
-		Gpr.debug("Test");
 		String bucket = awsBucketName();
 
 		// Create S3 file (create local file and upload)
@@ -162,7 +157,6 @@ public class TestCasesIntegrationDataRemoteS3 extends TestCasesBaseAws {
 	 */
 	@Test
 	public void test15_S3() {
-		Gpr.debug("Test");
 		String bucket = awsBucketName();
 		String region = awsRegion();
 
@@ -198,7 +192,6 @@ public class TestCasesIntegrationDataRemoteS3 extends TestCasesBaseAws {
 	 */
 	@Test
 	public void test16_S3() {
-		Gpr.debug("Test");
 		String bucket = awsBucketName();
 
 		String expectedOutput = "" //
@@ -228,7 +221,6 @@ public class TestCasesIntegrationDataRemoteS3 extends TestCasesBaseAws {
 	 */
 	@Test
 	public void test17_S3() {
-		Gpr.debug("Test");
 		String bucket = awsBucketName();
 		String expectedOutput = "" //
 				+ "baseName       : test_remote_17.txt\n" //
@@ -264,7 +256,6 @@ public class TestCasesIntegrationDataRemoteS3 extends TestCasesBaseAws {
 	 */
 	@Test
 	public void test18_S3WriteS3Read() {
-		Gpr.debug("Test");
 		runAndCheck("test/remote_18.bds", "ok", "true");
 	}
 
@@ -273,7 +264,6 @@ public class TestCasesIntegrationDataRemoteS3 extends TestCasesBaseAws {
 	 */
 	@Test
 	public void test31_S3Dir() {
-		Gpr.debug("Test");
 
 		String bucket = awsBucketName();
 
@@ -291,7 +281,6 @@ public class TestCasesIntegrationDataRemoteS3 extends TestCasesBaseAws {
 	 */
 	@Test
 	public void test32_S3DirRegex() {
-		Gpr.debug("Test");
 		String bucket = awsBucketName();
 
 		// Create S3 files
@@ -308,7 +297,6 @@ public class TestCasesIntegrationDataRemoteS3 extends TestCasesBaseAws {
 	 */
 	@Test
 	public void test33_S3DirPathRegex() {
-		Gpr.debug("Test");
 		String bucket = awsBucketName();
 		String region = awsRegion();
 

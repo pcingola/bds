@@ -19,7 +19,6 @@ public class TestCasesIntegrationTaskDetached extends TestCasesBase {
 	 */
 	@Test
 	public void test01_DetachedLocalTask() {
-		Gpr.debug("Test");
 		runAndCheckStdout("test/run_task_detached_01.bds", "Before\nAfter\nDone\n");
 	}
 
@@ -28,7 +27,6 @@ public class TestCasesIntegrationTaskDetached extends TestCasesBase {
 	 */
 	@Test
 	public void test02_DetachedWithDependentTask() {
-		Gpr.debug("Test");
 		String outFile = "tmp.run_task_detached_02.txt";
 
 		String catout = "Task 1: Start\n" + //
@@ -54,8 +52,6 @@ public class TestCasesIntegrationTaskDetached extends TestCasesBase {
 	 */
 	@Test
 	public void test03_TwoDetachedOneDependent() {
-		Gpr.debug("Test");
-		verbose = true;
 		String outFile = "tmp.run_task_detached_03.txt";
 
 		String catout = "Task 1: Start\n" + //
@@ -81,7 +77,6 @@ public class TestCasesIntegrationTaskDetached extends TestCasesBase {
 	 */
 	@Test
 	public void test04_CheckDetachedOutputError() {
-		Gpr.debug("Test");
 		String expectedExceptionMessage = "Detached task output files cannot be used as dependencies";
 		BdsTest bdsTest = runAndCheckExit("test/run_task_detached_04.bds", 1);
 

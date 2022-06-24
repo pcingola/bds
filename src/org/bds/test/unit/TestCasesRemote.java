@@ -43,8 +43,6 @@ public class TestCasesRemote extends TestCasesBase {
 	 */
 	@Test
 	public void test01_parse_URLs_file() {
-		Gpr.debug("Test");
-
 		String currPath;
 		try {
 			currPath = (new File(".")).getCanonicalPath();

@@ -34,8 +34,6 @@ public class TestCasesIntegrationRunAws extends TestCasesBaseAws {
 	 */
 	@Test
 	public void test01_SimpleScript() {
-		Gpr.debug("Test");
-
 		String name = "run_aws_01";
 		verbose = true;
 
@@ -62,8 +60,6 @@ public class TestCasesIntegrationRunAws extends TestCasesBaseAws {
 	 */
 	@Test
 	public void test02_ImproperTask() {
-		Gpr.debug("Test");
-
 		verbose = true;
 
 		// Set the output file
@@ -109,8 +105,6 @@ public class TestCasesIntegrationRunAws extends TestCasesBaseAws {
 	 */
 	@Test
 	public void test03_DependentTasks() {
-		Gpr.debug("Test");
-
 		verbose = true;
 
 		// Set the output file
@@ -201,8 +195,6 @@ public class TestCasesIntegrationRunAws extends TestCasesBaseAws {
 	 */
 	@Test
 	public void test04_DependentTasksDepGoal() {
-		Gpr.debug("Test");
-
 		verbose = true;
 
 		// Set the output file
@@ -295,8 +287,6 @@ public class TestCasesIntegrationRunAws extends TestCasesBaseAws {
 	 */
 	@Test
 	public void test07_DetachedAwsTask() {
-		Gpr.debug("Test");
-
 		// Set the output file
 		String region = awsRegion();
 		String url = bucketUrl("run_aws_07", "out.txt");

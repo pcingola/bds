@@ -17,7 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test cases for local tasks with "remote" files
+ * Test cases for local tasks with remote files
  *
  * @author pcingola
  *
@@ -57,7 +57,6 @@ public class TestCasesIntegrationTaskDataRemote extends TestCasesBase {
 	 */
 	@Test
 	public void test03_TaskUrlIn() {
-		Gpr.debug("Test");
 		runAndCheck("test/remote_03.bds", "first", "<!DOCTYPE html>");
 	}
 
@@ -67,7 +66,6 @@ public class TestCasesIntegrationTaskDataRemote extends TestCasesBase {
 	 */
 	@Test
 	public void test04_TaskUrlInDoubleQuotes() {
-		Gpr.debug("Test");
 		verbose = true;
 		runAndCheck("test/remote_04.bds", "first", "<!DOCTYPE html>");
 	}
@@ -78,7 +76,6 @@ public class TestCasesIntegrationTaskDataRemote extends TestCasesBase {
 	 */
 	@Test
 	public void test05_TaskUrlInSingleQuotes() {
-		Gpr.debug("Test");
 		runAndCheck("test/remote_05.bds", "first", "<!DOCTYPE html>");
 	}
 
@@ -88,7 +85,6 @@ public class TestCasesIntegrationTaskDataRemote extends TestCasesBase {
 	 */
 	@Test
 	public void test06_TaskUrlRemoteListLiteral() {
-		Gpr.debug("Test");
 		runAndCheck("test/remote_06.bds", "first", "<!DOCTYPE html>");
 	}
 
@@ -97,7 +93,6 @@ public class TestCasesIntegrationTaskDataRemote extends TestCasesBase {
 	 */
 	@Test
 	public void test07_TaskUrlRemoteList() {
-		Gpr.debug("Test");
 		runAndCheck("test/remote_07.bds", "first", "<!DOCTYPE html>");
 	}
 
@@ -107,7 +102,6 @@ public class TestCasesIntegrationTaskDataRemote extends TestCasesBase {
 	 */
 	@Test
 	public void test08_TaskUrlRemoteListReplace() {
-		Gpr.debug("Test");
 		runAndCheck("test/remote_08.bds", "first", "<!DOCTYPE html>");
 	}
 
@@ -117,7 +111,6 @@ public class TestCasesIntegrationTaskDataRemote extends TestCasesBase {
 	 */
 	@Test
 	public void test09_TaskUrlRemoteListReplaceLiterals() {
-		Gpr.debug("Test");
 		runAndCheck("test/remote_09.bds", "first", "<!DOCTYPE html>");
 	}
 

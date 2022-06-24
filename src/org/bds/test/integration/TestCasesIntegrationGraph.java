@@ -9,10 +9,10 @@ import org.junit.Test;
 import junit.framework.Assert;
 
 /**
- * Test cases aboug graph construction and 'implicit wait' commands
+ * Test cases on graph construction and 'implicit wait' commands
+ * Running bds code: Task graphs and dependencies (local, long running tests)
  *
  * @author pcingola
- *
  */
 public class TestCasesIntegrationGraph extends TestCasesBase {
 
@@ -21,7 +21,6 @@ public class TestCasesIntegrationGraph extends TestCasesBase {
 	 */
 	@Test
 	public void test01() {
-		Gpr.debug("Test");
 		runAndCheck("test/graph_01.bds", "output", "IN\nTASK 1\nTASK 2\n");
 	}
 
@@ -30,7 +29,6 @@ public class TestCasesIntegrationGraph extends TestCasesBase {
 	 */
 	@Test
 	public void test02() {
-		Gpr.debug("Test");
 		runAndCheck("test/graph_02.bds", "output", "IN\nTASK 1\nTASK 2\nTASK 3\n");
 	}
 
@@ -39,7 +37,6 @@ public class TestCasesIntegrationGraph extends TestCasesBase {
 	 */
 	@Test
 	public void test03() {
-		Gpr.debug("Test");
 		runAndCheckpoint("test/graph_03.bds", "test/graph_03.chp", "out", "Task start\nTask end\n");
 	}
 
@@ -49,7 +46,6 @@ public class TestCasesIntegrationGraph extends TestCasesBase {
 	 */
 	@Test
 	public void test04() {
-		Gpr.debug("Test");
 		runAndCheckpoint("test/graph_04.bds", "test/graph_04.chp", "out", "IN\nTASK 1\nTASK 2\n");
 	}
 
@@ -58,7 +54,6 @@ public class TestCasesIntegrationGraph extends TestCasesBase {
 	 */
 	@Test
 	public void test05() {
-		Gpr.debug("Test");
 		// Remove old entries
 		File txt = new File("test/graph_05.txt");
 		File csv = new File("test/graph_05.csv");
@@ -89,7 +84,6 @@ public class TestCasesIntegrationGraph extends TestCasesBase {
 	 */
 	@Test
 	public void test06() {
-		Gpr.debug("Test");
 		// Remove old entries
 		String prefix = "test/graph_06";
 		File txt = new File(prefix + ".txt");
@@ -121,7 +115,6 @@ public class TestCasesIntegrationGraph extends TestCasesBase {
 	 */
 	@Test
 	public void test08() {
-		Gpr.debug("Test");
 		runAndCheckStdout("test/graph_08.bds", "MID1\nMID2\nOUT");
 	}
 
@@ -130,7 +123,6 @@ public class TestCasesIntegrationGraph extends TestCasesBase {
 	 */
 	@Test
 	public void test09() {
-		Gpr.debug("Test");
 		runAndCheckStderr("test/graph_09.bds", "Circular dependency");
 	}
 
@@ -139,7 +131,6 @@ public class TestCasesIntegrationGraph extends TestCasesBase {
 	 */
 	@Test
 	public void test10() {
-		Gpr.debug("Test");
 		runAndCheck("test/graph_10.bds", "num", "2");
 	}
 
@@ -148,7 +139,6 @@ public class TestCasesIntegrationGraph extends TestCasesBase {
 	 */
 	@Test
 	public void test11_circularDependencyCheck() {
-		Gpr.debug("Test");
 		runAndCheck("test/graph_11.bds", "ok", "true");
 	}
 
@@ -157,7 +147,6 @@ public class TestCasesIntegrationGraph extends TestCasesBase {
 	 */
 	@Test
 	public void test12_circularDependency() {
-		Gpr.debug("Test");
 		runAndCheckStderr("test/graph_12.bds", "Circular dependency");
 	}
 
@@ -166,7 +155,6 @@ public class TestCasesIntegrationGraph extends TestCasesBase {
 	 */
 	@Test
 	public void test13_goal_using_taskId() {
-		Gpr.debug("Test");
 		runAndCheckStdout("test/graph_13.bds", "out1_2.txt\nout2_1.txt");
 	}
 
@@ -175,7 +163,6 @@ public class TestCasesIntegrationGraph extends TestCasesBase {
 	 */
 	@Test
 	public void test14_dep_using_taskId() {
-		Gpr.debug("Test");
 		runAndCheckStdout("test/graph_14.bds", "Hello\nBye");
 	}
 
@@ -184,7 +171,6 @@ public class TestCasesIntegrationGraph extends TestCasesBase {
 	 */
 	@Test
 	public void test15_goal_using_list() {
-		Gpr.debug("Test");
 		String out = runAndReturnStdout("test/graph_15.bds");
 		Assert.assertTrue(out.contains("Hi 0\n"));
 		Assert.assertTrue(out.contains("Hi 1\n"));
@@ -196,7 +182,6 @@ public class TestCasesIntegrationGraph extends TestCasesBase {
 	 */
 	@Test
 	public void test16_dep_no_input() {
-		Gpr.debug("Test");
 		runAndCheckStdout("test/graph_16.bds", "DEP_1\nDEP_2\nDEP_3");
 	}
 
@@ -206,7 +191,6 @@ public class TestCasesIntegrationGraph extends TestCasesBase {
 	 */
 	@Test
 	public void test17_circular_taskid() {
-		Gpr.debug("Test");
 		runAndCheckStderr("test/graph_17.bds", "Circular dependency on task");
 	}
 
@@ -215,7 +199,6 @@ public class TestCasesIntegrationGraph extends TestCasesBase {
 	 */
 	@Test
 	public void test18_out_tasksId() {
-		Gpr.debug("Test");
 		runAndCheckStderr("test/graph_18.bds", "Cannot have task as a dependency output");
 	}
 
@@ -224,7 +207,6 @@ public class TestCasesIntegrationGraph extends TestCasesBase {
 	 */
 	@Test
 	public void test19_dep_task_already_executed() {
-		Gpr.debug("Test");
 		runAndCheckStdout("test/graph_19.bds", "TASK_1\nDEP_2");
 	}
 
@@ -233,7 +215,6 @@ public class TestCasesIntegrationGraph extends TestCasesBase {
 	 */
 	@Test
 	public void test20_dep_goal_taskid() {
-		Gpr.debug("Test");
 		runAndCheckStdout("test/graph_20.bds", "DEP_1\nDEP_2\nDEP_3");
 	}
 
@@ -242,7 +223,6 @@ public class TestCasesIntegrationGraph extends TestCasesBase {
 	 */
 	@Test
 	public void test21_dep_goal_taskid_early() {
-		Gpr.debug("Test");
 		runAndCheckStdout("test/graph_21.bds", "DEP_1\nDEP_2");
 	}
 

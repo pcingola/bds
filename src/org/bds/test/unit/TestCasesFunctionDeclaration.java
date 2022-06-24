@@ -21,8 +21,6 @@ public class TestCasesFunctionDeclaration extends TestCasesBase {
 
 	@Test
 	public void test_function_declaration_01() {
-		Gpr.debug("Test");
-
 		Types.reset();
 
 		String signature = "f(int x) -> int";
@@ -38,8 +36,6 @@ public class TestCasesFunctionDeclaration extends TestCasesBase {
 
 	@Test
 	public void test_function_declaration_02() {
-		Gpr.debug("Test");
-
 		Types.reset();
 
 		String signature = "function_name_is_long(int paramx, real param2,string s3, string slist) -> bool";
@@ -72,8 +68,6 @@ public class TestCasesFunctionDeclaration extends TestCasesBase {
 
 	@Test
 	public void test_function_declaration_03() {
-		Gpr.debug("Test");
-
 		Types.reset();
 		TypeList.get(Types.STRING);
 		TypeMap.get(Types.STRING, Types.STRING);

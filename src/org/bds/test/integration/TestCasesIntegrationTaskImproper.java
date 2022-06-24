@@ -20,7 +20,6 @@ public class TestCasesIntegrationTaskImproper extends TestCasesBase {
 	 */
 	@Test
 	public void test01_SimpleTaskCheckVarianbleInMain() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_task_improper_01.bds", "a", "42");
 	}
 
@@ -29,7 +28,6 @@ public class TestCasesIntegrationTaskImproper extends TestCasesBase {
 	 */
 	@Test
 	public void test02_SimpleTaskCheckOutputs() {
-		Gpr.debug("Test");
 		List<String> expected = new ArrayList<>();
 		expected.add("Task improper: Before, a=42");
 		expected.add("Task improper: Start, a=42");
@@ -43,7 +41,6 @@ public class TestCasesIntegrationTaskImproper extends TestCasesBase {
 	 */
 	@Test
 	public void test03_ForLoopMultipleTasks() {
-		Gpr.debug("Test");
 
 		List<String> expected = new ArrayList<>();
 		expected.add("Task improper: Before, a=42");
@@ -65,7 +62,6 @@ public class TestCasesIntegrationTaskImproper extends TestCasesBase {
 	 */
 	@Test
 	public void test04_SysInImproperTask() {
-		Gpr.debug("Test");
 		String stdout = runAndCheckStdout("test/run_task_improper_04.bds", "Task improper: End, a=42, str='A=42'");
 		Assert.assertTrue("Should finish with a 'Done' message", stdout.endsWith("Done\n"));
 	}
@@ -75,7 +71,6 @@ public class TestCasesIntegrationTaskImproper extends TestCasesBase {
 	 */
 	@Test
 	public void test05_ImproperTaskInFunction() {
-		Gpr.debug("Test");
 		List<String> expected = new ArrayList<>();
 		expected.add("Task improper: Before, a=42");
 		for (int i = 0; i < 3; i++) {
@@ -93,7 +88,6 @@ public class TestCasesIntegrationTaskImproper extends TestCasesBase {
 	 */
 	@Test
 	public void test06_ImproperTaskInPar() {
-		Gpr.debug("Test");
 		List<String> expected = new ArrayList<>();
 		expected.add("Task improper: Before, a=42");
 		for (int i = 0; i < 5; i++) {
@@ -111,7 +105,6 @@ public class TestCasesIntegrationTaskImproper extends TestCasesBase {
 	 */
 	@Test
 	public void test07_SysErrorInImproperTask() {
-		Gpr.debug("Test");
 		runAndCheckExit("test/run_task_improper_07.bds", 1);
 	}
 
@@ -120,8 +113,6 @@ public class TestCasesIntegrationTaskImproper extends TestCasesBase {
 	 */
 	@Test
 	public void test08_DepGoalImproperDependencies() {
-		Gpr.debug("Test");
-
 		String stdout = //
 				"Task improper: Start\n" //
 						+ "DEP_1: Start\n" //
@@ -138,8 +129,6 @@ public class TestCasesIntegrationTaskImproper extends TestCasesBase {
 	 */
 	@Test
 	public void test09_DepGoalImproperDependenciesWithTaskIds() {
-		Gpr.debug("Test");
-
 		String stdout = //
 				"Task improper: Start\n" //
 						+ "DEP_1: Start\n" //

@@ -9,7 +9,8 @@ import org.junit.Test;
 import junit.framework.Assert;
 
 /**
- * Quick test cases when creating a new feature...
+ * Executoner "Cluster Generic".
+ * This test the cluster generic using a simple "mock" cluster scripts
  *
  * @author pcingola
  *
@@ -18,8 +19,6 @@ public class TestCasesIntegrationClusterGeneric extends TestCasesBase {
 
 	@Test
 	public void test01_log_TestCasesClusterGeneric() {
-		Gpr.debug("Test");
-
 		// Create command line
 		String[] args = { "-c", "test/clusterGeneric_localhost_01.config" };
 		BdsTest bdsTest = new BdsTest("test/clusterGeneric_01.bds", args, verbose, debug);

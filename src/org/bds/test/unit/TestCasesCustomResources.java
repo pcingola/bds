@@ -16,7 +16,6 @@ public class TestCasesCustomResources extends TestCasesBase {
 
 	@Test
 	public void test01_onlyOneTask() {
-		Gpr.debug("Test");
 		var expectedOut = "Start task 0\n" +
 				"End task 0\n" +
 				"Start task 1\n" +
@@ -28,7 +27,6 @@ public class TestCasesCustomResources extends TestCasesBase {
 
 	@Test
 	public void test02_allTasksInParallel() {
-		Gpr.debug("Test");
 		var expectedOut = "Start\n" +
 				"Start\n" +
 				"Start\n" +
@@ -40,7 +38,6 @@ public class TestCasesCustomResources extends TestCasesBase {
 
 	@Test
 	public void test03_notEnoughResources() {
-		Gpr.debug("Test");
 		runAndCheckError("test/run_custom_resources_03.bds", "Error in wait statement, file test/run_custom_resources_03.bds, line 13");
 	}
 }
