@@ -50,7 +50,6 @@ public class TestCasesIntegrationDataRemoteS3 extends TestCasesBaseAws {
 	 */
 	@Test
 	public void test01_parseUrlS3() {
-
 		String bucket = awsBucketName();
 		String region = awsRegion();
 
