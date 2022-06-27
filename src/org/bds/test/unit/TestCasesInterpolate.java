@@ -20,7 +20,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test00() {
-		Gpr.debug("Test");
 		String[] strings = { "Hello $i" };
 		String[] vars = { "" };
 
@@ -29,7 +28,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test01() {
-		Gpr.debug("Test");
 		String[] strings = { "Hello " };
 		String[] vars = { "i" };
 
@@ -38,7 +36,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test02() {
-		Gpr.debug("Test");
 		String[] strings = { "Hello ", " " };
 		String[] vars = { "i", "j" };
 
@@ -47,7 +44,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test03() {
-		Gpr.debug("Test");
 		String[] strings = { "Hello ", "" };
 		String[] vars = { "i", "j" };
 
@@ -56,7 +52,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test04() {
-		Gpr.debug("Test");
 		String[] strings = { "l[1] : " };
 		String[] vars = { "l[1]" };
 
@@ -65,7 +60,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test05() {
-		Gpr.debug("Test");
 		String[] strings = { "m{'Helo'} : " };
 		String[] vars = { "m{\"Helo\"}" };
 
@@ -74,7 +68,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test06() {
-		Gpr.debug("Test");
 		String[] strings = { "m{'Helo'} : " };
 		String[] vars = { "m{l[i]}" };
 
@@ -83,7 +76,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test07() {
-		Gpr.debug("Test");
 		String[] strings = { "Hello $" };
 		String[] vars = { "" };
 
@@ -92,7 +84,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test08() {
-		Gpr.debug("Test");
 		String[] strings = { "Hello $\n" };
 		String[] vars = { "" };
 
@@ -101,7 +92,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test09() {
-		Gpr.debug("Test");
 		String[] strings = { "m{'Helo'} : " };
 		String[] vars = { "m{s}" };
 
@@ -110,7 +100,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test10() {
-		Gpr.debug("Test");
 		String[] strings = { "l[1] : '", "'\\n" };
 		String[] vars = { "l[1]", "" };
 
@@ -119,7 +108,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test11() {
-		Gpr.debug("Test");
 		String[] strings = { "List with variable index: '", "'\\n" };
 		String[] vars = { "l[s]", "" };
 
@@ -128,7 +116,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test12() {
-		Gpr.debug("Test");
 		String[] strings = { "List with variable index: {", "}\\n" };
 		String[] vars = { "l[s]", "" };
 
@@ -137,7 +124,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test13() {
-		Gpr.debug("Test");
 		String[] strings = { "List with variable index: [", "]\\n" };
 		String[] vars = { "l[s]", "" };
 
@@ -146,7 +132,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test14() {
-		Gpr.debug("Test");
 		String[] strings = { "Map with list and variable index: ", };
 		String[] vars = { "m{l[s]}", "" };
 
@@ -155,7 +140,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test15() {
-		Gpr.debug("Test");
 		String[] strings = { "Map with list and variable index: {", "}\\n" };
 		String[] vars = { "m{l[s]}", "" };
 
@@ -164,7 +148,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test16() {
-		Gpr.debug("Test");
 		String str = "something ending in backslash \\";
 		String strAfter = GprString.unescapeDollar(str);
 
@@ -178,7 +161,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test17() {
-		Gpr.debug("Test");
 		String str = "ending in dollar $";
 		String strAfter = GprString.unescapeDollar(str);
 
@@ -192,7 +174,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test18() {
-		Gpr.debug("Test");
 		String str = "this dolalr sign '\\$VAR' should be escaped";
 		String strExpected = "this dolalr sign '$VAR' should be escaped";
 
@@ -207,7 +188,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test19() {
-		Gpr.debug("Test");
 		String str = "hello \\t world \\n";
 		String strAfter = GprString.unescapeDollar(str);
 
@@ -221,7 +201,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test20() {
-		Gpr.debug("Test");
 
 		// We want to execute an inline perl script within a task
 		// E.g.:
@@ -240,7 +219,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test21() {
-		Gpr.debug("Test");
 		String[] strings = { "this is string interpolation\\n\\tint i = ", " and str = \"", "\" and both " };
 		String[] vars = { "i", "str", "str", "i" };
 
@@ -249,7 +227,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test22() {
-		Gpr.debug("Test");
 		String[] strings = { "this is string interpolation: int i = ", " and str = \\\"", "\\\" and both " };
 		String[] vars = { "i", "str", "str", "i" };
 
@@ -258,7 +235,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test23() {
-		Gpr.debug("Test");
 		String[] strings = { "Hello " };
 		String[] vars = { "a.x" };
 
@@ -267,7 +243,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test24() {
-		Gpr.debug("Test");
 		String exprStr = "1 + 20 * 2";
 		BdsCompilerExpression be = new BdsCompilerExpression(exprStr);
 		Expression expr = be.compileExpr();
@@ -277,7 +252,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test25() {
-		Gpr.debug("Test");
 		String[] strings = { "Hello " };
 		String[] vars = { "a.x.z[56]" };
 
@@ -286,7 +260,6 @@ public class TestCasesInterpolate extends TestCasesBase {
 
 	@Test
 	public void test26() {
-		Gpr.debug("Test");
 		String[] strings = { "Hello " };
 		String[] vars = { "a.x.z[56]{\"hi\"}" };
 

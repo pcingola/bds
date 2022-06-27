@@ -12,77 +12,77 @@ import java.util.ArrayList;
  */
 public class NativeLibraryString implements BdsLog {
 
-    public static String[] classNames = {"org.bds.lang.nativeMethods.string.MethodNative_string_length" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_toUpper" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_toLower" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_trim" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_substr_start_end" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_substr_start" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_split_regex" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_lines" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_isEmpty" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_startsWith_str" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_endsWith_str" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_indexOf_str" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_lastIndexOf_str" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_replace_str1_str2" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_parseInt" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_parseReal" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_parseBool" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_replace_regex_repl" //
+    public static Class[] classes = {org.bds.lang.nativeMethods.string.MethodNative_string_length.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_toUpper.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_toLower.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_trim.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_substr_start_end.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_substr_start.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_split_regex.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_lines.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_isEmpty.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_startsWith_str.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_endsWith_str.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_indexOf_str.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_lastIndexOf_str.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_replace_str1_str2.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_parseInt.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_parseReal.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_parseBool.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_replace_regex_repl.class //
             // String as files
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_baseName" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_baseName_ext" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_canExec" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_canRead" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_canWrite" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_chdir" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_delete" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_dir" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_dir_regex" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_dirName" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_dirPath" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_dirPath_regex" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_download" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_download_localname" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_exists" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_extName" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_isDir" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_isFile" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_mkdir" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_path" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_pathCanonical" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_pathName" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_read" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_readLines" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_removeExt" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_removeExt_ext" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_rm" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_rmOnExit" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_size" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_swapExt_extNew" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_swapExt_extOld_extNew" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_upload" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_upload_localname" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_write_str" //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_baseName.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_baseName_ext.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_canExec.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_canRead.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_canWrite.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_chdir.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_delete.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_dir.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_dir_regex.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_dirName.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_dirPath.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_dirPath_regex.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_download.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_download_localname.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_exists.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_extName.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_isDir.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_isFile.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_mkdir.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_path.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_pathCanonical.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_pathName.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_read.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_readLines.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_removeExt.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_removeExt_ext.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_rm.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_rmOnExit.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_rmOnExitCancel.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_size.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_swapExt_extNew.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_swapExt_extOld_extNew.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_upload.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_upload_localname.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_write_str.class //
             // String as task
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_exitCode" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_isDone" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_isDoneOk" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_stdout" //
-            , "org.bds.lang.nativeMethods.string.MethodNative_string_stderr" //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_exitCode.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_isDone.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_isDoneOk.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_stdout.class //
+            , org.bds.lang.nativeMethods.string.MethodNative_string_stderr.class //
 
     };
 
     ArrayList<MethodNative> methods;
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({"rawtypes", "unchecke.class"})
     public NativeLibraryString() {
         try {
             methods = new ArrayList<>();
 
-            for (String className : classNames) {
-                Class c = Class.forName(className);
+            for (Class c : classes) {
                 methods.add((MethodNative) c.getDeclaredConstructor().newInstance());
             }
         } catch (Exception e) {

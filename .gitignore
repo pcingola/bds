@@ -17,3 +17,5 @@ target/*
 mvn/target/*
 build/*
 .bds/bds
+node_modules
+**/node_modules

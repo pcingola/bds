@@ -60,8 +60,6 @@ public class TestCasesIntegrationDataRemote extends TestCasesBase {
 	 */
 	@Test
 	public void test01_parseUrlHttp() {
-		Gpr.debug("Test");
-
 		Data d = Data.factory("http://www.google.com/index.html");
 		d.setVerbose(verbose);
 		d.setDebug(debug);
@@ -102,7 +100,6 @@ public class TestCasesIntegrationDataRemote extends TestCasesBase {
 	 */
 	@Test
 	public void test10_DownloadHttpFunction() {
-		Gpr.debug("Test");
 		runAndCheck("test/remote_10.bds", "locFile", "/tmp/bds/http/pcingola/github/io/bds/index.html");
 	}
 
@@ -128,7 +125,6 @@ public class TestCasesIntegrationDataRemote extends TestCasesBase {
 	 */
 	@Test
 	public void test11_DownloadHttpToLocalFile() {
-		Gpr.debug("Test");
 		runAndCheck("test/remote_11.bds", "ok", "true");
 	}
 
@@ -137,7 +133,6 @@ public class TestCasesIntegrationDataRemote extends TestCasesBase {
 	 */
 	@Test
 	public void test19_FtpDownload() {
-		Gpr.debug("Test");
 		String localFilePath = runAndGet("test/remote_19.bds", "fLocal").toString();
 
 		// Check that the file exists (remove tmp file after)
@@ -151,7 +146,6 @@ public class TestCasesIntegrationDataRemote extends TestCasesBase {
 	 */
 	@Test
 	public void test20_FtpExists() {
-		Gpr.debug("Test");
 		runAndCheck("test/remote_20.bds", "fExists", "true");
 	}
 
@@ -160,7 +154,6 @@ public class TestCasesIntegrationDataRemote extends TestCasesBase {
 	 */
 	@Test
 	public void test21_FtpDirBasename() {
-		Gpr.debug("Test");
 		runAndCheck("test/remote_21.bds", "dHasReadme", "true");
 	}
 
@@ -169,7 +162,6 @@ public class TestCasesIntegrationDataRemote extends TestCasesBase {
 	 */
 	@Test
 	public void test22_FtpDirPath() {
-		Gpr.debug("Test");
 		runAndCheck("test/remote_22.bds", "dHasReadme", "true");
 	}
 
@@ -178,7 +170,6 @@ public class TestCasesIntegrationDataRemote extends TestCasesBase {
 	 */
 	@Test
 	public void test23_FtpDownloadWithUserAndPasswd() {
-		Gpr.debug("Test");
 		String localFilePath = runAndGet("test/remote_23.bds", "fLocal").toString();
 
 		// Check that the file exists (remove tmp file after)
@@ -192,7 +183,6 @@ public class TestCasesIntegrationDataRemote extends TestCasesBase {
 	 */
 	@Test
 	public void test24_FtpExistsWithUserAndPasswd() {
-		Gpr.debug("Test");
 		runAndCheck("test/remote_24.bds", "fExists", "true");
 	}
 
@@ -201,7 +191,6 @@ public class TestCasesIntegrationDataRemote extends TestCasesBase {
 	 */
 	@Test
 	public void test25_FtpDirWithUserAndPasswd() {
-		Gpr.debug("Test");
 		runAndCheck("test/remote_25.bds", "dHasReadme", "true");
 	}
 
@@ -210,7 +199,6 @@ public class TestCasesIntegrationDataRemote extends TestCasesBase {
 	 */
 	@Test
 	public void test26_FtpDirPathWithUserAndPasswd() {
-		Gpr.debug("Test");
 		runAndCheck("test/remote_26.bds", "dHasReadme", "true");
 	}
 
@@ -219,7 +207,6 @@ public class TestCasesIntegrationDataRemote extends TestCasesBase {
 	 */
 	@Test
 	public void test27_FtpDirRegex() {
-		Gpr.debug("Test");
 		runAndCheck("test/remote_27.bds", "dd", "[Homo_sapiens.GRCh37.75.dna.toplevel.fa.gz]");
 	}
 
@@ -228,7 +215,6 @@ public class TestCasesIntegrationDataRemote extends TestCasesBase {
 	 */
 	@Test
 	public void test28_FtpDirPathRegex() {
-		Gpr.debug("Test");
 		runAndCheck("test/remote_28.bds", "dd", "[ftp://ftp.ensembl.org/pub/release-75/fasta/homo_sapiens/dna/Homo_sapiens.GRCh37.75.dna.toplevel.fa.gz]");
 	}
 
@@ -237,7 +223,6 @@ public class TestCasesIntegrationDataRemote extends TestCasesBase {
 	 */
 	@Test
 	public void test29_HttpDirPathRegex() {
-		Gpr.debug("Test");
 		runAndCheck("test/remote_29.bds", "dd", "[http://ftp.ensembl.org/pub/release-75/fasta/homo_sapiens/dna/Homo_sapiens.GRCh37.75.dna.toplevel.fa.gz]");
 	}
 
@@ -246,7 +231,6 @@ public class TestCasesIntegrationDataRemote extends TestCasesBase {
 	 */
 	@Test
 	public void test30_HttpDirRegex() {
-		Gpr.debug("Test");
 		runAndCheck("test/remote_30.bds", "dd", "[Homo_sapiens.GRCh37.75.dna.toplevel.fa.gz]");
 	}
 

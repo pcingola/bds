@@ -851,9 +851,9 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
             if (config != null && config.isNoRmOnExit()) {
                 log("\tDeleting stale files: Cancelled ('noRmOnExit' is active).");
             } else {
-                log("Deleting stale files");
+                log("Deleting stale files/dirs");
                 for (Data dfile : removeOnExit) {
-                    log("Deleting file '" + dfile + "'");
+                    log("Deleting file/dir '" + dfile + "'");
                     dfile.delete();
                 }
             }
@@ -880,17 +880,42 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
     /**
      * Remove the file on exit
      */
-    public synchronized void rmOnExit(Data data) {
+    public synchronized boolean rmOnExit(Data data) {
         // Add file for removal
-        removeOnExit.add(data);
+        debug("Delete file on exit (rmOnExit): Adding file/dir '" + data + "'");
+        return removeOnExit.add(data);
     }
 
     /**
      * Remove the file on exit
      */
-    public void rmOnExit(Value vfile) {
+    public boolean rmOnExit(Value vfile) {
         String file = vfile.asString();
-        rmOnExit(data(file));
+        return rmOnExit(data(file));
+    }
+
+    /**
+     * Remove the file on exit
+     */
+    public boolean rmOnExitCancel(Value vfile) {
+        String file = vfile.asString();
+        var vurl = data(file).url();
+
+        // Find matching url
+        Data toDelete = null;
+        for (Data d : removeOnExit) {
+            if (d.url().equals(vurl)) {
+                toDelete = d;
+                break;
+            }
+        }
+
+        // Remove entry
+        if (toDelete != null) {
+            debug("Delete file on exit cancel (rmOnExitCancel): File/Dir '" + toDelete + "' will not be deleted on exit");
+            return removeOnExit.remove(toDelete);
+        }
+        return false;
     }
 
     /**
@@ -899,6 +924,14 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
     public synchronized void rmOnExit(ValueList files) {
         for (Value v : files)
             rmOnExit(v);
+    }
+
+    /**
+     * Cancel a "Remove the files on exit"
+     */
+    public synchronized void rmOnExitCancel(ValueList files) {
+        for (Value v : files)
+            rmOnExitCancel(v);
     }
 
     @Override

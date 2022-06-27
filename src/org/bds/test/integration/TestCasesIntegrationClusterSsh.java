@@ -9,10 +9,10 @@ import org.junit.Test;
 import junit.framework.Assert;
 
 /**
- * Quick test cases when creating a new feature...
+ * Cluster "ssh" is a "cluster" formed by nodes to which we have password-less ssh access.
+ * These are test cases for SSH cluster
  *
  * @author pcingola
- *
  */
 public class TestCasesIntegrationClusterSsh extends TestCasesBase {
 
@@ -21,8 +21,6 @@ public class TestCasesIntegrationClusterSsh extends TestCasesBase {
 	 */
 	@Test
 	public void test01() {
-		Gpr.debug("Test");
-
 		// Create command line
 		String[] args = { "-c", "test/clusterSsh_localhost_01.config" };
 		BdsTest bdsTest = new BdsTest("test/clusterSsh_01.bds", args, verbose, debug);

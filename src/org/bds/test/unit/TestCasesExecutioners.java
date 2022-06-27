@@ -35,8 +35,6 @@ public class TestCasesExecutioners extends TestCasesBase {
 
 	@Test
 	public void test01_parsePidQstatRegex() {
-		Gpr.debug("Test");
-
 		// Create 'CheckTasksRunning'
 		Config config = new Config("test/test_parsePidQstatRegex_qstat.config"); // We set here the 'PID_REGEX_CHECK_TASK_RUNNING' parameter
 		config.setDebug(debug);
@@ -68,8 +66,6 @@ public class TestCasesExecutioners extends TestCasesBase {
 
 	@Test
 	public void test02_parsePidQstatColumn() {
-		Gpr.debug("Test");
-
 		// Create 'CheckTasksRunning'
 		Config config = new Config();
 		config.setDebug(debug);
@@ -101,8 +97,6 @@ public class TestCasesExecutioners extends TestCasesBase {
 
 	@Test
 	public void test03_clusterRunCmdOptionsFromTaskResourcesString() throws IOException {
-		Gpr.debug("Test");
-
 		String baseName = "test03_clusterRunCmdOptionsFromTaskResourcesString";
 		String scriptName = baseName + ".sh";
 		String scriptNameCluster = baseName + ".cluster.sh";
@@ -140,8 +134,6 @@ public class TestCasesExecutioners extends TestCasesBase {
 
 	@Test
 	public void test04_clusterRunCmdOptionsFromTaskResourcesList() throws IOException {
-		Gpr.debug("Test");
-
 		String baseName = "test04_clusterRunCmdOptionsFromTaskResourcesString";
 		String scriptName = baseName + ".sh";
 		String scriptNameCluster = baseName + ".cluster.sh";
@@ -185,8 +177,6 @@ public class TestCasesExecutioners extends TestCasesBase {
 
 	@Test
 	public void test05_clusterRunCmdOptionsFromTaskResourcesMap() throws IOException {
-		Gpr.debug("Test");
-
 		String baseName = "test05_clusterRunCmdOptionsFromTaskResourcesMap";
 		String scriptName = baseName + ".sh";
 		String scriptNameCluster = baseName + ".cluster.sh";
@@ -229,5 +219,4 @@ public class TestCasesExecutioners extends TestCasesBase {
 
 		assertEquals(expected, cmd.toString().trim());
 	}
-
 }

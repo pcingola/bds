@@ -16,7 +16,6 @@ public class TestCasesJson extends TestCasesBase {
 
     @Test
     public void test_01_scopeGlobalVariables() {
-        Gpr.debug("Test");
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("firstName", "John");
         expectedValues.put("lastName", "Smith");
@@ -28,7 +27,6 @@ public class TestCasesJson extends TestCasesBase {
 
     @Test
     public void test_02_scopeFunctionVariables() {
-        Gpr.debug("Test");
         Map<String, Object> expectedValues = new HashMap<>();
 
         // Function's private variables should be set
@@ -48,7 +46,6 @@ public class TestCasesJson extends TestCasesBase {
 
     @Test
     public void test_03_scopeGlobalObject() {
-        Gpr.debug("Test");
         Map<String, Object> expectedValues = new HashMap<>();
 
         // Function's private variables should be set
@@ -62,7 +59,6 @@ public class TestCasesJson extends TestCasesBase {
 
     @Test
     public void test_04_scopeFunctionObject() {
-        Gpr.debug("Test");
         Map<String, Object> expectedValues = new HashMap<>();
 
         // Function's private variables should be set
@@ -74,20 +70,17 @@ public class TestCasesJson extends TestCasesBase {
 
     @Test
     public void test_05_scopeGlobalList() {
-        Gpr.debug("Test");
         runAndCheck("test/json_05.bds", "phoneNumbers", "[{ number: 212 555-1234, type: home }, { number: 646 555-4567, type: fax }]");
     }
 
     @Test
     public void test_06_object() {
-        Gpr.debug("Test");
         var expVal = "{ address: { city: New York, postalCode: 10021, state: NY, streetAddress: 21 2nd Street }, age: 25, firstName: John, isbool: true, lastName: Smith, phone: { number: 212 555-1234, type: home }, phoneNumbers: [{ number: 212 555-1234, type: home }, { number: 646 555-4567, type: fax }] }";
         runAndCheck("test/json_06.bds", "person", expVal);
     }
 
     @Test
     public void test_07_scopeGlobalVariablesMatch() {
-        Gpr.debug("Test");
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("firstName", "John");
         expectedValues.put("lastName", "Smith");
@@ -99,13 +92,11 @@ public class TestCasesJson extends TestCasesBase {
 
     @Test
     public void test_08_fieldNamesMatch() {
-        Gpr.debug("Test");
         runAndCheck("test/json_08.bds", "a", "{ anotherName: Joe, anotherName2: Bill, firstName: John, last_Name: Smith }");
     }
 
     @Test
     public void test09_json_set_side_effects() {
-        Gpr.debug("Test");
         Map<String, Object> expected = Map.of("var2", "default_value", "globalVar", "VALUE_FROM_JSON");
         runAndCheck("test/json_09.bds", expected);
     }

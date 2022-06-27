@@ -25,7 +25,6 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test100() {
-		Gpr.debug("Test");
 
 		HashMap<String, Object> expectedValues = new HashMap<>();
 		expectedValues.put("s", 1);
@@ -36,7 +35,6 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test101() {
-		Gpr.debug("Test");
 		HashMap<String, Object> expectedValues = new HashMap<>();
 		expectedValues.put("a", 1);
 		expectedValues.put("b", 3);
@@ -47,7 +45,6 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test102() {
-		Gpr.debug("Test");
 		HashMap<String, Object> expectedValues = new HashMap<>();
 		expectedValues.put("a", 1);
 		expectedValues.put("b", 3);
@@ -59,7 +56,6 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test103() {
-		Gpr.debug("Test");
 		HashMap<String, Object> expectedValues = new HashMap<>();
 		expectedValues.put("is", "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]");
 		expectedValues.put("is2", "[1, 3, 5, 7, 9]");
@@ -70,7 +66,6 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test106() {
-		Gpr.debug("Test");
 		HashMap<String, Object> expectedValues = new HashMap<>();
 		expectedValues.put("str1", "l[1] : '2'");
 		expectedValues.put("str2", "m{'Hello'} : 'Bye'");
@@ -80,7 +75,6 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test107() {
-		Gpr.debug("Test");
 		HashMap<String, Object> expectedValues = new HashMap<>();
 		expectedValues.put("paramName", "parameter_value");
 		expectedValues.put("file1", "/path/to/file_1.txt");
@@ -94,7 +88,6 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test108() {
-		Gpr.debug("Test");
 		HashMap<String, Object> expectedValues = new HashMap<>();
 		expectedValues.put("paramName", "parameter_value");
 		expectedValues.put("file1", "/path/to/file_1.txt");
@@ -107,28 +100,23 @@ public class TestCasesRun2 extends TestCasesBase {
 	}
 
 	public void test109() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_109.bds", "r1", "4027146782649399912");
 	}
 
 	public void test110() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_110.bds", "runOk", "true");
 	}
 
 	public void test111() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_111.bds", "runOk", "false");
 	}
 
 	public void test112() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_112.bds", "runOk", "false");
 	}
 
 	@Test
 	public void test113_parallel_function_calls() {
-		Gpr.debug("Test");
 		String stdout = runAndReturnStdout("test/run_113.bds");
 
 		Set<String> linesPar = new HashSet<>();
@@ -142,38 +130,32 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test116_lineWrap_backslashId() {
-		Gpr.debug("Test");
 		String stdout = runAndReturnStdout("test/run_116.bds");
 		Assert.assertEquals("hi bye\nThe answer\t\tis: 42", stdout);
 	}
 
 	@Test
 	public void test118_dependency_using_path() {
-		Gpr.debug("Test");
 		runAndCheckExit("test/run_118.bds", 0);
 	}
 
 	@Test
 	public void test120_split_empty_string() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_120.bds", "len", "0");
 	}
 
 	@Test
 	public void test121_split_fail_regex() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_121.bds", "len", "1");
 	}
 
 	@Test
 	public void test122_nestest_break_continue() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_122.bds", "out", "5\t7");
 	}
 
 	@Test
 	public void test123_literals() {
-		Gpr.debug("Test");
 
 		String output = "print_quote        |\\t|\n" //
 				+ "print_quote        |\\t|    variable:$hi\n" //
@@ -188,7 +170,6 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test123_literals_sys() {
-		Gpr.debug("Test");
 
 		String output = "" //
 				// Note: This result may change if we use a different sysShell in bds.config
@@ -202,7 +183,6 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test124_quiet_mode() {
-		Gpr.debug("Test");
 		String output = "print 0\n" //
 				+ "print 1\n" //
 				+ "print 2\n" //
@@ -228,7 +208,6 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test125_automatic_help() {
-		Gpr.debug("Test");
 		String output = "Command line options 'run_125.bds' :\n" //
 				+ "\t-mean <int>                                  : Help for argument 'mean' should be printed here\n" //
 				+ "\t-min <int>                                   : Help for argument 'min' should be printed here\n" //
@@ -244,7 +223,6 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test125b_automatic_help_unsorted() {
-		Gpr.debug("Test");
 		String output = "Command line options 'run_125b.bds' :\n" //
 				+ "\t-useTab <bool>                               : Use tab before printing line\n" //
 				+ "\t-someVeryLongCommandLineArgumentName <bool>  : This command line argument has a really long name\n" //
@@ -263,7 +241,6 @@ public class TestCasesRun2 extends TestCasesBase {
 	 */
 	@Test
 	public void test125c_automatic_help() {
-		Gpr.debug("Test");
 		String output = "Command line options 'run_125c.bds' :\n" //
 				+ "\t-mean <int>                                  : Help for argument 'mean' should be printed here\n" //
 				+ "\t-min <int>                                   : Help for argument 'min' should be printed here\n" //
@@ -282,7 +259,6 @@ public class TestCasesRun2 extends TestCasesBase {
 	 */
 	@Test
 	public void test126_task_dependency_scheduled() {
-		Gpr.debug("Test");
 
 		String expectedOutput = "IN: " + Gpr.HOME + "/zzz/in.txt\n" //
 				+ "OUT: " + Gpr.HOME + "/zzz/out.txt\n" //
@@ -317,7 +293,6 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test127_interpolate_variable_with_underscores() {
-		Gpr.debug("Test");
 
 		String output = "bwa parameters\n" //
 				+ "bwa parameters\n" //
@@ -330,13 +305,11 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test128_task_local_variables() {
-		Gpr.debug("Test");
 		runAndCheckStdout("test/run_128.bds", "TEST\n");
 	}
 
 	@Test
 	public void test129_chdir_sys() {
-		Gpr.debug("Test");
 		String out = runAndReturnStdout("test/run_129.bds");
 		Assert.assertTrue(out.contains("FILE_01\n"));
 		Assert.assertTrue(out.contains("FILE_02\n"));
@@ -344,7 +317,6 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test130_chdir_task() {
-		Gpr.debug("Test");
 		String out = runAndReturnStdout("test/run_130.bds");
 		Assert.assertTrue(out.contains("FILE_01\n"));
 		Assert.assertTrue(out.contains("FILE_02\n"));
@@ -352,7 +324,6 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test131_chdir_fileMethods() {
-		Gpr.debug("Test");
 		String out = ""//
 				+ "chdir_test_file_01.txt\tread:FILE_01\n" //
 				+ "chdir_test_file_01.txt\treadLines:[FILE_01]\n" //
@@ -383,7 +354,6 @@ public class TestCasesRun2 extends TestCasesBase {
 	 */
 	@Test
 	public void test132_taskName() {
-		Gpr.debug("Test");
 		String out = runAndReturnStdout("test/run_132.bds");
 		Assert.assertTrue(out.contains("run_132.mytask"));
 	}
@@ -394,7 +364,6 @@ public class TestCasesRun2 extends TestCasesBase {
 	 */
 	@Test
 	public void test133_taskName_unsafe() {
-		Gpr.debug("Test");
 		String out = runAndReturnStdout("test/run_133.bds");
 		Assert.assertTrue(out.contains("run_133.mytask_unsafe_with_spaces"));
 	}
@@ -404,7 +373,6 @@ public class TestCasesRun2 extends TestCasesBase {
 	 */
 	@Test
 	public void test134_automatic_help_sections() {
-		Gpr.debug("Test");
 		String output = "This program does blah\n" //
 				+ "Actually, a lot of blah blah\n" //
 				+ "    and even more blah\n" //
@@ -422,7 +390,6 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test135() {
-		Gpr.debug("Test");
 		HashMap<String, Object> expectedValues = new HashMap<>();
 		expectedValues.put("l", "[1, 2, 3, 99]");
 		expectedValues.put("lc1", "[1, 2, 3, 99]");
@@ -434,7 +401,6 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test135_clone() {
-		Gpr.debug("Test");
 		HashMap<String, Object> expectedValues = new HashMap<>();
 		expectedValues.put("l", "[1, 2, 3, 99]");
 		expectedValues.put("lc1", "[1, 2, 3]");
@@ -446,7 +412,6 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test136() {
-		Gpr.debug("Test");
 		HashMap<String, Object> expectedValues = new HashMap<>();
 		expectedValues.put("l", "[1, 99, 2, 3]");
 		expectedValues.put("l2", "[3, 2, 99, 1]");
@@ -461,7 +426,6 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test137() {
-		Gpr.debug("Test");
 		HashMap<String, Object> expectedValues = new HashMap<>();
 		expectedValues.put("l", "[1, 2, 3]");
 		expectedValues.put("has2", "true");
@@ -475,7 +439,6 @@ public class TestCasesRun2 extends TestCasesBase {
 	 */
 	@Test
 	public void test138() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_138.bds", "hasErr", "false");
 	}
 
@@ -484,25 +447,21 @@ public class TestCasesRun2 extends TestCasesBase {
 	 */
 	@Test
 	public void test139() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_139.bds", "hasErr", "false");
 	}
 
 	@Test
 	public void test140_list_nonvariable() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_140.bds", "i", "2");
 	}
 
 	@Test
 	public void test141_map_nonvariable() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_141.bds", "i", "42");
 	}
 
 	@Test
 	public void test142_dirPath() {
-		Gpr.debug("Test");
 		ValueList dir2 = (ValueList) runAndGet("test/run_142.bds", "dir2");
 
 		Assert.assertEquals(10, dir2.size());
@@ -517,13 +476,11 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test143_pathAbsolute() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_143.bds", "fileBase", "tmp_run_143_link.txt");
 	}
 
 	@Test
 	public void test144_dollar_sign_in_task() {
-		Gpr.debug("Test");
 
 		// We want to execute an inline perl script within a task
 		// E.g.:
@@ -550,31 +507,26 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test145_switch() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_145.bds", "out", 3);
 	}
 
 	@Test
 	public void test146_switch_fallthrough() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_146.bds", "out", 35);
 	}
 
 	@Test
 	public void test147_switch_default() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_147.bds", "out", 100);
 	}
 
 	@Test
 	public void test148_switch_default_fallthrough() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_148.bds", "out", 700);
 	}
 
 	@Test
 	public void test149_div() {
-		Gpr.debug("Test");
 		HashMap<String, Object> expectedValues = new HashMap<>();
 		expectedValues.put("val0", 50);
 		expectedValues.put("val1", 50.0);
@@ -586,7 +538,6 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test150_mult() {
-		Gpr.debug("Test");
 		HashMap<String, Object> expectedValues = new HashMap<>();
 		expectedValues.put("val0", 200);
 		expectedValues.put("val1", 200.0);
@@ -598,7 +549,6 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test151_plus() {
-		Gpr.debug("Test");
 		HashMap<String, Object> expectedValues = new HashMap<>();
 		expectedValues.put("val0", 102);
 		expectedValues.put("val1", 102.0);
@@ -610,7 +560,6 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test152_minus() {
-		Gpr.debug("Test");
 		HashMap<String, Object> expectedValues = new HashMap<>();
 		expectedValues.put("val0", 98);
 		expectedValues.put("val1", 98.0);
@@ -622,31 +571,26 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test153_caseInt() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_153.bds", "r", "The answer");
 	}
 
 	@Test
 	public void test154_caseReal() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_154.bds", "res", "OK");
 	}
 
 	@Test
 	public void test155_list_sort() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_155.bds", "sl", "[a, a, a+a, a_a, aa, aaa, aaaa, aaaaaa, x, y, z]");
 	}
 
 	@Test
 	public void test156_list_int_sort() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_156.bds", "sl", "[-99, -1, 1, 2, 3, 9, 23, 99, 101]");
 	}
 
 	@Test
 	public void test157_multiline_sys() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_157.bds", "o", "hello world\n");
 	}
 
@@ -657,32 +601,27 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test159_task_prelude() {
-		Gpr.debug("Test");
 		String[] args = { "-c", "test/test159_prelude_task.config" };
 		runAndCheckStdout("test/run_159.bds", "=== TASK PRELUDE local ===", args, false);
 	}
 
 	@Test
 	public void test161() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_161.bds", "out", "a.x = 42");
 	}
 
 	@Test
 	public void test162() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_162.bds", "out", "B: A: Hi");
 	}
 
 	@Test
 	public void test164() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_164.bds", "out", "hi");
 	}
 
 	@Test
 	public void test165() {
-		Gpr.debug("Test");
 		Map<String, Object> expectedValues = new HashMap<>();
 		expectedValues.put("n1", "500");
 		expectedValues.put("n2", "500");
@@ -691,13 +630,11 @@ public class TestCasesRun2 extends TestCasesBase {
 
 	@Test
 	public void test166_switch_case_return() {
-		Gpr.debug("Test");
 		runAndCheck("test/run_166.bds", "res", "1");
 	}
 
 	@Test
 	public void test167_binary_expression_assign_bool() {
-		Gpr.debug("Test");
 		Map<String, Object> expectedValues = new HashMap<>();
 		expectedValues.put("band1", "true");
 		expectedValues.put("band2", "false");

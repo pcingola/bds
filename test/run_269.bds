@@ -1,0 +1,16 @@
+#!/usr/bin/env bds
+
+tmp := "/tmp"
+
+tmpFile := "$tmp/run_269.tmp"
+tmpFile.write("OK")
+tmpFile.rmOnExit()
+println "Created file '$tmpFile'"
+
+txtFile := "$tmp/run_269.txt"
+txtFile.write("OK")
+println "Created file '$txtFile'"
+
+println "Finished OK"
+
+

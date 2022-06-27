@@ -32,7 +32,6 @@ public class TestCasesCommandLineOptions extends TestCasesBase {
 
 	@Test
 	public void test01_log() {
-		Gpr.debug("Test");
 		Config.reset();
 
 		// Create command line

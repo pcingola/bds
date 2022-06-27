@@ -30,12 +30,13 @@ import org.junit.runners.Suite.SuiteClasses;
 		TestCasesIntegrationGraph.class, // Running bds code: Task graphs and dependencies (local, long running tests)
 		TestCasesIntegrationClusterGeneric.class, // Executoner Cluster Generic
 		TestCasesIntegrationClusterSsh.class, // Executioner Ssh
+		TestCasesIntegrationTaskDetached.class, // Detached tasks on local computer
+		TestCasesIntegrationTaskImproper.class, // Improper tasks (local, long running tests)
+		// The following tests require internet connectivity AND an S3 bucket access
 		TestCasesIntegrationDataRemote.class, // Remote files: HTTP, FTP
 		TestCasesIntegrationDataRemoteS3.class, //  Remote files: S3
 		TestCasesIntegrationTaskDataRemote.class, // Tasks with remote dependencies
-		TestCasesIntegrationTaskImproper.class, // Improper tasks (local, long running tests)
 		TestCasesIntegrationCheckpointAws.class, // Running bds code: Checkpoint and recovery from S3
-		TestCasesIntegrationTaskDetached.class, // Detached tasks on cloud
 })
 public class TestSuiteIntegration {
 
