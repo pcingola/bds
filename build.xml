@@ -16,6 +16,11 @@
 		<copy file="src/org/bds/SummaryTemplate.yaml" tofile="bin/org/bds/SummaryTemplate.yaml"/>
 		<copy file="./src/org/bds/DagTaskTemplate.js" tofile="bin/org/bds/DagTaskTemplate.js"/>
 		<jar destfile="build/bds.jar" filesetmanifest="mergewithoutmain">
+			<manifest>
+				<attribute name="Main-Class" value="org.bds.Bds"/>
+				<attribute name="Class-Path" value="."/>
+			</manifest>
+			<fileset dir="./bin"/>
 			<zipfileset excludes="META-INF/*.SF" src="target/dependency/animal-sniffer-annotations-1.17.jar"/>
 			<zipfileset excludes="META-INF/*.SF" src="target/dependency/annotations-2.15.11.jar"/>
 			<zipfileset excludes="META-INF/*.SF" src="target/dependency/antlr-runtime-3.5.2.jar"/>
