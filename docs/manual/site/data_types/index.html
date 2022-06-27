@@ -472,9 +472,14 @@ if( f.canRead() ) {
 <td>Delete a file</td>
 </tr>
 <tr>
-<td>bool</td>
-<td>string.rmExit()</td>
-<td>Remove a file when execution finishes (thread execution).</td>
+<td>string</td>
+<td>rmOnExit()</td>
+<td>Delete file when current thread finishes execution (assumes string is a file path)</td>
+</tr>
+<tr>
+<td>string</td>
+<td>rmOnExitCancel()</td>
+<td>Cancel previous 'rmOnExit' for file</td>
 </tr>
 <tr>
 <td>int</td>
@@ -589,9 +594,9 @@ int[] primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>+=</td>
 <td>Append element(s) at the end of the list</td>
+<td></td>
 </tr>
 <tr>
 <td>Element added</td>
@@ -677,6 +682,11 @@ int[] primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
 <td>Same list</td>
 <td>rmOnExit()</td>
 <td>Delete all files when current thread finishes execution (assumes list elements are file names)</td>
+</tr>
+<tr>
+<td>Same list</td>
+<td>rmOnExitCancel()</td>
+<td>Cancel previous 'rmOnExit' for all files</td>
 </tr>
 <tr>
 <td>int</td>
