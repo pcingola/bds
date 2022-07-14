@@ -863,16 +863,18 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
     void reportAfterRun() {
         // Create reports? Only root thread creates reports
         if (config != null && isRoot()) {
+            var timeVsSizeReport = true;
             // Create HTML report?
             if (config.isReportHtml() || config.isLog()) {
-                Report report = new Report(this, false);
-                report.createReport();
+                Report report = new Report(this, false, timeVsSizeReport);
+                timeVsSizeReport = false;
+                report.createReports();
             }
 
             // Create YAML report?
             if (config.isReportYaml() || config.isLog()) {
-                Report report = new Report(this, true);
-                report.createReport();
+                Report report = new Report(this, true, timeVsSizeReport);
+                report.createReports();
             }
         }
     }

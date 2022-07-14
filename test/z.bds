@@ -1,14 +1,18 @@
 #!/usr/bin/env bds
 
-in := "input.txt"	help Input file name
-out	:= "out.txt"	help Output file name
 
 # Trivial example task
-task(out <- in, cpus := 1) {
-	sys echo "processing file '$in"
-	sys cat $in \
-		| grep "DATA" \
-		> $out
-		
+for(int i=0 ; i < 10 ; i++ ) {
+    in := "/tmp/in.$i\.txt"
+    out	:= "/tmp/out1.$i\.txt"
+    out2 := "/tmp/out2.$i\.txt"
+
+    in.write('0123456789')
+
+    task([out, out2] <- in, taskName := "MyTask_$i", cpus := 2) {
+        sys echo "processing file '$in'"
+        sys date > $out
+        sys date > $out2
+    }
 }
 

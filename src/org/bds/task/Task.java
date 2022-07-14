@@ -426,6 +426,10 @@ public class Task implements Serializable, BdsLog {
 		return stdoutFile;
 	}
 
+	public TaskDependency getTaskDependency() {
+		return taskDependency;
+	}
+
 	public String getTaskName() {
 		return taskName;
 	}
