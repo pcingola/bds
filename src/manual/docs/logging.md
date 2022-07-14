@@ -101,7 +101,7 @@ echo hi
 
 ### Disappearing tasks
 Sometimes tasks just disappear from clusters.
-This is far more common than most people think, particularly if there is some issues with the cluster (nodes malfuntioning, nodes being purged, cluster management software issues, etc.)
+This is far more common than most people think, particularly if there is some issues with the cluster (nodes malfunctioning, nodes being purged, cluster management software issues, etc.)
 
 Sometimes clusters fail in ways that the cluster management system is unable to detect, let alone report the error.
 It can happen that tasks disappear without any trace from the cluster (this is not as rare as you may think, particularly when executing thousands of tasks per pipeline).
@@ -109,46 +109,13 @@ For this reason, `bds` performs active monitoring, to ensure that tasks are stil
 If any task "mysteriously disappears", `bds` reports the problem and considers the task as failed.
 
 `bds` will monitor the cluster's queue every one minute to check if all the tasks that were submitted to the cluster are still in the queue.
-If a task is not found in the clueter's queue for 3 times in a row, it will be marked as 'dissapeared' (i.e. failed).
+If a task is not found in the cluster's queue for 3 times in a row, it will be marked as 'disappeared' (i.e. failed).
 
-`bds` logs information about any dissapearing tasks.
+`bds` logs information about any disappearing tasks.
 
 ### Postmortem information
 When a task fails in a cluster, `bds` will collect post mortem information.
 This is detailed information about the task that failed.
 This information is usually necesary to debug cluster issues and clusters administrators often require it when solving problems.
 Many cluster systems only allow for collecting this information only after some period of time after the task dies, that's why `bds` collects this data and saves it immediately after the task fails.
-
-
-### Html report
-`bds`, when run using the `-log` command line option, produces an HTML report every one minute (if there are tasks executing) or at the end of the script (if any task was executed).
-The report is roughly divided in these sections: Program, Timeline, Parallel, Tasks
-
-####Html report: Program 
-Program name, command line arguments, system type, execution start time and elapsed time, etc.
-
-![bds report main section](img/bds_report_main.png)
-
-####Html report: Timeline
-Shows the timeline for all tasks (keep in mind that the colors have no meaning).
-
-![bds report timeline section](img/bds_report_timeline.png)
-
-####Html report: Tasks
-Several details about each executed task: 
-
-- First column: task number (sequential), task name, task ID, PID, etc.
-- Second column: exit code, task state, state of dependencies, number of retries, required CPUs and memory.
-- Third column: Start / end time, elapsed time and timouts.
-- Fourth column: Dependencies input files, output files and task IDs of dependecies.
-- Fifth column: Program shell file, STDOUT (tail 10 lines), STDERR (tail 10 lines), output file checking, post-mortem information.
-
-![bds report tasks section](img/bds_report_task_details.png)
-
-*Note:* The second column is colored in red when the task had execution 'ERROR' state.
-
-####Html report: Parallel
-Detail about execution threads. Only usefull if your program has `par` statements, in this example there are no `par` statements, so the section only contains one item (main thread) whihc executed all the tasks.
-
-![bds report parallel section](img/bds_report_par.png)
 

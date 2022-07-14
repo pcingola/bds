@@ -31,6 +31,7 @@ nav:
     - 'Command line parsing': cmdline.md
     - 'Command line help': help.md
     - 'Logging': logging.md
+    - 'Reports': reports.md
     - 'Cleanup': cleanup.md
     - 'bds command line': bdscmdline.md
     - 'Config file': bdsconfig.md

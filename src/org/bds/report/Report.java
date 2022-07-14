@@ -465,8 +465,8 @@ public class Report implements BdsLog {
         var mem = taskRes.getMem();
         var customResources = taskRes.getCustomResourcesNames().stream() //
                 .sorted() //
-                .map(n -> n + ":" + taskRes.getCustomResource(n)) //
-                .collect(Collectors.joining(" ")) //
+                .map(n -> n + "=" + taskRes.getCustomResource(n)) //
+                .collect(Collectors.joining(";")) //
                 ;
 
         // File size
