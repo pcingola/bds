@@ -438,6 +438,7 @@ public class Report implements BdsLog {
                 + "cpus," //
                 + "mem," //
                 + "custom_resources," //
+                + "time_in_seconds," //
                 + "total_input_file_size," //
                 + "total_output_file_size," //
                 + "input_file_size_details," //
@@ -494,6 +495,7 @@ public class Report implements BdsLog {
                 + cpus + "," //
                 + mem + "," //
                 + "\"" + customResources + "\"," //
+                + task.elapsedSecs() + "," //
                 + inputSizesTotal + "," //
                 + outputSizesTotal + "," //
                 + inputSizesDetails + "," //
