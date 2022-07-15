@@ -447,7 +447,6 @@ public class Report implements BdsLog {
 
         // Create CSV lines (one per task)
         for (Task t : tasks()) {
-            System.out.println("LINE: " + createTaskTimeVsFileSizeLine(t));
             csv.append(createTaskTimeVsFileSizeLine(t) + "\n");
         }
         Gpr.toFile(csvFileName, csv);
