@@ -128,7 +128,7 @@ Variable       | Default value  | Resource / Task options
 `canFail`      | false          | If true, a task is allowed to fail. This means that a failed task execution does not result in program termination and checkpointing.   
 `cpus`         | 1              | Number of CPU (cores) used by the process.   
 `detached`     | false          | If true, the task will be detached, i.e. independent from the bds script originating it   
-'mem'          | 0              | Maximum amount of memory in bytes used by the process (0 means no restrictions or use cluster default)
+`mem`          | 0              | Maximum amount of memory in bytes used by the process (0 means no restrictions or use cluster default)
 `node`         |                | If possible this task should be executed on a particular cluster node. This option is only used for cluster systems and ignored on any other systems.   
 `queue`        |                | Queue name of preferred execution queue (only for cluster systems).   
 `retry`        | 0              | Number of times a task can be re-executed until it's considered failed.   
