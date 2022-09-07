@@ -48,7 +48,7 @@ public class ExpressionSys extends Expression {
 	 * Sys expression always returns the task id, which is a string
 	 */
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		returnType = Types.STRING;
 		return returnType;
 	}

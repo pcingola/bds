@@ -32,10 +32,10 @@ public class ExpressionUnaryPlusMinus extends ExpressionUnary {
     }
 
     @Override
-    public Type returnType(SymbolTable symtab) {
+    public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
         if (returnType != null) return returnType;
 
-        expr.returnType(symtab);
+        expr.returnType(symtab, compilerMessages);
 
         if (expr.canCastToInt()) returnType = Types.INT;
         else if (expr.canCastToReal()) returnType = Types.REAL;

@@ -131,7 +131,7 @@ public class Case extends StatementWithScope {
 	@Override
 	public void typeCheckNotNull(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (expression != null) {
-			Type caseExprType = expression.returnType(symtab);
+			Type caseExprType = expression.returnType(symtab, compilerMessages);
 
 			Expression switchExpr = ((Switch) parent).getSwitchExpr();
 			if (switchExpr == null) {

@@ -34,11 +34,11 @@ public class ExpressionCast extends ExpressionUnary {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
 		returnType = Types.get(castTo);
-		expr.returnType(symtab);
+		expr.returnType(symtab, compilerMessages);
 		return returnType;
 	}
 
@@ -55,7 +55,7 @@ public class ExpressionCast extends ExpressionUnary {
 	@Override
 	public void typeCheck(SymbolTable symtab, CompilerMessages compilerMessages) {
 		// Calculate return type
-		returnType = returnType(symtab);
+		returnType = returnType(symtab, compilerMessages);
 
 		// Are return types non-null?
 		// Note: null returnTypes happen if variables are missing.

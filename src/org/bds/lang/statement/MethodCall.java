@@ -56,13 +56,13 @@ public class MethodCall extends FunctionCall {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
 		// Calculate return types for expr and args
 		// Note that expresionThis is null in ExpressionNew (which is a MethodCall)
-		Type exprType = (expresionThis != null ? expresionThis.returnType(symtab) : null);
-		args.returnType(symtab);
+		Type exprType = (expresionThis != null ? expresionThis.returnType(symtab, compilerMessages) : null);
+		args.returnType(symtab, compilerMessages);
 
 		// Find method
 		functionDeclaration = findMethod(symtab, exprType, args);

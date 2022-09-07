@@ -31,11 +31,11 @@ public class Print extends Statement {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
 		// Calculate expression's return type
-		if (expr != null) expr.returnType(symtab);
+		if (expr != null) expr.returnType(symtab, compilerMessages);
 
 		returnType = Types.STRING;
 		return returnType;
@@ -57,7 +57,7 @@ public class Print extends Statement {
 
 	@Override
 	public void typeCheck(SymbolTable symtab, CompilerMessages compilerMessages) {
-		returnType(symtab);
+		returnType(symtab, compilerMessages);
 
 		if (expr != null && !expr.canCastToString()) {
 			compilerMessages.add(this, "Cannot cast " + expr.getReturnType() + " to " + returnType, MessageType.ERROR);

@@ -70,13 +70,13 @@ public class Args extends BdsNode {
 	 * Calculate return type for every expression
 	 */
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
 		if (arguments != null) {
 			for (Expression e : arguments)
 				if (e.getReturnType() == null) // Only assign this to show that calculation was already performed
-					returnType = e.returnType(symtab);
+					returnType = e.returnType(symtab, compilerMessages);
 
 		} else returnType = Types.VOID;
 

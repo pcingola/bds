@@ -88,7 +88,7 @@ public class ReferenceVar extends Reference {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 		returnType = findType(symtab);
 		return returnType;
@@ -115,7 +115,7 @@ public class ReferenceVar extends Reference {
 	@Override
 	public void typeCheck(SymbolTable symtab, CompilerMessages compilerMessages) {
 		// Calculate return type
-		returnType(symtab);
+		returnType(symtab, compilerMessages);
 
 		if (returnType == null) {
 			compilerMessages.add(this, "Symbol '" + name + "' cannot be resolved", MessageType.ERROR);

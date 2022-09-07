@@ -1,6 +1,7 @@
 package org.bds.lang.expression;
 
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.bds.compile.CompilerMessages;
 import org.bds.lang.BdsNode;
 import org.bds.lang.type.Type;
 import org.bds.symbol.SymbolTable;
@@ -34,7 +35,7 @@ public class ExpressionAssignmentBitOr extends ExpressionAssignmentBinary {
 	}
 
 	@Override
-	protected void replaceSubExpression(SymbolTable symtab) {
-		if (left.isBool()) replaceSubExpressionBool(symtab);
+	protected void replaceSubExpression(SymbolTable symtab, CompilerMessages compilerMessages) {
+		if (left.isBool()) replaceSubExpressionBool(symtab, compilerMessages);
 	}
 }

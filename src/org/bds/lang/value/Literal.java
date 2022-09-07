@@ -37,7 +37,7 @@ public abstract class Literal extends Expression {
 	protected abstract Value parseValue(ParseTree tree);
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 		returnType = value.getType();
 		return returnType;

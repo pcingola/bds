@@ -173,7 +173,7 @@ public class VariableInit extends BdsNode {
 
         // Calculate expression type
         if (expression != null) {
-            Type exprRetType = expression.returnType(symtab);
+            Type exprRetType = expression.returnType(symtab, compilerMessages);
 
             // Compare types
             if ((varType == null) || (exprRetType == null)) {

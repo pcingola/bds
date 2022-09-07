@@ -9,6 +9,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.bds.compile.BdsNodeWalker;
+import org.bds.compile.CompilerMessages;
 import org.bds.lang.statement.BlockWithFile;
 import org.bds.lang.statement.ClassDeclaration;
 import org.bds.lang.statement.FunctionDeclaration;
@@ -106,7 +107,7 @@ public class ProgramUnit extends BlockWithFile {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		return Types.INT;
 	}
 

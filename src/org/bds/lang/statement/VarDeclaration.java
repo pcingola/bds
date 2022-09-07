@@ -135,7 +135,7 @@ public class VarDeclaration extends Statement {
 				compilerMessages.add(this, "Duplicate local name '" + varName + "'" + other, MessageType.ERROR);
 			} else {
 				// Calculate implicit data type
-				if (implicit && type == null) type = vi.getExpression().returnType(symtab);
+				if (implicit && type == null) type = vi.getExpression().returnType(symtab, compilerMessages);
 
 				// Sanity check: Don't declare void variables
 				if (type != null && type.isVoid()) {

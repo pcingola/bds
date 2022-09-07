@@ -24,7 +24,7 @@ public class ExpressionGoal extends ExpressionUnary {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 		returnType = TypeList.get(Types.STRING);
 		return returnType;

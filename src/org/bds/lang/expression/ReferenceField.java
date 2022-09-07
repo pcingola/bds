@@ -40,10 +40,10 @@ public class ReferenceField extends ReferenceVar {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
-		Type classType = exprObj.returnType(symtab);
+		Type classType = exprObj.returnType(symtab, compilerMessages);
 		if (classType == null) return null;
 		if (classType.isClass()) {
 			returnType = ((TypeClass) classType).resolve(name);
@@ -73,7 +73,7 @@ public class ReferenceField extends ReferenceVar {
 	@Override
 	public void typeCheck(SymbolTable symtab, CompilerMessages compilerMessages) {
 		// Calculate return type
-		returnType(symtab);
+		returnType(symtab, compilerMessages);
 
 		if ((exprObj.getReturnType() != null) && !exprObj.getReturnType().isClass()) {
 			compilerMessages.add(this, "Expression '" + exprObj + "' is not an object", MessageType.ERROR);

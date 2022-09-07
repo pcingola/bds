@@ -207,7 +207,7 @@ public class ClassDeclaration extends Block {
     }
 
     @Override
-    public Type returnType(SymbolTable symtab) {
+    public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
         if (returnType != null) return returnType;
 
         if (classNameParent != null) {
@@ -216,14 +216,14 @@ public class ClassDeclaration extends Block {
         }
 
         for (VarDeclaration vd : fieldDecl)
-            vd.returnType(symtab);
+            vd.returnType(symtab, compilerMessages);
 
         for (FunctionDeclaration fd : methodDecl)
-            fd.returnType(symtab);
+            fd.returnType(symtab, compilerMessages);
 
         if (statements != null) {
             for (Statement s : statements)
-                s.returnType(symtab);
+                s.returnType(symtab, compilerMessages);
         }
 
         returnType = getType();

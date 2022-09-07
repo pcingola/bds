@@ -59,14 +59,14 @@ public class ExpressionAssignmentList extends ExpressionAssignment {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
 		for (Expression l : lefts)
-			l.returnType(symtab);
-		right.returnType(symtab);
+			l.returnType(symtab, compilerMessages);
+		right.returnType(symtab, compilerMessages);
 
-		returnType = lefts[0].returnType(symtab); // Get return type for first expression
+		returnType = lefts[0].returnType(symtab, compilerMessages); // Get return type for first expression
 		return returnType;
 	}
 

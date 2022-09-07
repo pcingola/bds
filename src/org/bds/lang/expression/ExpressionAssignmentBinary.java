@@ -1,6 +1,7 @@
 package org.bds.lang.expression;
 
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.bds.compile.CompilerMessages;
 import org.bds.lang.BdsNode;
 import org.bds.lang.type.Type;
 import org.bds.symbol.SymbolTable;
@@ -52,7 +53,7 @@ public abstract class ExpressionAssignmentBinary extends ExpressionAssignment {
 	 * In some cases we need to replace the sub-expression after we know the left-hand side type
 	 * E.g.: '&=' uses BitAnd for int and LogicAnd for bool
 	 */
-	protected void replaceSubExpression(SymbolTable symtab) {
+	protected void replaceSubExpression(SymbolTable symtab, CompilerMessages compilerMessages) {
 		// Nothing to do
 	}
 
@@ -60,7 +61,7 @@ public abstract class ExpressionAssignmentBinary extends ExpressionAssignment {
 	 * Replace the sub-expression after we know the left-hand side type is 'bool'
 	 * E.g.: '&=' uses BitAnd for int and LogicAnd for bool
 	 */
-	protected void replaceSubExpressionBool(SymbolTable symtab) {
+	protected void replaceSubExpressionBool(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (!left.isBool()) return;
 
 		// Get original left and right expressions
@@ -71,17 +72,17 @@ public abstract class ExpressionAssignmentBinary extends ExpressionAssignment {
 		ExpressionBinary reb = createSubExpressionBool(left.getReturnType());
 		reb.setLeft(l);
 		reb.setRight(r);
-		reb.returnType(symtab);
+		reb.returnType(symtab, compilerMessages);
 		right = reb;
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
-		super.returnType(symtab);
+		super.returnType(symtab, compilerMessages);
 		returnType = left.getReturnType();
-		replaceSubExpression(symtab);
+		replaceSubExpression(symtab, compilerMessages);
 
 		return returnType;
 	}

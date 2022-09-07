@@ -51,7 +51,7 @@ public class LiteralMap extends Literal {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
 		// Calculate elementType
@@ -59,7 +59,7 @@ public class LiteralMap extends Literal {
 		Type keyType = null;
 		for (BdsNode node : values) {
 			Expression expr = (Expression) node;
-			Type typeExpr = expr.returnType(symtab);
+			Type typeExpr = expr.returnType(symtab, compilerMessages);
 
 			if (typeExpr != null) {
 				if (valueType == null) {
@@ -135,7 +135,7 @@ public class LiteralMap extends Literal {
 		Type valueType = ((TypeMap) returnType).getValueType();
 		for (BdsNode node : values) {
 			Expression expr = (Expression) node;
-			Type typeExpr = expr.returnType(symtab);
+			Type typeExpr = expr.returnType(symtab, compilerMessages);
 
 			// Can we cast ?
 			if ((typeExpr != null) && !typeExpr.canCastTo(valueType)) {
@@ -147,7 +147,7 @@ public class LiteralMap extends Literal {
 		Type keyType = ((TypeMap) returnType).getKeyType();
 		for (BdsNode node : keys) {
 			Expression expr = (Expression) node;
-			Type typeExpr = expr.returnType(symtab);
+			Type typeExpr = expr.returnType(symtab, compilerMessages);
 
 			// Can we cast ?
 			if ((typeExpr != null) && !typeExpr.canCastTo(keyType)) {
