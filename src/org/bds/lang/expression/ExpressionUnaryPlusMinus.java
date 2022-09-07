@@ -39,7 +39,7 @@ public class ExpressionUnaryPlusMinus extends ExpressionUnary {
 
         if (expr.canCastToInt()) returnType = Types.INT;
         else if (expr.canCastToReal()) returnType = Types.REAL;
-        else compileError("Unary expression '" + op + "' unknown return type.");
+        else compilerMessages.add(this, "Unary expression '" + op + "' unknown return type.", MessageType.ERROR);
 
         return returnType;
     }
