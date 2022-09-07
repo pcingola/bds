@@ -54,9 +54,7 @@ public class LiteralMap extends Literal {
 	public Type returnType(SymbolTable symtab) {
 		if (returnType != null) return returnType;
 
-		//---
 		// Calculate elementType
-		//---
 		Type valueType = null;
 		Type keyType = null;
 		for (BdsNode node : values) {

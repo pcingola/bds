@@ -443,7 +443,8 @@ public class TestCasesLang extends TestCasesBase {
 		//		at org.bds.run.BdsRun.run(BdsRun.java:440)
 		//		at org.bds.Bds.run(Bds.java:405)
 		//		at org.bds.Bds.main(Bds.java:56)
-        compileOk("test/test73.bds");
+        verbose = true;
+        compileErrors("test/test73.bds", "Unary expression '-' unknown return type");
     }
 
     @Test

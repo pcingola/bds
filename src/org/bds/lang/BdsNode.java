@@ -1,12 +1,5 @@
 package org.bds.lang;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Set;
-
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -15,15 +8,17 @@ import org.bds.compile.BdsNodeWalker;
 import org.bds.compile.CompilerMessage.MessageType;
 import org.bds.compile.CompilerMessages;
 import org.bds.compile.TypeCheckedNodes;
-import org.bds.lang.type.PrimitiveType;
-import org.bds.lang.type.Type;
-import org.bds.lang.type.TypeList;
-import org.bds.lang.type.TypeMap;
-import org.bds.lang.type.Types;
+import org.bds.lang.type.*;
 import org.bds.run.BdsThread;
 import org.bds.symbol.SymbolTable;
 import org.bds.util.Gpr;
-import org.bds.util.Timer;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Base AST node (Abstract Syntax Tree) for bds language elements
@@ -219,8 +214,16 @@ public abstract class BdsNode implements Serializable, BdsLog {
         return lineNum;
     }
 
+    public void setLineNum(int lineNum) {
+        this.lineNum = lineNum;
+    }
+
     public BdsNode getParent() {
         return parent;
+    }
+
+    public void setParent(BdsNode parent) {
+        this.parent = parent;
     }
 
     /**
@@ -245,6 +248,10 @@ public abstract class BdsNode implements Serializable, BdsLog {
 
     public SymbolTable getSymbolTable() {
         return null;
+    }
+
+    public void setSymbolTable(SymbolTable symtab) {
+        compileError("Cannot set symbol table to node");
     }
 
     /**
@@ -319,6 +326,10 @@ public abstract class BdsNode implements Serializable, BdsLog {
      */
     public boolean isNeedsScope() {
         return false;
+    }
+
+    public void setNeedsScope(boolean needsScope) {
+        compileError("Cannot set 'needsScope'");
     }
 
     public boolean isNull() {
@@ -413,10 +424,14 @@ public abstract class BdsNode implements Serializable, BdsLog {
         }
     }
 
+//    public Type returnType(SymbolTable symtab) {
+//        return returnType(symtab, null);
+//    }
+
     /**
      * Calculate return type and assign it to 'returnType' variable.
      */
-    public Type returnType(SymbolTable symtab) {
+    public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
         if (returnType != null) return returnType;
         returnType = Types.VOID;
         return returnType;
@@ -427,22 +442,6 @@ public abstract class BdsNode implements Serializable, BdsLog {
      */
     public void sanityCheck(CompilerMessages compilerMessages) {
         // Default : Do nothing
-    }
-
-    public void setLineNum(int lineNum) {
-        this.lineNum = lineNum;
-    }
-
-    public void setNeedsScope(boolean needsScope) {
-        compileError("Cannot set 'needsScope'");
-    }
-
-    public void setParent(BdsNode parent) {
-        this.parent = parent;
-    }
-
-    public void setSymbolTable(SymbolTable symtab) {
-        compileError("Cannot set symbol table to node");
     }
 
     public String toAsm() {
@@ -547,7 +546,7 @@ public abstract class BdsNode implements Serializable, BdsLog {
      */
     public void typeCheck(SymbolTable symtab, CompilerMessages compilerMessages) {
         // Calculate return type
-        returnType = returnType(symtab);
+        returnType = returnType(symtab, compilerMessages);
 
         // Are return types non-null?
         // Note: null returnTypes happen if variables are missing.
