@@ -1,0 +1,5 @@
+#!/usr/bin/env bds
+
+l := ['a', 'b']
+l +- ['c']	# Note the typo, it says '+-' instead of '+='
+println "l = $l"

@@ -465,4 +465,10 @@ public class TestCasesLang extends TestCasesBase {
         compileErrors("test/test74.bds", "Unary expression '-' unknown return type");
     }
 
+    @Test
+    public void test75_plus_minus_typo_string() {
+        // Using '+-' instead of '+=' creates a null pointer error instead of compilation error
+        compileErrors("test/test75.bds", "Unary expression '-' unknown return type");
+    }
+
 }
