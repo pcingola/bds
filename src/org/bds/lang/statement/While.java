@@ -69,7 +69,7 @@ public class While extends Statement {
 
 	@Override
 	public void typeCheck(SymbolTable symtab, CompilerMessages compilerMessages) {
-		if (condition != null) condition.returnType(symtab);
+		if (condition != null) condition.returnType(symtab, compilerMessages);
 		if ((condition != null) && !condition.isBool()) compilerMessages.add(this, "While loop condition must be a bool expression", MessageType.ERROR);
 	}
 

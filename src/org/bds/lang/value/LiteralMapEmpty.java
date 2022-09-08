@@ -1,6 +1,7 @@
 package org.bds.lang.value;
 
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.bds.compile.CompilerMessages;
 import org.bds.lang.BdsNode;
 import org.bds.lang.expression.Expression;
 import org.bds.lang.expression.ExpressionAssignment;
@@ -30,7 +31,7 @@ public class LiteralMapEmpty extends LiteralMap {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 		returnType = TypeMap.get(Types.ANY, Types.ANY);
 		return returnType;

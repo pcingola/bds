@@ -47,8 +47,8 @@ public class ExpressionDelegateBinary extends ExpressionBinary {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
-		returnType = expr.returnType(symtab);
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
+		returnType = expr.returnType(symtab, compilerMessages);
 		return returnType;
 	}
 

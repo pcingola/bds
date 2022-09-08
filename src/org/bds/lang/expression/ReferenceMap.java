@@ -93,12 +93,12 @@ public class ReferenceMap extends Reference {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
-		expressionKey.returnType(symtab);
+		expressionKey.returnType(symtab, compilerMessages);
 
 		// Retrieve map from scope
-		Type mapType = exprMap.returnType(symtab);
+		Type mapType = exprMap.returnType(symtab, compilerMessages);
 		if (mapType != null && mapType.isMap()) {
 			returnType = ((TypeMap) mapType).getValueType();
 		}
@@ -128,7 +128,7 @@ public class ReferenceMap extends Reference {
 	@Override
 	public void typeCheck(SymbolTable symtab, CompilerMessages compilerMessages) {
 		// Calculate return type
-		returnType(symtab);
+		returnType(symtab, compilerMessages);
 
 		// Is it a map?
 		if (!exprMap.isMap()) {

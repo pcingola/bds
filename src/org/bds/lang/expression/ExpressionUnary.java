@@ -46,10 +46,10 @@ public class ExpressionUnary extends Expression {
 	 * Which type does this expression return?
 	 */
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
-		returnType = expr.returnType(symtab);
+		returnType = expr.returnType(symtab, compilerMessages);
 		return returnType;
 	}
 

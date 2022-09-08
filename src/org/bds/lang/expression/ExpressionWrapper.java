@@ -36,10 +36,10 @@ public class ExpressionWrapper extends Expression {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
-		returnType = expression.returnType(symtab);
+		returnType = expression.returnType(symtab, compilerMessages);
 		return returnType;
 	}
 

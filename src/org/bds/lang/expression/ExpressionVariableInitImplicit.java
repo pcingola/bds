@@ -34,10 +34,10 @@ public class ExpressionVariableInitImplicit extends Expression {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
-		returnType = vInit.getExpression().returnType(symtab);
+		returnType = vInit.getExpression().returnType(symtab, compilerMessages);
 		return returnType;
 	}
 
@@ -60,7 +60,7 @@ public class ExpressionVariableInitImplicit extends Expression {
 		if (symtab.hasTypeLocal(varName)) compilerMessages.add(this, "Duplicate local name " + varName, MessageType.ERROR);
 
 		// Calculate implicit data type
-		Type type = vInit.getExpression().returnType(symtab);
+		Type type = vInit.getExpression().returnType(symtab, compilerMessages);
 
 		// Add variable to scope
 		if ((varName != null) && (type != null)) symtab.addVariable(varName, type);

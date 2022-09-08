@@ -48,11 +48,11 @@ public class Return extends Statement {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
 		// Calculate expression's return type
-		if (expr != null) expr.returnType(symtab);
+		if (expr != null) expr.returnType(symtab, compilerMessages);
 
 		// Find enclosing function / method
 		functionDecl = findParentFunction();
@@ -83,7 +83,7 @@ public class Return extends Statement {
 
 	@Override
 	public void typeCheck(SymbolTable symtab, CompilerMessages compilerMessages) {
-		returnType(symtab);
+		returnType(symtab, compilerMessages);
 
 		if (expr == null) {
 			// Expression is null => return is 'void'

@@ -34,7 +34,7 @@ public class ReferenceThis extends ReferenceVar {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 		returnType = symtab.resolve(ClassDeclaration.VAR_THIS);
 		return returnType;
@@ -43,7 +43,7 @@ public class ReferenceThis extends ReferenceVar {
 	@Override
 	public void typeCheck(SymbolTable symtab, CompilerMessages compilerMessages) {
 		// Calculate return type
-		returnType(symtab);
+		returnType(symtab, compilerMessages);
 	}
 
 }

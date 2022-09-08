@@ -73,13 +73,13 @@ public class ExpressionDepOperator extends Expression {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		// Make sure we calculate return type fo all expressions
 		for (Expression e : left)
-			e.returnType(symtab);
+			e.returnType(symtab, compilerMessages);
 
 		for (Expression e : right)
-			e.returnType(symtab);
+			e.returnType(symtab, compilerMessages);
 
 		returnType = Types.BOOL;
 		return returnType;

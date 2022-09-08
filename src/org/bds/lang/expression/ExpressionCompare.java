@@ -22,10 +22,10 @@ public abstract class ExpressionCompare extends ExpressionBinary {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
-		super.returnType(symtab);
+		super.returnType(symtab, compilerMessages);
 		returnType = Types.BOOL;
 
 		return returnType;

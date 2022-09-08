@@ -51,12 +51,12 @@ public class ExpressionList extends Expression {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
 		Type type = null;
 		for (Expression expr : expressions)
-			type = expr.returnType(symtab);
+			type = expr.returnType(symtab, compilerMessages);
 
 		returnType = type;
 		return returnType;

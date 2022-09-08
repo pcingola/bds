@@ -85,7 +85,7 @@ public class If extends Statement {
 
 	@Override
 	public void typeCheck(SymbolTable symtab, CompilerMessages compilerMessages) {
-		Type retType = condition.returnType(symtab);
+		Type retType = condition.returnType(symtab, compilerMessages);
 		if ((condition != null) //
 				&& !condition.isBool() //
 				&& (retType != null) //

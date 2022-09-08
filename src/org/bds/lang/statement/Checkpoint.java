@@ -53,7 +53,7 @@ public class Checkpoint extends Statement {
 	@Override
 	public void typeCheck(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (expr != null) {
-			expr.returnType(symtab);
+			expr.returnType(symtab, compilerMessages);
 			if (!expr.getReturnType().isString()) compilerMessages.add(this, "Checkpoint argument should be a string (file name)", MessageType.ERROR);
 		}
 	}

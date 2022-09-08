@@ -26,10 +26,10 @@ public class ExpressionTimes extends ExpressionMath {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
-		super.returnType(symtab);
+		super.returnType(symtab, compilerMessages);
 
 		if (isReturnTypesNotNull()) {
 			if (left.isString() || right.isString()) returnType = Types.STRING;

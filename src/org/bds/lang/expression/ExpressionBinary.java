@@ -1,6 +1,7 @@
 package org.bds.lang.expression;
 
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.bds.compile.CompilerMessages;
 import org.bds.lang.BdsNode;
 import org.bds.lang.type.Type;
 import org.bds.symbol.SymbolTable;
@@ -50,11 +51,11 @@ public class ExpressionBinary extends Expression {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
-		if (left != null) returnType = left.returnType(symtab); // Left could be empty when there are some compile error (e.g. empty "switch" statement)
-		if (right != null) right.returnType(symtab); // Only assign this to show that calculation was already performed
+		if (left != null) returnType = left.returnType(symtab, compilerMessages); // Left could be empty when there are some compile error (e.g. empty "switch" statement)
+		if (right != null) right.returnType(symtab, compilerMessages); // Only assign this to show that calculation was already performed
 
 		return returnType;
 	}

@@ -46,12 +46,12 @@ public class ExpressionCond extends Expression {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
-		expr.returnType(symtab);
-		returnType = exprTrue.returnType(symtab);
-		exprFalse.returnType(symtab);
+		expr.returnType(symtab, compilerMessages);
+		returnType = exprTrue.returnType(symtab, compilerMessages);
+		exprFalse.returnType(symtab, compilerMessages);
 
 		return returnType;
 	}

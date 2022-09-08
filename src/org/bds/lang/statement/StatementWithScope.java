@@ -49,7 +49,7 @@ public class StatementWithScope extends Statement {
 	@Override
 	public void typeCheck(SymbolTable symtab, CompilerMessages compilerMessages) {
 		// Calculate return type
-		returnType = returnType(symtab);
+		returnType = returnType(symtab, compilerMessages);
 
 		// Are return types non-null?
 		// Note: null returnTypes happen if variables are missing.

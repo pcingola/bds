@@ -150,7 +150,7 @@ public class Switch extends Statement {
 
 	@Override
 	public void typeCheck(SymbolTable symtab, CompilerMessages compilerMessages) {
-		if (switchExpr != null) switchExpr.returnType(symtab);
+		if (switchExpr != null) switchExpr.returnType(symtab, compilerMessages);
 	}
 
 }

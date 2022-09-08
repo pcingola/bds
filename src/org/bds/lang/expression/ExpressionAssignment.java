@@ -29,10 +29,10 @@ public class ExpressionAssignment extends ExpressionBinary {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
-		super.returnType(symtab);
+		super.returnType(symtab, compilerMessages);
 		returnType = left.getReturnType();
 
 		return returnType;

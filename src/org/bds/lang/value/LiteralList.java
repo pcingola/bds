@@ -50,14 +50,14 @@ public class LiteralList extends Literal {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
 		// Calculate elementType
 		Type baseType = null;
 		for (BdsNode node : values) {
 			Expression expr = (Expression) node;
-			Type typeExpr = expr.returnType(symtab);
+			Type typeExpr = expr.returnType(symtab, compilerMessages);
 
 			if (typeExpr != null) {
 				if (baseType == null) {
@@ -133,7 +133,7 @@ public class LiteralList extends Literal {
 
 		for (BdsNode node : values) {
 			Expression expr = (Expression) node;
-			Type typeExpr = expr.returnType(symtab);
+			Type typeExpr = expr.returnType(symtab, compilerMessages);
 
 			// Can we cast ?
 			if ((typeExpr != null) && !typeExpr.canCastTo(baseType)) {

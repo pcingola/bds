@@ -91,11 +91,11 @@ public class ReferenceList extends Reference {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
-		exprIdx.returnType(symtab);
-		Type nameType = exprList.returnType(symtab);
+		exprIdx.returnType(symtab, compilerMessages);
+		Type nameType = exprList.returnType(symtab, compilerMessages);
 
 		if (nameType == null) return null;
 		if (nameType.isList()) returnType = ((TypeList) nameType).getElementType();
@@ -125,7 +125,7 @@ public class ReferenceList extends Reference {
 	@Override
 	public void typeCheck(SymbolTable symtab, CompilerMessages compilerMessages) {
 		// Calculate return type
-		returnType(symtab);
+		returnType(symtab, compilerMessages);
 
 		if ((exprList.getReturnType() != null) && !exprList.isList()) {
 			compilerMessages.add(this, "Expression '" + exprList + "' is not a list/array", MessageType.ERROR);

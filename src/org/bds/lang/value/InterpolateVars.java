@@ -234,7 +234,7 @@ public class InterpolateVars extends Literal {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
 		returnType = Types.STRING;

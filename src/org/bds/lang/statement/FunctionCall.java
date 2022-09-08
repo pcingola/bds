@@ -113,10 +113,10 @@ public class FunctionCall extends Expression {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
-		args.returnType(symtab);
+		args.returnType(symtab, compilerMessages);
 
 		ValueFunction tfunc = symtab.findFunction(functionName, args);
 		if (tfunc != null) {

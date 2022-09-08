@@ -1,6 +1,7 @@
 package org.bds.lang.expression;
 
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.bds.compile.CompilerMessages;
 import org.bds.lang.BdsNode;
 import org.bds.lang.type.Type;
 import org.bds.lang.type.Types;
@@ -20,10 +21,10 @@ public class ExpressionMath extends ExpressionBinary {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
-		super.returnType(symtab);
+		super.returnType(symtab, compilerMessages);
 
 		if (right == null) {
 			if (left.canCastToInt()) returnType = Types.INT;

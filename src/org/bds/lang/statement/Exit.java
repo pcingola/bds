@@ -31,11 +31,11 @@ public class Exit extends Statement {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
 		// Calculate expression's return type
-		if (expr != null) expr.returnType(symtab);
+		if (expr != null) expr.returnType(symtab, compilerMessages);
 
 		// Program's return type is 'int' (exit code)
 		returnType = Types.INT;
@@ -60,7 +60,7 @@ public class Exit extends Statement {
 
 	@Override
 	public void typeCheck(SymbolTable symtab, CompilerMessages compilerMessages) {
-		returnType(symtab);
+		returnType(symtab, compilerMessages);
 
 		if ((expr != null) //
 				&& (expr.getReturnType() != null) //

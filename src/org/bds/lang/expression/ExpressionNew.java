@@ -42,7 +42,7 @@ public class ExpressionNew extends MethodCall {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
 		// Calculate return types for expr and args
@@ -56,7 +56,7 @@ public class ExpressionNew extends MethodCall {
 		args = Args.getArgsThis(args, expresionThis);
 
 		// Calculate return type for args
-		args.returnType(symtab);
+		args.returnType(symtab, compilerMessages);
 
 		// Find method
 		functionDeclaration = findMethod(symtab, thisType, args);

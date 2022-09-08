@@ -112,10 +112,10 @@ public class ExpressionTask extends ExpressionWithScope {
 	 * Task expression always returns the task id, which is a string
 	 */
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		// Calculate options' return type
-		if (options != null) options.returnType(symtab);
-		if (statement != null) statement.returnType(symtab);
+		if (options != null) options.returnType(symtab, compilerMessages);
+		if (statement != null) statement.returnType(symtab, compilerMessages);
 
 		// Task expressions return a task ID (a string)
 		returnType = Types.STRING;
@@ -406,7 +406,7 @@ public class ExpressionTask extends ExpressionWithScope {
 
 	@Override
 	public void typeCheck(SymbolTable symtab, CompilerMessages compilerMessages) {
-		returnType(symtab);
+		returnType(symtab, compilerMessages);
 		if (options != null) options.typeCheck(symtab, compilerMessages);
 		if (statement != null) statement.typeCheck(symtab, compilerMessages);
 	}

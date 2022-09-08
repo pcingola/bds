@@ -56,8 +56,8 @@ public class ForLoopList extends StatementWithScope {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
-		returnType = expression.returnType(symtab);
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
+		returnType = expression.returnType(symtab, compilerMessages);
 		return returnType;
 	}
 

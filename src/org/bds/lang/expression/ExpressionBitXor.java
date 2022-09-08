@@ -26,10 +26,10 @@ public class ExpressionBitXor extends ExpressionBit {
 	}
 
 	@Override
-	public Type returnType(SymbolTable symtab) {
+	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
 		if (returnType != null) return returnType;
 
-		super.returnType(symtab);
+		super.returnType(symtab, compilerMessages);
 
 		if (left.isBool() && right.isBool()) returnType = Types.BOOL;
 		else returnType = Types.INT;
