@@ -88,7 +88,6 @@ public class ExpressionPlus extends ExpressionMath {
             sb.append(toAsmList());
         } else {
             sb.append(super.toAsm());
-            sb.append(toAsmOp(toAsmRetType()) + "\n");
         }
         return sb.toString();
     }

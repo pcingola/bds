@@ -131,8 +131,11 @@ public enum OpCode {
 	, SETMAPPOP
 	// Remove value from stack
 	, SETPOP
-	// Store value to local variable (scope). Leaves the value in the stack (stack is not changed)
+	// Store value to local variable (scope).
+	// STORE: Leaves value in the stack (stack is not changed)
+	// STOREPOP: Removes value from stack
 	//    STORE varName
+	//    STOREPOP varName
 	, STORE, STOREPOP
 	// Subtraction
 	, SUBI, SUBR
