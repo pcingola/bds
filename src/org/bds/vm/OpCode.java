@@ -92,7 +92,7 @@ public enum OpCode {
 	, LTB, LTI, LTR, LTS
 	// Modulo (int)
 	, MODI
-	// Multiplication (int)
+	// Multiplication (int, real, string)
 	, MULI, MULR, MULS
 	// Equality test (not equals)
 	, NEB, NEI, NER, NES

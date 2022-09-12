@@ -19,6 +19,8 @@ import org.bds.lang.type.Type;
 import org.bds.lang.type.Types;
 import org.bds.run.BdsThread;
 import org.bds.symbol.SymbolTable;
+import org.bds.vm.BdsVmAsm;
+import org.bds.vm.OpCode;
 
 /**
  * A program unit
@@ -122,7 +124,7 @@ public class ProgramUnit extends BlockWithFile {
 		sb.append(toAsmNode());
 		sb.append("main:\n");
 
-		if (isNeedsScope()) sb.append("scopepush\n");
+		if (isNeedsScope()) sb.append(OpCode.SCOPEPUSH + "\n");
 
 		for (Statement s : statements)
 			sb.append(s.toAsm());
@@ -131,7 +133,7 @@ public class ProgramUnit extends BlockWithFile {
 		//       We leave the last scope when because it is useful for
 		//       checking variable values in test cases. Since the program
 		//       finished, it makes no difference (we are cleaning up later).
-		sb.append("halt\n");
+		sb.append(OpCode.HALT + "\n");
 
 		return sb.toString();
 	}

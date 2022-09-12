@@ -2,6 +2,8 @@ package org.bds.lang.expression;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.bds.lang.BdsNode;
+import org.bds.lang.type.PrimitiveType;
+import org.bds.vm.OpCode;
 
 /**
  * A comparison expression (<)
@@ -22,8 +24,20 @@ public class ExpressionGe extends ExpressionCompare {
 	}
 
 	@Override
-	public String toAsmOp() {
-		return "ge";
+	public OpCode toAsmOp(PrimitiveType type) {
+		switch (type) {
+			case BOOL:
+				return OpCode.GEB;
+			case INT:
+				return OpCode.GEI;
+			case REAL:
+				return OpCode.GER;
+			case STRING:
+				return OpCode.GES;
+			default:
+				compileError("Could not find operator '" + op() + "' for type '" + type + "'");
+		}
+		return null;
 	}
 
 }

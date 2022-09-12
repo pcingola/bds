@@ -1,0 +1,116 @@
+
+### To change
+
+- [x] src/org/bds/lang/expression/Expression.java:43
+- [x] src/org/bds/lang/expression/ExpressionAssignment.java:49
+- [x] src/org/bds/lang/expression/ExpressionAssignmentList.java:81
+- [x] src/org/bds/lang/expression/ExpressionBinary.java:72
+- [x] src/org/bds/lang/expression/ExpressionBitAnd.java:25
+- [x] src/org/bds/lang/expression/ExpressionBitNegation.java:24
+- [x] src/org/bds/lang/expression/ExpressionBitOr.java:25
+- [x] src/org/bds/lang/expression/ExpressionBitXor.java:41
+- [x] src/org/bds/lang/expression/ExpressionCast.java:46
+- [x] src/org/bds/lang/expression/ExpressionCompare.java:36
+- [x] src/org/bds/lang/expression/ExpressionCond.java:60
+- [x] src/org/bds/lang/expression/ExpressionDelegateBinary.java:66
+- [x] src/org/bds/lang/expression/ExpressionDepOperator.java:106
+- [x] src/org/bds/lang/expression/ExpressionDepOperator.java:89
+- [x] src/org/bds/lang/expression/ExpressionDepOperator.java:93
+- [x] src/org/bds/lang/expression/ExpressionDivide.java:27
+- [x] src/org/bds/lang/expression/ExpressionEq.java:25
+- [x] src/org/bds/lang/expression/ExpressionGe.java:25
+- [x] src/org/bds/lang/expression/ExpressionGoal.java:37
+- [x] src/org/bds/lang/expression/ExpressionGt.java:25
+- [x] src/org/bds/lang/expression/ExpressionLe.java:25
+- [ ] src/org/bds/lang/expression/ExpressionList.java:66
+- [ ] src/org/bds/lang/expression/ExpressionLogicAnd.java:25
+- [ ] src/org/bds/lang/expression/ExpressionLogicNot.java:23
+- [ ] src/org/bds/lang/expression/ExpressionLogicOr.java:25
+- [ ] src/org/bds/lang/expression/ExpressionLt.java:25
+- [ ] src/org/bds/lang/expression/ExpressionMinus.java:27
+- [ ] src/org/bds/lang/expression/ExpressionModulo.java:27
+- [ ] src/org/bds/lang/expression/ExpressionNe.java:25
+- [ ] src/org/bds/lang/expression/ExpressionNew.java:87
+- [ ] src/org/bds/lang/expression/ExpressionParallel.java:63
+- [ ] src/org/bds/lang/expression/ExpressionPlus.java:85
+- [ ] src/org/bds/lang/expression/ExpressionSys.java:69
+- [ ] src/org/bds/lang/expression/ExpressionSys.java:73
+- [ ] src/org/bds/lang/expression/ExpressionTask.java:166
+- [ ] src/org/bds/lang/expression/ExpressionTaskOptions.java:25
+- [ ] src/org/bds/lang/expression/ExpressionTaskOptions.java:36
+- [ ] src/org/bds/lang/expression/ExpressionTimes.java:43
+- [ ] src/org/bds/lang/expression/ExpressionUnaryMinus.java:41
+- [ ] src/org/bds/lang/expression/ExpressionUnaryPlus.java:21
+- [ ] src/org/bds/lang/expression/ExpressionUnaryPlusMinus.java:48
+- [ ] src/org/bds/lang/expression/ExpressionVariableInitImplicit.java:45
+- [ ] src/org/bds/lang/expression/ExpressionWrapper.java:47
+- [ ] src/org/bds/lang/expression/Post.java:30
+- [ ] src/org/bds/lang/expression/Pre.java:40
+- [ ] src/org/bds/lang/expression/ReferenceField.java:56
+- [ ] src/org/bds/lang/expression/ReferenceField.java:63
+- [ ] src/org/bds/lang/expression/ReferenceList.java:107
+- [ ] src/org/bds/lang/expression/ReferenceList.java:114
+- [ ] src/org/bds/lang/expression/ReferenceMap.java:110
+- [ ] src/org/bds/lang/expression/ReferenceMap.java:117
+- [ ] src/org/bds/lang/expression/ReferenceVar.java:105
+- [ ] src/org/bds/lang/expression/ReferenceVar.java:98
+- [ ] src/org/bds/lang/statement/Args.java:101
+- [ ] src/org/bds/lang/statement/Args.java:108
+- [ ] src/org/bds/lang/statement/Block.java:48
+- [ ] src/org/bds/lang/statement/Break.java:89
+- [ ] src/org/bds/lang/statement/Breakpoint.java:20
+- [ ] src/org/bds/lang/statement/Case.java:80
+- [ ] src/org/bds/lang/statement/Case.java:94
+- [ ] src/org/bds/lang/statement/Catch.java:47
+- [ ] src/org/bds/lang/statement/Catch.java:68
+- [ ] src/org/bds/lang/statement/Checkpoint.java:33
+- [ ] src/org/bds/lang/statement/ClassDeclaration.java:234
+- [ ] src/org/bds/lang/statement/Debug.java:20
+- [ ] src/org/bds/lang/statement/Default.java:54
+- [ ] src/org/bds/lang/statement/Error.java:20
+- [ ] src/org/bds/lang/statement/Exit.java:47
+- [ ] src/org/bds/lang/statement/Finally.java:34
+- [ ] src/org/bds/lang/statement/ForCondition.java:29
+- [ ] src/org/bds/lang/statement/ForEnd.java:26
+- [ ] src/org/bds/lang/statement/ForInit.java:38
+- [ ] src/org/bds/lang/statement/ForLoop.java:50
+- [ ] src/org/bds/lang/statement/ForLoopList.java:65
+- [ ] src/org/bds/lang/statement/FunctionCall.java:156
+- [ ] src/org/bds/lang/statement/FunctionCall.java:164
+- [ ] src/org/bds/lang/statement/FunctionCall.java:170
+- [ ] src/org/bds/lang/statement/FunctionDeclaration.java:203
+- [ ] src/org/bds/lang/statement/If.java:44
+- [ ] src/org/bds/lang/statement/Kill.java:32
+- [ ] src/org/bds/lang/statement/MethodDeclaration.java:76
+- [ ] src/org/bds/lang/statement/Print.java:45
+- [ ] src/org/bds/lang/statement/Println.java:20
+- [ ] src/org/bds/lang/statement/Return.java:71
+- [ ] src/org/bds/lang/statement/StatementExpr.java:29
+- [ ] src/org/bds/lang/statement/Switch.java:66
+- [ ] src/org/bds/lang/statement/Throw.java:58
+- [ ] src/org/bds/lang/statement/Try.java:29
+- [ ] src/org/bds/lang/statement/TryCatchFinally.java:67
+- [ ] src/org/bds/lang/statement/VarDeclaration.java:96
+- [ ] src/org/bds/lang/statement/VariableInit.java:106
+- [ ] src/org/bds/lang/statement/VariableInit.java:135
+- [ ] src/org/bds/lang/statement/Wait.java:34
+- [ ] src/org/bds/lang/statement/Warning.java:20
+- [ ] src/org/bds/lang/statement/While.java:38
+- [ ] src/org/bds/lang/type/Type.java:217
+- [ ] src/org/bds/lang/value/InterpolateVars.java:245
+- [ ] src/org/bds/lang/value/LiteralInt.java:43
+- [ ] src/org/bds/lang/value/LiteralInt.java:47
+- [ ] src/org/bds/lang/value/LiteralList.java:91
+- [ ] src/org/bds/lang/value/LiteralListEmpty.java:40
+- [ ] src/org/bds/lang/value/LiteralMap.java:94
+- [ ] src/org/bds/lang/value/LiteralMapEmpty.java:41
+- [ ] src/org/bds/lang/value/LiteralNull.java:44
+- [ ] src/org/bds/lang/value/LiteralReal.java:39
+- [ ] src/org/bds/lang/value/LiteralReal.java:43
+- [ ] src/org/bds/vm/BdsVm.java:1757
+- [x] src/org/bds/lang/BdsNode.java:443
+- [x] src/org/bds/lang/BdsNode.java:447
+- [x] src/org/bds/lang/BdsNode.java:464
+- [x] src/org/bds/lang/ProgramUnit.java:119
+- [x] src/org/bds/lang/value/LiteralBool.java:39
+- [x] src/org/bds/lang/value/LiteralString.java:73

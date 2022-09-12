@@ -14,8 +14,6 @@ import org.bds.symbol.SymbolTable;
 
 /**
  * Variable type
- *
- * @author pcingola
  */
 public abstract class Type extends BdsNode implements Comparable<Type> {
 

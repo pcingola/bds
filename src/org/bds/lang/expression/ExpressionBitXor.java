@@ -6,6 +6,7 @@ import org.bds.lang.BdsNode;
 import org.bds.lang.type.Type;
 import org.bds.lang.type.Types;
 import org.bds.symbol.SymbolTable;
+import org.bds.vm.OpCode;
 
 /**
  * A logical and bitwise XOR
@@ -14,41 +15,41 @@ import org.bds.symbol.SymbolTable;
  */
 public class ExpressionBitXor extends ExpressionBit {
 
-	private static final long serialVersionUID = -2473522262501255653L;
+    private static final long serialVersionUID = -2473522262501255653L;
 
-	public ExpressionBitXor(BdsNode parent, ParseTree tree) {
-		super(parent, tree);
-	}
+    public ExpressionBitXor(BdsNode parent, ParseTree tree) {
+        super(parent, tree);
+    }
 
-	@Override
-	protected String op() {
-		return "^";
-	}
+    @Override
+    protected String op() {
+        return "^";
+    }
 
-	@Override
-	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
-		if (returnType != null) return returnType;
+    @Override
+    public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
+        if (returnType != null) return returnType;
 
-		super.returnType(symtab, compilerMessages);
+        super.returnType(symtab, compilerMessages);
 
-		if (left.isBool() && right.isBool()) returnType = Types.BOOL;
-		else returnType = Types.INT;
+        if (left.isBool() && right.isBool()) returnType = Types.BOOL;
+        else returnType = Types.INT;
 
-		return returnType;
-	}
+        return returnType;
+    }
 
-	@Override
-	public String toAsm() {
-		if (isBool()) return super.toAsm() + "xorb\n";
-		return super.toAsm() + "xori\n";
-	}
+    @Override
+    public String toAsm() {
+        if (isBool()) return super.toAsm() + OpCode.XORB + "\n";
+        return super.toAsm() + OpCode.XORI + "\n";
+    }
 
-	@Override
-	public void typeCheckNotNull(SymbolTable symtab, CompilerMessages compilerMessages) {
-		// Check that either both expressions are boolean (i.e. returnType
-		// is bool) or both can be converted to int
-		if (!isBool()) {
-			super.typeCheckNotNull(symtab, compilerMessages);
-		}
-	}
+    @Override
+    public void typeCheckNotNull(SymbolTable symtab, CompilerMessages compilerMessages) {
+        // Check that either both expressions are boolean (i.e. returnType
+        // is bool) or both can be converted to int
+        if (!isBool()) {
+            super.typeCheckNotNull(symtab, compilerMessages);
+        }
+    }
 }
