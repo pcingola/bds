@@ -54,23 +54,23 @@
 - [x] src/org/bds/lang/expression/ReferenceMap.java:117
 - [x] src/org/bds/lang/expression/ReferenceVar.java:105
 - [x] src/org/bds/lang/expression/ReferenceVar.java:98
-- [ ] src/org/bds/lang/statement/Args.java:101
-- [ ] src/org/bds/lang/statement/Args.java:108
-- [ ] src/org/bds/lang/statement/Block.java:48
-- [ ] src/org/bds/lang/statement/Break.java:89
-- [ ] src/org/bds/lang/statement/Breakpoint.java:20
-- [ ] src/org/bds/lang/statement/Case.java:80
-- [ ] src/org/bds/lang/statement/Case.java:94
-- [ ] src/org/bds/lang/statement/Catch.java:47
-- [ ] src/org/bds/lang/statement/Catch.java:68
-- [ ] src/org/bds/lang/statement/Checkpoint.java:33
-- [ ] src/org/bds/lang/statement/ClassDeclaration.java:234
-- [ ] src/org/bds/lang/statement/Debug.java:20
-- [ ] src/org/bds/lang/statement/Default.java:54
-- [ ] src/org/bds/lang/statement/Error.java:20
-- [ ] src/org/bds/lang/statement/Exit.java:47
-- [ ] src/org/bds/lang/statement/Finally.java:34
-- [ ] src/org/bds/lang/statement/ForCondition.java:29
+- [x] src/org/bds/lang/statement/Args.java:101
+- [x] src/org/bds/lang/statement/Args.java:108
+- [x] src/org/bds/lang/statement/Block.java:48
+- [x] src/org/bds/lang/statement/Break.java:89
+- [x] src/org/bds/lang/statement/Breakpoint.java:20
+- [x] src/org/bds/lang/statement/Case.java:80
+- [x] src/org/bds/lang/statement/Case.java:94
+- [x] src/org/bds/lang/statement/Catch.java:47
+- [x] src/org/bds/lang/statement/Catch.java:68
+- [x] src/org/bds/lang/statement/Checkpoint.java:33
+- [x] src/org/bds/lang/statement/ClassDeclaration.java:234
+- [x] src/org/bds/lang/statement/Debug.java:20
+- [x] src/org/bds/lang/statement/Default.java:54
+- [x] src/org/bds/lang/statement/Error.java:20
+- [x] src/org/bds/lang/statement/Exit.java:47
+- [x] src/org/bds/lang/statement/Finally.java:34
+- [x] src/org/bds/lang/statement/ForCondition.java:29
 - [ ] src/org/bds/lang/statement/ForEnd.java:26
 - [ ] src/org/bds/lang/statement/ForInit.java:38
 - [ ] src/org/bds/lang/statement/ForLoop.java:50

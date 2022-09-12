@@ -14,25 +14,20 @@ import org.bds.symbol.SymbolTable;
  */
 public class ForCondition extends ExpressionWrapper {
 
-	private static final long serialVersionUID = -3735136770121564146L;
+    private static final long serialVersionUID = -3735136770121564146L;
 
-	public ForCondition(BdsNode parent, ParseTree tree) {
-		super(parent, tree);
-	}
+    public ForCondition(BdsNode parent, ParseTree tree) {
+        super(parent, tree);
+    }
 
-	//	@Override
-	//	public boolean isStopDebug() {
-	//		return true;
-	//	}
+    @Override
+    public String toAsm() {
+        return expression.toAsm();
+    }
 
-	@Override
-	public String toAsm() {
-		return expression.toAsm();
-	}
-
-	@Override
-	public void typeCheckNotNull(SymbolTable symtab, CompilerMessages compilerMessages) {
-		if (!isBool()) compilerMessages.add(this, "For loop condition must be a bool expression", MessageType.ERROR);
-	}
+    @Override
+    public void typeCheckNotNull(SymbolTable symtab, CompilerMessages compilerMessages) {
+        if (!isBool()) compilerMessages.add(this, "For loop condition must be a bool expression", MessageType.ERROR);
+    }
 
 }

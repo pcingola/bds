@@ -1,10 +1,11 @@
 package org.bds.lang.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.bds.lang.BdsNode;
+import org.bds.vm.OpCode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A block of statements
@@ -13,62 +14,62 @@ import org.bds.lang.BdsNode;
  */
 public class Block extends StatementWithScope {
 
-	private static final long serialVersionUID = -8981215874906264612L;
-	protected Statement[] statements;
+    private static final long serialVersionUID = -8981215874906264612L;
+    protected Statement[] statements;
 
-	public Block(BdsNode parent, ParseTree tree) {
-		super(parent, tree);
-	}
+    public Block(BdsNode parent, ParseTree tree) {
+        super(parent, tree);
+    }
 
-	public Statement[] getStatements() {
-		return statements;
-	}
+    public Statement[] getStatements() {
+        return statements;
+    }
 
-	@Override
-	protected void parse(ParseTree tree) {
-		parse(tree, 0);
-	}
+    public void setStatements(Statement[] statements) {
+        this.statements = statements;
+    }
 
-	protected void parse(ParseTree tree, int startIdx) {
-		List<Statement> stats = new ArrayList<>();
-		for (int i = startIdx; i < tree.getChildCount(); i++) {
-			BdsNode node = factory(tree, i);
-			if (node != null) stats.add((Statement) node);
-		}
+    @Override
+    protected void parse(ParseTree tree) {
+        parse(tree, 0);
+    }
 
-		// Create an array
-		statements = stats.toArray(new Statement[0]);
-	}
+    protected void parse(ParseTree tree, int startIdx) {
+        List<Statement> stats = new ArrayList<>();
+        for (int i = startIdx; i < tree.getChildCount(); i++) {
+            BdsNode node = factory(tree, i);
+            if (node != null) stats.add((Statement) node);
+        }
 
-	public void setStatements(Statement[] statements) {
-		this.statements = statements;
-	}
+        // Create an array
+        statements = stats.toArray(new Statement[0]);
+    }
 
-	@Override
-	public String toAsm() {
-		StringBuilder sb = new StringBuilder();
+    @Override
+    public String toAsm() {
+        StringBuilder sb = new StringBuilder();
 
-		if (isNeedsScope()) {
-			sb.append("node " + id + "\n");
-			sb.append("scopepush\n");
-		}
+        if (isNeedsScope()) {
+            sb.append(OpCode.NODE + " " + id + "\n");
+            sb.append(OpCode.SCOPEPUSH + "\n");
+        }
 
-		for (Statement s : statements)
-			sb.append(s.toAsm());
+        for (Statement s : statements)
+            sb.append(s.toAsm());
 
-		if (isNeedsScope()) sb.append("scopepop\n");
+        if (isNeedsScope()) sb.append(OpCode.SCOPEPOP + "\n");
 
-		return sb.toString();
-	}
+        return sb.toString();
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		if (statements != null) {
-			for (int i = 0; i < statements.length; i++)
-				sb.append(statements[i] + "\n");
-		}
-		return sb.toString();
-	}
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        if (statements != null) {
+            for (int i = 0; i < statements.length; i++)
+                sb.append(statements[i] + "\n");
+        }
+        return sb.toString();
+    }
 
 }

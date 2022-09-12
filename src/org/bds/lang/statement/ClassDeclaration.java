@@ -9,6 +9,7 @@ import org.bds.lang.type.Type;
 import org.bds.lang.type.TypeClass;
 import org.bds.lang.type.Types;
 import org.bds.symbol.SymbolTable;
+import org.bds.vm.OpCode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -237,7 +238,7 @@ public class ClassDeclaration extends Block {
         String labelClassEnd = baseLabelName() + "end";
 
         sb.append(toAsmNode());
-        sb.append("jmp " + labelClassEnd + "\n"); // Jump to end of class (in case of runaway code
+        sb.append(OpCode.JMP + " " + labelClassEnd + "\n"); // Jump to end of class (in case of runaway code
 
         // Compile non-native methods
         for (FunctionDeclaration fd : methodDecl)

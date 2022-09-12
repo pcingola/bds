@@ -9,6 +9,7 @@ import org.bds.lang.expression.ExpressionEq;
 import org.bds.lang.type.Type;
 import org.bds.symbol.SymbolTable;
 import org.bds.util.Gpr;
+import org.bds.vm.OpCode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,15 +102,15 @@ public class Case extends StatementWithScope {
         Expression switchExpr = switchSt.getSwitchExpr();
 
         // Evaluate case expression
-        sb.append("load " + varSwitchExpr + "\n");
+        sb.append(OpCode.LOAD + " " + varSwitchExpr + "\n");
         sb.append(expression.toAsm());
 
         // Is it equal to switch expression?
 
         ExpressionEq eeq = new ExpressionEq(null, null);
 
-        sb.append("eq" + switchExpr.toAsmRetType() + "\n");
-        sb.append("jmpt " + label() + "\n"); // Equal? Jump to label
+        sb.append(eeq.toAsmOp(switchExpr.toAsmRetType()) + "\n");
+        sb.append(OpCode.JMPT + " " + label() + "\n"); // Equal? Jump to label
 
         return sb.toString();
     }
