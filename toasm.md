@@ -22,38 +22,38 @@
 - [x] src/org/bds/lang/expression/ExpressionGoal.java:37
 - [x] src/org/bds/lang/expression/ExpressionGt.java:25
 - [x] src/org/bds/lang/expression/ExpressionLe.java:25
-- [ ] src/org/bds/lang/expression/ExpressionList.java:66
-- [ ] src/org/bds/lang/expression/ExpressionLogicAnd.java:25
-- [ ] src/org/bds/lang/expression/ExpressionLogicNot.java:23
-- [ ] src/org/bds/lang/expression/ExpressionLogicOr.java:25
-- [ ] src/org/bds/lang/expression/ExpressionLt.java:25
-- [ ] src/org/bds/lang/expression/ExpressionMinus.java:27
-- [ ] src/org/bds/lang/expression/ExpressionModulo.java:27
-- [ ] src/org/bds/lang/expression/ExpressionNe.java:25
-- [ ] src/org/bds/lang/expression/ExpressionNew.java:87
-- [ ] src/org/bds/lang/expression/ExpressionParallel.java:63
-- [ ] src/org/bds/lang/expression/ExpressionPlus.java:85
-- [ ] src/org/bds/lang/expression/ExpressionSys.java:69
-- [ ] src/org/bds/lang/expression/ExpressionSys.java:73
-- [ ] src/org/bds/lang/expression/ExpressionTask.java:166
-- [ ] src/org/bds/lang/expression/ExpressionTaskOptions.java:25
-- [ ] src/org/bds/lang/expression/ExpressionTaskOptions.java:36
-- [ ] src/org/bds/lang/expression/ExpressionTimes.java:43
-- [ ] src/org/bds/lang/expression/ExpressionUnaryMinus.java:41
-- [ ] src/org/bds/lang/expression/ExpressionUnaryPlus.java:21
-- [ ] src/org/bds/lang/expression/ExpressionUnaryPlusMinus.java:48
-- [ ] src/org/bds/lang/expression/ExpressionVariableInitImplicit.java:45
-- [ ] src/org/bds/lang/expression/ExpressionWrapper.java:47
-- [ ] src/org/bds/lang/expression/Post.java:30
-- [ ] src/org/bds/lang/expression/Pre.java:40
-- [ ] src/org/bds/lang/expression/ReferenceField.java:56
-- [ ] src/org/bds/lang/expression/ReferenceField.java:63
-- [ ] src/org/bds/lang/expression/ReferenceList.java:107
-- [ ] src/org/bds/lang/expression/ReferenceList.java:114
-- [ ] src/org/bds/lang/expression/ReferenceMap.java:110
-- [ ] src/org/bds/lang/expression/ReferenceMap.java:117
-- [ ] src/org/bds/lang/expression/ReferenceVar.java:105
-- [ ] src/org/bds/lang/expression/ReferenceVar.java:98
+- [x] src/org/bds/lang/expression/ExpressionList.java:66
+- [x] src/org/bds/lang/expression/ExpressionLogicAnd.java:25
+- [x] src/org/bds/lang/expression/ExpressionLogicNot.java:23
+- [x] src/org/bds/lang/expression/ExpressionLogicOr.java:25
+- [x] src/org/bds/lang/expression/ExpressionLt.java:25
+- [x] src/org/bds/lang/expression/ExpressionMinus.java:27
+- [x] src/org/bds/lang/expression/ExpressionModulo.java:27
+- [x] src/org/bds/lang/expression/ExpressionNe.java:25
+- [x] src/org/bds/lang/expression/ExpressionNew.java:87
+- [x] src/org/bds/lang/expression/ExpressionParallel.java:63
+- [x] src/org/bds/lang/expression/ExpressionPlus.java:85
+- [x] src/org/bds/lang/expression/ExpressionSys.java:69
+- [x] src/org/bds/lang/expression/ExpressionSys.java:73
+- [x] src/org/bds/lang/expression/ExpressionTask.java:166
+- [x] src/org/bds/lang/expression/ExpressionTaskOptions.java:25
+- [x] src/org/bds/lang/expression/ExpressionTaskOptions.java:36
+- [x] src/org/bds/lang/expression/ExpressionTimes.java:43
+- [x] src/org/bds/lang/expression/ExpressionUnaryMinus.java:41
+- [x] src/org/bds/lang/expression/ExpressionUnaryPlus.java:21
+- [x] src/org/bds/lang/expression/ExpressionUnaryPlusMinus.java:48
+- [x] src/org/bds/lang/expression/ExpressionVariableInitImplicit.java:45
+- [x] src/org/bds/lang/expression/ExpressionWrapper.java:47
+- [x] src/org/bds/lang/expression/Post.java:30
+- [x] src/org/bds/lang/expression/Pre.java:40
+- [x] src/org/bds/lang/expression/ReferenceField.java:56
+- [x] src/org/bds/lang/expression/ReferenceField.java:63
+- [x] src/org/bds/lang/expression/ReferenceList.java:107
+- [x] src/org/bds/lang/expression/ReferenceList.java:114
+- [x] src/org/bds/lang/expression/ReferenceMap.java:110
+- [x] src/org/bds/lang/expression/ReferenceMap.java:117
+- [x] src/org/bds/lang/expression/ReferenceVar.java:105
+- [x] src/org/bds/lang/expression/ReferenceVar.java:98
 - [ ] src/org/bds/lang/statement/Args.java:101
 - [ ] src/org/bds/lang/statement/Args.java:108
 - [ ] src/org/bds/lang/statement/Block.java:48
