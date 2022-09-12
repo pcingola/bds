@@ -10,6 +10,7 @@ import org.bds.lang.type.Type;
 import org.bds.lang.type.TypeMap;
 import org.bds.lang.type.Types;
 import org.bds.symbol.SymbolTable;
+import org.bds.vm.OpCode;
 
 /**
  * Expression: Literal empty map
@@ -18,31 +19,31 @@ import org.bds.symbol.SymbolTable;
  */
 public class LiteralMapEmpty extends LiteralMap {
 
-	private static final long serialVersionUID = 7742952716041459654L;
+    private static final long serialVersionUID = 7742952716041459654L;
 
-	public LiteralMapEmpty(BdsNode parent, ParseTree tree) {
-		super(parent, tree);
-	}
+    public LiteralMapEmpty(BdsNode parent, ParseTree tree) {
+        super(parent, tree);
+    }
 
-	@Override
-	protected void parse(ParseTree tree) {
-		keys = new Expression[0];
-		values = new Expression[0];
-	}
+    @Override
+    protected void parse(ParseTree tree) {
+        keys = new Expression[0];
+        values = new Expression[0];
+    }
 
-	@Override
-	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
-		if (returnType != null) return returnType;
-		returnType = TypeMap.get(Types.ANY, Types.ANY);
-		return returnType;
-	}
+    @Override
+    public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
+        if (returnType != null) return returnType;
+        returnType = TypeMap.get(Types.ANY, Types.ANY);
+        return returnType;
+    }
 
-	@Override
-	public String toAsm() {
-		Type mtype = returnType;
-		if (parent instanceof VariableInit) mtype = parent.getReturnType();
-		if (parent instanceof ExpressionAssignment) mtype = ((ExpressionAssignment) parent).getLeft().getReturnType();
-		return "new " + mtype + "\n";
-	}
+    @Override
+    public String toAsm() {
+        Type mtype = returnType;
+        if (parent instanceof VariableInit) mtype = parent.getReturnType();
+        if (parent instanceof ExpressionAssignment) mtype = ((ExpressionAssignment) parent).getLeft().getReturnType();
+        return OpCode.NEW + " " + mtype + "\n";
+    }
 
 }

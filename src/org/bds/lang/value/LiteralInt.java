@@ -5,6 +5,7 @@ import org.bds.lang.BdsNode;
 import org.bds.lang.type.Type;
 import org.bds.lang.type.Types;
 import org.bds.util.Gpr;
+import org.bds.vm.OpCode;
 
 /**
  * An int literal
@@ -13,40 +14,40 @@ import org.bds.util.Gpr;
  */
 public class LiteralInt extends Literal {
 
-	private static final long serialVersionUID = -2949196571488456087L;
+    private static final long serialVersionUID = -2949196571488456087L;
 
-	public LiteralInt(BdsNode parent, ParseTree tree) {
-		super(parent, tree);
-	}
+    public LiteralInt(BdsNode parent, ParseTree tree) {
+        super(parent, tree);
+    }
 
-	@Override
-	public Type getReturnType() {
-		return Types.INT;
-	}
+    @Override
+    public Type getReturnType() {
+        return Types.INT;
+    }
 
-	@Override
-	protected void initialize() {
-		super.initialize();
-		value = new ValueInt();
-	}
+    @Override
+    protected void initialize() {
+        super.initialize();
+        value = new ValueInt();
+    }
 
-	@Override
-	protected ValueInt parseValue(ParseTree tree) {
-		String intStr = tree.getChild(0).getText().toLowerCase();
-		long l;
-		if (intStr.startsWith("0x")) l = Long.parseLong(intStr.substring(2), 16);
-		else l = Gpr.parseLongSafe(intStr);
-		return new ValueInt(l);
-	}
+    @Override
+    protected ValueInt parseValue(ParseTree tree) {
+        String intStr = tree.getChild(0).getText().toLowerCase();
+        long l;
+        if (intStr.startsWith("0x")) l = Long.parseLong(intStr.substring(2), 16);
+        else l = Gpr.parseLongSafe(intStr);
+        return new ValueInt(l);
+    }
 
-	@Override
-	public String toAsm() {
-		return toAsm(false);
-	}
+    @Override
+    public String toAsm() {
+        return toAsm(false);
+    }
 
-	public String toAsm(boolean minus) {
-		if (value == null) return "pushi 0\n";
-		return "pushi " + (minus ? "-" : "") + value.asInt() + "\n";
-	}
+    public String toAsm(boolean minus) {
+        if (value == null) return OpCode.PUSHI + " 0\n";
+        return OpCode.PUSHI + " " + (minus ? "-" : "") + value.asInt() + "\n";
+    }
 
 }
