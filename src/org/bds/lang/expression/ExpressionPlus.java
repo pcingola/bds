@@ -107,25 +107,25 @@ public class ExpressionPlus extends ExpressionMath {
 
         if (lt.isList() && rt.isList()) {
             // List + List
-            sb.append("new " + returnType + "\n");
+            sb.append(OpCode.NEW + " " + returnType + "\n");
             sb.append(left.toAsm());
-            sb.append("callnative " + methodAddList + "\n");
+            sb.append(OpCode.CALLNATIVE + " " + methodAddList + "\n");
             sb.append(right.toAsm());
-            sb.append("callnative " + methodAddList + "\n");
+            sb.append(OpCode.CALLNATIVE + " " + methodAddList + "\n");
         } else if (lt.isList() && !rt.isList()) {
             // List + element
-            sb.append("new " + returnType + "\n");
+            sb.append(OpCode.NEW + " " + returnType + "\n");
             sb.append(left.toAsm());
-            sb.append("callnative " + methodAddList + "\n");
+            sb.append(OpCode.CALLNATIVE + " " + methodAddList + "\n");
             sb.append(right.toAsm());
-            sb.append("callnative " + methodAdd + "\n");
+            sb.append(OpCode.CALLNATIVE + " " + methodAdd + "\n");
         } else if (!lt.isList() && rt.isList()) {
             // element + List
-            sb.append("new " + returnType + "\n");
+            sb.append(OpCode.NEW + " " + returnType + "\n");
             sb.append(left.toAsm());
-            sb.append("callnative " + methodAdd + "\n");
+            sb.append(OpCode.CALLNATIVE + " " + methodAdd + "\n");
             sb.append(right.toAsm());
-            sb.append("callnative " + methodAddList + "\n");
+            sb.append(OpCode.CALLNATIVE + " " + methodAddList + "\n");
         }
 
         return sb.toString();
