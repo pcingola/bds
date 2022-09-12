@@ -424,10 +424,6 @@ public abstract class BdsNode implements Serializable, BdsLog {
         }
     }
 
-//    public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
-//        return returnType(symtab, null);
-//    }
-
     /**
      * Calculate return type and assign it to 'returnType' variable.
      */
