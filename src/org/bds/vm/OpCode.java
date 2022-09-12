@@ -125,7 +125,7 @@ public enum OpCode {
 	, RMONEXIT
 	// Scope: create new scope (and push it), restore old scope (pop current scope)
 	, SCOPEPOP, SCOPEPUSH
-	// Set value
+	// Set a value
 	, SET, SETFIELD, SETFIELDPOP, SETLIST, SETLISTPOP, SETMAP
 	// Leave value in the stack
 	, SETMAPPOP
