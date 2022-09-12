@@ -64,7 +64,7 @@ public class Wait extends Statement {
             sb.append(OpCode.WAIT + "\n");
         }
 
-        sb.append(OpCode.JMP + " " + labelOk + "\n");
+        sb.append(OpCode.JMPT + " " + labelOk + "\n");
         sb.append(labelFail + ":\n");
         sb.append(OpCode.PUSHS + " '" + errMsg + "'\n");
         sb.append(OpCode.ERROR + "\n");

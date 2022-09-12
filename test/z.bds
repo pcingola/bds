@@ -1,25 +1,16 @@
 #!/usr/bin/env bds
 
-bool try1, try2
-bool finally1, finally2
-bool main1, main2
+addResource('gpu', 4)
 
-# Main
-
-main1 = true
-
-try {
-    try1 = true
-    println "TRY1"
-    throw new Exception("This is an exception")
-    try2 = true
-    println "TRY2"
-} finally {
-    finally1 = true
-    println "FINALLY"
-    throw new Exception("This is an exception in 'finally'")
-    finally2 = true
+for(int i=0; i < 3; i++) {
+	task(gpu := 8) {
+		sys echo "Start"
+		sys sleep 1
+		sys echo "End"
+	}
 }
+println "Scheduled"
+wait
+println "Done!"
 
-main2 = true
 
