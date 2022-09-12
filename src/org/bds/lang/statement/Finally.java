@@ -36,9 +36,8 @@ public class Finally extends StatementWithScope {
         StringBuilder sb = new StringBuilder();
         sb.append(super.toAsm());
         // Note: If another exception is thrown within the 'finally' block, this
-        // exception handler should not handle it (it should be handled
-        // by a surrounding try/catch)
-        sb.append(OpCode.EHCSTART + "\n");
+        // exception handler should not handle it (it should be handled by a surrounding try/catch)
+        sb.append(OpCode.EHFSTART + "\n");
         if (statement != null) {
             if (isNeedsScope()) sb.append(OpCode.SCOPEPUSH + "\n");
             sb.append(statement.toAsm());

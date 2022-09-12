@@ -51,8 +51,7 @@ public class Catch extends StatementWithScope {
         sb.append(getLabel() + ":\n");
         // Reset Exception handler
         // Note: If another exception is thrown within the 'catch' block, this
-        // exception handler should not handle it (it should be handled
-        // by a surrounding try/catch)
+        // exception handler should not handle it (it should be handled by a surrounding try/catch)
         sb.append(OpCode.EHCSTART + "\n");
         if (statement != null) {
             if (isNeedsScope()) sb.append(OpCode.SCOPEPUSH + "\n");
