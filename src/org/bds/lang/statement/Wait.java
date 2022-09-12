@@ -8,6 +8,7 @@ import org.bds.lang.type.TypeList;
 import org.bds.lang.type.Types;
 import org.bds.lang.value.ValueFunction;
 import org.bds.symbol.SymbolTable;
+import org.bds.vm.OpCode;
 
 /**
  * A "wait" statement
@@ -16,64 +17,64 @@ import org.bds.symbol.SymbolTable;
  */
 public class Wait extends Statement {
 
-	private static final long serialVersionUID = -6803518993665623097L;
+    private static final long serialVersionUID = -6803518993665623097L;
 
-	Expression taskId;
+    Expression taskId;
 
-	public Wait(BdsNode parent, ParseTree tree) {
-		super(parent, tree);
-	}
+    public Wait(BdsNode parent, ParseTree tree) {
+        super(parent, tree);
+    }
 
-	@Override
-	protected void parse(ParseTree tree) {
-		// child[0] = 'wait'
-		if (tree.getChildCount() > 1) taskId = (Expression) factory(tree, 1);
-	}
+    @Override
+    protected void parse(ParseTree tree) {
+        // child[0] = 'wait'
+        if (tree.getChildCount() > 1) taskId = (Expression) factory(tree, 1);
+    }
 
-	@Override
-	public String toAsm() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(super.toAsm());
+    @Override
+    public String toAsm() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toAsm());
 
-		String labelBase = baseLabelName();
-		String labelOk = labelBase + "ok";
-		String labelFail = labelBase + "fail";
+        String labelBase = baseLabelName();
+        String labelOk = labelBase + "ok";
+        String labelFail = labelBase + "fail";
 
-		// No arguments? Wait for all tasks
-		String errMsg = "Error in wait statement, file " + getFileName() + ", line " + getLineNum();
-		if (taskId == null) {
-			sb.append("waitall\n");
-		} else if (taskId.isList()) {
-			// Wait for a list of taskIds
-			sb.append(taskId.toAsm());
-			sb.append("wait\n");
-		} else {
-			// Wait for a single taskId: We need to pass a list of one element
+        // No arguments? Wait for all tasks
+        String errMsg = "Error in wait statement, file " + getFileName() + ", line " + getLineNum();
+        if (taskId == null) {
+            sb.append(OpCode.WAITALL + "\n");
+        } else if (taskId.isList()) {
+            // Wait for a list of taskIds
+            sb.append(taskId.toAsm());
+            sb.append(OpCode.WAIT + "\n");
+        } else {
+            // Wait for a single taskId: We need to pass a list of one element
 
-			// Create an empty list, add single element to it
-			TypeList listString = TypeList.get(Types.STRING);
-			SymbolTable symtab = listString.getSymbolTable();
-			ValueFunction methodAdd = symtab.findFunction(MethodNativeListAdd.class);
+            // Create an empty list, add single element to it
+            TypeList listString = TypeList.get(Types.STRING);
+            SymbolTable symtab = listString.getSymbolTable();
+            ValueFunction methodAdd = symtab.findFunction(MethodNativeListAdd.class);
 
-			sb.append("new " + listString + "\n");
-			sb.append(taskId.toAsm());
-			sb.append("callnative " + methodAdd + "\n");
+            sb.append(OpCode.NEW + " " + listString + "\n");
+            sb.append(taskId.toAsm());
+            sb.append(OpCode.CALLNATIVE + " " + methodAdd + "\n");
 
-			// Now we have a list of elements to wait
-			sb.append("wait\n");
-		}
+            // Now we have a list of elements to wait
+            sb.append(OpCode.WAIT + "\n");
+        }
 
-		sb.append("jmpt " + labelOk + "\n");
-		sb.append(labelFail + ":\n");
-		sb.append("pushs '" + errMsg + "'\n");
-		sb.append("error\n");
-		sb.append(labelOk + ":\n");
+        sb.append(OpCode.JMP + " " + labelOk + "\n");
+        sb.append(labelFail + ":\n");
+        sb.append(OpCode.PUSHS + " '" + errMsg + "'\n");
+        sb.append(OpCode.ERROR + "\n");
+        sb.append(labelOk + ":\n");
 
-		return sb.toString();
-	}
+        return sb.toString();
+    }
 
-	@Override
-	public String toString() {
-		return this.getClass().getSimpleName().toLowerCase() + (taskId != null ? taskId : "") + "\n";
-	}
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName().toLowerCase() + (taskId != null ? taskId : "") + "\n";
+    }
 }
