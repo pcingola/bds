@@ -10,8 +10,6 @@ import org.bds.symbol.SymbolTable;
 
 /**
  * An unary expression
- *
- * @author pcingola
  */
 public class ExpressionUnary extends Expression {
 

@@ -9,6 +9,7 @@ import org.bds.lang.type.Types;
 import org.bds.lang.value.LiteralInt;
 import org.bds.lang.value.LiteralReal;
 import org.bds.symbol.SymbolTable;
+import org.bds.vm.OpCode;
 
 /**
  * A arithmetic negation
@@ -64,14 +65,19 @@ public class ExpressionUnaryPlusMinus extends ExpressionUnary {
                 // If it's a literal, just use the minus sign in the literal
                 return ((LiteralInt) expr).toAsm(true);
             }
-            return "pushi 0\n" + expr.toAsm() + "subi\n";
+            return OpCode.PUSHI + " 0\n" //
+                    + expr.toAsm() //
+                    + OpCode.SUBI + "\n";
+
         } else if (isReal()) {
             // Real expression
             if (isLiteralReal()) {
                 // If it's a literal, just use the minus sign in the literal
                 return ((LiteralReal) expr).toAsm(true);
             }
-            return "pushr 0.0\n" + expr.toAsm() + "subr\n";
+            return OpCode.PUSHR + " 0.0\n" //
+                    + expr.toAsm() //
+                    + OpCode.SUBR + "\n";
         } else if (returnType == null) {
             compileError("Unary expression '" + op + "' unknown return type.");
         } else {

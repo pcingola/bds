@@ -424,10 +424,6 @@ public abstract class BdsNode implements Serializable, BdsLog {
         }
     }
 
-//    public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
-//        return returnType(symtab, null);
-//    }
-
     /**
      * Calculate return type and assign it to 'returnType' variable.
      */
@@ -465,14 +461,14 @@ public abstract class BdsNode implements Serializable, BdsLog {
                 ;
     }
 
-    public String toAsmRetType() {
-        if (isInt()) return "i";
-        if (isReal()) return "r";
-        if (isString()) return "s";
-        if (isBool()) return "b";
-        if (isList()) return "l";
-        compileError("Cannot cast to int/real/string/bool/list");
-        return "";
+    public PrimitiveType toAsmRetType() {
+        if (isInt()) return PrimitiveType.INT;
+        if (isReal()) return PrimitiveType.REAL;
+        if (isString()) return PrimitiveType.STRING;
+        if (isBool()) return PrimitiveType.BOOL;
+        if (isList()) return PrimitiveType.LIST;
+        compileError("Cannot cast to int, real, string, bool, or list");
+        return null;
     }
 
     public String toStringClassFileLinePos() {

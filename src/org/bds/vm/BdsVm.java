@@ -450,6 +450,9 @@ public class BdsVm implements Serializable, BdsLog {
 		exceptionHandler = new ExceptionHandler(finallyLabel);
 	}
 
+	/**
+	 * Exception handler: Start a 'catch' section
+	 */
 	void ehcStart() {
 		exceptionHandler.catchStart();
 	}
@@ -464,6 +467,9 @@ public class BdsVm implements Serializable, BdsLog {
 		if (pendingException != null) throwException(pendingException); // Rethrow pending exception
 	}
 
+	/**
+	 * Exception handler: 'Finally' section start
+	 */
 	void ehfStart() {
 		exceptionHandler.finallyStart();
 	}

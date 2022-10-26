@@ -29,7 +29,7 @@ public class ExpressionLogicOp extends ExpressionDelegateBinary {
 			break;
 
 		default:
-			compileError("Unsuported operator '" + op + "'. This should never happen!");
+			compileError("Unsupported operator '" + op + "'. This should never happen!");
 		}
 	}
 

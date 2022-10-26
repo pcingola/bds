@@ -2,6 +2,7 @@ package org.bds.lang.statement;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.bds.lang.BdsNode;
+import org.bds.vm.OpCode;
 
 /**
  * An "debug" statement
@@ -10,17 +11,17 @@ import org.bds.lang.BdsNode;
  */
 public class Debug extends Print {
 
-	private static final long serialVersionUID = -5740742098036893666L;
+    private static final long serialVersionUID = -5740742098036893666L;
 
-	public Debug(BdsNode parent, ParseTree tree) {
-		super(parent, tree);
-	}
+    public Debug(BdsNode parent, ParseTree tree) {
+        super(parent, tree);
+    }
 
-	@Override
-	public String toAsm() {
-		return toAsmNode() //
-				+ (expr != null ? expr.toAsm() : "pushs ''\n") //
-				+ "debug\n";
-	}
+    @Override
+    public String toAsm() {
+        return toAsmNode() //
+                + (expr != null ? expr.toAsm() : OpCode.PUSHS + " ''\n") //
+                + OpCode.DEBUG + "\n";
+    }
 
 }

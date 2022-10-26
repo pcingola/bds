@@ -7,6 +7,7 @@ import org.bds.lang.BdsNode;
 import org.bds.lang.type.Type;
 import org.bds.lang.type.Types;
 import org.bds.symbol.SymbolTable;
+import org.bds.vm.OpCode;
 
 /**
  * Cast one type to another
@@ -44,7 +45,7 @@ public class ExpressionCast extends ExpressionUnary {
 
 	@Override
 	public String toAsm() {
-		return expr.toAsm() + "CAST_TOC " + returnType + "\n";
+		return expr.toAsm() + OpCode.CAST_TOC + " " + returnType + "\n";
 	}
 
 	@Override

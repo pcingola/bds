@@ -9,6 +9,7 @@ import org.bds.lang.value.Value;
 import org.bds.lang.value.ValueList;
 import org.bds.lang.value.ValueString;
 import org.bds.run.BdsThread;
+import org.bds.util.Gpr;
 
 public class MethodNative_string_dirPath extends MethodNativeString {
 
@@ -34,6 +35,8 @@ public class MethodNative_string_dirPath extends MethodNativeString {
 	public Value runMethod(BdsThread bdsThread, Value vthis) {
 		String baseDir = vthis.asString();
 		if (!baseDir.endsWith("/")) baseDir += "/";
+
+		Gpr.debug("baseDir: " + baseDir);
 
 		// List files
 		ValueList vlist = new ValueList(returnType);

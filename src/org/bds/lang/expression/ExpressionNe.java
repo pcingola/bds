@@ -2,6 +2,8 @@ package org.bds.lang.expression;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.bds.lang.BdsNode;
+import org.bds.lang.type.PrimitiveType;
+import org.bds.vm.OpCode;
 
 /**
  * A comparison expression (!=)
@@ -22,8 +24,20 @@ public class ExpressionNe extends ExpressionCompare {
 	}
 
 	@Override
-	public String toAsmOp() {
-		return "ne";
+	public OpCode toAsmOp(PrimitiveType type) {
+		switch (type) {
+			case BOOL:
+				return OpCode.NEB;
+			case INT:
+				return OpCode.NEI;
+			case REAL:
+				return OpCode.NER;
+			case STRING:
+				return OpCode.NES;
+			default:
+				compileError("Could not find operator '" + op() + "' for type '" + type + "'");
+		}
+		return null;
 	}
 
 }

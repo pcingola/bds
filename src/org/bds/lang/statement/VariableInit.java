@@ -9,6 +9,7 @@ import org.bds.lang.type.Type;
 import org.bds.lang.value.LiteralListEmpty;
 import org.bds.lang.value.LiteralMapEmpty;
 import org.bds.symbol.SymbolTable;
+import org.bds.vm.OpCode;
 
 /**
  * Variable initialization
@@ -118,10 +119,10 @@ public class VariableInit extends BdsNode {
         if (vdt.equals(et)) return "";
 
         // Different types, we need to cast
-        if (vdt.isBool()) return "cast_tob\n";
-        else if (vdt.isInt()) return "cast_toi\n";
-        else if (vdt.isReal()) return "cast_tor\n";
-        else if (vdt.isString()) return "cast_tos\n";
+        if (vdt.isBool()) return OpCode.CAST_TOB + "\n";
+        else if (vdt.isInt()) return OpCode.CAST_TOI + "\n";
+        else if (vdt.isReal()) return OpCode.CAST_TOR + "\n";
+        else if (vdt.isString()) return OpCode.CAST_TOS + "\n";
         else if (vdt.isClass() && et.isClass()) return ""; // Class to class, no need to cast
         else if (vdt.isList() && et.isList() && (expression instanceof LiteralListEmpty)) return ""; // Empty, no need to cast
         else if (vdt.isMap() && et.isMap() && (expression instanceof LiteralMapEmpty)) return ""; // Empty, no need to cast
@@ -144,8 +145,8 @@ public class VariableInit extends BdsNode {
                 + expression.toAsm() //
                 + (help != null ? "# help: " + help + "\n" : "") //
                 + toAsmCast() //
-                + "load this\n" //
-                + "setfieldpop  " + varName + "\n"//
+                + OpCode.LOAD + " " + ClassDeclaration.VAR_THIS + "\n" //
+                + OpCode.SETFIELDPOP + " " + varName + "\n"//
                 ;
     }
 
@@ -154,7 +155,7 @@ public class VariableInit extends BdsNode {
                 + (expression != null ? expression.toAsm() : toAsmDefaultValue()) //
                 + (help != null ? "# help: " + help + "\n" : "") //
                 + toAsmCast() //
-                + "varpop " + varName + "\n" //
+                + OpCode.VARPOP + " " + varName + "\n" //
                 ;
     }
 

@@ -1,11 +1,12 @@
 package org.bds.lang.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.bds.lang.BdsNode;
 import org.bds.lang.type.TypeClass;
+import org.bds.vm.OpCode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * for( ForInit ; ForCondition ; ForEnd ) Statements
@@ -14,100 +15,100 @@ import org.bds.lang.type.TypeClass;
  */
 public class TryCatchFinally extends StatementWithScope {
 
-	private static final long serialVersionUID = 1874966304662651073L;
+    private static final long serialVersionUID = 1874966304662651073L;
 
-	Catch[] catchStatements;
-	Finally finallyStatement;
-	Try tryStatement;
+    Catch[] catchStatements;
+    Finally finallyStatement;
+    Try tryStatement;
 
-	public TryCatchFinally(BdsNode parent, ParseTree tree) {
-		super(parent, tree);
-	}
+    public TryCatchFinally(BdsNode parent, ParseTree tree) {
+        super(parent, tree);
+    }
 
-	/**
-	 * Is this class derived from Exception class?
-	 */
-	boolean isExceptionType(TypeClass typeClass) {
-		return false;
-	}
+    /**
+     * Is this class derived from Exception class?
+     */
+    boolean isExceptionType(TypeClass typeClass) {
+        return false;
+    }
 
-	@Override
-	protected void parse(ParseTree tree) {
-		tryStatement = new Try(this, tree); // Parse 'try'
-		catchStatements = parseCatch(tree); // Parse 'catch' statements
-		finallyStatement = new Finally(this, tree); // Parse 'finally' statement
-	}
+    @Override
+    protected void parse(ParseTree tree) {
+        tryStatement = new Try(this, tree); // Parse 'try'
+        catchStatements = parseCatch(tree); // Parse 'catch' statements
+        finallyStatement = new Finally(this, tree); // Parse 'finally' statement
+    }
 
-	/**
-	 * Parse catch statements
-	 */
-	Catch[] parseCatch(ParseTree tree) {
-		int idx = 0;
-		// Parse 'catch' statements
-		List<Catch> catchStatementsList = new ArrayList<>();
+    /**
+     * Parse catch statements
+     */
+    Catch[] parseCatch(ParseTree tree) {
+        int idx = 0;
+        // Parse 'catch' statements
+        List<Catch> catchStatementsList = new ArrayList<>();
 
-		// Find first 'catch' node
-		while (!isTerminal(tree, idx, "catch")) {
-			idx++;
-			if (idx >= tree.getChildCount()) return new Catch[0];
-		}
+        // Find first 'catch' node
+        while (!isTerminal(tree, idx, "catch")) {
+            idx++;
+            if (idx >= tree.getChildCount()) return new Catch[0];
+        }
 
-		// Parse all catch nodes and add to the list
-		while (isTerminal(tree, idx, "catch")) {
-			Catch catchStatement = new Catch(this, tree);
-			idx = catchStatement.parse(tree, idx);
-			catchStatementsList.add(catchStatement);
-			if (idx >= tree.getChildCount()) break;
-		}
+        // Parse all catch nodes and add to the list
+        while (isTerminal(tree, idx, "catch")) {
+            Catch catchStatement = new Catch(this, tree);
+            idx = catchStatement.parse(tree, idx);
+            catchStatementsList.add(catchStatement);
+            if (idx >= tree.getChildCount()) break;
+        }
 
-		return catchStatementsList.toArray(new Catch[0]);
-	}
+        return catchStatementsList.toArray(new Catch[0]);
+    }
 
-	@Override
-	public String toAsm() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(super.toAsm());
+    @Override
+    public String toAsm() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toAsm());
 
-		String finallyLabel = baseLabelName() + "finally";
+        String finallyLabel = baseLabelName() + "finally";
 
-		if (isNeedsScope()) sb.append("scopepush\n");
-		sb.append("ehcreate '" + finallyLabel + "'\n");
+        if (isNeedsScope()) sb.append(OpCode.SCOPEPUSH + "\n");
+        sb.append(OpCode.EHCREATE + " '" + finallyLabel + "'\n");
 
-		// Register all catch blocks in Exception handler
-		for (Catch catchStatement : catchStatements)
-			sb.append(catchStatement.toAsmAddToExceptionHandler());
+        // Register all catch blocks in Exception handler
+        for (Catch catchStatement : catchStatements)
+            sb.append(catchStatement.toAsmAddToExceptionHandler());
 
-		// Add 'try' statement
-		sb.append(tryStatement.toAsm(finallyLabel));
+        // Add 'try' statement
+        sb.append(tryStatement.toAsm(finallyLabel));
 
-		// Add catch blocks
-		for (Catch catchStatement : catchStatements) {
-			sb.append(catchStatement.toAsm(finallyLabel));
-		}
+        // Add catch blocks
+        for (Catch catchStatement : catchStatements) {
+            sb.append(catchStatement.toAsm(finallyLabel));
+        }
 
-		// Add finally block
-		sb.append(finallyLabel + ":\n");
-		if (finallyStatement != null) sb.append(finallyStatement.toAsm());
+        // Add finally block
+        sb.append(finallyLabel + ":\n");
+        if (finallyStatement != null) sb.append(finallyStatement.toAsm());
 
-		if (isNeedsScope()) sb.append("scopepop\n");
+        if (isNeedsScope()) sb.append(OpCode.SCOPEPOP + "\n");
 
-		return sb.toString();
-	}
+        return sb.toString();
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
 
-		if (tryStatement != null) sb.append(tryStatement);
+        if (tryStatement != null) sb.append(tryStatement);
 
-		if (catchStatements != null) {
-			for (Catch c : catchStatements)
-				sb.append(c);
-		}
+        if (catchStatements != null) {
+            for (Catch c : catchStatements)
+                sb.append(c);
+        }
 
-		if (finallyStatement != null) sb.append(finallyStatement);
+        if (finallyStatement != null) sb.append(finallyStatement);
 
-		return sb.toString();
-	}
+        return sb.toString();
+    }
 
 }

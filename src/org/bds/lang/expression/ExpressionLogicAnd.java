@@ -2,6 +2,7 @@ package org.bds.lang.expression;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.bds.lang.BdsNode;
+import org.bds.vm.OpCode;
 
 /**
  * Boolean AND
@@ -34,11 +35,11 @@ public class ExpressionLogicAnd extends ExpressionLogic {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(left.toAsm());
-		sb.append("jmpf " + labelFalse + "\n");
+		sb.append(OpCode.JMPF + " " + labelFalse + "\n");
 		sb.append(right.toAsm());
-		sb.append("jmp " + labelEnd + "\n");
+		sb.append(OpCode.JMP + " " + labelEnd + "\n");
 		sb.append(labelFalse + ":\n");
-		sb.append("pushb false\n");
+		sb.append(OpCode.PUSHB + " false\n");
 		sb.append(labelEnd + ":\n");
 
 		return sb.toString();

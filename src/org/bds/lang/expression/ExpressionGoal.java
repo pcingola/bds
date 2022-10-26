@@ -8,6 +8,7 @@ import org.bds.lang.type.Type;
 import org.bds.lang.type.TypeList;
 import org.bds.lang.type.Types;
 import org.bds.symbol.SymbolTable;
+import org.bds.vm.OpCode;
 
 /**
  * A 'goal' expression
@@ -37,7 +38,7 @@ public class ExpressionGoal extends ExpressionUnary {
 	public String toAsm() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(expr.toAsm());
-		sb.append("goal\n");
+		sb.append(OpCode.GOAL + "\n");
 		return sb.toString();
 	}
 

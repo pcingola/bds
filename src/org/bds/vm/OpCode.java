@@ -92,7 +92,7 @@ public enum OpCode {
 	, LTB, LTI, LTR, LTS
 	// Modulo (int)
 	, MODI
-	// Multiplication (int)
+	// Multiplication (int, real, string)
 	, MULI, MULR, MULS
 	// Equality test (not equals)
 	, NEB, NEI, NER, NES
@@ -125,14 +125,17 @@ public enum OpCode {
 	, RMONEXIT
 	// Scope: create new scope (and push it), restore old scope (pop current scope)
 	, SCOPEPOP, SCOPEPUSH
-	// Set value
+	// Set a value
 	, SET, SETFIELD, SETFIELDPOP, SETLIST, SETLISTPOP, SETMAP
 	// Leave value in the stack
 	, SETMAPPOP
 	// Remove value from stack
 	, SETPOP
-	// Store value to local variable (scope). Leaves the value in the stack (stack is not changed)
+	// Store value to local variable (scope).
+	// STORE: Leaves value in the stack (stack is not changed)
+	// STOREPOP: Removes value from stack
 	//    STORE varName
+	//    STOREPOP varName
 	, STORE, STOREPOP
 	// Subtraction
 	, SUBI, SUBR

@@ -101,7 +101,7 @@ public class BdsTest {
         // Create command
         bds = new Bds(args);
         bds.getBdsRun().setStackCheck(true);
-		return bds;
+        return bds;
     }
 
     /**
@@ -169,8 +169,8 @@ public class BdsTest {
 
     public void checkError(String error) {
         BdsThread bdsThread = bds.getBdsRun().getBdsThread();
-        bdsThread.getErrorMessage();
-        Assert.assertEquals("Error message does not match", error, bdsThread.getErrorMessage());
+        var errmsg = bdsThread.getErrorMessage();
+        Assert.assertEquals("Error message does not match", error, errmsg);
     }
 
     public void checkException(String exceptionType) {
@@ -391,16 +391,16 @@ public class BdsTest {
         }
     }
 
-	/**
-	 * Run command
-	 */
+    /**
+     * Run command
+     */
     public void run() {
         run(bds);
     }
 
-	/**
-	 * Run a bds command
-	 */
+    /**
+     * Run a bds command
+     */
     protected void run(Bds bds) {
         if (bds == null) bds = bds(false); // Create command
 

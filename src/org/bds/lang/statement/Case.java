@@ -1,8 +1,5 @@
 package org.bds.lang.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.bds.compile.CompilerMessage.MessageType;
 import org.bds.compile.CompilerMessages;
@@ -12,150 +9,156 @@ import org.bds.lang.expression.ExpressionEq;
 import org.bds.lang.type.Type;
 import org.bds.symbol.SymbolTable;
 import org.bds.util.Gpr;
+import org.bds.vm.OpCode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Case statement (in switch condition)
- *
  */
 public class Case extends StatementWithScope {
 
-	private static final long serialVersionUID = -1263350436763086010L;
+    private static final long serialVersionUID = -1263350436763086010L;
 
-	Expression expression;
-	Statement[] statements;
-	ExpressionEq exprEq;
+    Expression expression;
+    Statement[] statements;
+    ExpressionEq exprEq;
 
-	public Case(BdsNode parent, ParseTree tree) {
-		super(parent, tree);
-		statements = new Statement[0];
-	}
+    public Case(BdsNode parent, ParseTree tree) {
+        super(parent, tree);
+        statements = new Statement[0];
+    }
 
-	protected boolean isEndOfStatements(ParseTree tree, int idx) {
-		if (idx >= tree.getChildCount()) return true;
-		return isTerminal(tree, idx, "case") || isTerminal(tree, idx, "default");
-	}
+    protected boolean isEndOfStatements(ParseTree tree, int idx) {
+        if (idx >= tree.getChildCount()) return true;
+        return isTerminal(tree, idx, "case") || isTerminal(tree, idx, "default");
+    }
 
-	protected String label() {
-		return baseLabelName() + "case";
-	}
+    protected String label() {
+        return baseLabelName() + "case";
+    }
 
-	@Override
-	protected void parse(ParseTree tree) {
-		// Do nothing. The other parse method will be invoked by 'switch' parsing
-	}
+    @Override
+    protected void parse(ParseTree tree) {
+        // Do nothing. The other parse method will be invoked by 'switch' parsing
+    }
 
-	/**
-	 * Invoked by 'switch' parsing
-	 * Return last index in tree that was parsed + 1
-	 */
-	protected int parse(ParseTree tree, int idx) {
-		List<Statement> stats = new ArrayList<>();
+    /**
+     * Invoked by 'switch' parsing
+     * Return last index in tree that was parsed + 1
+     */
+    protected int parse(ParseTree tree, int idx) {
+        List<Statement> stats = new ArrayList<>();
 
-		idx = findIndex(tree, "case", idx);
-		if (idx < 0) return idx; // No case statements found
-		lineAndPos(tree.getChild(idx));
+        idx = findIndex(tree, "case", idx);
+        if (idx < 0) return idx; // No case statements found
+        lineAndPos(tree.getChild(idx));
 
-		// Add 'case' expression
-		idx++;
-		expression = (Expression) factory(tree, idx++);
-		if (isTerminal(tree, idx, ":")) idx++; // ':'
+        // Add 'case' expression
+        idx++;
+        expression = (Expression) factory(tree, idx++);
+        if (isTerminal(tree, idx, ":")) idx++; // ':'
 
-		// Add all statement
-		while (idx < tree.getChildCount()) {
-			if (isEndOfStatements(tree, idx)) break;
-			Statement stat = (Statement) factory(tree, idx++);
-			if (stat != null) stats.add(stat);
-		}
-		statements = stats.toArray(new Statement[0]);
+        // Add all statement
+        while (idx < tree.getChildCount()) {
+            if (isEndOfStatements(tree, idx)) break;
+            Statement stat = (Statement) factory(tree, idx++);
+            if (stat != null) stats.add(stat);
+        }
+        statements = stats.toArray(new Statement[0]);
 
-		// Create an expression for comparing 'switch' expression to 'case' expression
-		exprEq = new ExpressionEq(this, null);
-		exprEq.setLeft(((Switch) parent).getSwitchExpr());
-		exprEq.setRight(expression);
+        // Create an expression for comparing 'switch' expression to 'case' expression
+        exprEq = new ExpressionEq(this, null);
+        exprEq.setLeft(((Switch) parent).getSwitchExpr());
+        exprEq.setRight(expression);
 
-		return idx;
-	}
+        return idx;
+    }
 
-	@Override
-	public String toAsm() {
-		StringBuilder sb = new StringBuilder();
+    @Override
+    public String toAsm() {
+        StringBuilder sb = new StringBuilder();
 
-		// Statement
-		sb.append(label() + ":\n");
-		for (Statement s : statements)
-			sb.append(s.toAsm());
+        // Statement
+        sb.append(label() + ":\n");
+        for (Statement s : statements)
+            sb.append(s.toAsm());
 
-		return sb.toString();
-	}
+        return sb.toString();
+    }
 
-	/**
-	 * Evaluate case expression and jump to case statements if it is equals to switch expression
-	 */
-	public String toAsmCondition(String varSwitchExpr) {
-		StringBuilder sb = new StringBuilder();
+    /**
+     * Evaluate case expression and jump to case statements if it is equals to switch expression
+     */
+    public String toAsmCondition(String varSwitchExpr) {
+        StringBuilder sb = new StringBuilder();
 
-		String labelCaseCond = baseLabelName() + "case_condition";
-		sb.append(labelCaseCond + ":\n");
+        String labelCaseCond = baseLabelName() + "case_condition";
+        sb.append(labelCaseCond + ":\n");
 
-		// Switch expression return type
-		Switch switchSt = (Switch) parent;
-		Expression switchExpr = switchSt.getSwitchExpr();
+        // Switch expression return type
+        Switch switchSt = (Switch) parent;
+        Expression switchExpr = switchSt.getSwitchExpr();
 
-		// Evaluate case expression
-		sb.append("load " + varSwitchExpr + "\n");
-		sb.append(expression.toAsm());
+        // Evaluate case expression
+        sb.append(OpCode.LOAD + " " + varSwitchExpr + "\n");
+        sb.append(expression.toAsm());
 
-		// Is it equal to switch expression?
-		sb.append("eq" + switchExpr.toAsmRetType() + "\n");
-		sb.append("jmpt " + label() + "\n"); // Equal? Jump to label
+        // Is it equal to switch expression?
 
-		return sb.toString();
-	}
+        ExpressionEq eeq = new ExpressionEq(null, null);
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
+        sb.append(eeq.toAsmOp(switchExpr.toAsmRetType()) + "\n");
+        sb.append(OpCode.JMPT + " " + label() + "\n"); // Equal? Jump to label
 
-		sb.append("case ");
-		if (expression != null) sb.append(expression);
-		sb.append(":\n");
-		if (statements != null) {
-			for (Statement s : statements)
-				sb.append(Gpr.prependEachLine("\t", s.toString()));
-		}
-		sb.append("\n");
+        return sb.toString();
+    }
 
-		return sb.toString();
-	}
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
 
-	@Override
-	public void typeCheckNotNull(SymbolTable symtab, CompilerMessages compilerMessages) {
-		if (expression != null) {
-			Type caseExprType = expression.returnType(symtab, compilerMessages);
+        sb.append("case ");
+        if (expression != null) sb.append(expression);
+        sb.append(":\n");
+        if (statements != null) {
+            for (Statement s : statements)
+                sb.append(Gpr.prependEachLine("\t", s.toString()));
+        }
+        sb.append("\n");
 
-			Expression switchExpr = ((Switch) parent).getSwitchExpr();
-			if (switchExpr == null) {
-				compilerMessages.add(this, "Empty switch statment", MessageType.ERROR);
-				return;
-			}
+        return sb.toString();
+    }
 
-			Type switchExprType = ((Switch) parent).getSwitchExpr().getReturnType();
+    @Override
+    public void typeCheckNotNull(SymbolTable symtab, CompilerMessages compilerMessages) {
+        if (expression != null) {
+            Type caseExprType = expression.returnType(symtab, compilerMessages);
 
-			if (switchExprType == null) {
-				// This will be reported in error messages
-			} else if (caseExprType == null) {
-				compilerMessages.add(this, "Cannot 'case' resolve expression '" + expression + "'", MessageType.ERROR);
-			} else if (switchExprType.isString() && caseExprType.isString()) {
-				// OK, convert to string
-			} else if (switchExprType.isNumeric() && caseExprType.isNumeric()) {
-				// OK, convert to numeric
-			} else {
-				compilerMessages.add(this//
-				, "Switch expression and case expression types do not match (" //
-						+ switchExprType + " vs " + caseExprType //
-						+ "): case " + expression, MessageType.ERROR);
-			}
-		}
-	}
+            Expression switchExpr = ((Switch) parent).getSwitchExpr();
+            if (switchExpr == null) {
+                compilerMessages.add(this, "Empty switch statment", MessageType.ERROR);
+                return;
+            }
+
+            Type switchExprType = ((Switch) parent).getSwitchExpr().getReturnType();
+
+            if (switchExprType == null) {
+                // This will be reported in error messages
+            } else if (caseExprType == null) {
+                compilerMessages.add(this, "Cannot 'case' resolve expression '" + expression + "'", MessageType.ERROR);
+            } else if (switchExprType.isString() && caseExprType.isString()) {
+                // OK, convert to string
+            } else if (switchExprType.isNumeric() && caseExprType.isNumeric()) {
+                // OK, convert to numeric
+            } else {
+                compilerMessages.add(this//
+                        , "Switch expression and case expression types do not match (" //
+                                + switchExprType + " vs " + caseExprType //
+                                + "): case " + expression, MessageType.ERROR);
+            }
+        }
+    }
 
 }

@@ -7,6 +7,7 @@ import org.bds.lang.type.Type;
 import org.bds.lang.type.Types;
 import org.bds.symbol.SymbolTable;
 import org.bds.util.GprString;
+import org.bds.vm.OpCode;
 
 /**
  * Expression 'Literal'
@@ -71,8 +72,8 @@ public class LiteralString extends Literal {
 
 	@Override
 	public String toAsm() {
-		if (value == null) return "pushs ''\n";
-		if (interpolateVars == null) return "pushs '" + value.asString() + "'\n";
+		if (value == null) return OpCode.PUSHS + " ''\n";
+		if (interpolateVars == null) return OpCode.PUSHS + " '" + value.asString() + "'\n";
 		return interpolateVars.toAsm();
 	}
 

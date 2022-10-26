@@ -585,7 +585,7 @@ public class BdsRun implements BdsLog {
     }
 
     /**
-     * Compile and run tests
+     * Compile and run tests, calculate coverage
      */
     int runTests() {
         // Compile, abort on errors
