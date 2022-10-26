@@ -1,16 +1,9 @@
 #!/usr/bin/env bds
 
-addResource('gpu', 4)
-
-for(int i=0; i < 3; i++) {
-	task(gpu := 8) {
-		sys echo "Start"
-		sys sleep 1
-		sys echo "End"
-	}
-}
-println "Scheduled"
-wait
-println "Done!"
-
+# HTTP
+d := "http://ftp.ensembl.org/pub/release-75/fasta/homo_sapiens/dna/"
+dd1 := d.dir()
+println "dd1=$dd1"
+dd := d.dir('**.dna.toplevel.fa.gz')
+println "dd=$dd"
 

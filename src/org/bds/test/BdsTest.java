@@ -170,7 +170,6 @@ public class BdsTest {
     public void checkError(String error) {
         BdsThread bdsThread = bds.getBdsRun().getBdsThread();
         var errmsg = bdsThread.getErrorMessage();
-        Gpr.debug("ERROR MESSAGE: '" + errmsg + "'");
         Assert.assertEquals("Error message does not match", error, errmsg);
     }
 

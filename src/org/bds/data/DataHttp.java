@@ -2,6 +2,7 @@ package org.bds.data;
 
 import org.bds.util.GprHttp;
 import org.bds.util.Timer;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -127,6 +128,8 @@ public class DataHttp extends DataRemote {
     public ArrayList<Data> list() {
         // Download a page and extract all 'hrefs'
         ArrayList<Data> fileList = new ArrayList<>();
+        Connection.Response response = null;
+
         try {
             // Read HTML page
             String baseUrl = uri.toURL().toString();
@@ -140,19 +143,32 @@ public class DataHttp extends DataRemote {
             }
 
             // Get html document
-            Document doc = jsoupConnection.get();
-
-            // Parse html, add all 'href' links
-            Elements links = doc.select("a[href]");
-            for (Element link : links) {
-                String href = link.attr("abs:href");
-                fileList.add(new DataHttp(href));
-            }
+            response = jsoupConnection.execute();
         } catch (Exception e) {
-            error("Error while listing file from '" + this + "'");
+            log(e.getMessage());
+            if (isDebug()) e.printStackTrace();
+            error("Connection error while listing file from '" + this + "'");
         } finally {
             close();
         }
+
+        // Parse html, add all 'href' links
+        if (response != null) {
+            try {
+                Document doc = Jsoup.parse(response.body());
+
+                Elements links = doc.select("a[href]");
+                for (Element link : links) {
+                    String href = link.attr("abs:href");
+                    fileList.add(new DataHttp(href));
+                }
+            } catch (Exception e) {
+                log(e.getMessage());
+                if (isDebug()) e.printStackTrace();
+                error("Error while listing file from '" + this + "'");
+            }
+        }
+
         return fileList;
     }
 
