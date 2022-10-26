@@ -1,5 +1,6 @@
 package org.bds.data;
 
+import org.bds.util.Gpr;
 import org.bds.util.GprHttp;
 import org.bds.util.Timer;
 import org.jsoup.Connection;
@@ -31,7 +32,7 @@ public class DataHttp extends DataRemote {
 
     public DataHttp(String urlStr) {
         super(urlStr, DataType.HTTP);
-        uri = parseUrl(urlStr);
+        uri = parseUrl(urlStr, false);
         canWrite = false;
     }
 
@@ -129,10 +130,11 @@ public class DataHttp extends DataRemote {
         // Download a page and extract all 'hrefs'
         ArrayList<Data> fileList = new ArrayList<>();
         Connection.Response response = null;
+        String baseUrl = null;
 
         try {
             // Read HTML page
-            String baseUrl = uri.toURL().toString();
+            baseUrl = uri.toURL().toString();
             org.jsoup.Connection jsoupConnection = Jsoup.connect(baseUrl);
 
             // Use proxy?
@@ -155,17 +157,20 @@ public class DataHttp extends DataRemote {
         // Parse html, add all 'href' links
         if (response != null) {
             try {
-                Document doc = Jsoup.parse(response.body());
-
+                Document doc = Jsoup.parse(response.body(), baseUrl);
                 Elements links = doc.select("a[href]");
                 for (Element link : links) {
-                    String href = link.attr("abs:href");
-                    fileList.add(new DataHttp(href));
+                    String href = link.absUrl("href");
+                    if (href != null && !href.isBlank()) {
+                        fileList.add(new DataHttp(href));
+                    }
                 }
             } catch (Exception e) {
                 log(e.getMessage());
                 if (isDebug()) e.printStackTrace();
-                error("Error while listing file from '" + this + "'");
+                error("Error while listing files from '" + this + "'");
+            } finally {
+                close();
             }
         }
 

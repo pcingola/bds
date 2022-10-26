@@ -27,7 +27,7 @@ public class DataFtp extends DataRemote {
 
 	public DataFtp(String urlStr) {
 		super(urlStr, DataType.FTP);
-		uri = parseUrl(urlStr);
+		uri = parseUrl(urlStr, false);
 		hostname = uri.getHost();
 		canWrite = false;
 	}

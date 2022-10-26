@@ -18,22 +18,11 @@ public class TestCasesIntegrationZzz extends TestCasesBase {
 
 
 	/**
-	 * Serialize an executioner
+	 * Listing a remote HTTP directory using regex (`dir(regex)`)
 	 */
 	@Test
-	public void test29() {
-		Gpr.debug("Test");
-		verbose = true;
-		runAndCheckpoint("test/z.bds", "test/checkpoint_28.chp", "out", 47);
+	public void test30_HttpDirRegex() {
+		runAndCheck("test/z.bds", "dd", "[Homo_sapiens.GRCh37.75.dna.toplevel.fa.gz]");
 	}
-
-//	/**
-//	 * Do not create a checkpoint when "-noChp" command line option is used
-//	 */
-//	@Test
-//	public void test30() {
-//		Gpr.debug("Test");
-//		runAndCheckpoint("test/checkpoint_30.bds", "test/checkpoint_28.chp", "out", 47);
-//	}
 
 }

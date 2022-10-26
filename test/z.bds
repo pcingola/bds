@@ -1,9 +1,6 @@
 #!/usr/bin/env bds
 
 # HTTP
-d := "http://ftp.ensembl.org/pub/release-75/fasta/homo_sapiens/dna/"
-dd1 := d.dir()
-println "dd1=$dd1"
+d := "http://ftp.ensembl.org/pub/release-75/fasta/homo_sapiens/dna"
 dd := d.dir('**.dna.toplevel.fa.gz')
-println "dd=$dd"
 
