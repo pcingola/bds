@@ -1,20 +1,20 @@
 #!/usr/bin/env bds
 
-
-void test_01() {
-	println 'test 01'
-	zzz(true)
+int twice(int n) {
+    return 3 * n // Maybe I don't really know what "twice" means...
 }
 
-void test_02() {
-	println 'test 02'
-	if( 1 > 2 ) {
-		println 'weird!'
-	}
+void test01() {
+    print("Nice test code 01\n")
 }
 
-void zzz(bool ok) {
-	println 'zzz'
-	if( ok ) { println 'OK' } else { println 'BAD' }
+void test02() {
+    i := 1
+    i++
+    assert("I can't add", 2, i)
 }
 
+void test03() {
+    i := twice( 1 )
+    assert("This is weird", 2, i)
+}

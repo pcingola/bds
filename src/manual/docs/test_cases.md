@@ -5,13 +5,29 @@ Because nobody writes perfect code...
 ## Test cases
 
 `bds` provides a simple testing functionality. 
-Simply use the `-t` command line option and `bds` will run all functions `test*()` (i.e. that is functions whose names start with 'test' and have no arguments).
+Simply use the `-t` command line option and `bds` will run all functions `test*()`
+
+A test is defined as a function that:
+1. the name starts with `test`
+2. has no parameters
+3. returns `void`
+
+A test will 'fail' if either of these happen:
+1. there are an `error`
+2. there are a failed `assert`, [see assert functions here](functions.md).
+3. there is an exception
+
+When any test fails, `bds -t` will return a non-zero exit code 
+
+### Test Cases Example
 
 File <a href="bds/test_24.bds">test_24.bds</a>
 ```
 #!/usr/bin/env bds
 
-int twice(int n)    return 3 * n    // Looks like I don't really know what "twice" means...
+int twice(int n) {
+    return 3 * n // Maybe I don't really know what "twice" means...
+}
 
 void test01() {
     print("Nice test code 01\n")
@@ -20,12 +36,12 @@ void test01() {
 void test02() {
     i := 1
     i++
-    if( i != 2 )    error("I can't add")
+    assert("I can't add", 2, i)
 }
 
 void test03() {
     i := twice( 1 )
-    if( i != 2 )    error("This is weird")
+    assert("This is weird", 2, i)
 }
 ```
 
@@ -38,7 +54,8 @@ Nice test code 01
 
 00:00:00.003	Test 'test02': OK
 
-00:00:00.004	Error: This is weird
+00:00:00.004	Runtime error StatementExpr test_24.bds:19,4: Expecting '2', but was '3': This is weird
+Assertion failed: Runtime error StatementExpr test_24.bds:19,4: Expecting '2', but was '3': This is weird
 00:00:00.004	Test 'test03': FAIL
 
 00:00:00.005	Totals
@@ -62,6 +79,12 @@ When you want to run multiple tests files, you can tell `bds` to save and accumu
 
 Example: Imagine you have two test suite files that test different functionality of a shared code 
 
+
+### Example: Multiple test suites
+
+Let's imagine we have some shared code `shared.bds` and two test suites `test_suite_1.bds` and `test_suite_2.bds`.
+We want to run both test suites and get aggregated coverage statistics for our `shared.bds` code.
+
 File: `shared.bds`
 ```
 string zzz(bool ok) {
@@ -80,9 +103,10 @@ include 'shared'
 void test_02() {assert('BAD', zzz(true)) }  # Tests the other half of the function `zzz()`
 ```
 
-Running the test cases:
+**Running the test cases:**
 
-**Important:**
+Please keep in mind that:
+
 1. Before running the first test file, you should delete previous statistic files.
 2. If you are doing a `-coverageMin`, it should only be performed when running the last test file, because intermediate commands will fail to meet the minimum coverage.
 
@@ -90,12 +114,12 @@ Running the test cases:
 # Make sure we delete old coverage statitics
 rm -vf bds.coverage
 
-# Run first tests file and save coverage statitics to 'bds.coverage'
+# Run first tests suite and save coverage statitics to 'bds.coverage'
 bds -coverage \
     -coverageFile bds.coverage \ 
     -t test_suite_1.bds
 
-# Run second tests file.
+# Run second test suite.
 # Since the file 'bds.coverage' was created by the previous command, bds will:
 #   1) loaded the coverage statics from 'bds.coverage'
 #   2) Update the new coverage statitics from 'test_suite_2.bds'
@@ -109,4 +133,4 @@ bds -coverage \
     -t test_suite_2.bds
 ```
 
-So the tests cases will success and exit code will be '0', because accumulated coverage statistic is 100% (greater `-coverageMin` of 95% required).
+So the tests cases will succeed (exit code will be '0'), because accumulated coverage statistic between `test_suite_1.bds` and `test_suite_2.bds` is 100% (greater `-coverageMin` of 95% required).
