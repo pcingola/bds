@@ -354,12 +354,15 @@ public class TestCasesBase implements BdsLog {
     }
 
     protected Bds runTestCasesSaveCoverage(String testFileName, String coverageFileName, boolean deleteCoverage, double coverageMin) {
-		// Delete coverage file
-        if (deleteCoverage) (new File(coverageFileName)).delete();
+        // Delete coverage file
+        if (deleteCoverage) {
+            log("Deleting coverage file '" + coverageFileName + "'");
+            (new File(coverageFileName)).delete();
+        }
 
         BdsTest bdsTest = new BdsTest(testFileName, verbose, debug);
         bdsTest.setCoverage(true);
-		bdsTest.setCoverageFile(coverageFileName);
+        bdsTest.setCoverageFile(coverageFileName);
         bdsTest.setCoverageMin(coverageMin);
         bdsTest.setTestCases(true);
         bdsTest.run();

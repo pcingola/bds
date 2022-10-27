@@ -404,6 +404,7 @@ public class Bds implements BdsLog {
         bdsRun.setProgramFileName(programFileName);
         bdsRun.setConfig(config);
         bdsRun.setCoverage(coverage);
+        bdsRun.setCoverageFile(coverageFile);
         bdsRun.setCoverageMin(coverageMin);
 
         // Run and return program's exit code

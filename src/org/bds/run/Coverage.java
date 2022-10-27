@@ -1,6 +1,7 @@
 package org.bds.run;
 
 import org.bds.lang.BdsNode;
+import org.bds.util.Gpr;
 import org.bds.vm.BdsVm;
 
 import java.io.Serializable;
@@ -209,8 +210,8 @@ class FileCoverage implements Comparable<FileCoverage>, Serializable {
      */
     void add(BdsNode bdsNode, int count) {
         var lineNum = bdsNode.getLineNum();
-        if (!lineCoverage.containsKey(lineNum)) lineCoverage.put(lineNum, new LineCoverage(this, lineNum));
-        lineCoverage.get(lineNum).add(bdsNode, count);
+        if (lineCoverage.containsKey(lineNum)) lineCoverage.get(lineNum).add(bdsNode, count);
+        else Gpr.debug("Missing line numbner " + lineNum + " for file '" + fileName + "'");
     }
 
     @Override
@@ -223,6 +224,7 @@ class FileCoverage implements Comparable<FileCoverage>, Serializable {
      */
     void createLineCoverage(BdsNode bdsNode) {
         var lineNum = bdsNode.getLineNum();
+        if (lineNum < 0) return;
         if (!lineCoverage.containsKey(lineNum)) lineCoverage.put(lineNum, new LineCoverage(this, lineNum));
         lineCoverage.get(lineNum).addBdsNode(bdsNode);
     }
@@ -238,7 +240,9 @@ class FileCoverage implements Comparable<FileCoverage>, Serializable {
      * Count number of lines covered by the tests
      */
     int getLinesCovered() {
-        return (int) lineCoverage.values().stream().filter(LineCoverage::isCovered).count();
+        return (int) lineCoverage.values().stream() //
+                .filter(LineCoverage::isCovered)//
+                .count();
     }
 
     /**

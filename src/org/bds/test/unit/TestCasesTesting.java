@@ -131,9 +131,10 @@ public class TestCasesTesting extends TestCasesBase {
     @Test
     public void testTestCasesCoverage18() {
         // Check that coverage is correctly computed: include
+        verbose = true;
         var coverageFileName = "test/test_case_run_18.coverage";
         Bds bds = runTestCasesSaveCoverage("test/test_case_run_18_1.bds", coverageFileName, true, 0.0);
-        bds = runTestCasesSaveCoverage("test/test_case_run_18_2.bds", coverageFileName, false, 0.95);
+        bds = runTestCasesSaveCoverage("test/test_case_run_18_2.bds", coverageFileName, false, 0.99);
     }
 
 }
