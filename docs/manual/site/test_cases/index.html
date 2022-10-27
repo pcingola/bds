@@ -181,14 +181,18 @@
 <h2 id="test-cases_1">Test cases</h2>
 <p><code>bds</code> provides a simple testing functionality. 
 Simply use the <code>-t</code> command line option and <code>bds</code> will run all functions <code>test*()</code></p>
-<p>A test is defined as a function that:
-1. the name starts with <code>test</code>
-2. has no parameters
-3. returns <code>void</code></p>
-<p>A test will 'fail' if either of these happen:
-1. there are an <code>error</code>
-2. there are a failed <code>assert</code>, <a href="../functions/">see assert functions here</a>.
-3. there is an exception</p>
+<p>A test is defined as a function that:</p>
+<ol>
+<li>the name starts with <code>test</code></li>
+<li>has no parameters</li>
+<li>returns <code>void</code></li>
+</ol>
+<p>A test will 'fail' if either of these happen:</p>
+<ol>
+<li>there are an <code>error</code></li>
+<li>there are a failed <code>assert</code>, <a href="../functions/">see assert functions here</a>.</li>
+<li>there is an exception</li>
+</ol>
 <p>When any test fails, <code>bds -t</code> will return a non-zero exit code </p>
 <h3 id="test-cases-example">Test Cases Example</h3>
 <p>File <a href="bds/test_24.bds">test_24.bds</a></p>

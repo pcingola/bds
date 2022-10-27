@@ -8,11 +8,13 @@ Because nobody writes perfect code...
 Simply use the `-t` command line option and `bds` will run all functions `test*()`
 
 A test is defined as a function that:
+
 1. the name starts with `test`
 2. has no parameters
 3. returns `void`
 
 A test will 'fail' if either of these happen:
+
 1. there are an `error`
 2. there are a failed `assert`, [see assert functions here](functions.md).
 3. there is an exception
