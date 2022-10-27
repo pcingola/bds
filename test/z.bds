@@ -1,6 +1,20 @@
 #!/usr/bin/env bds
 
-# HTTP
-d := "http://ftp.ensembl.org/pub/release-75/fasta/homo_sapiens/dna"
-dd := d.dir('**.dna.toplevel.fa.gz')
+int twice(int n) {
+    return 3 * n // Maybe I don't really know what "twice" means...
+}
 
+void test01() {
+    print("Nice test code 01\n")
+}
+
+void test02() {
+    i := 1
+    i++
+    assert("I can't add", 2, i)
+}
+
+void test03() {
+    i := twice( 1 )
+    assert("This is weird", 2, i)
+}

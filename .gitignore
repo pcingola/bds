@@ -19,3 +19,4 @@ build/*
 .bds/bds
 node_modules
 **/node_modules
+bds.coverage

@@ -1,0 +1,3 @@
+string zzz(bool ok) {
+    if( ok ) { return 'OK' } else { return 'BAD' }
+}

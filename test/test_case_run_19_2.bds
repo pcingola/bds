@@ -1,0 +1,9 @@
+#!/usr/bin/env bds
+
+include 'test_case_run_19'
+
+void test_02() {
+	println 'test 02'
+	zzz(false)
+}
+

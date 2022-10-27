@@ -32,3 +32,4 @@ rm -rvf \
 	report_*.bds.20* \
 	z.bds.* \
 	`find . -iname "*.chp"` \
+	`find . -iname "*.coverage"` \

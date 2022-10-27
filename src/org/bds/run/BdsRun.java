@@ -25,6 +25,7 @@ import org.bds.scope.GlobalScope;
 import org.bds.scope.Scope;
 import org.bds.symbol.GlobalSymbolTable;
 import org.bds.task.TaskDependecies;
+import org.bds.util.Gpr;
 import org.bds.util.Timer;
 import org.bds.vm.BdsVm;
 import org.bds.vm.BdsVmAsm;
@@ -45,23 +46,23 @@ import java.util.zip.GZIPInputStream;
  */
 public class BdsRun implements BdsLog {
 
+    BdsAction bdsAction;
+    BdsThread bdsThread;
+    String chekcpointRestoreFile; // Restore file
+    Config config;
     boolean coverage; // Run coverage tests
+    String coverageFile; // Save coverage statistics to file
     double coverageMin; // Minimum coverage required to pass a coverage test
-
     Coverage coverageCounter; // Keep track of coverage between test runs
     boolean debug; // debug mode
+    int exitValue;
     boolean log; // Log everything (keep STDOUT, SDTERR and ExitCode files)
+    List<String> programArgs; // Command line arguments for bds program
+    String programFileName; // Program file name
+    ProgramUnit programUnit; // Program (parsed nodes)
     boolean stackCheck; // Check stack size when thread finishes runnig (should be zero)
     boolean verbose; // Verbose mode
-    int exitValue;
-    String chekcpointRestoreFile; // Restore file
-    String programFileName; // Program file name
-    Config config;
-    BdsAction bdsAction;
     BdsVm vm;
-    BdsThread bdsThread;
-    ProgramUnit programUnit; // Program (parsed nodes)
-    List<String> programArgs; // Command line arguments for bds program
 
     public BdsRun() {
         bdsAction = BdsAction.RUN;
@@ -285,6 +286,41 @@ public class BdsRun implements BdsLog {
     }
 
     /**
+     * Initialize coverage counter (for test cases)
+     */
+    void initializeCoverageCounter() {
+        if (!coverage) return;
+
+        // Should we load from a coverage file?
+        if (coverageFile != null) {
+            // Load form coverage file, if it exists
+            var coveragef = new File(coverageFile);
+            if (coveragef.exists()) {
+                // If the file exists, try loading it
+                log("Loading coverage from '" + coverageFile + "'");
+                try {
+                    ObjectInputStream in = new ObjectInputStream(new FileInputStream(coverageFile));
+                    coverageCounter = (Coverage) in.readObject();
+                    in.close();
+                    coverageCounter.resetNodes(); // Reset bdsNodes links from stats object after loading, these change every time we run the tests
+                } catch (IOException e) {
+                    throw new RuntimeException("Could not read coverage file '" + coverageFile + "'. Corrupted file? Try deleting it", e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException("Could not parse coverage file file '" + coverageFile + "'. Corrupted file? Try deleting it. ", e);
+                }
+            } else {
+                log("Coverage file '" + coverageFile + "' not found");
+            }
+        }
+
+        // If we did not load from file, we create a new one here
+        if (coverageCounter == null) {
+            log("Creating new coverage");
+            coverageCounter = new Coverage();
+        }
+    }
+
+    /**
      * Initialize a base classes provided by 'bds'
      */
     void initilaizeNativeClass(TypeClass typeClass) {
@@ -322,6 +358,10 @@ public class BdsRun implements BdsLog {
 
     public void setCoverage(boolean coverage) {
         this.coverage = coverage;
+    }
+
+    public void setCoverageFile(String coverageFile) {
+        this.coverageFile = coverageFile;
     }
 
     @Override
@@ -606,11 +646,12 @@ public class BdsRun implements BdsLog {
 
         // Run tests
         debug("Running tests");
+        initializeCoverageCounter(); // Initialize coverage statistics, or load them from file
 
         // For each "test*()" function in ProgramUnit, create a thread that executes the function's body
         List<FunctionDeclaration> testFuncs = programUnit.findTestsFunctions();
-        if (coverage) coverageCounter = new Coverage();
 
+        // Run each test function
         int exitCode = 0;
         int testOk = 0, testError = 0;
         for (FunctionDeclaration testFunc : testFuncs) {
@@ -637,12 +678,17 @@ public class BdsRun implements BdsLog {
                 + "\n                  ERROR : " + testError //
         );
 
-        // Show coverage statistics
+        // Show coverage statistics and save them
         if (coverage) {
+            // Show stats
             System.out.println(coverageCounter);
-            if (coverageMin > 0 && coverageCounter.coverageRatio() < coverageMin) {
-                exitCode = 1;
-            }
+            if (debug) debug("Detailed coverage counts:\n" + coverageCounter.toStringCounts());
+
+            // Set exit code if the min coverage is not met
+            if (coverageMin > 0.0 && coverageCounter.coverageRatio() < coverageMin) exitCode = 1;
+
+            // Save coverage stats to file
+            saveCoverageStatistics();
         }
 
         return exitCode;
@@ -700,6 +746,24 @@ public class BdsRun implements BdsLog {
         // OK, we are done
         return bdsThread.getExitValue();
     }
+
+    /**
+     * Save coverage statistics to file
+     */
+    void saveCoverageStatistics() {
+        if (coverageFile == null || coverageFile.isBlank()) return;
+
+        try {
+            log("Saving coverage to file '" + coverageFile + "'");
+            coverageCounter.resetNodes(); // Reset bdsNode links before saving, since these will change each time we run tests
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(coverageFile));
+            out.writeObject(coverageCounter);
+            out.close();
+        } catch (IOException e) {
+            throw new RuntimeException("Could not save coverage to file '" + coverageFile + "'", e);
+        }
+    }
+
 
     public void setChekcpointRestoreFile(String chekcpointRestoreFile) {
         this.chekcpointRestoreFile = chekcpointRestoreFile;
