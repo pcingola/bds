@@ -1,0 +1,2 @@
+include 'test_case_run_20'
+void test_01() { assert('BAD', zzz(false)) }

@@ -13,7 +13,7 @@ import org.bds.util.Gpr;
 public class Bds implements BdsLog {
 
     public static final String BUILD = Gpr.compileTimeStamp(Bds.class);
-    public static final String REVISION = "";
+    public static final String REVISION = "a";
     public static final String SOFTWARE_NAME = "bds";
     public static final String VERSION_MAJOR = "3.5";
     public static final String VERSION_SHORT = VERSION_MAJOR + REVISION;
@@ -458,7 +458,7 @@ public class Bds implements BdsLog {
         System.err.println("\nAvailable options: ");
         System.err.println("  [-c | -config ] bds.config     : Config file. Default : " + configFile + ".");
         System.err.println("  [-compile]                     : Compile only, do not run.");
-        System.err.println("  [-coverage]                    : Calculate cofe coverate. Only valid when '-test' is active.");
+        System.err.println("  [-coverage]                    : Calculate coverage. Only valid when '-test' is active.");
         System.err.println("  [-coverageFile] file.coverage  : Save coverage statistics to file");
         System.err.println("  [-coverageMin] ratio           : Fail if coverage is lower than 'ratio' (this is a ratio, so it should be 0.8 instead of 80%).");
         System.err.println("  [-checkPidRegex]               : Check configuration's 'pidRegex' by matching stdin.");
