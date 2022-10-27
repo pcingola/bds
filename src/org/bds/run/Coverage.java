@@ -114,6 +114,13 @@ public class Coverage implements Serializable {
         return bdsNodes;
     }
 
+    public int getCountLines() {
+        return countLines;
+    }
+
+    public int getCountCovered() {
+        return countCovered;
+    }
 
     void mapBdsNodes2Order() {
         for (FileCoverage fc : coverageByFile.values()) fc.mapBdsNodes2Order();

@@ -2,6 +2,7 @@ package org.bds.test.unit;
 
 import org.bds.Bds;
 import org.bds.test.TestCasesBase;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -131,10 +132,23 @@ public class TestCasesTesting extends TestCasesBase {
     @Test
     public void testTestCasesCoverage18() {
         // Check that coverage is correctly computed: include
-        verbose = true;
         var coverageFileName = "test/test_case_run_18.coverage";
         Bds bds = runTestCasesSaveCoverage("test/test_case_run_18_1.bds", coverageFileName, true, 0.0);
         bds = runTestCasesSaveCoverage("test/test_case_run_18_2.bds", coverageFileName, false, 0.99);
+
+        Assert.assertEquals(9, bds.getBdsRun().getCoverageCounter().getCountLines());
+        Assert.assertEquals(9, bds.getBdsRun().getCoverageCounter().getCountCovered());
+    }
+
+    @Test
+    public void testTestCasesCoverage19() {
+        // Check that coverage is correctly computed: include
+        var coverageFileName = "test/test_case_run_19.coverage";
+        Bds bds = runTestCasesSaveCoverage("test/test_case_run_19_1.bds", coverageFileName, true, 0.0);
+        bds = runTestCasesSaveCoverage("test/test_case_run_19_2.bds", coverageFileName, false, 0.99);
+
+        Assert.assertEquals(11, bds.getBdsRun().getCoverageCounter().getCountLines());
+        Assert.assertEquals(11, bds.getBdsRun().getCoverageCounter().getCountCovered());
     }
 
 }

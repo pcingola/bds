@@ -292,7 +292,6 @@ public class BdsRun implements BdsLog {
         if (!coverage) return;
 
         // Should we load from a coverage file?
-        Gpr.debug("COVERAGE FILE: " + coverageFile);
         if (coverageFile != null) {
             // Load form coverage file, if it exists
             var coveragef = new File(coverageFile);
