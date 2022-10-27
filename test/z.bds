@@ -1,6 +1,16 @@
 #!/usr/bin/env bds
 
-# HTTP
-d := "http://ftp.ensembl.org/pub/release-75/fasta/homo_sapiens/dna"
-dd := d.dir('**.dna.toplevel.fa.gz')
+
+void test_01() {
+	println 'test 01'
+}
+
+void test_02() {
+	println 'test 02'
+}
+
+void zzz(bool ok) {
+	println 'zzz'
+	if( ok ) { println 'OK' } else { println 'BAD' }
+}
 
