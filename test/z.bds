@@ -3,6 +3,7 @@
 
 void test_01() {
 	println 'test 01'
+	zzz(true)
 }
 
 void test_02() {

@@ -615,13 +615,14 @@ public class BdsRun implements BdsLog {
             // Load form coverage file, if it exists
             var covergeFile = new File(COVERAGE_FILE);
             if (covergeFile.exists()) {
-                log("Loading coverage from '" + COVERAGE_FILE + "'");
+                log("Loading coverage from '" + covergeFile + "'");
                 try {
-                    ObjectInputStream in = new ObjectInputStream(new GZIPInputStream(new FileInputStream(COVERAGE_FILE)));
+                    ObjectInputStream in = new ObjectInputStream(new FileInputStream(covergeFile));
                     coverageCounter = (Coverage) in.readObject();
                     in.close();
+                    coverageCounter.resetNodes(); // Reset node links after loading
                 } catch (IOException e) {
-                    error("Could not read coverage file '" + COVERAGE_FILE + "'");
+                    throw new RuntimeException("Could not read coverage file '" + covergeFile + "'. Corrupted file? Try deleting it", e);
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
@@ -661,6 +662,7 @@ public class BdsRun implements BdsLog {
         // Show coverage statistics
         if (coverage) {
             System.out.println(coverageCounter);
+            System.out.println(coverageCounter.toStringCounts());
             if (coverageMin > 0 && coverageCounter.coverageRatio() < coverageMin) {
                 exitCode = 1;
             }
@@ -668,11 +670,12 @@ public class BdsRun implements BdsLog {
             // Save coverage to file
             try {
                 log("Saving coverage to file '" + COVERAGE_FILE + "'");
-                ObjectOutputStream out = new ObjectOutputStream(new GZIPOutputStream(new FileOutputStream(COVERAGE_FILE)));
+                coverageCounter.resetNodes(); // Reset node links before saving
+                ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(COVERAGE_FILE));
                 out.writeObject(coverageCounter);
                 out.close();
             } catch (IOException e) {
-                error("Could not save coverage to file '" + COVERAGE_FILE + "'");
+                throw new RuntimeException("Could not save coverage to file '" + COVERAGE_FILE + "'", e);
             }
         }
 

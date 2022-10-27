@@ -3,7 +3,9 @@ package org.bds.run;
 import org.bds.lang.BdsNode;
 import org.bds.vm.BdsVm;
 
+import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Keep coverage statistics when running bds tests (i.e. 'bds -t -coverage ...')
@@ -26,7 +28,7 @@ import java.util.*;
  *
  * @author pcingola
  */
-public class Coverage {
+public class Coverage implements Serializable {
 
     static String TABLE_SEPARATOR_LINE = "+----------------------------------------------------+-------------------+---------+------------------------";
 
@@ -137,6 +139,26 @@ public class Coverage {
         );
     }
 
+    public void resetNodes() {
+        bdsNodes = new HashMap<>();
+        coverageByFile.values().stream().forEach(cf -> cf.resetNodes());
+    }
+
+    public String toStringCounts() {
+        // Sort by file name
+        List<FileCoverage> fileCoverages = new ArrayList<>();
+        fileCoverages.addAll(coverageByFile.values());
+        Collections.sort(fileCoverages);
+
+        // Show coverage table
+        StringBuilder sb = new StringBuilder();
+        for (FileCoverage fc : fileCoverages) {
+            sb.append(fc.toStringCounts() + "\n");
+        }
+
+        return sb.toString();
+    }
+
     @Override
     public String toString() {
         // Sort by file name
@@ -162,7 +184,7 @@ public class Coverage {
 /**
  * Coverage for a file
  */
-class FileCoverage implements Comparable<FileCoverage> {
+class FileCoverage implements Comparable<FileCoverage>, Serializable {
     String fileName;
     Coverage coverage;
     Map<Integer, LineCoverage> lineCoverage;
@@ -242,6 +264,17 @@ class FileCoverage implements Comparable<FileCoverage> {
         for (LineCoverage l : lineCoverage.values()) l.mapBdsNodes2Order();
     }
 
+    void resetNodes() {
+        lineCoverage.values().stream().forEach(lc -> lc.resetNodes());
+    }
+
+    public String toStringCounts() {
+        return lineCoverage.values().stream()//
+                .sorted() //
+                .map(LineCoverage::toStringCounts) //
+                .collect(Collectors.joining());
+    }
+
     public String toString() {
         Boolean[] lines = getLinesCoveredArray();
 
@@ -299,7 +332,7 @@ class FileCoverage implements Comparable<FileCoverage> {
  * in the same order, so even if the nodeIds are different, the order
  * is mantained
  */
-class LineCoverage implements Comparable<LineCoverage> {
+class LineCoverage implements Comparable<LineCoverage>, Serializable {
     int lineNumber;
     FileCoverage fileCoverage;
     Set<BdsNode> nodes;
@@ -361,4 +394,24 @@ class LineCoverage implements Comparable<LineCoverage> {
             nodeId2order.put(nodeIds.get(i), i);
     }
 
+    /**
+     * Reset nodes. Used after loading from a serialized file
+     */
+    void resetNodes() {
+        nodes = new HashSet<>();
+    }
+
+    String toStringCounts() {
+        if (lineNumber < 0) return "";
+
+        var countsStr = "";
+        if (coverageCount == null) countsStr = "0";
+        else if (coverageCount.length == 1) countsStr = "" + coverageCount[0];
+        else countsStr = Arrays.toString(coverageCount);
+
+        return fileCoverage.fileName //
+                + ":" + lineNumber //
+                + "\t" + countsStr //
+                + "\n";
+    }
 }
