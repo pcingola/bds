@@ -15,7 +15,7 @@ A test is defined as a function that:
 
 A test will 'fail' if either of these happen:
 
-1. there are an `error`
+1. there is an `error`
 2. there are a failed `assert`, [see assert functions here](functions.md).
 3. there is an exception
 
