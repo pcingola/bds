@@ -37,7 +37,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 
 /**
  * Run a bds program
@@ -45,8 +44,6 @@ import java.util.zip.GZIPOutputStream;
  * @author pcingola
  */
 public class BdsRun implements BdsLog {
-
-    public static final String COVERAGE_FILE = "bds.coverage";
 
     boolean coverage; // Run coverage tests
     double coverageMin; // Minimum coverage required to pass a coverage test
@@ -284,6 +281,42 @@ public class BdsRun implements BdsLog {
 
         // Libraries
         initilaizeNativeLibraries();
+    }
+
+    /**
+     * Initialize coverage counter (for test cases)
+     */
+    void initializeCoverageCounter() {
+        if (!coverage) return;
+
+        // Should we load from a coverage file?
+        var coverageFileName = config.getCoverageFile();
+        if (coverageFileName != null) {
+            // Load form coverage file, if it exists
+            var covergeFile = new File(coverageFileName);
+            if (covergeFile.exists()) {
+                // If the file exists, try loading it
+                log("Loading coverage from '" + covergeFile + "'");
+                try {
+                    ObjectInputStream in = new ObjectInputStream(new FileInputStream(covergeFile));
+                    coverageCounter = (Coverage) in.readObject();
+                    in.close();
+                    coverageCounter.resetNodes(); // Reset bdsNodes links from stats object after loading, these change every time we run the tests
+                } catch (IOException e) {
+                    throw new RuntimeException("Could not read coverage file '" + covergeFile + "'. Corrupted file? Try deleting it", e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException("Could not parse coverage file file '" + covergeFile + "'. Corrupted file? Try deleting it. ", e);
+                }
+            } else {
+                log("Coverage file '" + covergeFile + "' not found");
+            }
+        }
+
+        // If we did not load from file, we create a new one here
+        if (coverageCounter == null) {
+            log("Creating new coverage");
+            coverageCounter = new Coverage();
+        }
     }
 
     /**
@@ -608,29 +641,10 @@ public class BdsRun implements BdsLog {
 
         // Run tests
         debug("Running tests");
+        initializeCoverageCounter(); // Initialize coverage statistics, or load them from file
 
         // For each "test*()" function in ProgramUnit, create a thread that executes the function's body
         List<FunctionDeclaration> testFuncs = programUnit.findTestsFunctions();
-        if (coverage) {
-            // Load form coverage file, if it exists
-            var covergeFile = new File(COVERAGE_FILE);
-            if (covergeFile.exists()) {
-                log("Loading coverage from '" + covergeFile + "'");
-                try {
-                    ObjectInputStream in = new ObjectInputStream(new FileInputStream(covergeFile));
-                    coverageCounter = (Coverage) in.readObject();
-                    in.close();
-                    coverageCounter.resetNodes(); // Reset node links after loading
-                } catch (IOException e) {
-                    throw new RuntimeException("Could not read coverage file '" + covergeFile + "'. Corrupted file? Try deleting it", e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-            } else {
-                log("Creating new coverage");
-                coverageCounter = new Coverage();
-            }
-        }
 
         // Run each test function
         int exitCode = 0;
@@ -659,24 +673,17 @@ public class BdsRun implements BdsLog {
                 + "\n                  ERROR : " + testError //
         );
 
-        // Show coverage statistics
+        // Show coverage statistics and save them
         if (coverage) {
+            // Show stats
             System.out.println(coverageCounter);
             System.out.println(coverageCounter.toStringCounts());
-            if (coverageMin > 0 && coverageCounter.coverageRatio() < coverageMin) {
-                exitCode = 1;
-            }
 
-            // Save coverage to file
-            try {
-                log("Saving coverage to file '" + COVERAGE_FILE + "'");
-                coverageCounter.resetNodes(); // Reset node links before saving
-                ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(COVERAGE_FILE));
-                out.writeObject(coverageCounter);
-                out.close();
-            } catch (IOException e) {
-                throw new RuntimeException("Could not save coverage to file '" + COVERAGE_FILE + "'", e);
-            }
+            // Set exit code if the min coverage is not met
+            if (coverageMin > 0.0 && coverageCounter.coverageRatio() < coverageMin) exitCode = 1;
+
+            // Save coverage stats to file
+            saveCoverageStatistics();
         }
 
         return exitCode;
@@ -734,6 +741,25 @@ public class BdsRun implements BdsLog {
         // OK, we are done
         return bdsThread.getExitValue();
     }
+
+    /**
+     * Save coverage statistics to file
+     */
+    void saveCoverageStatistics() {
+        var coverageFileName = config.getCoverageFile();
+        if(coverageFileName==null || coverageFileName.isBlank()) return;
+
+        try {
+            log("Saving coverage to file '" + coverageFileName + "'");
+            coverageCounter.resetNodes(); // Reset bdsNode links before saving, since these will change each time we run tests
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(coverageFileName));
+            out.writeObject(coverageCounter);
+            out.close();
+        } catch (IOException e) {
+            throw new RuntimeException("Could not save coverage to file '" + coverageFileName + "'", e);
+        }
+    }
+
 
     public void setChekcpointRestoreFile(String chekcpointRestoreFile) {
         this.chekcpointRestoreFile = chekcpointRestoreFile;

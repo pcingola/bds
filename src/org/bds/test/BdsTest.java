@@ -24,22 +24,23 @@ import java.util.Map;
  */
 public class BdsTest {
 
+    public String[] args; // Command line arguments (for 'bds', not for the script)
+    public Bds bds;
+    public ByteArrayOutputStream captureStdout, captureStderr; // Capture STDOUT & STDERR
+    public Boolean compileOk;
+    public CompilerMessages compilerMessages;
     public boolean coverage;
+    public String coverageFile;
     public double coverageMin;
     public boolean debug;
-    public boolean log;
-    public boolean verbose;
-    public boolean testCases; // Is this a bds-test? i.e. should it run as 'bds --test'?
-    public Boolean compileOk;
-    public String[] args; // Command line arguments (for 'bds', not for the script)
-    public String[] scriptArgs; // Command line arguments for the bds script
-    public String fileName;
-    public CompilerMessages compilerMessages;
-    public Bds bds;
     public Integer exitCode;
-    public ByteArrayOutputStream captureStdout, captureStderr; // Capture STDOUT & STDERR
-    public TeeOutputStream teeStdout, teeStderr;
+    public String fileName;
+    public boolean log;
     public RunState runState;
+    public String[] scriptArgs; // Command line arguments for the bds script
+    public boolean testCases; // Is this a bds-test? i.e. should it run as 'bds --test'?
+    public TeeOutputStream teeStdout, teeStderr;
+    public boolean verbose;
     PrintStream stdout, stderr; // Store original STDOUT & STDERR
 
     public BdsTest(String fileName, boolean verbose, boolean debug) {
@@ -76,6 +77,10 @@ public class BdsTest {
 
         // Set coverage
         if (coverage) l.add("-coverage");
+        if (coverageFile != null && !coverageFile.isBlank()) {
+            l.add("-coverageFile");
+            l.add(coverageFile);
+        }
 
         // Coverage ratio
         if (coverageMin > 0) {
@@ -472,6 +477,10 @@ public class BdsTest {
 
     public void setCoverage(boolean coverage) {
         this.coverage = coverage;
+    }
+
+    public void setCoverageFile(String coverageFile) {
+        this.coverageFile = coverageFile;
     }
 
     public void setCoverageMin(double coverageMin) {

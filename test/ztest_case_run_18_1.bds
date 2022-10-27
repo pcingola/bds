@@ -1,0 +1,6 @@
+#!/usr/bin/env bds
+
+void test_01() {
+	println 'test 01'
+	zzz(true)
+}

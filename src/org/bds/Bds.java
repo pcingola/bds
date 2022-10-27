@@ -24,7 +24,8 @@ public class Bds implements BdsLog {
     String chekcpointRestoreFile; // Restore file
     Config config;
     String configFile; // Configuration file
-    boolean coverage;
+    boolean coverage; // Activate test coverage activated
+    String coverageFile; // Save test coverage statistics to file
     double coverageMin = -1; // Min coverage ratio
     boolean debug; // debug mode
     boolean dryRun; // Dry run (do not run tasks)
@@ -200,6 +201,10 @@ public class Bds implements BdsLog {
 
                     case "-coverage":
                         coverage = true;
+                        break;
+
+                    case "-coveragefile":
+                        coverageFile = args[++i];
                         break;
 
                     case "-coveragemin":
@@ -453,6 +458,7 @@ public class Bds implements BdsLog {
         System.err.println("  [-c | -config ] bds.config     : Config file. Default : " + configFile + ".");
         System.err.println("  [-compile]                     : Compile only, do not run.");
         System.err.println("  [-coverage]                    : Calculate cofe coverate. Only valid when '-test' is active.");
+        System.err.println("  [-coverageFile] file.coverage  : Save coverage statistics to file");
         System.err.println("  [-coverageMin] ratio           : Fail if coverage is lower than 'ratio' (this is a ratio, so it should be 0.8 instead of 80%).");
         System.err.println("  [-checkPidRegex]               : Check configuration's 'pidRegex' by matching stdin.");
         System.err.println("  [-d | -debug  ]                : Show debug info.");

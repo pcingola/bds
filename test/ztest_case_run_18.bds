@@ -1,0 +1,7 @@
+#!/usr/bin/env bds
+
+void zzz(bool ok) {
+	println 'zzz'
+	if( ok ) { println 'OK' } else { println 'BAD' }
+}
+
