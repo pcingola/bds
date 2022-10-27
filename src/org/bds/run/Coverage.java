@@ -51,7 +51,10 @@ public class Coverage {
      * Add coverage statistics from a VM (that already finished running)
      */
     public void add(BdsVm vm) {
-        createFileCoverage(vm.findNodes()); // Make sure all coverage counters are created
+        // Initialize: add nodes, coverage counters, etc.
+        var nodes = vm.findNodes();
+        nodes.stream().forEach(n -> this.bdsNodes.put(n.getId(), n)); // Add all nodes to map
+        createFileCoverage(nodes); // Make sure all coverage counters are created
         mapBdsNodes2Order(); // Map all nodes to order
 
         // Update node coverage counters
@@ -149,6 +152,7 @@ public class Coverage {
             sb.append(fc + "\n");
         }
         sb.append(TABLE_SEPARATOR_LINE + "\n");
+        coverageRatio();
         sb.append(summary());
 
         return sb.toString();
@@ -166,6 +170,7 @@ class FileCoverage implements Comparable<FileCoverage> {
     FileCoverage(Coverage coverage, String fileName) {
         this.coverage = coverage;
         this.fileName = fileName;
+        lineCoverage = new HashMap<>();
     }
 
     /**
@@ -224,8 +229,9 @@ class FileCoverage implements Comparable<FileCoverage> {
 
         // Create a boolean array
         Boolean[] lineCovered = new Boolean[maxLineNum + 1];
-        Arrays.fill(lineCovered, false);
-        lineCoverage.values().stream().forEach(lc -> lineCovered[lc.lineNumber] = lc.isCovered());
+        lineCoverage.values().stream() //
+                .filter(lc -> lc.lineNumber >= 0) // Negative line numbers might exist (nodes that do not have lines)
+                .forEach(lc -> lineCovered[lc.lineNumber] = lc.isCovered());
         return lineCovered;
     }
 
@@ -275,7 +281,6 @@ class FileCoverage implements Comparable<FileCoverage> {
 
         // One line statistics
         return String.format("| %50.50s | %7d / %7d | %6.2f%% | %s", file, countCovered, countLines, perc, sb);
-
     }
 }
 
@@ -299,7 +304,7 @@ class LineCoverage implements Comparable<LineCoverage> {
     FileCoverage fileCoverage;
     Set<BdsNode> nodes;
     Map<Integer, Integer> nodeId2order;
-    int[] count;
+    int[] coverageCount;
 
     LineCoverage(FileCoverage fileCoverage, int lineNumber) {
         this.fileCoverage = fileCoverage;
@@ -312,7 +317,8 @@ class LineCoverage implements Comparable<LineCoverage> {
      */
     void add(BdsNode bdsNode, int count) {
         var idx = nodeId2order.get(bdsNode.getId()); // Get node order index from nodeId
-        this.count[idx] += count;
+        if (coverageCount == null) coverageCount = new int[nodes.size()];
+        coverageCount[idx] += count;
     }
 
     /**
@@ -331,7 +337,9 @@ class LineCoverage implements Comparable<LineCoverage> {
      * Is this line fully covered by test cases?
      */
     boolean isCovered() {
-        for (int c : count) {
+        if (coverageCount == null) return false;
+
+        for (int c : coverageCount) {
             if (c == 0) return false;
         }
         return true;
@@ -350,7 +358,7 @@ class LineCoverage implements Comparable<LineCoverage> {
 
         // Map nodeIds to sort order
         for (int i = 0; i < nodeIds.size(); i++)
-            nodeId2order.put(i, nodeIds.get(i));
+            nodeId2order.put(nodeIds.get(i), i);
     }
 
 }

@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 /**
  * Run a bds program
@@ -45,9 +46,10 @@ import java.util.zip.GZIPInputStream;
  */
 public class BdsRun implements BdsLog {
 
+    public static final String COVERAGE_FILE = "bds.coverage";
+
     boolean coverage; // Run coverage tests
     double coverageMin; // Minimum coverage required to pass a coverage test
-
     Coverage coverageCounter; // Keep track of coverage between test runs
     boolean debug; // debug mode
     boolean log; // Log everything (keep STDOUT, SDTERR and ExitCode files)
@@ -609,8 +611,27 @@ public class BdsRun implements BdsLog {
 
         // For each "test*()" function in ProgramUnit, create a thread that executes the function's body
         List<FunctionDeclaration> testFuncs = programUnit.findTestsFunctions();
-        if (coverage) coverageCounter = new Coverage();
+        if (coverage) {
+            // Load form coverage file, if it exists
+            var covergeFile = new File(COVERAGE_FILE);
+            if (covergeFile.exists()) {
+                log("Loading coverage from '" + COVERAGE_FILE + "'");
+                try {
+                    ObjectInputStream in = new ObjectInputStream(new GZIPInputStream(new FileInputStream(COVERAGE_FILE)));
+                    coverageCounter = (Coverage) in.readObject();
+                    in.close();
+                } catch (IOException e) {
+                    error("Could not read coverage file '" + COVERAGE_FILE + "'");
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                log("Creating new coverage");
+                coverageCounter = new Coverage();
+            }
+        }
 
+        // Run each test function
         int exitCode = 0;
         int testOk = 0, testError = 0;
         for (FunctionDeclaration testFunc : testFuncs) {
@@ -642,6 +663,16 @@ public class BdsRun implements BdsLog {
             System.out.println(coverageCounter);
             if (coverageMin > 0 && coverageCounter.coverageRatio() < coverageMin) {
                 exitCode = 1;
+            }
+
+            // Save coverage to file
+            try {
+                log("Saving coverage to file '" + COVERAGE_FILE + "'");
+                ObjectOutputStream out = new ObjectOutputStream(new GZIPOutputStream(new FileOutputStream(COVERAGE_FILE)));
+                out.writeObject(coverageCounter);
+                out.close();
+            } catch (IOException e) {
+                error("Could not save coverage to file '" + COVERAGE_FILE + "'");
             }
         }
 

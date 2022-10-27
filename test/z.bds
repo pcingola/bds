@@ -7,6 +7,9 @@ void test_01() {
 
 void test_02() {
 	println 'test 02'
+	if( 1 > 2 ) {
+		println 'weird!'
+	}
 }
 
 void zzz(bool ok) {
