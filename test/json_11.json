@@ -1,0 +1,48 @@
+{
+  "sub_a": {
+    "sub_1": {
+      "firstName": "NAME_A",
+      "lastName": "LAST_A"
+    },
+    "sub_2": {
+      "firstName": "NAME_B",
+      "lastName": "LAST_B"
+    },
+    "sub_3": {
+      "firstName": "NAME_C",
+      "lastName": "LAST_C"
+    }
+  },
+  "sub_b": {
+    "sub_i": 1,
+    "sub_ii": {
+      "sub_1": {
+        "firstName": "NAME_A",
+        "lastName": "LAST_A"
+      },
+      "sub_2": {
+        "firstName": "John",
+        "lastName": "Smith"
+      },
+      "sub_3": {
+        "firstName": "NAME_C",
+        "lastName": "LAST_C"
+      }
+    },
+    "sub_iii": 3
+  },
+  "sub_c": {
+    "sub_1": {
+      "firstName": "NAME_A",
+      "lastName": "LAST_A"
+    },
+    "sub_2": {
+      "firstName": "NAME_B",
+      "lastName": "LAST_B"
+    },
+    "sub_3": {
+      "firstName": "NAME_C",
+      "lastName": "LAST_C"
+    }
+  }
+}

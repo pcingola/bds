@@ -1,7 +1,6 @@
 package org.bds.test.unit;
 
 import org.bds.test.TestCasesBase;
-import org.bds.util.Gpr;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -96,9 +95,30 @@ public class TestCasesJson extends TestCasesBase {
     }
 
     @Test
-    public void test09_json_set_side_effects() {
+    public void test_09_json_set_side_effects() {
         Map<String, Object> expected = Map.of("var2", "default_value", "globalVar", "VALUE_FROM_JSON");
         runAndCheck("test/json_09.bds", expected);
     }
+
+    @Test
+    public void test_10_subjson() {
+        runAndCheck("test/json_10.bds", "a", "{ firstName: John, last_Name: Smith }");
+    }
+
+    @Test
+    public void test_11_subsubjson() {
+        runAndCheck("test/json_11.bds", "a", "{ firstName: John, last_Name: Smith }");
+    }
+
+    @Test
+    public void test_12_subsubjson_error_key() {
+        runAndCheckError("test/json_12.bds", "JSON object from file 'test/json_11.json' does not contain field 'sub_b.sub_ii.sub_Z'");
+    }
+
+    @Test
+    public void test_13_subsubjson_error_type() {
+        runAndCheckError("test/json_13.bds", "JSON object from file 'test/json_11.json', field 'sub_b.sub_i' is not an Object (value type 'NUMBER')");
+    }
+
 
 }

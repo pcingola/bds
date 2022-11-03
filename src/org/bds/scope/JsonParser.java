@@ -13,9 +13,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Parse a JSON file and set environment
@@ -32,22 +30,25 @@ import java.util.Optional;
  */
 public class JsonParser {
 
+    ValueObject bdsObject;  // Object from bds runtime that we are trying to set, i.e. json(fileName, object)
     BdsThread bdsThread;  // Current bdsThread (this is invoked at runtime by bdsVM)
-    Scope scope;  // Current bds scope
     String fileName;  // JSON file to parse
     Data jsonData;  // JSON data from file
     String jsonTxt;  // Full JSON text from file
-    ValueObject bdsObject;  // Object from bds runtime that we are trying to set, i.e. json(fileName, object)
+    Scope scope;  // Current bds scope
+    List<String> subFieldNames; // List of sub-field from JSON file to use.
 
-    public JsonParser(BdsThread bdsThread, String jsonFileName) {
-        this(bdsThread, jsonFileName, null);
-    }
-
-    public JsonParser(BdsThread bdsThread, String jsonFileName, ValueObject bdsObject) {
+    public JsonParser(BdsThread bdsThread, String jsonFileName, ValueObject bdsObject, ValueList subFieldNames) {
         this.bdsThread = bdsThread;
         this.scope = bdsThread.getScope();
         this.bdsObject = bdsObject;
         this.fileName = jsonFileName;
+
+        // Convert the list of subFieldNames to strings
+        if (subFieldNames != null && subFieldNames.size() > 0) {
+            this.subFieldNames = new ArrayList<String>(subFieldNames.size());
+            for (Value v : subFieldNames) this.subFieldNames.add(v.toString());
+        }
     }
 
     /**
@@ -59,7 +60,6 @@ public class JsonParser {
         jsonData = bdsThread.data(fileName);
 
         // Download remote file
-        //
         return !jsonData.isRemote() //
                 || jsonData.isDownloaded() //
                 || jsonData.download(); // Download error
@@ -96,9 +96,10 @@ public class JsonParser {
         return null;
     }
 
-
     /**
-     * Parse JSON file and set scope
+     * Parse JSON file and set scope or object
+     *
+     * @return The JSON text from the file (side effect: set global context / object)
      */
     public String parse() {
         if (!downloadData()) {
@@ -123,8 +124,22 @@ public class JsonParser {
             InputStream is = new FileInputStream(new File(fileName));
             JsonReader rdr = Json.createReader(is);
             JsonObject jobj = rdr.readObject();
-            // We either set an object (if provided) or the scope (if no object wa provided)
+            // We either set an object (if provided) or the scope (if no object was provided)
             ValuesGetSet valuesGetSet = bdsObject != null ? bdsObject : bdsThread.getScope();
+            // Search in the json object values according to the list of subFieldNames
+            if (subFieldNames != null) {
+                String currentFieldName = "";
+                for (String s : subFieldNames) {
+                    currentFieldName += (currentFieldName.isEmpty() ? "" : ".") + s;
+                    // Check that subfield exists
+                    if (!jobj.containsKey(s)) throw new RuntimeException("JSON object from file '" + fileName + "' does not contain field '" + currentFieldName + "'");
+                    var val = jobj.get(s);
+                    // Check that subfield is an object
+                    if (!val.getValueType().equals(JsonValue.ValueType.OBJECT)) throw new RuntimeException("JSON object from file '" + fileName + "', field '" + currentFieldName + "' is not an Object (value type '" + val.getValueType() + "')");
+                    // Update current json object
+                    jobj = jobj.getJsonObject(s);
+                }
+            }
             // Set all values in JSON file recursively
             for (Map.Entry<String, JsonValue> e : jobj.entrySet())
                 setValue(valuesGetSet, e.getKey(), e.getValue());
