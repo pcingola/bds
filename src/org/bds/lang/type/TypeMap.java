@@ -143,7 +143,6 @@ public class TypeMap extends TypeComposite {
 
 	/**
 	 * Empty map (e.g. LiteralMapEmpty)
-	 * @return
 	 */
 	boolean isEmptyMap() {
 		return getKeyType().isVoid() && getValueType().isVoid();
