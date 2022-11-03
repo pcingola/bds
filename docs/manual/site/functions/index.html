@@ -303,6 +303,10 @@
 <td>Read JSON file and set object's fields with JSON's values</td>
 </tr>
 <tr>
+<td><a href="#json">json(string fileName, object, string[] subFieldNames)</a></td>
+<td>Read JSON file and set object's fields with JSON's values in subFields</td>
+</tr>
+<tr>
 <td>log(string msg)</td>
 <td>Log 'msg' (i.e. show to stderr)</td>
 </tr>
@@ -500,11 +504,18 @@ name3   value_3
 <pre><code>{ name1 =&gt; value_1, name2 =&gt; value_2_without_quotes, name2_quotes =&gt; &quot;value_2 with quotes&quot;, name3 =&gt; value_3 }
 </code></pre>
 <h1 id="json">JSON</h1>
-<p>The <code>json(fileName)</code> function reads a JSON file and sets all matching variables (in current and upper scopes) to the values from the JSON file</p>
-<p><strong>Example 1</strong></p>
-<p>In this code snippet:</p>
+<p>The <code>json(fileName)</code> function reads a JSON file and sets all matching variables (in current and upper scopes) to the values from the JSON file.</p>
+<p>For details see:
+- <a href="#json-matching-rules">Matching rules</a>: How name matching is done 
+- <a href="#json-variable-initialization-rules">Variable initializarion rules</a>: How objects or lists are initialized</p>
+<h3 id="json-setting-global-variables">JSON: Setting global variables</h3>
+<p>The <code>json(fileName)</code> function will try to find variable's names in the current and upper scopw, all the way up to the global scope. </p>
+<p><strong>Example:</strong> In this code snippet</p>
 <pre><code>string firstName, lastName
-json(&quot;json_example_01.json&quot;)    # This statement sets the variables (because they match entries in the JSON file)
+
+# This statement sets the variables that match entries in the JSON file
+json(&quot;json_example_01.json&quot;)    
+
 pritnln &quot;firstName=$firstName, lastName=lastName&quot;
 </code></pre>
 <p>Here is the content of <code>json_example_01.json</code>:</p>
@@ -518,8 +529,10 @@ pritnln &quot;firstName=$firstName, lastName=lastName&quot;
 The output of the program, would be:</p>
 <pre><code>firstName=John, lastName=Smith
 </code></pre>
-<p><strong>Example 2</strong></p>
-<p>In this code, we also have clases and lists in the JSON file that match the names of local variables:</p>
+<h3 id="json-setting-objects-fields">JSON: Setting objects' fields</h3>
+<p>The <code>json(fileName)</code> function also set fields inside objects (recursively).</p>
+<p><strong>Example:</strong> In this code, we have classes and lists.
+The JSON file matches the names of local variables so their fields are set according to the values in the JSON file</p>
 <pre><code>class Address {
     string streetAddress, city, state
     int postalCode
@@ -540,7 +553,7 @@ println &quot;firstName = '$firstName', lastName = '$lastName', age = '$age'&quo
 println &quot;address = '$address'&quot;
 println &quot;phoneNumbers = $phoneNumbers&quot;
 </code></pre>
-<p>The JSON file is:</p>
+<p>The JSON file <code>json_example_02.json</code> is:</p>
 <pre><code>{
     &quot;firstName&quot;: &quot;John&quot;,
     &quot;lastName&quot;: &quot;Smith&quot;,
@@ -569,9 +582,11 @@ address = '{ city: New York, postalCode: 10021, state: NY, streetAddress: 21 2nd
 phoneNumbers = [{ number: 212 555-1234, type: home }, { number: 646 555-4567, type: fax }]
 </code></pre>
 <p>bds correctly populates objects (<code>address</code>) and arrays of objects (<code>phoneNumbers[]</code>)</p>
-<p><strong>Example 3</strong></p>
-<p>In this example we load the data into an object (<code>Person</code>) instead of changing variables in the scope, so we invoke <code>json(fileName, person)</code> which wil load the JSON data into <code>person</code> object</p>
-<pre><code>fileName := &quot;z.json&quot;
+<h3 id="json-setting-specific-objects">JSON: Setting specific Objects</h3>
+<p>Using <code>json(fileName, objbect)</code> you can set a specific <code>object</code> with the JSON values from JSON's file <code>fileName</code>.</p>
+<p><strong>Example:</strong> In this example we load the data into the object <code>person</code> using the <code>json(fileName, person)</code> function.
+(note that we are using the JSON file <code>json_example_02.json</code> from the previous example)</p>
+<pre><code>fileName := &quot;json_example_02.json&quot;
 
 class Address {
     string streetAddress, city, state
@@ -594,27 +609,92 @@ json('json_example_02.json', person)
 
 println person
 </code></pre>
-<p>Note that the JSON file is the same as last time.
-The output the program is <code>bds</code>'s representation of <code>person</code> object:</p>
+<p>The output the program is <code>bds</code>'s representation of <code>person</code> object:</p>
 <pre><code>{ address: { city: New York, postalCode: 10021, state: NY, streetAddress: 21 2nd Street }, age: 25, firstName: John, lastName: Smith, phoneNumbers: [{ number: 212 555-1234, type: home }, { number: 646 555-4567, type: fax }] }
 </code></pre>
-<p><strong>Variable name / Field name matching rules</strong></p>
-<p>A scope variable <code>name</code> or object field <code>name</code> is matched to <code>JSON name</code> according to the following rules (when there is ambiguity, the first matching rule wins):</p>
+<h3 id="json-setting-specific-objects_1">JSON: Setting specific Objects</h3>
+<p>Using <code>json(fileName, objbect)</code> you can set a specific <code>object</code> with the JSON values from JSON's file <code>fileName</code>.</p>
+<p><strong>Example:</strong> In this example we load the data into the object <code>person</code> using the <code>json(fileName, person)</code> function.
+(note that we are using the JSON file <code>json_example_02.json</code> from the previous example)</p>
+<pre><code>fileName := &quot;json_example_02.json&quot;
+
+class Address {
+    string streetAddress, city, state
+    int postalCode
+}
+
+class Phone {
+    string type, number
+}
+
+class Person {
+    string firstName, lastName
+    int age
+    Address address
+    Phone[] phoneNumbers
+}
+
+person := new Person()
+json('json_example_02.json', person)
+
+println person
+</code></pre>
+<h3 id="json-using-sub-fields-in-the-json-file">JSON: Using sub-fields in the JSON file</h3>
+<p>Sometimes we need to use a specific sub-field from the JSON file, we can provide a list of subfields using <code>json(fileName, objbect, subFields)</code>.
+The sub-fields selected in sequence, from the root of the JSON file.</p>
+<p><strong>Example:</strong> If we want to select the <code>address</code> for person ID <code>id_001</code> in the following JSON file</p>
+<p>File <code>json_example_03.json</code>:</p>
+<pre><code>{
+   &quot;id_001&quot;: {
+       &quot;firstName&quot;: &quot;John&quot;, &quot;lastName&quot;: &quot;Smith&quot;, &quot;age&quot;: 25,
+       &quot;address&quot;: {
+           &quot;streetAddress&quot;: &quot;21 2nd Street&quot;,
+           &quot;city&quot;: &quot;New York&quot;,
+           &quot;state&quot;: &quot;NY&quot;,
+           &quot;postalCode&quot;: 10021
+       },
+   },
+   &quot;id_002&quot;: {
+       &quot;firstName&quot;: &quot;Peter&quot;, &quot;lastName&quot;: &quot;Peterson&quot;, &quot;age&quot;: 52,
+       &quot;address&quot;: { &quot;streetAddress&quot;: &quot;234 Washingont&quot;, &quot;city&quot;: &quot;San Francisco&quot;, &quot;state&quot;: &quot;CA&quot;, &quot;postalCode&quot;: 20010 },
+   }
+}
+</code></pre>
+<p>We can use this code to load JSON entry <code>id_001.address</code>:</p>
+<pre><code>class Address {
+    string streetAddress, city, state
+    int postalCode
+}
+
+# Create a new object type 'Address'
+Address addr = new Address()  
+
+# The parameter ['id_001', 'address'] tells JSON to select the
+# entry &quot;id_001.address&quot; (i.e. fist select entry 'id_001', from that 
+# select entry 'address'). This selected entry is used to set object 'addr'
+json('json_example_03.json', addr, ['id_001', 'address']) 
+</code></pre>
+<h3 id="json-matching-rules">JSON Matching rules</h3>
+<p>In order to make <code>json</code> more general, the <code>bds</code> variable names and JSON field names don't have to be equal.
+For example, the variable name could be <code>firstName</code> whereas the JSON field <code>first_name</code>.</p>
+<p>How does <code>json</code> match variable names (or object's field names) with JSON's names?
+A scope variable <code>name</code> or object field <code>name</code> is matched to <code>JSON name</code> according to the following rules (when there is ambiguity, the first matching rule wins):</p>
 <ol>
 <li>Exact match: <code>JSON name</code> equals to <code>name</code> (e.g. <code>myName</code> in JSON matches <code>myName</code> in bds)</li>
 <li>Lowercase match: <code>JSON name</code> in lowercase is equal to <code>name</code> in lowercase (e.g. <code>myNAME</code> in JSON matches <code>myName</code> in bds)</li>
 <li>AlphaNum match: <code>JSON name</code> without any non-alpha-numeric chars, in lowercase is equal to <code>name</code> without any non-alpha-numeric chars lowercase (e.g. <code>my-NAME 2</code> in JSON matches <code>my_name_2</code> in bds)</li>
 <li>First search variables in local scope, then in all parent scopes. The last scope in the search is the Global Scope.</li>
 </ol>
-<p><strong>Variable creation / Field creation rules</strong></p>
+<h3 id="json-variable-initialization-rules">JSON Variable initialization rules</h3>
+<p>When a variable or a field is not initialized (e.g. <code>null</code>) the <code>json</code> function will initialize it according to these rules: </p>
 <ol>
-<li>If a scope variable is <code>null</code>, it will NOT be created.</li>
-<li>If an object field is <code>null</code>, it WILL be created.<ol>
+<li><strong>Variables:</strong> If a variable is <code>null</code>, it <strong>WILL NOT</strong> be initialized (i.e. the value will not be set).</li>
+<li><strong>Object's fields:</strong> If an object field is <code>null</code>, it <strong>WILL</strong> be initialized.<ol>
 <li>A new object will be created</li>
-<li>Constructor methods ARE NEVER invoked, even if an empty-parameter constructor method exist.</li>
+<li>Constructor methods <strong>ARE NEVER</strong> invoked, even if an empty-parameter constructor method does exist.</li>
 </ol>
 </li>
-<li>If there is a list of objects, each new JSON object will be APPENDED to the list<ol>
+<li><strong>List:</strong> If there is a list of objects, each new JSON object will be <strong>APPENDED</strong> to the list<ol>
 <li>The list will not be emptied or re-initialized</li>
 <li>New objects will be created and appended to the list</li>
 </ol>
