@@ -1,5 +1,6 @@
 # Predefined functions 
- bds provides some predefined functions.
+ 
+bds provides some predefined (native) functions.
                 
 | Function                                                                | Meaning                                                                                                                                             |
 |-------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -80,7 +81,7 @@
 | string type(expr)                                                       | Get the expression's resulting type name, e.g. 'int' or 'string'                                                                                    |
 | real ulp(real r)                                                        | Returns the size of an ulp of the argument                                                                                                          |
 
-### Config function
+## Config function
 
 Reading a config file can be done using `config` function which parses a file and returns `<name, value>' pairs in a map.
 Parsing: Lines starting with '#' are ignored, so are blank lines.
@@ -114,7 +115,7 @@ Program output:
 { name1 => value_1, name2 => value_2_without_quotes, name2_quotes => "value_2 with quotes", name3 => value_3 }
 ```
 
-# JSON
+## JSON
 
 The `json(fileName)` function reads a JSON file and sets all matching variables (in current and upper scopes) to the values from the JSON file.
 

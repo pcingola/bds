@@ -77,6 +77,24 @@
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#config-function">Config function</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#json">JSON</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#json-setting-global-variables">JSON: Setting global variables</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#json-setting-objects-fields">JSON: Setting objects' fields</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#json-setting-specific-objects">JSON: Setting specific Objects</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#json-setting-specific-objects_1">JSON: Setting specific Objects</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#json-using-sub-fields-in-the-json-file">JSON: Using sub-fields in the JSON file</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#json-matching-rules">JSON Matching rules</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#json-variable-initialization-rules">JSON Variable initialization rules</a>
+    </li>
+        </ul>
+    </li>
     </ul>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../global_vars/">Global variables</a>
@@ -165,7 +183,7 @@
             <div class="section">
               
                 <h1 id="predefined-functions">Predefined functions</h1>
-<p>bds provides some predefined functions.</p>
+<p>bds provides some predefined (native) functions.</p>
 <table>
 <thead>
 <tr>
@@ -480,7 +498,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="config-function">Config function</h3>
+<h2 id="config-function">Config function</h2>
 <p>Reading a config file can be done using <code>config</code> function which parses a file and returns `<name, value>' pairs in a map.
 Parsing: Lines starting with '#' are ignored, so are blank lines.
 Name/Value delimiters can be any of ':', '=' or '\t' (the first one found in each line will be used).
@@ -503,7 +521,7 @@ name3   value_3
 <p>Program output:</p>
 <pre><code>{ name1 =&gt; value_1, name2 =&gt; value_2_without_quotes, name2_quotes =&gt; &quot;value_2 with quotes&quot;, name3 =&gt; value_3 }
 </code></pre>
-<h1 id="json">JSON</h1>
+<h2 id="json">JSON</h2>
 <p>The <code>json(fileName)</code> function reads a JSON file and sets all matching variables (in current and upper scopes) to the values from the JSON file.</p>
 <p>For details see:
 - <a href="#json-matching-rules">Matching rules</a>: How name matching is done 
