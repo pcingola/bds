@@ -1,6 +1,10 @@
 package org.bds.lang.nativeFunctions;
 
 import org.bds.BdsLog;
+import org.bds.lang.nativeFunctions.math.FunctionNativeAbsInt;
+import org.bds.lang.nativeFunctions.math.FunctionNativeAbsReal;
+import org.bds.lang.nativeFunctions.math.FunctionNativeAcosReal;
+import org.bds.lang.nativeFunctions.math.FunctionNativeAsinReal;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -22,10 +26,10 @@ public class NativeLibraryFunctions implements BdsLog {
 			, FunctionNativeAssertIntNoMsg.class //
 			, FunctionNativeAssertString.class //
 			, FunctionNativeAssertStringNoMsg.class //
-			, FunctionNative_clone_bool.class //
-			, FunctionNative_clone_int.class //
-			, FunctionNative_clone_real.class //
-			, FunctionNative_clone_string.class //
+			, FunctionNativeCloneBool.class //
+			, FunctionNativeCloneInt.class //
+			, FunctionNativeCloneReal.class //
+			, FunctionNativeCloneString.class //
 			, FunctionNativeConfig.class //
 			, FunctionNativeConfigOri.class //
 			, FunctionNativeGetModulePath.class //
@@ -61,43 +65,43 @@ public class NativeLibraryFunctions implements BdsLog {
 			, FunctionNativeType.class //
 			//
 			// Math functions
-			, org.bds.lang.nativeFunctions.math.FunctionNative_abs_int.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_getExponent_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_round_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_abs_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_acos_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_asin_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_atan_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_atan2_real_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_cbrt_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_ceil_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_copySign_real_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_cos_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_cosh_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_exp_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_expm1_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_floor_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_hypot_real_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_IEEEremainder_real_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_log_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_log10_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_log1p_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_max_real_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_min_real_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_nextAfter_real_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_nextUp_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_pow_real_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_rint_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_scalb_real_int.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_signum_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_sin_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_sinh_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_sqrt_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_tan_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_tanh_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_toDegrees_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_toRadians_real.class //
-			, org.bds.lang.nativeFunctions.math.FunctionNative_ulp_real.class //
+			, FunctionNativeAbsInt.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeGetExponentReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeRoundReal.class //
+			, FunctionNativeAbsReal.class //
+			, FunctionNativeAcosReal.class //
+			, FunctionNativeAsinReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeAtanReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeAtan2RealReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeCbrtReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeCeilReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeCopySignRealReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeCosReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeCoshReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeExpReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeExpm1Real.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeFloorReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeHypotRealReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeiEEEremainderRealReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeLogReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeLog10Real.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeLog1pReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeMaxRealReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeMinRealReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeNextAfterRealReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeNextUpReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativePowRealReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeRintReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeScalbRealInt.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeSignumReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeSinReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeSinhReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeSqrtReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeTanReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeTanhReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeToDegreesReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeToRadiansReal.class //
+			, org.bds.lang.nativeFunctions.math.FunctionNativeUlpReal.class //
 	};
 
 	ArrayList<FunctionNative> functions;
