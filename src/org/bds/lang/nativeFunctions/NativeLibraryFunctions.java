@@ -37,6 +37,7 @@ public class NativeLibraryFunctions implements BdsLog {
 			, FunctionNativeGetVarDefault.class //
 			, FunctionNativeJson.class //
 			, FunctionNativeJsonObj.class //
+			, FunctionNativeJsonObjList.class //
 			, FunctionNativeHasVar.class //
 			, FunctionNativeLog.class //
 			, FunctionNativeLogd.class //

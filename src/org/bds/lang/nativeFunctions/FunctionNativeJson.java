@@ -1,21 +1,10 @@
 package org.bds.lang.nativeFunctions;
 
-import org.bds.data.Data;
 import org.bds.lang.Parameters;
 import org.bds.lang.type.Type;
 import org.bds.lang.type.Types;
-import org.bds.lang.value.*;
 import org.bds.run.BdsThread;
 import org.bds.scope.JsonParser;
-import org.bds.scope.Scope;
-import org.bds.util.Gpr;
-
-import javax.json.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.Map;
 
 /**
  * Parse a JSON file and set environment
@@ -44,7 +33,7 @@ public class FunctionNativeJson extends FunctionNative {
     @Override
     protected Object runFunctionNative(BdsThread bdsThread) {
         String jsonFileName = bdsThread.getString("fileName");
-        var jsonParser = new JsonParser(bdsThread, jsonFileName);
+        var jsonParser = new JsonParser(bdsThread, jsonFileName, null, null);
         return jsonParser.parse();
     }
 
