@@ -68,8 +68,7 @@ public class BdsNodeWalker implements Iterable<BdsNode> {
 
 	/**
 	 * Find all nodes of a given type
-	 * @param clazz : If null, all nodes are added
-	 * @param fieldObj
+	 * @param fieldObj: Add nodes of class 'fieldObj'
 	 */
 	List<BdsNode> addFields(Object fieldObj) {
 		List<BdsNode> list = new ArrayList<>();
@@ -133,7 +132,6 @@ public class BdsNodeWalker implements Iterable<BdsNode> {
 					} else {
 						list.addAll(addFields(fieldObj));
 					}
-
 				}
 			} catch (Exception e) {
 				throw new RuntimeException("Error getting field '" + field.getName() + "' from class '" + bdsNode.getClass().getCanonicalName() + "'", e);
@@ -175,7 +173,7 @@ public class BdsNodeWalker implements Iterable<BdsNode> {
 					if (addPrimitive) fields.add(f);
 				} else if (f.getType().isArray()) {
 					if (addArray) fields.add(f);
-				} else if (!f.getType().isPrimitive()) {
+				} else {
 					if (addClass) fields.add(f);
 				}
 			}

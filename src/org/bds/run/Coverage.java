@@ -1,7 +1,9 @@
 package org.bds.run;
 
+import org.bds.BdsLog;
+import org.bds.compile.BdsNodeWalker;
 import org.bds.lang.BdsNode;
-import org.bds.util.Gpr;
+import org.bds.lang.statement.FunctionDeclaration;
 import org.bds.vm.BdsVm;
 
 import java.io.Serializable;
@@ -29,13 +31,13 @@ import java.util.stream.Collectors;
  *
  * @author pcingola
  */
-public class Coverage implements Serializable {
+public class Coverage implements Serializable, BdsLog {
 
     static String TABLE_SEPARATOR_LINE = "+----------------------------------------------------+-------------------+---------+------------------------";
 
     HashMap<Integer, BdsNode> bdsNodes;
     Map<String, FileCoverage> coverageByFile;
-    int countLines = -1, countCovered = -1;
+    int countLines = -1, countCovered = -1, countTestCodeLines = -1;
     double coverageRatio = -1;
 
     public Coverage() {
@@ -73,13 +75,8 @@ public class Coverage implements Serializable {
      * Add coverage from one node
      */
     public void add(BdsNode bdsNode, int count) {
-        var file = bdsNode.getFileNameCanonical();
-        if (!coverageByFile.containsKey(file)) {
-            coverageByFile.put(file, new FileCoverage(this, file));
-        }
-        coverageByFile.get(file).add(bdsNode, count);
+        getFileCoverage(bdsNode).add(bdsNode, count);
     }
-
 
     /**
      * Calculate total coverage ratio
@@ -87,10 +84,12 @@ public class Coverage implements Serializable {
     public double coverageRatio() {
         countLines = 0;
         countCovered = 0;
+        countTestCodeLines = 0;
 
         for (FileCoverage fc : coverageByFile.values()) {
-            countLines += fc.getLines();
+            countLines += fc.getLinesCounted();
             countCovered += fc.getLinesCovered();
+            countTestCodeLines += fc.getLinesTestCode();
         }
 
         coverageRatio = (1.0 * countCovered) / countLines;
@@ -122,8 +121,34 @@ public class Coverage implements Serializable {
         return countCovered;
     }
 
+    FileCoverage getFileCoverage(BdsNode bdsNode) {
+        var file = bdsNode.getFileNameCanonical();
+        if (!coverageByFile.containsKey(file)) {
+            coverageByFile.put(file, new FileCoverage(this, file));
+        }
+        return coverageByFile.get(file);
+    }
+
     void mapBdsNodes2Order() {
         for (FileCoverage fc : coverageByFile.values()) fc.mapBdsNodes2Order();
+    }
+
+    /**
+     * Remove coverage stats from all nodes that are in the test*() function
+     * because we don't want to calculate coverage on testing code
+     */
+    void markTestCode(BdsVm vm, FunctionDeclaration testFunc) {
+        // Find all nodes that are part of the test function code, and mark them as 'test code'
+        BdsNodeWalker bw = new BdsNodeWalker(testFunc.getStatement());
+        bw.findNodes().stream().forEach(this::markTestCode);
+    }
+
+    /**
+     * Mark this node as 'test' code
+     * I.e. it is part of the function executing the test case, so it should not be counted for coverage
+     */
+    void markTestCode(BdsNode bdsNode) {
+        getFileCoverage(bdsNode).markTestCode(bdsNode);
     }
 
     /**
@@ -131,7 +156,12 @@ public class Coverage implements Serializable {
      */
     public String summary() {
         coverageRatio();
-        return String.format("| %50.50s | %7d / %7d | %5.2f%% | %s", centerString(50, "Total"), countCovered, countLines, 100.0 * coverageRatio, "");
+        int totLines = countTestCodeLines + countLines;
+        double testLinesRatio = countTestCodeLines / ((double) totLines);
+        return "" //
+                + String.format("| %50.50s | %7d / %7d | %6.2f%% | %s\n", centerString(50, "Test code"), countTestCodeLines, totLines, 100.0 * testLinesRatio, "") //
+                + String.format("| %50.50s | %7d / %7d | %6.2f%% | %s\n", centerString(50, "Total"), countCovered, countLines, 100.0 * coverageRatio, "") //
+                ;
     }
 
     /**
@@ -183,7 +213,7 @@ public class Coverage implements Serializable {
         }
         sb.append(TABLE_SEPARATOR_LINE + "\n");
         coverageRatio();
-        sb.append(summary());
+        sb.append(summary() + "\n");
 
         return sb.toString();
     }
@@ -192,7 +222,7 @@ public class Coverage implements Serializable {
 /**
  * Coverage for a file
  */
-class FileCoverage implements Comparable<FileCoverage>, Serializable {
+class FileCoverage implements Comparable<FileCoverage>, Serializable, BdsLog {
     String fileName;
     Coverage coverage;
     Map<Integer, LineCoverage> lineCoverage;
@@ -216,9 +246,8 @@ class FileCoverage implements Comparable<FileCoverage>, Serializable {
      * Add to covrerge counters
      */
     void add(BdsNode bdsNode, int count) {
-        var lineNum = bdsNode.getLineNum();
-        if (lineCoverage.containsKey(lineNum)) lineCoverage.get(lineNum).add(bdsNode, count);
-        else Gpr.debug("Missing line numbner " + lineNum + " for file '" + fileName + "'");
+        var lineCov = getLineCoverage(bdsNode);
+        if (lineCov != null) lineCov.add(bdsNode, count);
     }
 
     @Override
@@ -236,11 +265,27 @@ class FileCoverage implements Comparable<FileCoverage>, Serializable {
         lineCoverage.get(lineNum).addBdsNode(bdsNode);
     }
 
+    LineCoverage getLineCoverage(BdsNode bdsNode) {
+        var lineNum = bdsNode.getLineNum();
+        return lineCoverage.get(lineNum);
+    }
+
     /**
      * Count number of lines (with bdsNodes)
      */
-    int getLines() {
-        return lineCoverage.size();
+    int getLinesCounted() {
+        return (int) lineCoverage.values().stream() //
+                .filter(LineCoverage::isCounted)//
+                .count();
+    }
+
+    /**
+     * Count number of lines considered test code
+     */
+    int getLinesTestCode() {
+        return (int) lineCoverage.values().stream() //
+                .filter(LineCoverage::isTestCode)//
+                .count();
     }
 
     /**
@@ -248,6 +293,7 @@ class FileCoverage implements Comparable<FileCoverage>, Serializable {
      */
     int getLinesCovered() {
         return (int) lineCoverage.values().stream() //
+                .filter(LineCoverage::isCounted) //
                 .filter(LineCoverage::isCovered)//
                 .count();
     }
@@ -263,9 +309,14 @@ class FileCoverage implements Comparable<FileCoverage>, Serializable {
         // Create a boolean array
         Boolean[] lineCovered = new Boolean[maxLineNum + 1];
         lineCoverage.values().stream() //
-                .filter(lc -> lc.lineNumber >= 0) // Negative line numbers might exist (nodes that do not have lines)
-                .forEach(lc -> lineCovered[lc.lineNumber] = lc.isCovered());
+                .filter(lc -> lc.isCounted()) // Filter out lines that are not counted for statistics
+                .forEach(lc -> lineCovered[lc.lineNumber] = lc.isCovered()); // Mark as covered
         return lineCovered;
+    }
+
+    void markTestCode(BdsNode bdsNode) {
+        var lineCov = getLineCoverage(bdsNode);
+        if (lineCov != null) lineCov.markTestCode();
     }
 
     /**
@@ -344,11 +395,12 @@ class FileCoverage implements Comparable<FileCoverage>, Serializable {
  * is mantained
  */
 class LineCoverage implements Comparable<LineCoverage>, Serializable {
-    int lineNumber;
-    FileCoverage fileCoverage;
-    Set<BdsNode> nodes;
-    Map<Integer, Integer> nodeId2order;
-    int[] coverageCount;
+    boolean testCode; // Is this part of the 'test' code?
+    int lineNumber; // Line number within the file
+    FileCoverage fileCoverage; // File this line belongs to
+    Set<BdsNode> nodes; // All nodes in the file
+    Map<Integer, Integer> nodeId2order; // Node order
+    int[] coverageCount; // Coverage counters
 
     LineCoverage(FileCoverage fileCoverage, int lineNumber) {
         this.fileCoverage = fileCoverage;
@@ -378,7 +430,15 @@ class LineCoverage implements Comparable<LineCoverage>, Serializable {
     }
 
     /**
-     * Is this line fully covered by test cases?
+     * Is this line counted?
+     * We don't count lines with negative line number, or lines that are part of the test case code
+     */
+    boolean isCounted() {
+        return lineNumber >= 0 && !testCode;
+    }
+
+    /**
+     * Is this line fully covered by test cases? (i.e. all nodes in the line are covered)
      */
     boolean isCovered() {
         if (coverageCount == null) return false;
@@ -387,6 +447,10 @@ class LineCoverage implements Comparable<LineCoverage>, Serializable {
             if (c == 0) return false;
         }
         return true;
+    }
+
+    boolean isTestCode() {
+        return testCode;
     }
 
     /**
@@ -403,6 +467,10 @@ class LineCoverage implements Comparable<LineCoverage>, Serializable {
         // Map nodeIds to sort order
         for (int i = 0; i < nodeIds.size(); i++)
             nodeId2order.put(nodeIds.get(i), i);
+    }
+
+    void markTestCode() {
+        this.testCode = true;
     }
 
     /**

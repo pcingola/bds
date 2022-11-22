@@ -25,7 +25,6 @@ import org.bds.scope.GlobalScope;
 import org.bds.scope.Scope;
 import org.bds.symbol.GlobalSymbolTable;
 import org.bds.task.TaskDependecies;
-import org.bds.util.Gpr;
 import org.bds.util.Timer;
 import org.bds.vm.BdsVm;
 import org.bds.vm.BdsVmAsm;
@@ -455,9 +454,7 @@ public class BdsRun implements BdsLog {
         Executioners executioners = Executioners.getInstance(config);
         TaskDependecies.reset();
 
-        //---
-        // Run
-        //---
+        // Run action
         switch (bdsAction) {
             case ASSEMBLY:
                 exitValue = assembly();
@@ -648,7 +645,60 @@ public class BdsRun implements BdsLog {
         debug("Running tests");
         initializeCoverageCounter(); // Initialize coverage statistics, or load them from file
 
-        // For each "test*()" function in ProgramUnit, create a thread that executes the function's body
+        int retCode = runTestsFunctions(); // Run each test function
+
+        // Show coverage statistics and save them
+        if (coverage) {
+            // Show stats
+            System.out.println(coverageCounter);
+            if (debug) debug("Detailed coverage counts:\n" + coverageCounter.toStringCounts());
+
+            // Set exit code if the min coverage is not met
+            if (coverageMin > 0.0 && coverageCounter.coverageRatio() < coverageMin) retCode = 1;
+
+            // Save coverage stats to file
+            saveCoverageStatistics();
+        }
+
+        return retCode;
+    }
+
+    /**
+     * Run a single test function, return exit code
+     */
+    int runTestFunction(FunctionDeclaration testFunc) {
+        // Add all 'declaration' statements
+        BdsNodeWalker bwalker = new BdsNodeWalker(programUnit);
+        List<Statement> statements = bwalker.findDeclarations();
+
+        // Note: We execute the function's body (not the function declaration) as if it was the body of the program
+        statements.add(testFunc.getStatement());
+
+        // Create a program unit having all variable/function/class declarations and the test function's statements
+        ProgramUnit puTest = new ProgramUnit(programUnit, null);
+        puTest.setFile(programUnit.getFile());
+        puTest.setStatements(statements.toArray(new Statement[0]));
+
+        // Compile and create vm
+        BdsVm vmtest = compileAsm(puTest);
+        BdsThread bdsThreadTest = new BdsThread(puTest, config, vmtest);
+
+        // Run thread and check exit code
+        int exitValTest = runThread(bdsThreadTest);
+
+        // Show coverage results
+        if (coverage) {
+            coverageCounter.add(vmtest); // Add all statistics from vm execution
+             coverageCounter.markTestCode(vmtest, testFunc); // Mark all nodes that are in the test*() function. We don't want to count test code in the coverage statistics
+        }
+
+        return exitValTest;
+    }
+
+    /**
+     * For each "test*()" function in ProgramUnit, create a thread that executes the function's body
+      */
+    int runTestsFunctions() {
         List<FunctionDeclaration> testFuncs = programUnit.findTestsFunctions();
 
         // Run each test function
@@ -658,7 +708,7 @@ public class BdsRun implements BdsLog {
             System.out.println();
 
             // Run each function
-            int exitValTest = runTests(testFunc);
+            int exitValTest = runTestFunction(testFunc);
 
             // Show test result
             if (exitValTest == 0) {
@@ -678,49 +728,7 @@ public class BdsRun implements BdsLog {
                 + "\n                  ERROR : " + testError //
         );
 
-        // Show coverage statistics and save them
-        if (coverage) {
-            // Show stats
-            System.out.println(coverageCounter);
-            if (debug) debug("Detailed coverage counts:\n" + coverageCounter.toStringCounts());
-
-            // Set exit code if the min coverage is not met
-            if (coverageMin > 0.0 && coverageCounter.coverageRatio() < coverageMin) exitCode = 1;
-
-            // Save coverage stats to file
-            saveCoverageStatistics();
-        }
-
         return exitCode;
-    }
-
-    /**
-     * Run a single test function, return exit code
-     */
-    int runTests(FunctionDeclaration testFunc) {
-        // Add all 'declaration' statements
-        BdsNodeWalker bwalker = new BdsNodeWalker(programUnit);
-        List<Statement> statements = bwalker.findDeclarations();
-
-        // Note: We execute the function's body (not the function declaration)
-        statements.add(testFunc.getStatement());
-
-        // Create a program unit having all variable declarations and the test function's statements
-        ProgramUnit puTest = new ProgramUnit(programUnit, null);
-        puTest.setFile(programUnit.getFile());
-        puTest.setStatements(statements.toArray(new Statement[0]));
-
-        // Compile and create vm
-        BdsVm vmtest = compileAsm(puTest);
-        BdsThread bdsThreadTest = new BdsThread(puTest, config, vmtest);
-
-        // Run thread and check exit code
-        int exitValTest = runThread(bdsThreadTest);
-
-        // Show coverage results
-        if (coverage) coverageCounter.add(vmtest);
-
-        return exitValTest;
     }
 
     /**
