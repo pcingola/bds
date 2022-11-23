@@ -350,6 +350,7 @@ public class TestCasesBase implements BdsLog {
         bdsTest.setTestCases(true);
         bdsTest.run();
         bdsTest.checkRunOk();
+        if(verbose) System.err.println("Detailed coverage count:" + bdsTest.bds.getBdsRun().getCoverageCounter().toStringCounts());
         return bdsTest.bds;
     }
 
@@ -367,6 +368,9 @@ public class TestCasesBase implements BdsLog {
         bdsTest.setTestCases(true);
         bdsTest.run();
         bdsTest.checkRunOk();
+
+        if(verbose) System.err.println("Detailed coverage count:" + bdsTest.bds.getBdsRun().getCoverageCounter().toStringCounts());
+
         return bdsTest.bds;
     }
 

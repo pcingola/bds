@@ -217,7 +217,7 @@ public class BdsTest {
      * Check that RunState matches ou expectations
      */
     public void checkRunState(RunState expectedRunState) {
-        Assert.assertEquals(errMsg("Expecting rRunState '" + expectedRunState + "', but it was '" + runState + "'") //
+        Assert.assertEquals(errMsg("Expecting RunState '" + expectedRunState + "', but it was '" + runState + "'") //
                 , expectedRunState //
                 , runState//
         );
@@ -225,7 +225,7 @@ public class BdsTest {
 
     public void checkStderr(String expectedStderr) {
         int index = captureStderr.toString().indexOf(expectedStderr);
-        Assert.assertTrue(errMsg("Error: Expeted string '" + expectedStderr + "' in STDERR not found"), index >= 0);
+        Assert.assertTrue(errMsg("Error: Expecting string '" + expectedStderr + "' in STDERR not found"), index >= 0);
     }
 
     public void checkStdout(String expectedStdout) {

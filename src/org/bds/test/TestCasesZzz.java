@@ -27,12 +27,19 @@ public class TestCasesZzz extends TestCasesBaseAws {
     @Test
     public void testTestCasesCoverage21() {
         // Check that coverage is correctly computed, excluding test case code from the stats
-        Bds bds = runTestCasesPassCoverage("test/z.bds", 0.99);
+        verbose = true;
+//        Bds bds = runTestCasesPassCoverage("test/test_case_run_20.bds", 0.99);
+
+
+        var coverageFileName = "test/test_case_run_20.coverage";
+        Bds bds = runTestCasesSaveCoverage("test/test_case_run_20_1.bds", coverageFileName, true, 0.0);
+        bds = runTestCasesSaveCoverage("test/test_case_run_20_2.bds", coverageFileName, false, 0.99);
+
         Coverage coverage = bds.getBdsRun().getCoverageCounter();
-        Assert.assertEquals(5, coverage.getCountLines());
-        Assert.assertEquals(5, coverage.getCountCovered());
-        Assert.assertEquals(17, coverage.getCountTestCodeLines());
-        Assert.assertEquals(7, coverage.getCountTestCoveredLines());
+        Assert.assertEquals(1, coverage.getCountLines());
+        Assert.assertEquals(1, coverage.getCountCovered());
+        Assert.assertEquals(3, coverage.getCountTestCodeLines());
+        Assert.assertEquals(3, coverage.getCountTestCoveredLines());
     }
 
 }

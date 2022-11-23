@@ -99,7 +99,7 @@ public class Coverage implements Serializable, BdsLog {
             countTestCoveredLines += fc.getLinesTestCovered();
         }
 
-        coverageRatio = (1.0 * countCovered) / countLines;
+        coverageRatio = countLines > 0 ? (1.0 * countCovered) / countLines : 0.0;
         return coverageRatio;
     }
 
