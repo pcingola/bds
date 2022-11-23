@@ -190,4 +190,10 @@ public class TestCasesTesting extends TestCasesBase {
         Assert.assertEquals(11, coverage.getCountTestCodeLines());
         Assert.assertEquals(10, coverage.getCountTestCoveredLines());
     }
+
+    @Test
+    public void testTestCasesCoverage23() {
+        Assert.assertTrue("UNIMPLEMNTED TEST CASE: code with failed assert should have less coverage", false);
+    }
+
 }
