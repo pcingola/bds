@@ -70,6 +70,7 @@ public class BdsNodeWalker implements Iterable<BdsNode> {
      * @param fieldObj: Add nodes of class 'fieldObj'
      */
     List<BdsNode> addFields(Object fieldObj) {
+        boolean stop = false;
         List<BdsNode> list = new ArrayList<>();
 
         // If it is a BdsNode then we can recurse into it
@@ -78,12 +79,12 @@ public class BdsNodeWalker implements Iterable<BdsNode> {
             visited.add(bn);
 
             // Found the requested type?
-            if (isClass(fieldObj))
-                list.add(bn);
+            if (isClassStop(fieldObj)) stop = true; // Do not add to the list if we are stopping
+            else if (isClass(fieldObj)) list.add(bn);
 
             // Recurse into this field?
             if (recurse || (recurseInclude && bn instanceof StatementInclude)) {
-                if (!isClassStop(fieldObj)) list.addAll(findNodes(bn));
+                if (!stop) list.addAll(findNodes(bn)); // Recurse, unless we 'stop' recursion here
             }
         }
 

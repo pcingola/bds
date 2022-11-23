@@ -154,9 +154,17 @@ public class TestCasesTesting extends TestCasesBase {
 
     @Test
     public void testTestCasesCoverage20() {
-        // Test inline functions
-        verbose = true;
-        Bds bds = runTestCasesPassCoverage("test/test_case_run_20.bds", 0.99);
+        // Check that coverage is correctly computed, excluding test case code from the stats.
+        // Case: One-liners
+        var coverageFileName = "test/test_case_run_20.coverage";
+        Bds bds = runTestCasesSaveCoverage("test/test_case_run_20_1.bds", coverageFileName, true, 0.0);
+        bds = runTestCasesSaveCoverage("test/test_case_run_20_2.bds", coverageFileName, false, 0.99);
+
+        Coverage coverage = bds.getBdsRun().getCoverageCounter();
+        Assert.assertEquals(2, coverage.getCountLines());
+        Assert.assertEquals(2, coverage.getCountCovered());
+        Assert.assertEquals(2, coverage.getCountTestCodeLines());
+        Assert.assertEquals(2, coverage.getCountTestCoveredLines());
     }
 
     @Test
