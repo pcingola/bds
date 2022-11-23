@@ -25,6 +25,7 @@ public abstract class FunctionNativeAssert extends FunctionNative {
             String assertionFailedMessage = (String) runFunctionNative(bdsThread);
 
             if (assertionFailedMessage == null) return new ValueBool(true);
+
             bdsThread.assertionFailed(this, assertionFailedMessage);
             return new ValueBool(false);
         } catch (Throwable t) {

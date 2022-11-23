@@ -21,5 +21,11 @@ public class TestCasesZzz extends TestCasesBaseAws {
         Config.get().load();
     }
 
+    @Test
+    public void testTestCases01() {
+        verbose = true;
+        runTestCasesPass("test/z.bds");
+    }
+
 
 }

@@ -145,13 +145,25 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
      */
     public void assertionFailed(BdsNode bdsnode, String message) {
         runState = RunState.FATAL_ERROR;
+
+        // Try to get file name and line number
         String filePos = getFileLinePos(bdsnode);
-        System.err.println("Assertion failed: " //
-                + filePos + (filePos.isEmpty() ? "" : ". ") //
+
+        // Native functions don't have `filelinePos`, and 'assert' is a native function.
+        if (filePos.isEmpty() && vm != null) {
+            // Let's see if the bdsnode from the vm has 'fileLinePos' info
+            bdsnode = vm.getBdsNode();
+            if (bdsnode != null) filePos = getFileLinePos(bdsnode);
+        }
+
+        // Show error message
+        System.err.println("Assertion failed" //
+                + (filePos.isEmpty() ? "" : ". ") + filePos //
+                + ": " //
                 + (message != null ? message : "") //
         );
 
-        // Set exit value
+        // Set exit value and stop the vm
         setExitValue(EXITCODE_ASSERTION_FAILED);
         setRunState(RunState.FATAL_ERROR);
     }
