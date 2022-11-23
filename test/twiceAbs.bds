@@ -1,0 +1,15 @@
+int twiceAbs(int n) {
+    if( n < 0 ) {
+        return -2 * n
+    } else {
+        return 2 * n
+    }
+}
+
+void test01() {
+    fourtyTwo := twiceAbs( 21 )
+    if( fourtyTwo < 0 ) {
+        println("This line is NEVER executed")
+    }
+    assert(42, fourtyTwo)
+}
