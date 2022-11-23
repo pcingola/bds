@@ -203,5 +203,4 @@ public class TestCasesTesting extends TestCasesBase {
         Assert.assertEquals(21, coverage.getCountTestCodeLines());
         Assert.assertEquals(11, coverage.getCountTestCoveredLines());
     }
-
 }
