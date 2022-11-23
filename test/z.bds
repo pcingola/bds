@@ -9,10 +9,10 @@ void test01() {
 void test02() {
     i := 1
     i++
-    assert("I can't add", 2, i)
+    assert(2, i)
 }
 
 void test03() {
     i := twice( 1 )
-    assert("This is weird", 2, i)
+    assert(2, i)
 }
