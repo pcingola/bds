@@ -406,7 +406,7 @@ class FileCoverage implements Comparable<FileCoverage>, Serializable, BdsLog {
         if (end >= 0) sb.append(intervalToString(start, end));
 
         // Coverage percentage
-        double perc = (100.0 * countCovered) / countLines;
+        double perc = countLines > 0 ? (100.0 * countCovered) / countLines : 0;
 
         // Limit file name length
         var file = getFileName();
