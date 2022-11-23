@@ -21,5 +21,18 @@ public class TestCasesZzz extends TestCasesBaseAws {
         Config.get().load();
     }
 
+    @Test
+    public void testTestCasesCoverage23() {
+        // Check that coverage is correctly computed, excluding test case code from the stats.
+        // Testing coverage after failed assert
+        verbose = true;
+        Bds bds = runTestCasesFailCoverage("test/z.bds", 0.5);
+
+        Coverage coverage = bds.getBdsRun().getCoverageCounter();
+        Assert.assertEquals(5, coverage.getCountLines());
+        Assert.assertEquals(5, coverage.getCountCovered());
+        Assert.assertEquals(21, coverage.getCountTestCodeLines());
+        Assert.assertEquals(11, coverage.getCountTestCoveredLines());
+    }
 
 }

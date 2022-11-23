@@ -689,7 +689,7 @@ public class BdsRun implements BdsLog {
         // Show coverage results
         if (coverage) {
             coverageCounter.add(vmtest); // Add all statistics from vm execution
-             coverageCounter.markTestCode(vmtest, testFunc); // Mark all nodes that are in the test*() function. We don't want to count test code in the coverage statistics
+            coverageCounter.markTestCode(vmtest, testFunc); // Mark all nodes that are in the test*() function. We don't want to count test code in the coverage statistics
         }
 
         return exitValTest;
@@ -697,7 +697,7 @@ public class BdsRun implements BdsLog {
 
     /**
      * For each "test*()" function in ProgramUnit, create a thread that executes the function's body
-      */
+     */
     int runTestsFunctions() {
         List<FunctionDeclaration> testFuncs = programUnit.findTestsFunctions();
 

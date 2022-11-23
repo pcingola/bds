@@ -153,6 +153,7 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
 
         // Set exit value
         setExitValue(EXITCODE_ASSERTION_FAILED);
+        setRunState(RunState.FATAL_ERROR);
     }
 
     /**
@@ -220,9 +221,7 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
     /**
      * Create checkpoint file. This method is called from VM opcode
      *
-     * @param checkpointFileName
-     * @param node
-     * @return
+     * @return Checkpoint file name
      */
     public String checkpoint(String checkpointFileName, BdsNode node) {
         // Default file name
@@ -238,9 +237,7 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
      * In this checkpoint, nothing other than the current VM is serialized: no other
      * parallel running VMs, tasks, 'rmOnExit', etc.
      *
-     * @param checkpointFileName
-     * @param node
-     * @return
+     * @return Checkpoint's file name
      */
     public synchronized String checkpointVm(String checkpointFileName, BdsNode node) {
         // Default file name
@@ -579,22 +576,21 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
     public void setRunState(RunState runState) {
         this.runState = runState;
 
-        if (vm != null) {
-            switch (runState) {
+        if (vm == null) return;
 
-                case OK:
-                    vm.setRun(true);
-                    break;
+        switch (runState) {
+            case OK:
+                vm.setRun(true);
+                break;
 
-                case FATAL_ERROR:
-                case FINISHED:
-                case THREAD_KILLED:
-                    vm.setRun(false);
-                    break;
+            case FATAL_ERROR:
+            case FINISHED:
+            case THREAD_KILLED:
+                vm.setRun(false);
+                break;
 
-                default:
-                    break;
-            }
+            default:
+                break;
         }
     }
 

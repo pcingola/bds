@@ -8,22 +8,24 @@ int twice(int n) {
 }
 
 void test01() {
-    print("Test code\n")
-    i := twice( 21 )
-    if( 2 < 1) {
-        // This will NOT get executed, but it should not count for coverage statistics
-        println("One line not covered")
-        println("One line not covered")
-        println("One line not covered")
-        println("One line not covered")
-        println("One line not covered")
-        println("One line not covered")
-        println("One line not covered")
-        println("One line not covered")
-        println("One line not covered")
-        println("One line not covered")
-    }
-    assert("This is weird", 42, i)
-    print("More test code\n")
-    print("More test code\n")
+    println "Test code before assert"
+    println "Test code before assert"
+    println "Test code before assert"
+    println "Test code before assert"
+    println "Test code before assert"
+    println "Test code before assert"
+    println "Test code before assert"
+    println "Test code before assert"
+    println "Test code before assert"
+    assert("This assert will fail", 42, twice(20))
+    println "Test code AFTER assert"
+    println "Test code AFTER assert"
+    println "Test code AFTER assert"
+    println "Test code AFTER assert"
+    println "Test code AFTER assert"
+    println "Test code AFTER assert"
+    println "Test code AFTER assert"
+    println "Test code AFTER assert"
+    println "Test code AFTER assert"
+    println "Test code AFTER assert"
 }

@@ -316,11 +316,12 @@ public class TestCasesBase implements BdsLog {
     /**
      * Run test cases: Check that at least one test case FAILS
      */
-    protected void runTestCasesFail(String testFileName) {
+    protected Bds runTestCasesFail(String testFileName) {
         BdsTest bdsTest = new BdsTest(testFileName, verbose, debug);
         bdsTest.setTestCases(true);
         bdsTest.run();
         bdsTest.checkRunExitCodeFail();
+        return bdsTest.bds;
     }
 
     protected Bds runTestCasesFailCoverage(String testFileName, double coverageMin) {
