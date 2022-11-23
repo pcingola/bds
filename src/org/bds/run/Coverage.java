@@ -3,6 +3,7 @@ package org.bds.run;
 import org.bds.BdsLog;
 import org.bds.compile.BdsNodeWalker;
 import org.bds.lang.BdsNode;
+import org.bds.lang.statement.ClassDeclaration;
 import org.bds.lang.statement.FunctionDeclaration;
 import org.bds.lang.statement.MethodDeclaration;
 import org.bds.lang.statement.StatementFunctionDeclaration;
@@ -159,9 +160,11 @@ public class Coverage implements Serializable, BdsLog {
         bw.addClassStop(StatementFunctionDeclaration.class);
         bw.addClassStop(FunctionDeclaration.class);
         bw.addClassStop(MethodDeclaration.class);
+        bw.addClassStop(ClassDeclaration.class);
 
         // Mark all nodes within the test function code
-        bw.findNodes().stream().forEach(this::markTestCode);
+        bw.findNodes().stream().forEach(this::markTestCode); // Mark all nodes in the function statements
+        markTestCode(testFunc); // Mark the function declaration node
     }
 
     /**

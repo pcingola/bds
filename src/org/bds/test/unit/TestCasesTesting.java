@@ -178,9 +178,16 @@ public class TestCasesTesting extends TestCasesBase {
         Assert.assertEquals(7, coverage.getCountTestCoveredLines());
     }
 
+    @Test
     public void testTestCasesCoverage22() {
-        // TODO: Test with bad assert (should not count all lines in the test code)
-        Assert.assertTrue("IMPLEMENT THIS CODE!!!", false);
-    }
+        // Check that coverage is correctly computed, excluding test case code from the stats.
+        // Testing class methods
+        Bds bds = runTestCasesPassCoverage("test/test_case_run_22.bds", 0.99);
 
+        Coverage coverage = bds.getBdsRun().getCoverageCounter();
+        Assert.assertEquals(6, coverage.getCountLines());
+        Assert.assertEquals(6, coverage.getCountCovered());
+        Assert.assertEquals(11, coverage.getCountTestCodeLines());
+        Assert.assertEquals(10, coverage.getCountTestCoveredLines());
+    }
 }

@@ -3,7 +3,6 @@ package org.bds.compile;
 import org.bds.lang.BdsNode;
 import org.bds.lang.BdsNodeFactory;
 import org.bds.lang.statement.*;
-import org.bds.util.Gpr;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -198,6 +197,8 @@ public class BdsNodeWalker implements Iterable<BdsNode> {
     }
 
     boolean isClassStop(Object obj) {
+        // FIXME: Remove this line, it's only for debugging
+        // if (classesStop != null) Gpr.debug("IS_STOP: " + obj.getClass().getCanonicalName() + "\t" + classesStop.contains(obj.getClass()));
         return (classesStop != null) && classesStop.contains(obj.getClass());
     }
 
