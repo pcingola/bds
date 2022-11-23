@@ -1,6 +1,7 @@
 package org.bds.test.unit;
 
 import org.bds.Bds;
+import org.bds.run.Coverage;
 import org.bds.test.TestCasesBase;
 import org.junit.Assert;
 import org.junit.Test;
@@ -149,6 +150,28 @@ public class TestCasesTesting extends TestCasesBase {
 
         Assert.assertEquals(11, bds.getBdsRun().getCoverageCounter().getCountLines());
         Assert.assertEquals(11, bds.getBdsRun().getCoverageCounter().getCountCovered());
+    }
+
+    @Test
+    public void testTestCasesCoverage20() {
+        // Test inline functions
+        Bds bds = runTestCasesPassCoverage("test/test_case_run_20.bds", 0.99);
+    }
+
+    @Test
+    public void testTestCasesCoverage21() {
+        // Check that coverage is correctly computed, excluding test case code from the stats
+        Bds bds = runTestCasesPassCoverage("test/z.bds", 0.99);
+        Coverage coverage = bds.getBdsRun().getCoverageCounter();
+        Assert.assertEquals(5, coverage.getCountLines());
+        Assert.assertEquals(5, coverage.getCountCovered());
+        Assert.assertEquals(17, coverage.getCountTestCodeLines());
+        Assert.assertEquals(7, coverage.getCountTestCoveredLines());
+    }
+
+    public void testTestCasesCoverage22() {
+        // TODO: Test with bad assert (should not count all lines in the test code)
+        Assert.assertTrue("IMPLEMENT THIS CODE!!!", false);
     }
 
 }
