@@ -193,7 +193,15 @@ public class TestCasesTesting extends TestCasesBase {
 
     @Test
     public void testTestCasesCoverage23() {
-        Assert.assertTrue("UNIMPLEMNTED TEST CASE: code with failed assert should have less coverage", false);
+        // Check that coverage is correctly computed, excluding test case code from the stats.
+        // Testing coverage after failed assert
+        Bds bds = runTestCasesFailCoverage("test/test_case_run_23.bds", 0.5);
+
+        Coverage coverage = bds.getBdsRun().getCoverageCounter();
+        Assert.assertEquals(5, coverage.getCountLines());
+        Assert.assertEquals(5, coverage.getCountCovered());
+        Assert.assertEquals(21, coverage.getCountTestCodeLines());
+        Assert.assertEquals(11, coverage.getCountTestCoveredLines());
     }
 
 }
