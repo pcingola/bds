@@ -1,32 +1,34 @@
 /*
-	Execute bds:
+Execute bds:
 
-	This program allows different "commands"
-	Commands:
-		1) default (no command)	:	Execute BDS Java package (compiler and interpreter)
+This program allows different "commands"
+Commands:
 
-		2) exec					:	Execute shell command and:
-										i) Enforce maximum execution time,
-										ii) redirect STDOUT and STDERR to files
-										iii) show PID to stdout
-										iv) write exit code to file
-									Format:
-										bds exec timeout file.stdout file.stderr file.exit command arguments...
+ 1. default (no command)	:	Execute BDS Java package (compiler and interpreter)
 
-		3) help					: 	Show command usage and exit
+ 2. exec					:	Execute shell command and:
+    i) Enforce maximum execution time,
+    ii) redirect STDOUT and STDERR to files
+    iii) show PID to stdout
+    iv) write exit code to file
+    Format:
+    bds exec timeout file.stdout file.stderr file.exit command arguments...
 
-		4) kill pid             :   Send a kill signal to a process group (same as shell command "kill -- -pid")
+ 3. help					: 	Show command usage and exit
 
-	Examples:
+ 4. kill pid             :   Send a kill signal to a process group (same as shell command "kill -- -pid")
 
-	This will load, compile and execute 'myprogram.bds' (bds program)
-		$ bds myprogram.bds
+Examples:
 
-	This will execute "ls -al", redirect standard output and standard error
-	to "out.stdout" and "out.stderr" respectively. When the command finishes, the
-	exit code will be written to "out.exit"
+This will load, compile and execute 'myprogram.bds' (bds program)
 
-		$ bds exec 10 out.stdout out.stderr out.exit ls -al
+	$ bds myprogram.bds
+
+This will execute "ls -al", redirect standard output and standard error
+to "out.stdout" and "out.stderr" respectively. When the command finishes, the
+exit code will be written to "out.exit"
+
+	$ bds exec 10 out.stdout out.stderr out.exit ls -al
 */
 package main
 
@@ -38,7 +40,7 @@ import (
 )
 
 /*
-	Main
+Main
 */
 func main() {
 
