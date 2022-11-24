@@ -197,8 +197,6 @@ public class BdsNodeWalker implements Iterable<BdsNode> {
     }
 
     boolean isClassStop(Object obj) {
-        // FIXME: Remove this line, it's only for debugging
-        // if (classesStop != null) Gpr.debug("IS_STOP: " + obj.getClass().getCanonicalName() + "\t" + classesStop.contains(obj.getClass()));
         return (classesStop != null) && classesStop.contains(obj.getClass());
     }
 
