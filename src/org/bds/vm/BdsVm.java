@@ -137,7 +137,6 @@ public class BdsVm implements Serializable, BdsLog {
 
 	/**
 	 * Add new constant
-	 * @param constant
 	 * @return Constant index
 	 */
 	public int addConstant(Object constant) {
@@ -173,7 +172,6 @@ public class BdsVm implements Serializable, BdsLog {
 
 	/**
 	 * Add new label
-	 * @param label
 	 * @param codeidx: instruction index where label occurs
 	 */
 	public void addLabel(String label, int codeidx) {

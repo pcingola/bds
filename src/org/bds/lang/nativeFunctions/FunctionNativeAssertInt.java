@@ -7,31 +7,32 @@ import org.bds.run.BdsThread;
 
 public class FunctionNativeAssertInt extends FunctionNativeAssert {
 
-	private static final long serialVersionUID = 2793384407874961408L;
+    private static final long serialVersionUID = 2793384407874961408L;
 
 
-	public FunctionNativeAssertInt() {
-		super();
-	}
+    public FunctionNativeAssertInt() {
+        super();
+    }
 
-	@Override
-	protected void initFunction() {
-		functionName = "assert";
-		returnType = Types.BOOL;
+    @Override
+    protected void initFunction() {
+        functionName = "assert";
+        returnType = Types.BOOL;
 
-		String[] argNames = { "msg", "expected", "map" };
-		Type[] argTypes = { Types.STRING, Types.INT, Types.INT };
-		parameters = Parameters.get(argTypes, argNames);
-		addNativeFunction();
-	}
+        String[] argNames = {"msg", "expected", "map"};
+        Type[] argTypes = {Types.STRING, Types.INT, Types.INT};
+        parameters = Parameters.get(argTypes, argNames);
+        addNativeFunction();
+    }
 
-	@Override
-	protected Object runFunctionNative(BdsThread bdsThread) {
-		String msg = bdsThread.getString("msg");
-		long expected = bdsThread.getInt("expected");
-		long value = bdsThread.getInt("map");
-		if (expected != value) //
-			bdsThread.runtimeError("Expecting '" + expected + "', but was '" + value + "': " + msg);
-		return true;
-	}
+    /**
+     * Return null if assertion succeeds.
+     * If assertion fails, return the assertion failed message to be shown on STDERR when bds exits
+     */
+    @Override
+    protected Object runFunctionNative(BdsThread bdsThread) {
+        long expected = bdsThread.getInt("expected");
+        long value = bdsThread.getInt("map");
+        return expected == value ? null : bdsThread.getString("msg");
+    }
 }

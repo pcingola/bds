@@ -1,0 +1,31 @@
+
+
+class A {
+    int num
+
+    void A(int num) {
+        this.num = num
+    }
+
+    int prod(int t) {
+        println "Product: $num * $t"
+        val := num * t
+        return val
+    }
+}
+
+
+void test_01() {
+    println "Test case number 1: Start"
+    a := new A(2)
+    assert(6, a.prod(3))
+    println "Test case number 1: End"
+}
+
+void test_02() {
+    println "Test case number 2: Start"
+    a := new A(21)
+    assert(42, a.prod(2))
+    if( 2 < 1 ) println "Line in test case not covered"
+    println "Test case number 2: End"
+}

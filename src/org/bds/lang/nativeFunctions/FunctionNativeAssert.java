@@ -12,24 +12,28 @@ import org.bds.run.BdsThread;
  */
 public abstract class FunctionNativeAssert extends FunctionNative {
 
-	private static final long serialVersionUID = 6415943745404236449L;
+    private static final long serialVersionUID = 6415943745404236449L;
 
-	public FunctionNativeAssert() {
-		super();
-	}
+    public FunctionNativeAssert() {
+        super();
+    }
 
-	@Override
-	public Value runFunction(BdsThread bdsThread) {
-		try {
-			// Run function
-			runFunctionNative(bdsThread);
-			return new ValueBool(true);
-		} catch (Throwable t) {
-			// Exception caused by failed assertion
-			if (bdsThread.isDebug() | t.getMessage() == null) t.printStackTrace();
-			bdsThread.assertionFailed(this, t.getMessage());
-			return new ValueBool(false);
-		}
-	}
+    @Override
+    public Value runFunction(BdsThread bdsThread) {
+        try {
+            // Run assertion function
+            String assertionFailedMessage = (String) runFunctionNative(bdsThread);
+
+            if (assertionFailedMessage == null) return new ValueBool(true);
+
+            bdsThread.assertionFailed(this, assertionFailedMessage);
+            return new ValueBool(false);
+        } catch (Throwable t) {
+            // Exception: Failed assertion
+            if (bdsThread.isDebug() | t.getMessage() == null) t.printStackTrace();
+            bdsThread.assertionFailed(this, t.getMessage());
+            return new ValueBool(false);
+        }
+    }
 
 }

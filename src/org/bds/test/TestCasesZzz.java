@@ -1,12 +1,12 @@
 package org.bds.test;
 
+import org.bds.Bds;
 import org.bds.Config;
 import org.bds.run.BdsRun;
+import org.bds.run.Coverage;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.File;
 
 /**
  * Quick test cases when creating a new feature...
@@ -20,5 +20,12 @@ public class TestCasesZzz extends TestCasesBaseAws {
         BdsRun.reset();
         Config.get().load();
     }
+
+    @Test
+    public void testTestCases01() {
+        verbose = true;
+        runTestCasesPass("test/z.bds");
+    }
+
 
 }

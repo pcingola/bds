@@ -145,14 +145,27 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
      */
     public void assertionFailed(BdsNode bdsnode, String message) {
         runState = RunState.FATAL_ERROR;
+
+        // Try to get file name and line number
         String filePos = getFileLinePos(bdsnode);
-        System.err.println("Assertion failed: " //
-                + filePos + (filePos.isEmpty() ? "" : ". ") //
+
+        // Native functions don't have `filelinePos`, and 'assert' is a native function.
+        if (filePos.isEmpty() && vm != null) {
+            // Let's see if the bdsnode from the vm has 'fileLinePos' info
+            bdsnode = vm.getBdsNode();
+            if (bdsnode != null) filePos = getFileLinePos(bdsnode);
+        }
+
+        // Show error message
+        System.err.println("Assertion failed" //
+                + (filePos.isEmpty() ? "" : ". ") + filePos //
+                + ": " //
                 + (message != null ? message : "") //
         );
 
-        // Set exit value
+        // Set exit value and stop the vm
         setExitValue(EXITCODE_ASSERTION_FAILED);
+        setRunState(RunState.FATAL_ERROR);
     }
 
     /**
@@ -220,9 +233,7 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
     /**
      * Create checkpoint file. This method is called from VM opcode
      *
-     * @param checkpointFileName
-     * @param node
-     * @return
+     * @return Checkpoint file name
      */
     public String checkpoint(String checkpointFileName, BdsNode node) {
         // Default file name
@@ -238,9 +249,7 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
      * In this checkpoint, nothing other than the current VM is serialized: no other
      * parallel running VMs, tasks, 'rmOnExit', etc.
      *
-     * @param checkpointFileName
-     * @param node
-     * @return
+     * @return Checkpoint's file name
      */
     public synchronized String checkpointVm(String checkpointFileName, BdsNode node) {
         // Default file name
@@ -579,22 +588,21 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
     public void setRunState(RunState runState) {
         this.runState = runState;
 
-        if (vm != null) {
-            switch (runState) {
+        if (vm == null) return;
 
-                case OK:
-                    vm.setRun(true);
-                    break;
+        switch (runState) {
+            case OK:
+                vm.setRun(true);
+                break;
 
-                case FATAL_ERROR:
-                case FINISHED:
-                case THREAD_KILLED:
-                    vm.setRun(false);
-                    break;
+            case FATAL_ERROR:
+            case FINISHED:
+            case THREAD_KILLED:
+                vm.setRun(false);
+                break;
 
-                default:
-                    break;
-            }
+            default:
+                break;
         }
     }
 

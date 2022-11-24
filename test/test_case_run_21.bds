@@ -1,0 +1,29 @@
+#!/usr/bin/env bds
+
+int twice(int n) {
+    println "Function to test: Start"
+    res := 2 * n
+    println "Function to test: End"
+    return res
+}
+
+void test01() {
+    print("Test code\n")
+    i := twice( 21 )
+    if( 2 < 1) {
+        // This will NOT get executed, but it should not count for coverage statistics
+        println("One line not covered")
+        println("One line not covered")
+        println("One line not covered")
+        println("One line not covered")
+        println("One line not covered")
+        println("One line not covered")
+        println("One line not covered")
+        println("One line not covered")
+        println("One line not covered")
+        println("One line not covered")
+    }
+    assert("This is weird", 42, i)
+    print("More test code\n")
+    print("More test code\n")
+}

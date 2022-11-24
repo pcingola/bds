@@ -1,0 +1,31 @@
+#!/usr/bin/env bds
+
+int twice(int n) {
+    println "Function to test: Start"
+    res := 2 * n
+    println "Function to test: End"
+    return res
+}
+
+void test01() {
+    println "Test code before assert"
+    println "Test code before assert"
+    println "Test code before assert"
+    println "Test code before assert"
+    println "Test code before assert"
+    println "Test code before assert"
+    println "Test code before assert"
+    println "Test code before assert"
+    println "Test code before assert"
+    assert("This assert will fail", 42, twice(20))
+    println "Test code AFTER assert"
+    println "Test code AFTER assert"
+    println "Test code AFTER assert"
+    println "Test code AFTER assert"
+    println "Test code AFTER assert"
+    println "Test code AFTER assert"
+    println "Test code AFTER assert"
+    println "Test code AFTER assert"
+    println "Test code AFTER assert"
+    println "Test code AFTER assert"
+}

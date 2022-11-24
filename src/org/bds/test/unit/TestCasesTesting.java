@@ -1,6 +1,7 @@
 package org.bds.test.unit;
 
 import org.bds.Bds;
+import org.bds.run.Coverage;
 import org.bds.test.TestCasesBase;
 import org.junit.Assert;
 import org.junit.Test;
@@ -49,8 +50,8 @@ public class TestCasesTesting extends TestCasesBase {
     @Test
     public void testTestCasesCoverage07() {
         // Check that coverage is correctly computed
-        Bds bds = runTestCasesPassCoverage("test/test_case_run_07.bds", 0.77);
-        checkCoverageRatio(bds, 7.0 / 9.0);
+        Bds bds = runTestCasesPassCoverage("test/test_case_run_07.bds", 0.66);
+        checkCoverageRatio(bds, 4.0 / 6.0);
     }
 
     @Test
@@ -62,29 +63,29 @@ public class TestCasesTesting extends TestCasesBase {
     @Test
     public void testTestCasesCoverage08() {
         // Check that coverage is correctly computed: Last line of the file not covered
-        Bds bds = runTestCasesPassCoverage("test/test_case_run_08.bds", 0.8);
-        checkCoverageRatio(bds, 0.8);
+        Bds bds = runTestCasesPassCoverage("test/test_case_run_08.bds", 0.66);
+        checkCoverageRatio(bds, 2.0 / 3.0);
     }
 
     @Test
     public void testTestCasesCoverage09() {
         // Check that coverage is correctly computed: 'if' statement in one line
-        Bds bds = runTestCasesPassCoverage("test/test_case_run_09.bds", 0.7);
-        checkCoverageRatio(bds, 0.75);
+        Bds bds = runTestCasesPassCoverage("test/test_case_run_09.bds", 0.5);
+        checkCoverageRatio(bds, 0.5);
     }
 
     @Test
     public void testTestCasesCoverage10() {
         // Check that coverage is correctly computed: 'while' statements
-        Bds bds = runTestCasesPassCoverage("test/test_case_run_10.bds", 0.8);
-        checkCoverageRatio(bds, 9.0 / 11.0);
+        Bds bds = runTestCasesPassCoverage("test/test_case_run_10.bds", 0.77);
+        checkCoverageRatio(bds, 7.0 / 9.0);
     }
 
     @Test
     public void testTestCasesCoverage11() {
         // Check that coverage is correctly computed: for loop
         Bds bds = runTestCasesPassCoverage("test/test_case_run_11.bds", 0.8);
-        checkCoverageRatio(bds, 8.0 / 9.0);
+        checkCoverageRatio(bds, 0.8571428571428571);
     }
 
     @Test
@@ -97,22 +98,22 @@ public class TestCasesTesting extends TestCasesBase {
     @Test
     public void testTestCasesCoverage13() {
         // Check that coverage is correctly computed: Private function
-        Bds bds = runTestCasesPassCoverage("test/test_case_run_13.bds", 0.88);
-        checkCoverageRatio(bds, 8.0 / 9.0);
+        Bds bds = runTestCasesPassCoverage("test/test_case_run_13.bds", 0.85);
+        checkCoverageRatio(bds, 0.8571428571428571);
     }
 
     @Test
     public void testTestCasesCoverage14() {
         // Check that coverage is correctly computed: Switch / Case
-        Bds bds = runTestCasesPassCoverage("test/test_case_run_14.bds", 0.64);
-        checkCoverageRatio(bds, 9.0 / 14.0);
+        Bds bds = runTestCasesPassCoverage("test/test_case_run_14.bds", 0.58);
+        checkCoverageRatio(bds, 0.5833333333333334);
     }
 
     @Test
     public void testTestCasesCoverage15() {
         // Check that coverage is correctly computed: Ternary operator
-        Bds bds = runTestCasesPassCoverage("test/test_case_run_15.bds", 0.75);
-        checkCoverageRatio(bds, 0.75);
+        Bds bds = runTestCasesPassCoverage("test/test_case_run_15.bds", 0.50);
+        checkCoverageRatio(bds, 0.5);
     }
 
     @Test
@@ -125,8 +126,8 @@ public class TestCasesTesting extends TestCasesBase {
     @Test
     public void testTestCasesCoverage17() {
         // Check that coverage is correctly computed: include
-        Bds bds = runTestCasesPassCoverage("test/test_case_run_17.bds", 0.8);
-        checkCoverageRatio(bds, 70.0 / 84.0);
+        Bds bds = runTestCasesPassCoverage("test/test_case_run_17.bds", 0.75);
+        checkCoverageRatio(bds, 46.0 / 60.0);
     }
 
     @Test
@@ -136,8 +137,8 @@ public class TestCasesTesting extends TestCasesBase {
         Bds bds = runTestCasesSaveCoverage("test/test_case_run_18_1.bds", coverageFileName, true, 0.0);
         bds = runTestCasesSaveCoverage("test/test_case_run_18_2.bds", coverageFileName, false, 0.99);
 
-        Assert.assertEquals(9, bds.getBdsRun().getCoverageCounter().getCountLines());
-        Assert.assertEquals(9, bds.getBdsRun().getCoverageCounter().getCountCovered());
+        Assert.assertEquals(3, bds.getBdsRun().getCoverageCounter().getCountLines());
+        Assert.assertEquals(3, bds.getBdsRun().getCoverageCounter().getCountCovered());
     }
 
     @Test
@@ -147,8 +148,59 @@ public class TestCasesTesting extends TestCasesBase {
         Bds bds = runTestCasesSaveCoverage("test/test_case_run_19_1.bds", coverageFileName, true, 0.0);
         bds = runTestCasesSaveCoverage("test/test_case_run_19_2.bds", coverageFileName, false, 0.99);
 
-        Assert.assertEquals(11, bds.getBdsRun().getCoverageCounter().getCountLines());
-        Assert.assertEquals(11, bds.getBdsRun().getCoverageCounter().getCountCovered());
+        Assert.assertEquals(5, bds.getBdsRun().getCoverageCounter().getCountLines());
+        Assert.assertEquals(5, bds.getBdsRun().getCoverageCounter().getCountCovered());
     }
 
+    @Test
+    public void testTestCasesCoverage20() {
+        // Check that coverage is correctly computed, excluding test case code from the stats.
+        // Case: One-liners
+        var coverageFileName = "test/test_case_run_20.coverage";
+        Bds bds = runTestCasesSaveCoverage("test/test_case_run_20_1.bds", coverageFileName, true, 0.0);
+        bds = runTestCasesSaveCoverage("test/test_case_run_20_2.bds", coverageFileName, false, 0.99);
+
+        Coverage coverage = bds.getBdsRun().getCoverageCounter();
+        Assert.assertEquals(2, coverage.getCountLines());
+        Assert.assertEquals(2, coverage.getCountCovered());
+        Assert.assertEquals(2, coverage.getCountTestCodeLines());
+        Assert.assertEquals(2, coverage.getCountTestCoveredLines());
+    }
+
+    @Test
+    public void testTestCasesCoverage21() {
+        // Check that coverage is correctly computed, excluding test case code from the stats
+        Bds bds = runTestCasesPassCoverage("test/test_case_run_21.bds", 0.99);
+        Coverage coverage = bds.getBdsRun().getCoverageCounter();
+        Assert.assertEquals(5, coverage.getCountLines());
+        Assert.assertEquals(5, coverage.getCountCovered());
+        Assert.assertEquals(17, coverage.getCountTestCodeLines());
+        Assert.assertEquals(7, coverage.getCountTestCoveredLines());
+    }
+
+    @Test
+    public void testTestCasesCoverage22() {
+        // Check that coverage is correctly computed, excluding test case code from the stats.
+        // Testing class methods
+        Bds bds = runTestCasesPassCoverage("test/test_case_run_22.bds", 0.99);
+
+        Coverage coverage = bds.getBdsRun().getCoverageCounter();
+        Assert.assertEquals(6, coverage.getCountLines());
+        Assert.assertEquals(6, coverage.getCountCovered());
+        Assert.assertEquals(11, coverage.getCountTestCodeLines());
+        Assert.assertEquals(10, coverage.getCountTestCoveredLines());
+    }
+
+    @Test
+    public void testTestCasesCoverage23() {
+        // Check that coverage is correctly computed, excluding test case code from the stats.
+        // Testing coverage after failed assert
+        Bds bds = runTestCasesFailCoverage("test/test_case_run_23.bds", 0.5);
+
+        Coverage coverage = bds.getBdsRun().getCoverageCounter();
+        Assert.assertEquals(5, coverage.getCountLines());
+        Assert.assertEquals(5, coverage.getCountCovered());
+        Assert.assertEquals(21, coverage.getCountTestCodeLines());
+        Assert.assertEquals(11, coverage.getCountTestCoveredLines());
+    }
 }
