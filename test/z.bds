@@ -1,18 +1,15 @@
-int twice(int n) {
-    return 3 * n // Maybe I don't really know what "twice" means...
+in := "$S3_TMP/tmp/in.txt"
+out := "out.txt"
+out2 := "out2.txt"
+
+task(out <- in) {
+    sys echo STRICT_REMOTE_DEPENDENCIES = $strictRemoteDependencies
+    sys echo $in | tee $out
 }
 
-void test01() {
-    print("Nice test code 01\n")
-}
+wait
 
-void test02() {
-    i := 1
-    i++
-    assert(2, i)
-}
-
-void test03() {
-    i := twice( 1 )
-    assert(2, i)
+task(out2 <- in, strictRemoteDependencies := true) {
+    sys echo STRICT_REMOTE_DEPENDENCIES = $strictRemoteDependencies
+    sys echo $in | tee $out2
 }
