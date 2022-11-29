@@ -49,6 +49,7 @@ public class GlobalScope extends Scope {
 	public static final String GLOBAL_VAR_TASK_OPTION_PHYSICAL_PATH = "ppwd";
 	public static final String GLOBAL_VAR_TASK_OPTION_QUEUE = "queue";
 	public static final String GLOBAL_VAR_TASK_OPTION_RETRY = "retry";
+	public static final String GLOBAL_VAR_TASK_OPTION_STRICT_REMOTE_DEPENDENCIES = "strictRemoteDependencies";
 	public static final String GLOBAL_VAR_TASK_OPTION_SYSTEM = "system";
 	public static final String GLOBAL_VAR_TASK_OPTION_TASKNAME = "taskName";
 	public static final String GLOBAL_VAR_TASK_OPTION_TIMEOUT = "timeout";
@@ -145,6 +146,7 @@ public class GlobalScope extends Scope {
 		add(GLOBAL_VAR_TASK_OPTION_DETACHED, false); // Tasks are running detached
 		add(GLOBAL_VAR_TASK_OPTION_MEM, config.getMem()); // Default amount of memory (unrestricted)
 		add(GLOBAL_VAR_TASK_OPTION_NODE, config.getNode()); // Default node: none
+		add(GLOBAL_VAR_TASK_OPTION_STRICT_REMOTE_DEPENDENCIES, false); // By default, download & upload remote dependencies
 		add(GLOBAL_VAR_TASK_OPTION_TIMEOUT, config.getTimeout()); // Task default timeout
 		add(GLOBAL_VAR_TASK_OPTION_WALL_TIMEOUT, config.getWallTimeout()); // Task default wall-timeout
 

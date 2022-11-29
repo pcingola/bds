@@ -1,18 +1,8 @@
-int twice(int n) {
-    return 3 * n // Maybe I don't really know what "twice" means...
-}
+in := "$S3_TMP/tmp/in.txt"     
+out := "$S3_TMP/tmp/out.txt"
 
-void test01() {
-    print("Nice test code 01\n")
-}
-
-void test02() {
-    i := 1
-    i++
-    assert(2, i)
-}
-
-void test03() {
-    i := twice( 1 )
-    assert(2, i)
+task(out <- in, strictRemoteDependencies=true) {
+    sys echo Input file: $in
+    sys echo Output file: $out
+    sys aws s3 cp $in $out
 }

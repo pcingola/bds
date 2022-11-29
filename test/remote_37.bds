@@ -1,0 +1,12 @@
+
+include 'aws_util'
+
+in := "$s3base/in.txt"
+out := "out.txt"
+
+in.write("hi") // Make sure input file exists
+out.rm() // Make sure output file does not exists, i.e. force task execution
+
+task(out <- in, strictRemoteDependencies := true) {
+    sys echo '$in' | tee '$out'
+}
