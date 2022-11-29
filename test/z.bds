@@ -1,12 +1,8 @@
+in := "$S3_TMP/tmp/in.txt"     
+out := "$S3_TMP/tmp/out.txt"
 
-include 'aws_util'
-
-in := "$s3base/in.txt"
-out := "out.txt"
-
-in.write("hi") // Make sure input file exists
-out.rm() // Make sure output file does not exists, i.e. force task execution
-
-task(out <- in, strictRemoteDependencies := true) {
-    sys echo '$in' | tee '$out'
+task(out <- in, strictRemoteDependencies=true) {
+    sys echo Input file: $in
+    sys echo Output file: $out
+    sys aws s3 cp $in $out
 }
