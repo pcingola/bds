@@ -1,7 +1,6 @@
 package org.bds.lang.statement;
 
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.bds.compile.CompilerMessage.MessageType;
 import org.bds.compile.CompilerMessages;
 import org.bds.lang.BdsNode;
 import org.bds.lang.expression.Expression;
@@ -27,10 +26,9 @@ public class Throw extends StatementWithScope {
     }
 
     /**
-     * Is the expression derived from 'Exception'?
+     * Is the type derived from 'Exception'?
      */
-    boolean isExceptionClass() {
-        Type t = expr.getReturnType();
+    public static boolean isExceptionClass(Type t) {
         if (t == null) return false;
         if (!t.isClass()) return false;
 
@@ -39,6 +37,13 @@ public class Throw extends StatementWithScope {
         }
 
         return false;
+    }
+
+    /**
+     * Is the expression derived from 'Exception'?
+     */
+    boolean isExceptionClass() {
+        return isExceptionClass(expr.getReturnType());
     }
 
     @Override
@@ -67,9 +72,11 @@ public class Throw extends StatementWithScope {
 
     @Override
     public void typeCheckNotNull(SymbolTable symtab, CompilerMessages compilerMessages) {
-        if (!isExceptionClass()) {
-            compilerMessages.add(this, "Trying to 'throw' a non-Exception object", MessageType.ERROR);
-        }
+        // We no longer require the class to be a subclass from exception
+
+//        if (!isExceptionClass()) {
+//            compilerMessages.add(this, "Trying to 'throw' a non-Exception object", MessageType.ERROR);
+//        }
     }
 
 }

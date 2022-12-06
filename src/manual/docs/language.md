@@ -159,6 +159,45 @@ switch( in ) {
 }
 ```
 
+### `throw`
+
+Throws an exception, that might be captured by a `try` / `catch` block:
+
+```
+class MyException extends Exception { }
+
+void myFunction() {
+    if( rand() < 0.5) throw new MyException()
+}
+```
+
+### `try` / `catch` / `finally`
+
+The `try` / `catch` / `finally` combination is used to to capture exceptions.
+For example:
+```
+class MyException extends Exception { }
+
+// Half of the time this function fails and thorws an exception
+void myFunction() {
+    if( rand() < 0.5) throw new MyException()
+}
+
+try {
+    // This code block might throw an exception
+    myFunction() 
+} catch(MyException e) {
+    // This block is executes only if the `try` block
+    // throws an exception of type `MyException`
+    println "MyException was thrown: $e"
+} finally {
+    // This code is ALWAYS executed
+    println "Finally, we are finished"
+} 
+```
+
+
+
 ### Variable assignment
 ` var = expr ` evaluates expression 'expr' and assign result to 'var'
 ```
