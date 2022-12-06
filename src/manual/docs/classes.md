@@ -1,14 +1,17 @@
 
+
 # Classes
 
-Bds has some basic object oriented model that help to modularize complex data analysis pipelenes.
-Has you may expect, classes can contiain fields (class variables) and methods (class functions).
+Bds has some basic object-oriented model that help to modularize complex data analysis pipelenes.
+Has you may expect, classes can contain fields (class variables) and methods (class functions).
 ```
 class A {
 	string name
 	int value
 }
 ```
+
+## Creating new objects
 
 **`new` operator**
 To create a new object you use the operator `new` followed by the class name and parameters for the constructor method.
@@ -18,6 +21,10 @@ E.g.:
 ```
 a := new A()    # Create object 'A' and invoke empty (default) constructor
 ```
+
+## Constructor
+
+The constructor is a method that has the same name as the class, returns `void` and can have parameters.
 
 Example of a constructor with parameters:
 ```
@@ -38,7 +45,9 @@ The output of this program would be (by default printing an object shows the fie
 a: { x: 42 }
 ```
 
-**Inheritance**: A class can inherit from another class using `extends` keywors in the class definition. 
+## Inheritance
+
+A class can inherit from another class using `extends` keywords in the class definition. 
 
 ```
 class A {
@@ -53,6 +62,7 @@ class B extends A {
 b := new B()
 println "b: $b"
 ```
+
 The output of this program is:
 ```
 b: { x: 0, y: 17 }
