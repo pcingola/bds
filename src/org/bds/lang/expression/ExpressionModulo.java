@@ -3,6 +3,7 @@ package org.bds.lang.expression;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.bds.compile.CompilerMessages;
 import org.bds.lang.BdsNode;
+import org.bds.lang.type.PrimitiveType;
 import org.bds.symbol.SymbolTable;
 import org.bds.vm.OpCode;
 
@@ -25,9 +26,14 @@ public class ExpressionModulo extends ExpressionMath {
     }
 
     @Override
-    public String toAsm() {
-        String eb = super.toAsm();
-        return eb + OpCode.MODI + "\n";
+    public OpCode toAsmOp(PrimitiveType type) {
+        switch (type) {
+            case INT:
+                return OpCode.MODI;
+            default:
+                compileError("Could not find operator '" + op() + "' for type '" + type + "'");
+        }
+        return null;
     }
 
     @Override

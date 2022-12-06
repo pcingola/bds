@@ -1,8 +1,7 @@
-in := "$S3_TMP/tmp/in.txt"     
-out := "$S3_TMP/tmp/out.txt"
 
-task(out <- in, strictRemoteDependencies=true) {
-    sys echo Input file: $in
-    sys echo Output file: $out
-    sys aws s3 cp $in $out
-}
+a := 1 % 1
+b := 0 % 1
+c := 17 % 100
+d := 117 % 100
+e := 10 % 3
+f := 20 % 5
