@@ -1,7 +1,6 @@
 package org.bds.test.unit;
 
 import org.bds.test.TestCasesBase;
-import org.bds.util.Gpr;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -622,4 +621,17 @@ public class TestCasesRun3 extends TestCasesBase {
         Assert.assertTrue("Tmp file " + tmpFile3 + " should exist", tmpFile3.exists());
         Assert.assertTrue("Tmp file " + txtFile + " should exists", txtFile.exists());
     }
+
+    @Test
+    public void test276_modulo_bug() {
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("a", 0);
+        expectedValues.put("b", 0);
+        expectedValues.put("c", 17);
+        expectedValues.put("d", 17);
+        expectedValues.put("e", 1);
+        expectedValues.put("f", 0);
+        runAndCheck("test/run_276.bds", expectedValues);
+    }
+
 }

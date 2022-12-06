@@ -1,8 +1,12 @@
-in := "$S3_TMP/tmp/in.txt"     
-out := "$S3_TMP/tmp/out.txt"
 
-task(out <- in, strictRemoteDependencies=true) {
-    sys echo Input file: $in
-    sys echo Output file: $out
-    sys aws s3 cp $in $out
+void f() {
+    throw new MyException()
 }
+
+try {
+    f()
+} catch(MyException e) {
+    println "CATCH: $e"
+}
+
+class MyException extends Exception { }
