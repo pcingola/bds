@@ -28,7 +28,7 @@ print "Hi\n"
 print "Bye\n"
 ```
 
-### break
+### `break`
 Breaks from current loop
 ```
 for( int i=0 ; i < 10 ; i++ ) {
@@ -36,13 +36,13 @@ for( int i=0 ; i < 10 ; i++ ) {
 }
 ```
 
-### breakpoint
+### `breakpoint`
 Inserts a debugging breakpoint. I.e. when the statement is executed, `bds` switches execution to debug mode (STEP) 
 ```
 breakpoint "Program execution will switch do debug mode here!\n"
 ```
 
-### continue
+### `continue`
 Continue at the end of the current loop
 ```
 for( int i=0 ; i < 10 ; i++ ) {
@@ -50,25 +50,25 @@ for( int i=0 ; i < 10 ; i++ ) {
 }
 ```
 
-### debug
+### `debug`
 Show a debug message on STDERR only if `bds` is running in 'debug' mode (otherwise the statement is ignored).
 ```
 debug "Show this message only if we are in debug mode!\n"
 ```
 
-### error
+### `error`
 Show an error message and exit the program
 ```
-if( num <= 0 )	warning "Number MUST be positive\n"
+if( num <= 0 )	error "Number MUST be positive\n"
 ```
 
-### exit
+### `exit`
 Exit program, optional expression calculates an exit value.
 ```
 exit 1
 ```
 
-### for
+### `for`
 Similar to C or Java `for` loops
 ```
 for( int i=0 ; i < 10 ; i++ ) print("$i\n")
@@ -80,7 +80,7 @@ for( int i=0 ; i < 10 ; i++ ) {
 }
 ```
 
-### for (lists)
+### `for (lists)`
 Java-like for iterator on lists
 ```
 string[] mylist
@@ -90,7 +90,7 @@ string[] mylist
 for( string s : mylist ) print("$s\n")
 ```
 
-### if / else
+### `if / else`
 It does exactly what you expect
 ```
 if( i < 10 )	print("Less than ten\n")
@@ -106,7 +106,7 @@ if( i < 10 ) {
 }
 ```
 
-### include
+### `include`
 Include source code from another file
 ```
 include "mymodule"
@@ -114,20 +114,20 @@ include "mymodule"
 // ... use functions from 'mymodule.bds'
 ```
 
-### kill
+### `kill`
 Kill a task
 ```
 kill taskId
 ```
 
-### print / println
+### `print / println`
 Print to sdtout
 ```
 print "Show this mesage without a new line at the end."
 println "This one gets a new line at the end."
 ```
 
-### return
+### `return`
 Return from a function. Optional expression is a return value.
 ```
 // Define a function
@@ -136,7 +136,7 @@ int twice(int n) {
 }
 ```
 
-### switch
+### `switch`
 Switch statements are similar to multiple `if / else if` statements
 ```
 in := 'x'

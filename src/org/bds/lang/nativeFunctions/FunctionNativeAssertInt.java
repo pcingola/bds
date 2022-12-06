@@ -19,7 +19,7 @@ public class FunctionNativeAssertInt extends FunctionNativeAssert {
         functionName = "assert";
         returnType = Types.BOOL;
 
-        String[] argNames = {"msg", "expected", "map"};
+        String[] argNames = {"msg", "expected", "value"};
         Type[] argTypes = {Types.STRING, Types.INT, Types.INT};
         parameters = Parameters.get(argTypes, argNames);
         addNativeFunction();
@@ -32,7 +32,7 @@ public class FunctionNativeAssertInt extends FunctionNativeAssert {
     @Override
     protected Object runFunctionNative(BdsThread bdsThread) {
         long expected = bdsThread.getInt("expected");
-        long value = bdsThread.getInt("map");
+        long value = bdsThread.getInt("value");
         return expected == value ? null : bdsThread.getString("msg");
     }
 }

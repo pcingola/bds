@@ -19,7 +19,7 @@ public class FunctionNativeAssertStringNoMsg extends FunctionNativeAssert {
         functionName = "assert";
         returnType = Types.BOOL;
 
-        String[] argNames = {"expected", "map"};
+        String[] argNames = {"expected", "value"};
         Type[] argTypes = {Types.STRING, Types.STRING};
         parameters = Parameters.get(argTypes, argNames);
         addNativeFunction();
@@ -32,7 +32,7 @@ public class FunctionNativeAssertStringNoMsg extends FunctionNativeAssert {
     @Override
     protected Object runFunctionNative(BdsThread bdsThread) {
         String expected = bdsThread.getString("expected");
-        String value = bdsThread.getString("map");
+        String value = bdsThread.getString("value");
         return expected.equals(value) ? null : "Expecting '" + expected + "', but was '" + value + "'";
     }
 }
