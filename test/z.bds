@@ -1,7 +1,12 @@
 
-a := 1 % 1
-b := 0 % 1
-c := 17 % 100
-d := 117 % 100
-e := 10 % 3
-f := 20 % 5
+void f() {
+    throw new MyException()
+}
+
+try {
+    f()
+} catch(MyException e) {
+    println "CATCH: $e"
+}
+
+class MyException extends Exception { }
