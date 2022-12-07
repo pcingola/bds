@@ -4,7 +4,6 @@ import org.bds.BdsLog;
 import org.bds.Config;
 import org.bds.lang.BdsNode;
 import org.bds.lang.BdsNodeFactory;
-import org.bds.lang.nativeClasses.exception.ClassDeclarationException;
 import org.bds.lang.nativeFunctions.FunctionNative;
 import org.bds.lang.nativeMethods.MethodNative;
 import org.bds.lang.statement.ClassDeclaration;

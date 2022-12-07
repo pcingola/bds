@@ -4,7 +4,6 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.bds.compile.CompilerMessages;
 import org.bds.lang.BdsNode;
 import org.bds.lang.expression.Expression;
-import org.bds.lang.nativeClasses.exception.ClassDeclarationException;
 import org.bds.lang.type.Type;
 import org.bds.lang.type.TypeClass;
 import org.bds.symbol.SymbolTable;

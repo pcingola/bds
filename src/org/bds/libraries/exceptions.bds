@@ -1,8 +1,14 @@
 
+// Base of throwable objects
 class Throwable {
     string value;   // Wrap value when throwing a non-Throwable (should be 'any')
     string stackTrace;  // Show stack trace as a string
 }
 
+// Base of exception objects
 class Exception extends Throwable {
+}
+
+// Exception when multiple threads try to modify the same object
+class ConcurrentModificationException extends Exception {
 }

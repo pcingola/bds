@@ -1,6 +1,5 @@
 package org.bds.test.unit;
 
-import org.bds.lang.nativeClasses.exception.ClassDeclarationException;
 import org.bds.lang.value.Value;
 import org.bds.lang.value.ValueObject;
 import org.bds.test.BdsTest;
