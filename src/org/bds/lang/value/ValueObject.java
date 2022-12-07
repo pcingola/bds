@@ -26,7 +26,7 @@ public class ValueObject extends ValueComposite implements ValuesGetSet {
      * Hidden field names start with '$'
      */
     public static boolean isHiddenField(String fieldName) {
-        return fieldName.charAt(0) != SymbolTable.INTERNAL_SYMBOL_START_CHAR;
+        return fieldName.charAt(0) == SymbolTable.INTERNAL_SYMBOL_START_CHAR;
     }
 
     @Override
