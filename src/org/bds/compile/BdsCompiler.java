@@ -3,6 +3,7 @@ package org.bds.compile;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.Tree;
+import org.bds.Bds;
 import org.bds.BdsLog;
 import org.bds.Config;
 import org.bds.antlr.BigDataScriptLexer;
@@ -17,6 +18,7 @@ import org.bds.symbol.GlobalSymbolTable;
 import org.bds.util.Gpr;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -40,6 +42,18 @@ public class BdsCompiler implements BdsLog {
         programFileName = fileName;
         debug = Config.get().isDebug();
         verbose = Config.get().isVerbose();
+    }
+
+    /**
+     * Convert a tree to string
+     */
+    public static String toStringTree(ParseTree tree) {
+        StringBuilder sb = new StringBuilder();
+        for (int childNum = 0; childNum < tree.getChildCount(); childNum++) {
+            Tree child = tree.getChild(childNum);
+            sb.append("\t\tChild " + childNum + ":\t" + child + "\tTree:'" + child.toStringTree() + "'\n");
+        }
+        return sb.toString();
     }
 
     /**
@@ -91,14 +105,34 @@ public class BdsCompiler implements BdsLog {
     protected List<Module> compileLibraries() {
         List<Module> modules = new ArrayList<>();
 
-        ParseTree tree = createAst(null, "println 'MODULE'\n", debug, new HashSet<>());
-        var programUnit = createModel(tree);
-        Module module = new Module(null, null);
-        module.setStatements(programUnit.getStatements());
-
+        var libraryName = "libraries/stdlib.bds";
+        Module module = compileLibrary(libraryName);
         modules.add(module);
 
         return modules;
+    }
+
+    /**
+     * Compile a single library file, return a Module (BdsNode)
+     */
+    protected Module compileLibrary(String libraryName) {
+        debug("Compiling library: '" + libraryName + "'");
+
+        // Find library respect to Bds class location, and create an input stream
+        InputStream inStream = Bds.class.getResourceAsStream(libraryName);
+        if (inStream == null) throw new RuntimeException("Cannot open library '" + libraryName + "'");
+        String input = Gpr.read(inStream);
+        debug("Library '" + libraryName + "', input:\n" + input);
+
+        // Parse, create AST and convert to ProgramUnit (BdsNode)
+        ParseTree tree = createAst(null, input, debug, new HashSet<>());
+        var programUnit = createModel(tree);
+
+        // Move statements from ProgramUnit to Module (we want to return a Module)
+        Module module = new Module(null, null);
+        module.setStatements(programUnit.getStatements());
+
+        return module;
     }
 
     /**
@@ -161,13 +195,7 @@ public class BdsCompiler implements BdsLog {
             }
 
             // Show main nodes
-            if (debug) {
-                debug("AST:");
-                for (int childNum = 0; childNum < tree.getChildCount(); childNum++) {
-                    Tree child = tree.getChild(childNum);
-                    System.err.println("\t\tChild " + childNum + ":\t" + child + "\tTree:'" + child.toStringTree() + "'");
-                }
-            }
+            if (debug) debug("AST:" + toStringTree(tree));
 
             // Included files
             boolean resolveIncludePending = true;

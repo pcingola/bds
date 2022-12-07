@@ -136,6 +136,13 @@ public class ProgramUnit extends BlockWithFile {
     public String toAsm() {
         StringBuilder sb = new StringBuilder();
 
+        // Modules first
+        if (modules != null) {
+            for (Module module : modules)
+                sb.append(module.toAsm() + "\n");
+        }
+
+        // Main program
         sb.append(toAsmNode());
         sb.append("main:\n");
 

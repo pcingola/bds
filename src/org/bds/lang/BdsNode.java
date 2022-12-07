@@ -12,6 +12,7 @@ import org.bds.lang.type.*;
 import org.bds.run.BdsThread;
 import org.bds.symbol.SymbolTable;
 import org.bds.util.Gpr;
+import org.bds.vm.OpCode;
 
 import java.io.File;
 import java.io.IOException;
@@ -445,18 +446,22 @@ public abstract class BdsNode implements Serializable, BdsLog {
     }
 
     public String toAsmNode() {
-        String firstline = toString().split("\n")[0];
+        String firstLine = toString().split("\n")[0];
 
-        // Show file, line and position if available
-        if (getFileName() == null) return "# " + firstline + "\nnode " + id;
+        // Show code line, if file name is not available
+        String filePos = "";
+        if (getFileName() != null)
+            filePos = getFileName() //
+                    + (lineNum >= 0 ? ", line " + lineNum : "") //
+                    + (charPosInLine >= 0 ? ", pos " + charPosInLine : "") //
+                    + ", node: " + getClass().getSimpleName() //
+                    ;
 
-        return "# " + getFileName() //
-                + (lineNum >= 0 ? ", line " + lineNum : "") //
-                + (charPosInLine >= 0 ? ", pos " + charPosInLine : "") //
-                + ", node: " + getClass().getSimpleName() //
-                + "\n" //
-                + "# " + firstline + "\n" //
-                + "node " + id //
+
+        // Show file name, line and position
+        return "# " + filePos + "\n" //
+                + "# " + firstLine + "\n" //
+                + OpCode.NODE + " " + id //
                 + "\n" //
                 ;
     }
