@@ -105,9 +105,7 @@ public class BdsCompiler implements BdsLog {
 		BigDataScriptParser parser = null;
 
 		try {
-			//---
 			// Lexer: Create a lexer that feeds off of input CharStream
-			//---
 			lexer = new BigDataScriptLexer(input) {
 				@Override
 				public void recover(LexerNoViableAltException e) {
@@ -115,9 +113,7 @@ public class BdsCompiler implements BdsLog {
 				}
 			};
 
-			//---
 			// Parser
-			//---
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			parser = new BigDataScriptParser(tokens);
 
@@ -270,6 +266,7 @@ public class BdsCompiler implements BdsLog {
 
 	/**
 	 * Resolve include statements
+	 * Return 'true' of any new file has been included i.e. the AST ('tree') changed
 	 */
 	boolean resolveIncludes(ParseTree tree, boolean debug, Set<String> alreadyIncluded) {
 		boolean changed = false;
@@ -300,18 +297,19 @@ public class BdsCompiler implements BdsLog {
 				return false;
 			}
 
-			// Parse
+			// Parse included file, i.e. create an AST of the included file
 			ParseTree treeinc = createAst(includedFile, debug, alreadyIncluded);
 			if (treeinc == null) {
 				CompilerMessages.get().add(tree, parentFile, "\n\tFatal error including file '" + includedFilename + "'", MessageType.ERROR);
 				return false;
 			}
 
-			// Is a child always a RuleContext?
+			// Add the nodes of the included file tree ('treeinc') into the original 'tree'
 			IncludeFileContext includeFileContext = ((IncludeFileContext) tree);
 			for (int i = 0; i < treeinc.getChildCount(); i++) {
 				Tree child = treeinc.getChild(i);
-				if (child instanceof RuleContext) { // Do not add TerminalNode (EOF)
+				// Add only 'RuleContext', do not add TerminalNode (EOF)
+				if (child instanceof RuleContext) {
 					includeFileContext.addChild((RuleContext) treeinc.getChild(i));
 				}
 			}

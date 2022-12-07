@@ -50,7 +50,7 @@ public class BdsVm implements Serializable, BdsLog {
     Map<Object, Integer> constantsByObject;
     boolean debug;
     ExceptionHandler exceptionHandler; // Current Exception handler (null if we are not in a 'try/catch' statement)
-    ValueObject exceptionValue; // Latest exception thrown (this is mostly used for test cases)
+    ValueObject exception; // Latest exception thrown (this is mostly used for test cases)
     Integer exitCode = null; // Default exit code (null means: parse last entry from stack)
     int fp; // Frame pointer
     Map<String, FunctionDeclaration> functionsBySignature;
@@ -534,8 +534,8 @@ public class BdsVm implements Serializable, BdsLog {
         return coverageCounter;
     }
 
-    public Value getExceptionValue() {
-        return exceptionValue;
+    public Value getException() {
+        return exception;
     }
 
     public int getExitCode() {
@@ -1741,7 +1741,7 @@ public class BdsVm implements Serializable, BdsLog {
         }
 
         // Register the exception object
-        this.exceptionValue = exceptionObject;
+        this.exception = exceptionObject;
 
         // Populate Exception's stack trace message, if empty
         Value stackTrace = exceptionObject.getFieldValue(ClassDeclarationException.FIELD_NAME_STACK_TRACE);

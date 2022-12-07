@@ -1,5 +1,9 @@
 package org.bds.test.unit;
 
+import org.bds.lang.nativeClasses.exception.ClassDeclarationException;
+import org.bds.lang.value.Value;
+import org.bds.lang.value.ValueObject;
+import org.bds.test.BdsTest;
 import org.bds.test.TestCasesBase;
 import org.junit.Assert;
 import org.junit.Test;
@@ -634,4 +638,11 @@ public class TestCasesRun3 extends TestCasesBase {
         runAndCheck("test/run_276.bds", expectedValues);
     }
 
+    @Test
+    public void test277_throw_string() {
+        BdsTest bdsTets = runAndCheckException("test/run_277.bds", "Exception");
+        ValueObject exceptionObject = (ValueObject) bdsTets.getBds().getBdsRun().getVm().getException();
+        Value exceptionValue = exceptionObject.getFieldValue(ClassDeclarationException.FIELD_NAME_VALUE);
+        Assert.assertEquals("You can also throw a string, but it's a bit weird...", exceptionValue.asString());
+    }
 }
