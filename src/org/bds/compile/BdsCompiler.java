@@ -1,14 +1,6 @@
 package org.bds.compile;
 
-import java.io.File;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.LexerNoViableAltException;
-import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.Tree;
 import org.bds.BdsLog;
@@ -19,318 +11,355 @@ import org.bds.antlr.BigDataScriptParser.IncludeFileContext;
 import org.bds.compile.CompilerMessage.MessageType;
 import org.bds.lang.BdsNodeFactory;
 import org.bds.lang.ProgramUnit;
+import org.bds.lang.statement.Module;
 import org.bds.lang.statement.StatementInclude;
 import org.bds.symbol.GlobalSymbolTable;
 import org.bds.util.Gpr;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * BdsCompiler a Bds program.
- *
+ * <p>
  * Runs lexer & parser, create AST, perform type-checking and create BdsNode tree
  *
  * @author pcingola
  */
 public class BdsCompiler implements BdsLog {
 
-	boolean debug; // debug mode
-	boolean verbose; // Verbose mode
-	String programFileName; // Program file name
-	ProgramUnit programUnit; // Program (parsed nodes)
+    boolean debug; // debug mode
+    boolean verbose; // Verbose mode
+    String programFileName; // Program file name
+    ProgramUnit programUnit; // Program (parsed nodes)
 
-	public BdsCompiler(String fileName) {
-		programFileName = fileName;
-		debug = Config.get().isDebug();
-		verbose = Config.get().isVerbose();
-	}
+    public BdsCompiler(String fileName) {
+        programFileName = fileName;
+        debug = Config.get().isDebug();
+        verbose = Config.get().isVerbose();
+    }
 
-	/**
-	 * Add symbols: Classes, functions, methods, etc.
-	 * This step is necessary for forward resolution (i.e. when the
-	 * definition of the class is after the first time it's used)
-	 * @return true on error, false on success
-	 */
-	boolean addSymbols() {
-		debug("Add symbols.");
-		GlobalSymbolTable globalSymbolTable = GlobalSymbolTable.get();
-		programUnit.addSymbols(globalSymbolTable);
-		debug("Global SymbolTable after 'addSymbols':\n" + globalSymbolTable);
-		return false;
-	}
+    /**
+     * Add symbols: Classes, functions, methods, etc.
+     * This step is necessary for forward resolution (i.e. when the
+     * definition of the class is after the first time it's used)
+     *
+     * @return true on error, false on success
+     */
+    boolean addSymbols(ProgramUnit programUnit) {
+        debug("Add symbols.");
+        GlobalSymbolTable globalSymbolTable = GlobalSymbolTable.get();
+        programUnit.addSymbols(globalSymbolTable);
+        debug("Global SymbolTable after 'addSymbols':\n" + globalSymbolTable);
+        return false;
+    }
 
-	/**
-	 * BdsCompiler program
-	 */
-	public ProgramUnit compile() {
-		debug("Loading file: '" + programFileName + "'");
+    /**
+     * BdsCompiler program
+     */
+    public ProgramUnit compile() {
+        CompilerMessages.reset(); // Compilation messages when creating tree
 
-		// Convert to AST
-		ParseTree tree = parseProgram();
-		if (tree == null) return null;
+        // Compile main program
+        programUnit = compileProgramUnit(programFileName);
+        if (programUnit == null) return null;
 
-		// Convert to BdsNodes
-		programUnit = createModel(tree);
-		if (programUnit == null) return null;
+        // Add  libraries to program unit
+        List<Module> modules = compileLibraries(); // Compile standard libraries
+        for (Module m : modules) programUnit.addModule(m);
 
-		CompilerMessages.reset();
+        CompilerMessages.reset(); // Reset messages, now we only want look into type-checking messages
 
-		// Add local symbols
-		if (addSymbols()) return null;
+        // Add local symbols
+        if (addSymbols(programUnit)) return null;
 
-		// Type-checking
-		if (typeChecking()) return null;
+        // Type-checking
+        if (typeChecking(programUnit)) return null;
 
-		// Cleanup: Free some memory by resetting structure we won't use any more
-		TypeCheckedNodes.get().reset();
+        // Cleanup: Free some memory by resetting structure we won't use any more
+        TypeCheckedNodes.get().reset();
 
-		// OK
-		return programUnit;
-	}
+        return programUnit;
+    }
 
-	/**
-	 * Create an AST from a program file
-	 * @return A parsed tree
-	 */
-	ParseTree createAst() {
-		File file = new File(programFileName);
-		return createAst(file, debug, new HashSet<String>());
-	}
+    /**
+     * Compile all libraries (modules)
+     */
+    protected List<Module> compileLibraries() {
+        List<Module> modules = new ArrayList<>();
 
-	/**
-	 * Create an AST from a program (using ANTLR lexer & parser)
-	 * Returns null if error
-	 * Use 'alreadyIncluded' to keep track of from 'include' statements
-	 */
-	ParseTree createAst(CharStream input, boolean debug, Set<String> alreadyIncluded) {
-		BigDataScriptLexer lexer = null;
-		BigDataScriptParser parser = null;
+        ParseTree tree = createAst(null, "println 'MODULE'\n", debug, new HashSet<>());
+        var programUnit = createModel(tree);
+        Module module = new Module(null, null);
+        module.setStatements(programUnit.getStatements());
 
-		try {
-			// Lexer: Create a lexer that feeds off of input CharStream
-			lexer = new BigDataScriptLexer(input) {
-				@Override
-				public void recover(LexerNoViableAltException e) {
-					throw new RuntimeException(e); // Bail out
-				}
-			};
+        modules.add(module);
 
-			// Parser
-			CommonTokenStream tokens = new CommonTokenStream(lexer);
-			parser = new BigDataScriptParser(tokens);
+        return modules;
+    }
 
-			// Parser error handling
-			parser.setErrorHandler(new CompileErrorStrategy()); // Bail out with pendingException if errors in parser
-			parser.addErrorListener(new CompilerErrorListener()); // Catch some other error messages that 'CompileErrorStrategy' fails to catch
+    /**
+     * BdsCompiler program into a ProgramUnit
+     */
+    protected ProgramUnit compileProgramUnit(String fileName) {
+        debug("Loading file: '" + fileName + "'");
 
-			// Begin parsing at main rule
-			ParseTree tree = parserNode(parser);
+        // Convert to AST
+        ParseTree tree = parseProgram(fileName);
+        if (tree == null) return null;
 
-			// Error loading file?
-			if (tree == null) {
-				System.err.println("Can't parse file '" + programFileName + "'");
-				return null;
-			}
+        // Convert AST to BdsNodes, ProgramUnit is the root of the tree
+        return createModel(tree);
+    }
 
-			// Show main nodes
-			if (debug) {
-				debug("AST:");
-				for (int childNum = 0; childNum < tree.getChildCount(); childNum++) {
-					Tree child = tree.getChild(childNum);
-					System.err.println("\t\tChild " + childNum + ":\t" + child + "\tTree:'" + child.toStringTree() + "'");
-				}
-			}
+    /**
+     * Create an AST from a program file
+     *
+     * @return A parsed tree
+     */
+    ParseTree createAst(String fileName) {
+        File file = new File(fileName);
+        return createAst(file, debug, new HashSet<>());
+    }
 
-			// Included files
-			boolean resolveIncludePending = true;
-			while (resolveIncludePending)
-				resolveIncludePending = resolveIncludes(tree, debug, alreadyIncluded);
+    /**
+     * Create an AST from a program (using ANTLR lexer & parser)
+     * Returns null if error
+     * Use 'alreadyIncluded' to keep track of from 'include' statements
+     */
+    ParseTree createAst(String fileName, CharStream input, boolean debug, Set<String> alreadyIncluded) {
+        BigDataScriptLexer lexer;
+        BigDataScriptParser parser;
 
-			return tree;
-		} catch (Exception e) {
-			String msg = e.getMessage();
-			CompilerMessages.get().addError("Could not compile " + programFileName //
-					+ (msg != null ? " :" + e.getMessage() : "") //
-			);
-			return null;
-		}
-	}
+        try {
+            // Lexer: Create a lexer that feeds off of input CharStream
+            lexer = new BigDataScriptLexer(input) {
+                @Override
+                public void recover(LexerNoViableAltException e) {
+                    throw new RuntimeException(e); // Bail out
+                }
+            };
 
-	/**
-	 * Create an AST from a program (using ANTLR lexer & parser)
-	 * Returns null if error
-	 * Use 'alreadyIncluded' to keep track of from 'include' statements
-	 */
-	ParseTree createAst(File file, boolean debug, Set<String> alreadyIncluded) {
-		alreadyIncluded.add(Gpr.getCanonicalFileName(file));
-		String fileName = file.toString();
-		String filePath = fileName;
+            // Parser
+            CommonTokenStream tokens = new CommonTokenStream(lexer);
+            parser = new BigDataScriptParser(tokens);
 
-		try {
-			filePath = file.getCanonicalPath();
+            // Parser error handling
+            parser.setErrorHandler(new CompileErrorStrategy()); // Bail out with pendingException if errors in parser
+            parser.addErrorListener(new CompilerErrorListener()); // Catch some other error messages that 'CompileErrorStrategy' fails to catch
 
-			// Input stream
-			if (!Gpr.canRead(filePath)) {
-				CompilerMessages.get().addError("Can't read file '" + filePath + "'");
-				return null;
-			}
+            // Begin parsing at main rule
+            ParseTree tree = parserNode(parser);
 
-			// Create a CharStream that reads from standard input
-			CharStream input = CharStreams.fromFileName(fileName);
-			return createAst(input, debug, alreadyIncluded);
-		} catch (Exception e) {
-			String msg = e.getMessage();
-			CompilerMessages.get().addError("Could not compile " + filePath //
-					+ (msg != null ? " :" + e.getMessage() : "") //
-			);
-			return null;
-		}
-	}
+            // Error loading file?
+            if (tree == null) {
+                System.err.println("Can't parse file '" + fileName + "'");
+                return null;
+            }
 
-	/**
-	 * Create an AST from a program (using ANTLR lexer & parser)
-	 * Returns null if error
-	 * Use 'alreadyIncluded' to keep track of from 'include' statements
-	 */
-	ParseTree createAst(String inputStr, boolean debug, Set<String> alreadyIncluded) {
-		try {
-			// Create a CharStream that reads from standard input
-			CharStream input = CharStreams.fromString(inputStr);
-			return createAst(input, debug, alreadyIncluded);
-		} catch (Exception e) {
-			String msg = e.getMessage();
-			CompilerMessages.get().addError("Could not compile string: '" + inputStr + "'" //
-					+ (msg != null ? " :" + e.getMessage() : "") //
-			);
-			return null;
-		}
-	}
+            // Show main nodes
+            if (debug) {
+                debug("AST:");
+                for (int childNum = 0; childNum < tree.getChildCount(); childNum++) {
+                    Tree child = tree.getChild(childNum);
+                    System.err.println("\t\tChild " + childNum + ":\t" + child + "\tTree:'" + child.toStringTree() + "'");
+                }
+            }
 
-	/**
-		 *  Convert to BdsNodes, create Program Unit
-		 */
-	ProgramUnit createModel(ParseTree tree) {
-		debug("Creating bds tree.");
-		CompilerMessages.reset();
-		ProgramUnit pu = (ProgramUnit) BdsNodeFactory.get().factory(null, tree); // Transform AST to BdsNode tree
-		debug("AST:\n" + pu.toString());
-		// Any error messages?
-		if (!CompilerMessages.get().isEmpty()) System.err.println("Compiler messages:\n" + CompilerMessages.get());
-		if (CompilerMessages.get().hasErrors()) return null;
-		return pu;
-	}
+            // Included files
+            boolean resolveIncludePending = true;
+            while (resolveIncludePending)
+                resolveIncludePending = resolveIncludes(tree, debug, alreadyIncluded);
 
-	public ProgramUnit getProgramUnit() {
-		return programUnit;
-	}
+            return tree;
+        } catch (Exception e) {
+            String msg = e.getMessage();
+            CompilerMessages.get().addError("Could not compile " + programFileName //
+                    + (msg != null ? " :" + e.getMessage() : "") //
+            );
+            return null;
+        }
+    }
 
-	@Override
-	public boolean isDebug() {
-		return debug;
-	}
+    /**
+     * Create an AST from a program (using ANTLR lexer & parser)
+     * Returns null if error
+     * Use 'alreadyIncluded' to keep track of from 'include' statements
+     */
+    ParseTree createAst(File file, boolean debug, Set<String> alreadyIncluded) {
+        alreadyIncluded.add(Gpr.getCanonicalFileName(file));
+        String fileName = file.toString();
+        String filePath = fileName;
 
-	@Override
-	public boolean isVerbose() {
-		return verbose;
-	}
+        try {
+            filePath = file.getCanonicalPath();
 
-	/**
-	 * Lex, parse and create Abstract syntax tree (AST)
-	 */
-	ParseTree parseProgram() {
-		debug("Creating AST.");
-		CompilerMessages.reset();
-		ParseTree tree = null;
+            // Input stream
+            if (!Gpr.canRead(filePath)) {
+                CompilerMessages.get().addError("Can't read file '" + filePath + "'");
+                return null;
+            }
 
-		try {
-			tree = createAst();
-		} catch (Exception e) {
-			System.err.println("Fatal error cannot continue - " + e.getMessage());
-			return null;
-		}
+            // Create a CharStream that reads from standard input
+            CharStream input = CharStreams.fromFileName(fileName);
+            return createAst(filePath, input, debug, alreadyIncluded);
+        } catch (Exception e) {
+            String msg = e.getMessage();
+            CompilerMessages.get().addError("Could not compile " + filePath //
+                    + (msg != null ? " :" + e.getMessage() : "") //
+            );
+            return null;
+        }
+    }
 
-		// No tree produced? Fatal error
-		if (tree == null) {
-			if (CompilerMessages.get().isEmpty()) {
-				CompilerMessages.get().addError("Fatal error: Could not compile");
-			}
-			return null;
-		}
+    /**
+     * Create an AST from a program (using ANTLR lexer & parser)
+     * Returns null if error
+     * Use 'alreadyIncluded' to keep track of from 'include' statements
+     */
+    ParseTree createAst(String fileName, String inputStr, boolean debug, Set<String> alreadyIncluded) {
+        try {
+            // Create a CharStream that reads from standard input
+            CharStream input = CharStreams.fromString(inputStr);
+            return createAst(fileName, input, debug, alreadyIncluded);
+        } catch (Exception e) {
+            String msg = e.getMessage();
+            CompilerMessages.get().addError("Could not compile string: '" + inputStr + "'" //
+                    + (msg != null ? " :" + e.getMessage() : "") //
+            );
+            return null;
+        }
+    }
 
-		// Any error? Do not continue
-		if (!CompilerMessages.get().isEmpty()) return null;
-		return tree;
-	}
+    /**
+     * Convert to BdsNodes, create Program Unit
+     */
+    ProgramUnit createModel(ParseTree tree) {
+        debug("Creating bds tree.");
+        CompilerMessages.reset();
+        ProgramUnit pu = (ProgramUnit) BdsNodeFactory.get().factory(null, tree); // Transform AST to BdsNode tree
+        debug("AST:\n" + pu.toString());
+        // Any error messages?
+        if (!CompilerMessages.get().isEmpty()) System.err.println("Compiler messages:\n" + CompilerMessages.get());
+        if (CompilerMessages.get().hasErrors()) return null;
+        return pu;
+    }
 
-	protected ParseTree parserNode(BigDataScriptParser parser) {
-		return parser.programUnit();
-	}
+    public ProgramUnit getProgramUnit() {
+        return programUnit;
+    }
 
-	/**
-	 * Resolve include statements
-	 * Return 'true' of any new file has been included i.e. the AST ('tree') changed
-	 */
-	boolean resolveIncludes(ParseTree tree, boolean debug, Set<String> alreadyIncluded) {
-		boolean changed = false;
-		if (tree instanceof IncludeFileContext) {
-			// Parent file: The one that is including the other file
-			File parentFile = new File(((IncludeFileContext) tree).getStart().getInputStream().getSourceName());
+    @Override
+    public boolean isDebug() {
+        return debug;
+    }
 
-			// Included file name
-			String includedFilename = StatementInclude.includeFileName(tree.getChild(1).getText());
+    @Override
+    public boolean isVerbose() {
+        return verbose;
+    }
 
-			// Find file (look into all include paths)
-			File includedFile = StatementInclude.includeFile(includedFilename, parentFile);
-			if (includedFile == null) {
-				CompilerMessages.get().add(tree, parentFile, "\n\tIncluded file not found: '" + includedFilename + "'\n\tSearch path: " + Config.get().getIncludePath(), MessageType.ERROR);
-				return false;
-			}
+    /**
+     * Lex, parse and create Abstract syntax tree (AST)
+     */
+    ParseTree parseProgram(String fileName) {
+        debug("Creating AST.");
+        ParseTree tree;
 
-			// Already included? don't bother
-			String canonicalFileName = Gpr.getCanonicalFileName(includedFile);
-			if (alreadyIncluded.contains(canonicalFileName)) {
-				debug("File already included: '" + includedFilename + "'\tCanonical path: '" + canonicalFileName + "'");
-				return false;
-			}
+        try {
+            tree = createAst(fileName);
+        } catch (Exception e) {
+            System.err.println("Fatal error cannot continue - " + e.getMessage());
+            return null;
+        }
 
-			// Can we read the include file?
-			if (!includedFile.canRead()) {
-				CompilerMessages.get().add(tree, parentFile, "\n\tCannot read included file: '" + includedFilename + "'", MessageType.ERROR);
-				return false;
-			}
+        // No tree produced? Fatal error
+        if (tree == null) {
+            if (CompilerMessages.get().isEmpty()) {
+                CompilerMessages.get().addError("Fatal error: Could not compile");
+            }
+            return null;
+        }
 
-			// Parse included file, i.e. create an AST of the included file
-			ParseTree treeinc = createAst(includedFile, debug, alreadyIncluded);
-			if (treeinc == null) {
-				CompilerMessages.get().add(tree, parentFile, "\n\tFatal error including file '" + includedFilename + "'", MessageType.ERROR);
-				return false;
-			}
+        // Any error? Do not continue
+        if (!CompilerMessages.get().isEmpty()) return null;
+        return tree;
+    }
 
-			// Add the nodes of the included file tree ('treeinc') into the original 'tree'
-			IncludeFileContext includeFileContext = ((IncludeFileContext) tree);
-			for (int i = 0; i < treeinc.getChildCount(); i++) {
-				Tree child = treeinc.getChild(i);
-				// Add only 'RuleContext', do not add TerminalNode (EOF)
-				if (child instanceof RuleContext) {
-					includeFileContext.addChild((RuleContext) treeinc.getChild(i));
-				}
-			}
-		} else {
-			for (int i = 0; i < tree.getChildCount(); i++)
-				changed |= resolveIncludes(tree.getChild(i), debug, alreadyIncluded);
-		}
+    protected ParseTree parserNode(BigDataScriptParser parser) {
+        return parser.programUnit();
+    }
 
-		return changed;
-	}
+    /**
+     * Resolve include statements
+     * Return 'true' of any new file has been included i.e. the AST ('tree') changed
+     */
+    boolean resolveIncludes(ParseTree tree, boolean debug, Set<String> alreadyIncluded) {
+        boolean changed = false;
+        if (tree instanceof IncludeFileContext) {
+            // Parent file: The one that is including the other file
+            File parentFile = new File(((IncludeFileContext) tree).getStart().getInputStream().getSourceName());
 
-	/**
-	 * Type checking
-	 */
-	boolean typeChecking() {
-		debug("Type checking.");
-		GlobalSymbolTable globalSymbolTable = GlobalSymbolTable.get();
-		programUnit.typeChecking(globalSymbolTable, CompilerMessages.get());
+            // Included file name
+            String includedFilename = StatementInclude.includeFileName(tree.getChild(1).getText());
 
-		// Any error messages?
-		if (!CompilerMessages.get().isEmpty()) System.err.println("Compiler messages:\n" + CompilerMessages.get());
-		return CompilerMessages.get().hasErrors();
-	}
+            // Find file (look into all include paths)
+            File includedFile = StatementInclude.includeFile(includedFilename, parentFile);
+            if (includedFile == null) {
+                CompilerMessages.get().add(tree, parentFile, "\n\tIncluded file not found: '" + includedFilename + "'\n\tSearch path: " + Config.get().getIncludePath(), MessageType.ERROR);
+                return false;
+            }
+
+            // Already included? don't bother
+            String canonicalFileName = Gpr.getCanonicalFileName(includedFile);
+            if (alreadyIncluded.contains(canonicalFileName)) {
+                debug("File already included: '" + includedFilename + "'\tCanonical path: '" + canonicalFileName + "'");
+                return false;
+            }
+
+            // Can we read the include file?
+            if (!includedFile.canRead()) {
+                CompilerMessages.get().add(tree, parentFile, "\n\tCannot read included file: '" + includedFilename + "'", MessageType.ERROR);
+                return false;
+            }
+
+            // Parse included file, i.e. create an AST of the included file
+            ParseTree treeinc = createAst(includedFile, debug, alreadyIncluded);
+            if (treeinc == null) {
+                CompilerMessages.get().add(tree, parentFile, "\n\tFatal error including file '" + includedFilename + "'", MessageType.ERROR);
+                return false;
+            }
+
+            // Add the nodes of the included file tree ('treeinc') into the original 'tree'
+            IncludeFileContext includeFileContext = ((IncludeFileContext) tree);
+            for (int i = 0; i < treeinc.getChildCount(); i++) {
+                Tree child = treeinc.getChild(i);
+                // Add only 'RuleContext', do not add TerminalNode (EOF)
+                if (child instanceof RuleContext) {
+                    includeFileContext.addChild((RuleContext) treeinc.getChild(i));
+                }
+            }
+        } else {
+            for (int i = 0; i < tree.getChildCount(); i++)
+                changed |= resolveIncludes(tree.getChild(i), debug, alreadyIncluded);
+        }
+
+        return changed;
+    }
+
+    /**
+     * Type checking
+     */
+    boolean typeChecking(ProgramUnit programUnit) {
+        debug("Type checking.");
+        GlobalSymbolTable globalSymbolTable = GlobalSymbolTable.get();
+        programUnit.typeChecking(globalSymbolTable, CompilerMessages.get());
+
+        // Any error messages?
+        if (!CompilerMessages.get().isEmpty()) System.err.println("Compiler messages:\n" + CompilerMessages.get());
+        return CompilerMessages.get().hasErrors();
+    }
 }
