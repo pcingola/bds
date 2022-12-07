@@ -220,7 +220,7 @@ public class TypeClass extends TypeComposite {
         if (!fdecl.isMethod()) return fdecl;
         FunctionDeclaration fd = symbolTable.findMethod(fdecl);
         if (fd != null) return fd;
-        return classDecl != null && classDecl.getClassParent() != null ? classDecl.getClassTypeParent().resolve(fdecl) : fdecl;
+        return classDecl != null && classDecl.getClassDeclarationParent() != null ? classDecl.getClassTypeParent().resolve(fdecl) : fdecl;
     }
 
     /**
@@ -230,7 +230,7 @@ public class TypeClass extends TypeComposite {
         setStub();
         Type t = symbolTable.resolveLocal(name);
         if (t != null) return t;
-        return classDecl != null && classDecl.getClassParent() != null ? classDecl.getClassTypeParent().resolve(name) : null;
+        return classDecl != null && classDecl.getClassDeclarationParent() != null ? classDecl.getClassTypeParent().resolve(name) : null;
     }
 
     /**

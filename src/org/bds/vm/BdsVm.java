@@ -856,7 +856,7 @@ public class BdsVm implements Serializable, BdsLog {
         ClassDeclaration classDecl = typeClass.getClassDeclaration();
 
         // Get 'super' class
-        ClassDeclaration superClassDecl = classDecl.getClassParent();
+        ClassDeclaration superClassDecl = classDecl.getClassDeclarationParent();
         if (superClassDecl == null) return fdecl; // No super class? Nothing to resolve. This can happen on "super.Constructor()" calls
         FunctionDeclaration superMethodDecl = superClassDecl.getType().resolve(fdecl);
 
@@ -1727,6 +1727,7 @@ public class BdsVm implements Serializable, BdsLog {
         if (Throw.isExceptionClass(exceptionValue.getType())) {
             exceptionObject = (ValueObject) exceptionValue;
         } else {
+            Gpr.debug("DEBUG: exceptionValue=" + exceptionValue.getType());
             // If 'exceptionValue' is not an 'Exception' class object, create
             // an Exception object and wrap the original value in it
             var typeException = Types.get(ClassDeclarationException.CLASS_NAME_EXCEPTION);
