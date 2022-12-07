@@ -5,7 +5,6 @@ import org.bds.compile.CompilerMessage.MessageType;
 import org.bds.compile.CompilerMessages;
 import org.bds.lang.BdsNode;
 import org.bds.lang.expression.Expression;
-import org.bds.lang.nativeClasses.exception.ClassDeclarationExceptionConcurrentModification;
 import org.bds.lang.nativeMethods.list.MethodNativeListHashCode;
 import org.bds.lang.nativeMethods.list.MethodNativeListSize;
 import org.bds.lang.nativeMethods.map.MethodNativeMapHashCode;
@@ -17,6 +16,8 @@ import org.bds.lang.value.ValueFunction;
 import org.bds.symbol.SymbolTable;
 import org.bds.util.Gpr;
 import org.bds.vm.OpCode;
+
+import static org.bds.libraries.LibraryException.CLASS_NAME_EXCEPTION_CONCURRENT_MODIFICATION;
 
 /**
  * for( ForInit ; ForCondition ; ForEnd ) Statements
@@ -149,7 +150,7 @@ public class ForLoopList extends StatementWithScope {
                 + OpCode.EQI + "\n" // If equal, the hashcode did not change => OK
                 + OpCode.JMPT + " " + loopConcModOk + "\n" //
                 // Concurrent modification check Fail, we need to throw an exception
-                + OpCode.NEW + " " + ClassDeclarationExceptionConcurrentModification.CLASS_NAME_EXCEPTION_CONCURRENT_MODIFICATION + "\n" // Create a new exception object
+                + OpCode.NEW + " " + CLASS_NAME_EXCEPTION_CONCURRENT_MODIFICATION + "\n" // Create a new exception object
                 + OpCode.THROW + "\n" // Thow the exception
                 + "" + loopConcModOk + ":\n" // Concurrent modification check OK
                 ;

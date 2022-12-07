@@ -3,12 +3,22 @@
 class Throwable {
     string value;   // Wrap value when throwing a non-Throwable (should be 'any')
     string stackTrace;  // Show stack trace as a string
+
+    void Throwable(string message) {
+        this.value = message
+    }
 }
 
 // Base of exception objects
 class Exception extends Throwable {
+    void Exception(string message) {
+        super.Throwable(message)
+    }
 }
 
 // Exception when multiple threads try to modify the same object
 class ConcurrentModificationException extends Exception {
+    void ConcurrentModificationException(string message) {
+        super.Exception(message)
+    }
 }
