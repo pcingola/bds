@@ -1,4 +1,4 @@
-void zzz() {
+void zzzStdLib() {
 	println "MODULE: STDLIB"
 }
 

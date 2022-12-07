@@ -33,6 +33,13 @@ import java.util.Set;
  */
 public class BdsCompiler implements BdsLog {
 
+    public static final String LIBRARIES_PATH = "libraries";
+    public static final String[] LIBRARIES = { //
+            "exceptions.bds" // Define throwable, exception, etc.
+            , "stdlib.bds" //
+            , "z.bds" // Only used for testing new library code
+    };
+
     boolean debug; // debug mode
     boolean verbose; // Verbose mode
     String programFileName; // Program file name
@@ -105,9 +112,12 @@ public class BdsCompiler implements BdsLog {
     protected List<Module> compileLibraries() {
         List<Module> modules = new ArrayList<>();
 
-        var libraryName = "libraries/stdlib.bds";
-        Module module = compileLibrary(libraryName);
-        modules.add(module);
+        // All libraries
+        for (String libraryName : LIBRARIES) {
+            var lib = LIBRARIES_PATH + "/" + libraryName;
+            Module module = compileLibrary(lib);
+            modules.add(module);
+        }
 
         return modules;
     }

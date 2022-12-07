@@ -1,0 +1,8 @@
+
+class Throwable {
+    string message;
+    string stackTrace;
+}
+
+class Exception extends Throwable {
+}
