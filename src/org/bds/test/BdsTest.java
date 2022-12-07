@@ -180,7 +180,7 @@ public class BdsTest {
 
     public void checkException(String exceptionType) {
         BdsVm vm = bds.getBdsRun().getVm();
-        ValueObject evc = vm.getExceptionValue();
+        Value evc = vm.getExceptionValue();
         Assert.assertTrue(errMsg("No exception found"), evc != null);
 
         String exType = evc.getType().getCanonicalName();

@@ -3,6 +3,7 @@ package org.bds.lang.value;
 import org.bds.lang.type.Type;
 import org.bds.lang.type.TypeClass;
 import org.bds.scope.ValuesGetSet;
+import org.bds.symbol.SymbolTable;
 
 import java.util.*;
 
@@ -14,11 +15,18 @@ import java.util.*;
 public class ValueObject extends ValueComposite implements ValuesGetSet {
 
     private static final long serialVersionUID = -1443386366370835828L;
-
     Map<String, Value> fields;
 
     public ValueObject(Type type) {
         super(type);
+    }
+
+    /**
+     * Is this a 'hidden' field?
+     * Hidden field names start with '$'
+     */
+    public static boolean isHiddenField(String fieldName) {
+        return fieldName.charAt(0) != SymbolTable.INTERNAL_SYMBOL_START_CHAR;
     }
 
     @Override
@@ -126,6 +134,7 @@ public class ValueObject extends ValueComposite implements ValuesGetSet {
             Collections.sort(fnames);
             for (int i = 0; i < fnames.size(); i++) {
                 String fn = fnames.get(i);
+                if (isHiddenField(fn)) continue; // Don't show hidden fields
                 Value val = fields.get(fn);
                 sb.append((i > 0 ? ", " : " ") + fn + ": ");
                 val.toString(sb, done);

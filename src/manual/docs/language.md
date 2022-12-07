@@ -171,6 +171,8 @@ void myFunction() {
 }
 ```
 
+Any object can be thrown, it does not have to be a subtype of `Exception`, but it is better if it is. 
+
 ### `try` / `catch` / `finally`
 
 The `try` / `catch` / `finally` combination is used to to capture exceptions.

@@ -1,5 +1,5 @@
 void f() {
-    throw new MyException()
+    throw "You can also throw a string, but it's a bit weird..."
 }
 
 try {

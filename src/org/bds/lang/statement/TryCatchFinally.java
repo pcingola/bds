@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * for( ForInit ; ForCondition ; ForEnd ) Statements
+ * Try / Catch / Finally Statements
  *
  * @author pcingola
  */
@@ -69,26 +69,32 @@ public class TryCatchFinally extends StatementWithScope {
         StringBuilder sb = new StringBuilder();
         sb.append(super.toAsm());
 
-        String finallyLabel = baseLabelName() + "finally";
+        String finallyLabel = baseLabelName() + "finally"; // Create a unique label for the "finally" block
 
         if (isNeedsScope()) sb.append(OpCode.SCOPEPUSH + "\n");
-        sb.append(OpCode.EHCREATE + " '" + finallyLabel + "'\n");
 
-        // Register all catch blocks in Exception handler
+        // EHSTART (Exception Handler Start): Create a new exception handler
+        // Note: EHSTART will create a frame that is discarded by the EHEND
+        sb.append(OpCode.EHSTART + " '" + finallyLabel + "'\n");
+
+        // Register all 'catch' blocks in Exception handler
         for (Catch catchStatement : catchStatements)
             sb.append(catchStatement.toAsmAddToExceptionHandler());
 
         // Add 'try' statement
         sb.append(tryStatement.toAsm(finallyLabel));
 
-        // Add catch blocks
+        // Add 'catch' blocks
         for (Catch catchStatement : catchStatements) {
             sb.append(catchStatement.toAsm(finallyLabel));
         }
 
-        // Add finally block
+        // Add 'finally' block
         sb.append(finallyLabel + ":\n");
         if (finallyStatement != null) sb.append(finallyStatement.toAsm());
+
+        // EHEND (Exception Handler End): Cleanup and Re-throw pending exceptions
+        sb.append(OpCode.EHEND + "\n");
 
         if (isNeedsScope()) sb.append(OpCode.SCOPEPOP + "\n");
 

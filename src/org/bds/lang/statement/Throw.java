@@ -72,11 +72,8 @@ public class Throw extends StatementWithScope {
 
     @Override
     public void typeCheckNotNull(SymbolTable symtab, CompilerMessages compilerMessages) {
-        // We no longer require the class to be a subclass from exception
-
-//        if (!isExceptionClass()) {
-//            compilerMessages.add(this, "Trying to 'throw' a non-Exception object", MessageType.ERROR);
-//        }
+        // We no longer require the class to be a subclass of 'Exception' because now
+        // we wrap it in an 'Exception' object automatically
     }
 
 }

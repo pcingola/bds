@@ -4,6 +4,7 @@ import org.bds.BdsLog;
 import org.bds.Config;
 import org.bds.lang.BdsNode;
 import org.bds.lang.BdsNodeFactory;
+import org.bds.lang.nativeClasses.exception.ClassDeclarationException;
 import org.bds.lang.nativeFunctions.FunctionNative;
 import org.bds.lang.nativeMethods.MethodNative;
 import org.bds.lang.statement.ClassDeclaration;
@@ -322,7 +323,7 @@ public class BdsVm implements Serializable, BdsLog {
             // Add exception as 'pending' and finish handling exception
             // forcing the new exception to be re-thrown immediately
             exceptionHandler.setPendingException(exceptionValue);
-            ehEnd();
+            exceptionHandlerEnd();
             return;
         } else {
             // We are not handling an exception, find a handler and
@@ -425,33 +426,23 @@ public class BdsVm implements Serializable, BdsLog {
     /**
      * Exception handler: Add catch block parameters to Exception handler
      */
-    void ehAdd(String handlerLabel, String typeExceptionClassName, String catchVarName) {
+    void exceptionHandlerAdd(String handlerLabel, String typeExceptionClassName, String catchVarName) {
         exceptionHandler.addHandler(handlerLabel, typeExceptionClassName, catchVarName);
-    }
-
-    /**
-     * Exception handler: Create a new Exception handler
-     *
-     * @param finallyLabel : Label for 'finally' code
-     */
-    void ehCreate(String finallyLabel) {
-        pushCallFrame();
-        exceptionHandler = new ExceptionHandler(finallyLabel);
     }
 
     /**
      * Exception handler: Start a 'catch' section
      */
-    void ehcStart() {
+    void exceptionHandlerCatchStart() {
         exceptionHandler.catchStart();
     }
 
     /**
      * Exception handler: End exception handling and Re-throw pending exception
      */
-    void ehEnd() {
-        ValueObject pendingException = exceptionHandler.getPendingException();
-        discardCallFrame(); // Discard CallFrame created in 'ehcreate'
+    void exceptionHandlerEnd() {
+        Value pendingException = exceptionHandler.getPendingException();
+        discardCallFrame(); // Discard CallFrame created in 'exceptionHandlerCreate'
         exceptionHandler = callFrames[fp].exceptionHandler; // Restore exception handler from previous CallFrame
         if (pendingException != null) throwException(pendingException); // Rethrow pending exception
     }
@@ -459,8 +450,18 @@ public class BdsVm implements Serializable, BdsLog {
     /**
      * Exception handler: 'Finally' section start
      */
-    void ehfStart() {
+    void exceptionHandlerFinallyStart() {
         exceptionHandler.finallyStart();
+    }
+
+    /**
+     * Exception handler start: Create a new Exception handler
+     *
+     * @param finallyLabel : Label for 'finally' code
+     */
+    void exceptionHandlerStart(String finallyLabel) {
+        pushCallFrame();
+        exceptionHandler = new ExceptionHandler(finallyLabel);
     }
 
     /**
@@ -533,7 +534,7 @@ public class BdsVm implements Serializable, BdsLog {
         return coverageCounter;
     }
 
-    public ValueObject getExceptionValue() {
+    public Value getExceptionValue() {
         return exceptionValue;
     }
 
@@ -753,7 +754,6 @@ public class BdsVm implements Serializable, BdsLog {
      */
     void popCallFrame() {
         setFromCallFrame(callFrames[--fp]);
-        // Note: Should we free space in previous call frame (scope, exceptionHandler)?
     }
 
     /**
@@ -1072,23 +1072,23 @@ public class BdsVm implements Serializable, BdsLog {
                     break;
 
                 case EHADD:
-                    ehAdd(constantString(), popString(), popString());
+                    exceptionHandlerAdd(constantString(), popString(), popString());
                     break;
 
-                case EHCREATE:
-                    ehCreate(constantString());
+                case EHSTART:
+                    exceptionHandlerStart(constantString());
                     break;
 
                 case EHEND:
-                    ehEnd();
+                    exceptionHandlerEnd();
                     break;
 
                 case EHCSTART:
-                    ehcStart();
+                    exceptionHandlerCatchStart();
                     break;
 
                 case EHFSTART:
-                    ehfStart();
+                    exceptionHandlerFinallyStart();
                     break;
 
                 case EQB:
@@ -1567,7 +1567,7 @@ public class BdsVm implements Serializable, BdsLog {
                     break;
 
                 case THROW:
-                    throwException((ValueObject) pop()); // Get Exception object to throw
+                    throwException(pop()); // Get Exception object to throw
                     break;
 
                 case VAR:
@@ -1721,18 +1721,37 @@ public class BdsVm implements Serializable, BdsLog {
     /**
      * Implement 'throw' opcode
      */
-    void throwException(ValueObject exceptionValue) {
-        this.exceptionValue = exceptionValue;
+    void throwException(Value exceptionValue) {
+        ValueObject exceptionObject = null;
+
+        if (Throw.isExceptionClass(exceptionValue.getType())) {
+            exceptionObject = (ValueObject) exceptionValue;
+        } else {
+            // If 'exceptionValue' is not an 'Exception' class object, create
+            // an Exception object and wrap the original value in it
+            var typeException = Types.get(ClassDeclarationException.CLASS_NAME_EXCEPTION);
+            exceptionObject = new ValueObject(typeException);
+            exceptionObject.initializeFields();
+
+            // Add original 'exceptionValue' to object
+            if (exceptionObject.getFieldValue(ClassDeclarationException.FIELD_NAME_VALUE) == null) {
+                exceptionObject.setValue(ClassDeclarationException.FIELD_NAME_VALUE, exceptionValue);
+            }
+        }
+
+        // Register the exception object
+        this.exceptionValue = exceptionObject;
 
         // Populate Exception's stack trace message, if empty
-        if (Throw.isExceptionClass(exceptionValue.getType()) //
-                && exceptionValue.getFieldValue("stackTrace") == null) {
-            exceptionValue.setValue("stackTrace", new ValueString(stackTrace()));
+        Value stackTrace = exceptionObject.getFieldValue(ClassDeclarationException.FIELD_NAME_STACK_TRACE);
+        if (stackTrace == null) { // Set field
+            stackTrace = new ValueString(stackTrace());
+            exceptionObject.setValue(ClassDeclarationException.FIELD_NAME_STACK_TRACE, stackTrace);
         }
 
         // Use current exception handler if available
         if (exceptionHandler != null) {
-            catchException(exceptionValue);
+            catchException(exceptionObject);
             return;
         }
 
@@ -1740,13 +1759,18 @@ public class BdsVm implements Serializable, BdsLog {
         while (canPopFrame()) {
             popCallFrame();
             if (exceptionHandler != null) {
-                catchException(exceptionValue);
+                catchException(exceptionObject);
                 return;
             }
         }
 
-        // No Exception handler was found
-        fatalError(exceptionValue.getType() + " thrown: " + exceptionValue);
+        // No Exception handler was found, fatal error
+        Value value = exceptionObject.getFieldValue(ClassDeclarationException.FIELD_NAME_VALUE);
+        fatalError(exceptionValue.getType() + " thrown: " //
+                + (value != null ? value : exceptionValue) //
+                + "\n" //
+                + (stackTrace != null ? "Stack trace:\n" + stackTrace : "") //
+        );
     }
 
     /**
