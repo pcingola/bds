@@ -29,6 +29,8 @@ import org.bds.util.GprString;
 import java.io.Serializable;
 import java.util.*;
 
+import static org.bds.libraries.LibraryException.*;
+
 /**
  * Bds Virtual Machine
  *
@@ -1730,13 +1732,13 @@ public class BdsVm implements Serializable, BdsLog {
             Gpr.debug("DEBUG: exceptionValue=" + exceptionValue.getType());
             // If 'exceptionValue' is not an 'Exception' class object, create
             // an Exception object and wrap the original value in it
-            var typeException = Types.get(ClassDeclarationException.CLASS_NAME_EXCEPTION);
+            var typeException = Types.get(CLASS_NAME_EXCEPTION);
             exceptionObject = new ValueObject(typeException);
             exceptionObject.initializeFields();
 
             // Add original 'exceptionValue' to object
-            if (exceptionObject.getFieldValue(ClassDeclarationException.FIELD_NAME_VALUE) == null) {
-                exceptionObject.setValue(ClassDeclarationException.FIELD_NAME_VALUE, exceptionValue);
+            if (exceptionObject.getFieldValue(FIELD_NAME_VALUE) == null) {
+                exceptionObject.setValue(FIELD_NAME_VALUE, exceptionValue);
             }
         }
 
@@ -1744,10 +1746,10 @@ public class BdsVm implements Serializable, BdsLog {
         this.exception = exceptionObject;
 
         // Populate Exception's stack trace message, if empty
-        Value stackTrace = exceptionObject.getFieldValue(ClassDeclarationException.FIELD_NAME_STACK_TRACE);
+        Value stackTrace = exceptionObject.getFieldValue(FIELD_NAME_STACK_TRACE);
         if (stackTrace == null) { // Set field
             stackTrace = new ValueString(stackTrace());
-            exceptionObject.setValue(ClassDeclarationException.FIELD_NAME_STACK_TRACE, stackTrace);
+            exceptionObject.setValue(FIELD_NAME_STACK_TRACE, stackTrace);
         }
 
         // Use current exception handler if available
@@ -1766,7 +1768,7 @@ public class BdsVm implements Serializable, BdsLog {
         }
 
         // No Exception handler was found, fatal error
-        Value value = exceptionObject.getFieldValue(ClassDeclarationException.FIELD_NAME_VALUE);
+        Value value = exceptionObject.getFieldValue(FIELD_NAME_VALUE);
         fatalError(exceptionValue.getType() + " thrown: " //
                 + (value != null ? value : exceptionValue) //
                 + "\n" //

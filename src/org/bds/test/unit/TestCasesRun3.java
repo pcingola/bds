@@ -12,6 +12,8 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.bds.libraries.LibraryException.FIELD_NAME_VALUE;
+
 /**
  * Test cases Classes / Objects
  *
@@ -642,7 +644,7 @@ public class TestCasesRun3 extends TestCasesBase {
     public void test277_throw_string() {
         BdsTest bdsTets = runAndCheckException("test/run_277.bds", "Exception");
         ValueObject exceptionObject = (ValueObject) bdsTets.getBds().getBdsRun().getVm().getException();
-        Value exceptionValue = exceptionObject.getFieldValue(ClassDeclarationException.FIELD_NAME_VALUE);
+        Value exceptionValue = exceptionObject.getFieldValue(FIELD_NAME_VALUE);
         Assert.assertEquals("You can also throw a string, but it's a bit weird...", exceptionValue.asString());
     }
 }

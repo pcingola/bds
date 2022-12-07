@@ -10,6 +10,8 @@ import org.bds.lang.type.TypeClass;
 import org.bds.symbol.SymbolTable;
 import org.bds.vm.OpCode;
 
+import static org.bds.libraries.LibraryException.CLASS_NAME_EXCEPTION;
+
 /**
  * Throw statement
  *
@@ -33,7 +35,7 @@ public class Throw extends StatementWithScope {
         if (!t.isClass()) return false;
 
         for (TypeClass tc = (TypeClass) t; tc != null; tc = tc.getClassDeclaration().getClassTypeParent()) {
-            if (tc.getCanonicalName().equals(ClassDeclarationException.CLASS_NAME_EXCEPTION)) return true;
+            if (tc.getCanonicalName().equals(CLASS_NAME_EXCEPTION)) return true;
         }
 
         return false;

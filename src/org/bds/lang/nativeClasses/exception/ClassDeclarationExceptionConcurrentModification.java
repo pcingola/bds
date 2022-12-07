@@ -7,6 +7,8 @@ import org.bds.lang.type.Types;
 import java.util.LinkedList;
 import java.util.List;
 
+import static org.bds.libraries.LibraryException.CLASS_NAME_EXCEPTION;
+
 public class ClassDeclarationExceptionConcurrentModification extends ClassDeclarationException {
 
     public static final String CLASS_NAME_EXCEPTION_CONCURRENT_MODIFICATION = "ConcurrentModificationException";

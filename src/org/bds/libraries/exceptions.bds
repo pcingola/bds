@@ -1,7 +1,7 @@
 
 class Throwable {
-    string message;
-    string stackTrace;
+    string value;   // Wrap value when throwing a non-Throwable (should be 'any')
+    string stackTrace;  // Show stack trace as a string
 }
 
 class Exception extends Throwable {

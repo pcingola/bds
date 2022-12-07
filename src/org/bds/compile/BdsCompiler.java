@@ -24,6 +24,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.bds.libraries.Library.LIBRARIES;
+import static org.bds.libraries.Library.LIBRARIES_PATH;
+
 /**
  * BdsCompiler a Bds program.
  * <p>
@@ -32,13 +35,6 @@ import java.util.Set;
  * @author pcingola
  */
 public class BdsCompiler implements BdsLog {
-
-    public static final String LIBRARIES_PATH = "libraries";
-    public static final String[] LIBRARIES = { //
-            "exceptions.bds" // Define throwable, exception, etc.
-            , "stdlib.bds" //
-            , "z.bds" // Only used for testing new library code
-    };
 
     boolean debug; // debug mode
     boolean verbose; // Verbose mode

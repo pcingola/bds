@@ -7,6 +7,8 @@ import org.bds.lang.statement.MethodDeclaration;
 import java.util.LinkedList;
 import java.util.List;
 
+import static org.bds.libraries.LibraryException.CLASS_NAME_EXCEPTION;
+
 /**
  * Bds 'Exception' class.
  * It is initially empty, but the fields 'stackTrace' and 'value' are created and populated
@@ -14,9 +16,6 @@ import java.util.List;
  */
 public class ClassDeclarationException extends ClassDeclarationNative {
 
-    public static final String CLASS_NAME_EXCEPTION = "Exception";
-    public static final String FIELD_NAME_VALUE = "$value"; // Exception value (hidden field). Original value wrapped in an exception object
-    public static final String FIELD_NAME_STACK_TRACE = "$stackTrace"; // Stack trace as a string (hidden field)
     private static final long serialVersionUID = -4115713969638658245L;
 
     public ClassDeclarationException() {
