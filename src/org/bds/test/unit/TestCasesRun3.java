@@ -20,7 +20,7 @@ import static org.bds.libraries.LibraryException.EXCEPTION_FIELD_VALUE;
  */
 public class TestCasesRun3 extends TestCasesBase {
 
-    public TestCasesRun2() {
+    public TestCasesRun3() {
         dir = "test/run/";
     }
 
@@ -30,32 +30,32 @@ public class TestCasesRun3 extends TestCasesBase {
         expectedValues.put("z", "{ i: 0, r: 0.0, s:  }");
         expectedValues.put("z2", "{ i: 0, r: 0.0, s:  }");
 
-        runAndCheck("test/run_201.bds", expectedValues);
+        runAndCheck(dir + "run_201.bds", expectedValues);
     }
 
     @Test
     public void test202() {
-        runAndCheck("test/run_202.bds", "z", "{ i: 42, r: 1.234, s: Hi }");
+        runAndCheck(dir + "run_202.bds", "z", "{ i: 42, r: 1.234, s: Hi }");
     }
 
     @Test
     public void test203() {
-        runAndCheck("test/run_203.bds", "j", "42");
+        runAndCheck(dir + "run_203.bds", "j", "42");
     }
 
     @Test
     public void test204() {
-        runAndCheck("test/run_204.bds", "j", "42");
+        runAndCheck(dir + "run_204.bds", "j", "42");
     }
 
     @Test
     public void test205() {
-        runAndCheck("test/run_205.bds", "z", null);
+        runAndCheck(dir + "run_205.bds", "z", null);
     }
 
     @Test
     public void test206() {
-        runAndCheck("test/run_206.bds", "j", "44");
+        runAndCheck(dir + "run_206.bds", "j", "44");
     }
 
     @Test
@@ -64,82 +64,82 @@ public class TestCasesRun3 extends TestCasesBase {
         expectedValues.put("j", "42");
         expectedValues.put("s", "bye");
         expectedValues.put("s2", "chau");
-        runAndCheck("test/run_207.bds", expectedValues);
+        runAndCheck(dir + "run_207.bds", expectedValues);
     }
 
     @Test
     public void test208() {
-        runAndCheck("test/run_208.bds", "z", "{ i: 7, l: [one, dos, three], m: { one => uno, three => tres, two => deux } }");
+        runAndCheck(dir + "run_208.bds", "z", "{ i: 7, l: [one, dos, three], m: { one => uno, three => tres, two => deux } }");
     }
 
     @Test
     public void test209() {
-        runAndCheckStderr("test/run_209.bds", "Null pointer. Trying to access field 'i' in null object.");
+        runAndCheckStderr(dir + "run_209.bds", "Null pointer. Trying to access field 'i' in null object.");
     }
 
     @Test
     public void test210() {
-        runAndCheckStderr("test/run_210.bds", "Null pointer: Cannot call method 'Zzz.set(Zzz,int) -> void' on null object.");
+        runAndCheckStderr(dir + "run_210.bds", "Null pointer: Cannot call method 'Zzz.set(Zzz,int) -> void' on null object.");
     }
 
     @Test
     public void test211() {
-        runAndCheck("test/run_211.bds", "z", "{ i: 7 }");
+        runAndCheck(dir + "run_211.bds", "z", "{ i: 7 }");
     }
 
     @Test
     public void test212() {
-        runAndCheck("test/run_212.bds", "z", "{ i: 42 }");
+        runAndCheck(dir + "run_212.bds", "z", "{ i: 42 }");
     }
 
     @Test
     public void test213() {
-        runAndCheck("test/run_213.bds", "z", "{ i: 7 }");
+        runAndCheck(dir + "run_213.bds", "z", "{ i: 7 }");
     }
 
     @Test
     public void test214() {
-        runAndCheck("test/run_214.bds", "z", "{ i: 42 }");
+        runAndCheck(dir + "run_214.bds", "z", "{ i: 42 }");
     }
 
     @Test
     public void test215() {
-        runAndCheck("test/run_215.bds", "z", "{ i: 42, j: 7 }");
+        runAndCheck(dir + "run_215.bds", "z", "{ i: 42, j: 7 }");
     }
 
     @Test
     public void test216() {
-        runAndCheck("test/run_216.bds", "z", "{ i: 21, j: 17, next: { i: 42, next: null } }");
+        runAndCheck(dir + "run_216.bds", "z", "{ i: 21, j: 17, next: { i: 42, next: null } }");
     }
 
     @Test
     public void test217() {
-        runAndCheck("test/run_217.bds", "x", "43");
+        runAndCheck(dir + "run_217.bds", "x", "43");
     }
 
     @Test
     public void test218() {
-        runAndCheck("test/run_218.bds", "x", "50");
+        runAndCheck(dir + "run_218.bds", "x", "50");
     }
 
     @Test
     public void test219() {
-        runAndCheck("test/run_219.bds", "x", "50");
+        runAndCheck(dir + "run_219.bds", "x", "50");
     }
 
     @Test
     public void test220() {
-        runAndCheck("test/run_220.bds", "x", "50");
+        runAndCheck(dir + "run_220.bds", "x", "50");
     }
 
     @Test
     public void test221() {
-        runAndCheck("test/run_221.bds", "z", "46");
+        runAndCheck(dir + "run_221.bds", "z", "46");
     }
 
     @Test
     public void test222() {
-        runAndCheck("test/run_222.bds", "z", "7");
+        runAndCheck(dir + "run_222.bds", "z", "7");
     }
 
     @Test
@@ -149,7 +149,7 @@ public class TestCasesRun3 extends TestCasesBase {
         expectedValues.put("typel", "string[][]");
         expectedValues.put("typel0", "string[]");
 
-        runAndCheck("test/run_223.bds", expectedValues);
+        runAndCheck(dir + "run_223.bds", expectedValues);
     }
 
     @Test
@@ -159,22 +159,22 @@ public class TestCasesRun3 extends TestCasesBase {
         expectedValues.put("typem", "string[]{string}");
         expectedValues.put("typemen", "string[]");
 
-        runAndCheck("test/run_224.bds", expectedValues);
+        runAndCheck(dir + "run_224.bds", expectedValues);
     }
 
     @Test
     public void test225_super() {
-        runAndCheck("test/run_225.bds", "ret", "2");
+        runAndCheck(dir + "run_225.bds", "ret", "2");
     }
 
     @Test
     public void test226_refref() {
-        runAndCheck("test/run_226.bds", "ret", "42");
+        runAndCheck(dir + "run_226.bds", "ret", "42");
     }
 
     @Test
     public void test227_refref() {
-        runAndCheck("test/run_227.bds", "ret", "42");
+        runAndCheck(dir + "run_227.bds", "ret", "42");
     }
 
     @Test
@@ -183,7 +183,7 @@ public class TestCasesRun3 extends TestCasesBase {
         expectedValues.put("ret1", "1");
         expectedValues.put("ret2", "2");
 
-        runAndCheck("test/run_228.bds", expectedValues);
+        runAndCheck(dir + "run_228.bds", expectedValues);
     }
 
     @Test
@@ -196,7 +196,7 @@ public class TestCasesRun3 extends TestCasesBase {
         expectedValues.put("bg", "12");
         expectedValues.put("bx", "42");
 
-        runAndCheck("test/run_229.bds", expectedValues);
+        runAndCheck(dir + "run_229.bds", expectedValues);
     }
 
     @Test
@@ -206,7 +206,7 @@ public class TestCasesRun3 extends TestCasesBase {
         expectedValues.put("catch1", "false");
         expectedValues.put("finally1", "true");
 
-        runAndCheck("test/run_230.bds", expectedValues);
+        runAndCheck(dir + "run_230.bds", expectedValues);
     }
 
     @Test
@@ -216,7 +216,7 @@ public class TestCasesRun3 extends TestCasesBase {
         expectedValues.put("catch1", "true");
         expectedValues.put("finally1", "true");
 
-        runAndCheck("test/run_231.bds", expectedValues);
+        runAndCheck(dir + "run_231.bds", expectedValues);
     }
 
     @Test
@@ -229,7 +229,7 @@ public class TestCasesRun3 extends TestCasesBase {
         expectedValues.put("catch1", "true");
         expectedValues.put("finally1", "true");
 
-        runAndCheck("test/run_232.bds", expectedValues);
+        runAndCheck(dir + "run_232.bds", expectedValues);
     }
 
     @Test
@@ -242,7 +242,7 @@ public class TestCasesRun3 extends TestCasesBase {
         expectedValues.put("catch1", "true");
         expectedValues.put("finally1", "true");
 
-        runAndCheck("test/run_233.bds", expectedValues);
+        runAndCheck(dir + "run_233.bds", expectedValues);
     }
 
     @Test
@@ -258,7 +258,7 @@ public class TestCasesRun3 extends TestCasesBase {
         expectedValues.put("catch21", "false");
         expectedValues.put("finally21", "true");
 
-        runAndCheck("test/run_234.bds", expectedValues);
+        runAndCheck(dir + "run_234.bds", expectedValues);
     }
 
     @Test
@@ -279,7 +279,7 @@ public class TestCasesRun3 extends TestCasesBase {
         expectedValues.put("catch21", "false");
         expectedValues.put("finally21", "true");
 
-        runAndCheck("test/run_235.bds", expectedValues);
+        runAndCheck(dir + "run_235.bds", expectedValues);
     }
 
     @Test
@@ -300,7 +300,7 @@ public class TestCasesRun3 extends TestCasesBase {
         expectedValues.put("catch21", "true");
         expectedValues.put("finally21", "true");
 
-        runAndCheck("test/run_235_rev.bds", expectedValues);
+        runAndCheck(dir + "run_235_rev.bds", expectedValues);
     }
 
     @Test
@@ -321,7 +321,7 @@ public class TestCasesRun3 extends TestCasesBase {
         expectedValues.put("catch21", "true");
         expectedValues.put("finally21", "true");
 
-        runAndCheck("test/run_236.bds", expectedValues);
+        runAndCheck(dir + "run_236.bds", expectedValues);
     }
 
     @Test
@@ -334,7 +334,7 @@ public class TestCasesRun3 extends TestCasesBase {
         expectedValues.put("try2", "false");
         expectedValues.put("catch1", "true");
 
-        runAndCheck("test/run_237.bds", expectedValues);
+        runAndCheck(dir + "run_237.bds", expectedValues);
     }
 
     @Test
@@ -348,7 +348,7 @@ public class TestCasesRun3 extends TestCasesBase {
         expectedValues.put("finally1", "true");
         expectedValues.put("finally2", "true");
 
-        runAndCheck(1, "test/run_238.bds", expectedValues);
+        runAndCheck(1, dir + "run_238.bds", expectedValues);
     }
 
     @Test
@@ -362,7 +362,7 @@ public class TestCasesRun3 extends TestCasesBase {
         expectedValues.put("finally1", "true");
         expectedValues.put("finally2", "false");
 
-        runAndCheck(1, "test/run_239.bds", expectedValues);
+        runAndCheck(1, dir + "run_239.bds", expectedValues);
     }
 
     @Test
@@ -376,7 +376,7 @@ public class TestCasesRun3 extends TestCasesBase {
         expectedValues.put("finally1", "true");
         expectedValues.put("finally2", "false");
 
-        runAndCheck(1, "test/run_240.bds", expectedValues);
+        runAndCheck(1, dir + "run_240.bds", expectedValues);
     }
 
     @Test
@@ -392,57 +392,57 @@ public class TestCasesRun3 extends TestCasesBase {
         expectedValues.put("finally1", "true");
         expectedValues.put("finally2", "false");
 
-        runAndCheck(1, "test/run_241.bds", expectedValues);
+        runAndCheck(1, dir + "run_241.bds", expectedValues);
     }
 
     @Test
     public void test242_derivedMethodParamNames() {
-        runAndCheck("test/run_242.bds", "ret", "n:hi");
+        runAndCheck(dir + "run_242.bds", "ret", "n:hi");
     }
 
     @Test
     public void test243_downCasting() {
-        runAndCheck("test/run_243.bds", "ret", "42");
+        runAndCheck(dir + "run_243.bds", "ret", "42");
     }
 
     @Test
     public void test244_concurrent_modification() {
-        runAndCheckException("test/run_244.bds", "ConcurrentModificationException");
+        runAndCheckException(dir + "run_244.bds", "ConcurrentModificationException");
     }
 
     @Test
     public void test245_out_of_bounds() {
-        runAndCheck("test/run_245.bds", "ret", "5");
+        runAndCheck(dir + "run_245.bds", "ret", "5");
     }
 
     @Test
     public void test246_out_of_bounds() {
-        runAndCheck("test/run_246.bds", "ret", "1");
+        runAndCheck(dir + "run_246.bds", "ret", "1");
     }
 
     @Test
     public void test247_out_of_bounds() {
-        runAndCheck("test/run_247.bds", "ret", "5");
+        runAndCheck(dir + "run_247.bds", "ret", "5");
     }
 
     @Test
     public void test248_out_of_bounds() {
-        runAndCheck("test/run_248.bds", "ret", "1");
+        runAndCheck(dir + "run_248.bds", "ret", "1");
     }
 
     @Test
     public void test249_concurrent_modification_hash() {
-        runAndCheckException("test/run_249.bds", "ConcurrentModificationException");
+        runAndCheckException(dir + "run_249.bds", "ConcurrentModificationException");
     }
 
     @Test
     public void test250_super_super_method_call() {
-        runAndCheckStdout("test/run_250.bds", "GrandParent\nParent\nChild\n");
+        runAndCheckStdout(dir + "run_250.bds", "GrandParent\nParent\nChild\n");
     }
 
     @Test
     public void test251_super_super_constructor_call() {
-        runAndCheckStdout("test/run_251.bds", "GrandParent\nParent\nChild\n");
+        runAndCheckStdout(dir + "run_251.bds", "GrandParent\nParent\nChild\n");
     }
 
     @Test
@@ -455,7 +455,7 @@ public class TestCasesRun3 extends TestCasesBase {
         expectedValues.put("szzz", "");
         expectedValues.put("bzzz", false);
 
-        runAndCheck("test/run_253.bds", expectedValues);
+        runAndCheck(dir + "run_253.bds", expectedValues);
     }
 
     @Test
@@ -466,74 +466,74 @@ public class TestCasesRun3 extends TestCasesBase {
         expectedValues.put("szzz", "VALUE_DEFAULT_2");
         expectedValues.put("szzzxxxzzz", "VALUE_DEFAULT_3");
 
-        runAndCheck("test/run_254.bds", expectedValues);
+        runAndCheck(dir + "run_254.bds", expectedValues);
     }
 
     @Test
     public void test255_getModuleName() {
-        runAndCheck("test/run_255.bds", "b", "run_255.bds");
+        runAndCheck(dir + "run_255.bds", "b", "run_255.bds");
     }
 
     @Test
     public void test256_getModuleName() {
-        runAndCheck("test/run_256.bds", "db", "test");
+        runAndCheck(dir + "run_256.bds", "db", "run");
     }
 
     @Test
     public void test257_randIntDivisionByZero() {
-        runAndCheck("test/run_257.bds", "r", "0");
+        runAndCheck(dir + "run_257.bds", "r", "0");
     }
 
     @Test
     public void test258_infiniteRecursionPrint() {
-        runOk("test/run_258.bds");
+        runOk(dir + "run_258.bds");
     }
 
     @Test
     public void test259_infiniteRecursionFor() {
-        runOk("test/run_259.bds");
+        runOk(dir + "run_259.bds");
     }
 
     @Test
     public void test260_emptyListIndex() {
-        runAndCheckError("test/run_260.bds", "Runtime error StatementExpr test/run_260.bds:4,1: Cannot get element '0' from an empty list");
+        runAndCheckError(dir + "run_260.bds", "Runtime error StatementExpr test/run/run_260.bds:4,1: Cannot get element '0' from an empty list");
     }
 
     @Test
     public void test261_invalidKey() {
-        runAndCheckError("test/run_261.bds", "Invalid key 'hi' in map.");
+        runAndCheckError(dir + "run_261.bds", "Invalid key 'hi' in map.");
     }
 
     @Test
     public void test262_simpleClassCast() {
-        runOk("test/run_262.bds");
+        runOk(dir + "run_262.bds");
     }
 
     @Test
     public void test263_invokeMethodOnNullObject() {
         // Invoke a method on a null object
-        runAndCheckError("test/run_263.bds", "Null pointer: Invoking method 'z' on null object type 'Z', signature z(Z this) -> void");
+        runAndCheckError(dir + "run_263.bds", "Null pointer: Invoking method 'z' on null object type 'Z', signature z(Z this) -> void");
     }
 
     @Test
     public void test264_typeOfClass() {
         // Invoke a method on a null object
-        runAndCheck("test/run_264.bds", "objType", "A");
+        runAndCheck(dir + "run_264.bds", "objType", "A");
     }
 
     @Test
     public void test265_try_catch_parent_exception_class() {
-        runAndCheck("test/run_265.bds", "out", "try_start catch finally");
+        runAndCheck(dir + "run_265.bds", "out", "try_start catch finally");
     }
 
     @Test
     public void test266_try_catch_exception_class() {
-        runAndCheck("test/run_266.bds", "out", "try_start catch finally");
+        runAndCheck(dir + "run_266.bds", "out", "try_start catch finally");
     }
 
     @Test
     public void test267_try_catch_exception_class_defined_after() {
-        runOk("test/run_267.bds");
+        runOk(dir + "run_267.bds");
     }
 
     @Test
@@ -546,14 +546,14 @@ public class TestCasesRun3 extends TestCasesBase {
                 + "TRY 1: End\n" //
                 + "FINALLY 1\n" //
                 + "END\n";
-        runAndCheckStdout("test/run_268.bds", expectedStdout);
+        runAndCheckStdout(dir + "run_268.bds", expectedStdout);
     }
 
     @Test
     public void test269_rmOnExit() {
         var tmpFile = new File("/tmp/run_269.tmp");
         var txtFile = new File("/tmp/run_269.txt");
-        runOk("test/run_269.bds");
+        runOk(dir + "run_269.bds");
         Assert.assertFalse("Tmp file " + tmpFile + " should have been deleted", tmpFile.exists());
         Assert.assertTrue("Tmp file " + txtFile + " should exists", txtFile.exists());
     }
@@ -562,14 +562,14 @@ public class TestCasesRun3 extends TestCasesBase {
     public void test270_rmOnExit_error() {
         var tmpFile = new File("/tmp/run_270.tmp");
         var txtFile = new File("/tmp/run_270.txt");
-        runAndCheckExit("test/run_270.bds", 1);
+        runAndCheckExit(dir + "run_270.bds", 1);
         Assert.assertFalse("Tmp file " + tmpFile + " should have been deleted", tmpFile.exists());
         Assert.assertTrue("Tmp file " + txtFile + " should exists", txtFile.exists());
     }
 
     @Test
     public void test271_rmOnExit_dirWithFiles() {
-        runOk("test/run_271.bds");
+        runOk(dir + "run_271.bds");
 
         var tmpDir = new File("/tmp/run_271/rm_on_exit");
         var txtDir = new File("/tmp/run_271/no_rm_on_exit");
@@ -591,7 +591,7 @@ public class TestCasesRun3 extends TestCasesBase {
     public void test272_rmOnExitCancel() {
         var tmpFile = new File("/tmp/run_272.tmp");
         var txtFile = new File("/tmp/run_272.txt");
-        runOk("test/run_272.bds");
+        runOk(dir + "run_272.bds");
         Assert.assertTrue("Tmp file " + tmpFile + " should exist", tmpFile.exists());
         Assert.assertTrue("Tmp file " + txtFile + " should exists", txtFile.exists());
     }
@@ -600,7 +600,7 @@ public class TestCasesRun3 extends TestCasesBase {
     public void test273_rmOnExitCancel_error() {
         var tmpFile = new File("/tmp/run_273.tmp");
         var txtFile = new File("/tmp/run_273.txt");
-        runAndCheckExit("test/run_273.bds", 1);
+        runAndCheckExit(dir + "run_273.bds", 1);
         Assert.assertTrue("Tmp file " + tmpFile + " should exist", tmpFile.exists());
         Assert.assertTrue("Tmp file " + txtFile + " should exists", txtFile.exists());
     }
@@ -611,7 +611,7 @@ public class TestCasesRun3 extends TestCasesBase {
         var tmpFile2 = new File("/tmp/run_274.2.tmp");
         var tmpFile3 = new File("/tmp/run_274.3.tmp");
         var txtFile = new File("/tmp/run_274.txt");
-        runOk("test/run_274.bds");
+        runOk(dir + "run_274.bds");
         Assert.assertTrue("Tmp file " + tmpFile1 + " should exist", tmpFile1.exists());
         Assert.assertTrue("Tmp file " + tmpFile2 + " should exist", tmpFile2.exists());
         Assert.assertTrue("Tmp file " + tmpFile3 + " should exist", tmpFile3.exists());
@@ -624,7 +624,7 @@ public class TestCasesRun3 extends TestCasesBase {
         var tmpFile2 = new File("/tmp/run_275.2.tmp");
         var tmpFile3 = new File("/tmp/run_275.3.tmp");
         var txtFile = new File("/tmp/run_275.txt");
-        runAndCheckExit("test/run_275.bds", 1);
+        runAndCheckExit(dir + "run_275.bds", 1);
         Assert.assertTrue("Tmp file " + tmpFile1 + " should exist", tmpFile1.exists());
         Assert.assertTrue("Tmp file " + tmpFile2 + " should exist", tmpFile2.exists());
         Assert.assertTrue("Tmp file " + tmpFile3 + " should exist", tmpFile3.exists());
@@ -640,12 +640,12 @@ public class TestCasesRun3 extends TestCasesBase {
         expectedValues.put("d", 17);
         expectedValues.put("e", 1);
         expectedValues.put("f", 0);
-        runAndCheck("test/run_276.bds", expectedValues);
+        runAndCheck(dir + "run_276.bds", expectedValues);
     }
 
     @Test
     public void test277_throw_string() {
-        BdsTest bdsTets = runAndCheckException("test/run_277.bds", "Exception");
+        BdsTest bdsTets = runAndCheckException(dir + "run_277.bds", "Exception");
         ValueObject exceptionObject = (ValueObject) bdsTets.getBds().getBdsRun().getVm().getException();
         Value exceptionValue = exceptionObject.getFieldValue(EXCEPTION_FIELD_VALUE);
         Assert.assertEquals("You can also throw a string, but it's a bit weird...", exceptionValue.asString());
@@ -657,7 +657,7 @@ public class TestCasesRun3 extends TestCasesBase {
         expectedValues.put("outs1", "s1 = '5', type: string");
         expectedValues.put("outs2", "s2 = 'true', type: string");
         expectedValues.put("outi", "i = true, type: bool");
-        runAndCheck(1, "test/run_278_auto_casting.bds", expectedValues);
+        runAndCheck(1, dir + "run_278_auto_casting.bds", expectedValues);
     }
 
     @Test
@@ -667,7 +667,7 @@ public class TestCasesRun3 extends TestCasesBase {
         expectedValues.put("outz2", "z2 = hi, type: string");
         expectedValues.put("outz3", "z3 = 1.234, type: real");
         expectedValues.put("outz4", "z4 = true, type: bool");
-        runAndCheck(1, "test/run_279_type_any.bds", expectedValues);
+        runAndCheck(1, dir + "run_279_type_any.bds", expectedValues);
     }
 
 }
