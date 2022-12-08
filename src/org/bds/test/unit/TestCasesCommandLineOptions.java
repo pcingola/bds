@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class TestCasesCommandLineOptions extends TestCasesBase {
 
     public TestCasesCommandLineOptions() {
-        dir = "test/cmd_line/";
+        dir = "test/unit/cmd_line/";
     }
 
     @Before

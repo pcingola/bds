@@ -12,7 +12,7 @@ import org.junit.Test;
 public class TestCasesReport extends TestCasesBase {
 
     public TestCasesReport() {
-        dir = "test/report/";
+        dir = "test/unit/report/";
     }
 
     @Test

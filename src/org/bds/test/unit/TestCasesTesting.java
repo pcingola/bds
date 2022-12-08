@@ -16,7 +16,7 @@ import org.junit.Test;
 public class TestCasesTesting extends TestCasesBase {
 
     public TestCasesTesting() {
-        dir = "test/test_cases/";
+        dir = "test/unit/test_cases/";
     }
 
     @Test
