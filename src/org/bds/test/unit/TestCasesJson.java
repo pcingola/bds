@@ -13,6 +13,10 @@ import java.util.Map;
  */
 public class TestCasesJson extends TestCasesBase {
 
+    public TestCasesJson() {
+        dir = "test/json/";
+    }
+
     @Test
     public void test_01_scopeGlobalVariables() {
         Map<String, Object> expectedValues = new HashMap<>();
@@ -21,7 +25,7 @@ public class TestCasesJson extends TestCasesBase {
         expectedValues.put("isbool", "true");
         expectedValues.put("age", "25");
 
-        runAndCheck("test/json_01.bds", expectedValues);
+        runAndCheck(dir + "json_01.bds", expectedValues);
     }
 
     @Test
@@ -40,7 +44,7 @@ public class TestCasesJson extends TestCasesBase {
         expectedValues.put("isbool", "false");
         expectedValues.put("age", "1");
 
-        runAndCheck("test/json_02.bds", expectedValues);
+        runAndCheck(dir + "json_02.bds", expectedValues);
     }
 
     @Test
@@ -53,7 +57,7 @@ public class TestCasesJson extends TestCasesBase {
         expectedValues.put("a_state", "NY");
         expectedValues.put("a_postalCode", "10021");
 
-        runAndCheck("test/json_03.bds", expectedValues);
+        runAndCheck(dir + "json_03.bds", expectedValues);
     }
 
     @Test
@@ -64,18 +68,18 @@ public class TestCasesJson extends TestCasesBase {
         expectedValues.put("address_private", "{ city: New York, postalCode: 10021, state: NY, streetAddress: 21 2nd Street }");
         expectedValues.put("address", "{ city: , postalCode: 0, state: , streetAddress:  }");
 
-        runAndCheck("test/json_04.bds", expectedValues);
+        runAndCheck(dir + "json_04.bds", expectedValues);
     }
 
     @Test
     public void test_05_scopeGlobalList() {
-        runAndCheck("test/json_05.bds", "phoneNumbers", "[{ number: 212 555-1234, type: home }, { number: 646 555-4567, type: fax }]");
+        runAndCheck(dir + "json_05.bds", "phoneNumbers", "[{ number: 212 555-1234, type: home }, { number: 646 555-4567, type: fax }]");
     }
 
     @Test
     public void test_06_object() {
         var expVal = "{ address: { city: New York, postalCode: 10021, state: NY, streetAddress: 21 2nd Street }, age: 25, firstName: John, isbool: true, lastName: Smith, phone: { number: 212 555-1234, type: home }, phoneNumbers: [{ number: 212 555-1234, type: home }, { number: 646 555-4567, type: fax }] }";
-        runAndCheck("test/json_06.bds", "person", expVal);
+        runAndCheck(dir + "json_06.bds", "person", expVal);
     }
 
     @Test
@@ -86,38 +90,38 @@ public class TestCasesJson extends TestCasesBase {
         expectedValues.put("anotherName", "Joe");
         expectedValues.put("anotherName2", "Bill");
 
-        runAndCheck("test/json_07.bds", expectedValues);
+        runAndCheck(dir + "json_07.bds", expectedValues);
     }
 
     @Test
     public void test_08_fieldNamesMatch() {
-        runAndCheck("test/json_08.bds", "a", "{ anotherName: Joe, anotherName2: Bill, firstName: John, last_Name: Smith }");
+        runAndCheck(dir + "json_08.bds", "a", "{ anotherName: Joe, anotherName2: Bill, firstName: John, last_Name: Smith }");
     }
 
     @Test
     public void test_09_json_set_side_effects() {
         Map<String, Object> expected = Map.of("var2", "default_value", "globalVar", "VALUE_FROM_JSON");
-        runAndCheck("test/json_09.bds", expected);
+        runAndCheck(dir + "json_09.bds", expected);
     }
 
     @Test
     public void test_10_subjson() {
-        runAndCheck("test/json_10.bds", "a", "{ firstName: John, last_Name: Smith }");
+        runAndCheck(dir + "json_10.bds", "a", "{ firstName: John, last_Name: Smith }");
     }
 
     @Test
     public void test_11_subsubjson() {
-        runAndCheck("test/json_11.bds", "a", "{ firstName: John, last_Name: Smith }");
+        runAndCheck(dir + "json_11.bds", "a", "{ firstName: John, last_Name: Smith }");
     }
 
     @Test
     public void test_12_subsubjson_error_key() {
-        runAndCheckError("test/json_12.bds", "JSON object from file 'test/json_11.json' does not contain field 'sub_b.sub_ii.sub_Z'");
+        runAndCheckError(dir + "json_12.bds", "JSON object from file 'test/json_11.json' does not contain field 'sub_b.sub_ii.sub_Z'");
     }
 
     @Test
     public void test_13_subsubjson_error_type() {
-        runAndCheckError("test/json_13.bds", "JSON object from file 'test/json_11.json', field 'sub_b.sub_i' is not an Object (value type 'NUMBER')");
+        runAndCheckError(dir + "json_13.bds", "JSON object from file 'test/json_11.json', field 'sub_b.sub_i' is not an Object (value type 'NUMBER')");
     }
 
 
