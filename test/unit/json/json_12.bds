@@ -1,6 +1,6 @@
 #!/usr/bin/env bds
 
-fileName := "test/json/json_11.json"
+fileName := "test/unit/json/json_11.json"
 
 class A {
  string firstName, last_Name
