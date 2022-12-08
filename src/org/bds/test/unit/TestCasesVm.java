@@ -14,7 +14,7 @@ import org.junit.Test;
 public class TestCasesVm extends TestCasesBase {
 
     public TestCasesVm() {
-        dir = "test/vm/";
+        dir = "test/unit/vm/";
     }
 
     @Test

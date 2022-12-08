@@ -32,7 +32,7 @@ import static org.junit.Assert.assertEquals;
 public class TestCasesExecutioners extends TestCasesBase {
 
     public TestCasesExecutioners() {
-        dir = "test/executioners/";
+        dir = "test/unit/executioners/";
     }
 
     @Test

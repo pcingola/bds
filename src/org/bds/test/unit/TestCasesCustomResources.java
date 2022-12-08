@@ -11,7 +11,7 @@ import org.junit.Test;
 public class TestCasesCustomResources extends TestCasesBase {
 
     public TestCasesCustomResources() {
-        dir = "test/task/custom_resources/";
+        dir = "test/unit/task/custom_resources/";
     }
 
     @Test

@@ -22,7 +22,7 @@ import java.util.Set;
 public class TestCasesRun2 extends TestCasesBase {
 
     public TestCasesRun2() {
-        dir = "test/run/";
+        dir = "test/unit/run/";
     }
 
     @Test

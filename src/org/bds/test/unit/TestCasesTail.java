@@ -15,7 +15,7 @@ public class TestCasesTail extends TestCasesBase {
     public static boolean debug = false;
 
     public TestCasesTail() {
-        dir = "test/tail/";
+        dir = "test/unit/tail/";
     }
 
     @Test

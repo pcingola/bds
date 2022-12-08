@@ -19,7 +19,7 @@ import java.util.Map;
 public class TestCasesRun extends TestCasesBase {
 
     public TestCasesRun() {
-        dir = "test/run/";
+        dir = "test/unit/run/";
     }
 
     @Test
@@ -581,7 +581,7 @@ public class TestCasesRun extends TestCasesBase {
 
     @Test
     public void test75() {
-        runAndCheck(dir + "run_75.bds", "ls", "EXEC\ntest/run/run_75.bds\nDONE\n");
+        runAndCheck(dir + "run_75.bds", "ls", "EXEC\ntest/unit/run/run_75.bds\nDONE\n");
     }
 
     @Test

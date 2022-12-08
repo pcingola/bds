@@ -1,0 +1,9 @@
+
+dir := 'test/unit/run/'
+
+dir1 := dir.dir("run_142_dir_0*.txt")
+println "dir1 = $dir1"
+
+dir2 := dir.dirPath("**/run_142_dir_0*.txt")
+println "dir2 = $dir2"
+

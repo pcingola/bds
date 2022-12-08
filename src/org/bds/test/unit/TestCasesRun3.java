@@ -21,7 +21,7 @@ import static org.bds.libraries.LibraryException.EXCEPTION_FIELD_VALUE;
 public class TestCasesRun3 extends TestCasesBase {
 
     public TestCasesRun3() {
-        dir = "test/run/";
+        dir = "test/unit/run/";
     }
 
     @Test
@@ -496,7 +496,7 @@ public class TestCasesRun3 extends TestCasesBase {
 
     @Test
     public void test260_emptyListIndex() {
-        runAndCheckError(dir + "run_260.bds", "Runtime error StatementExpr test/run/run_260.bds:4,1: Cannot get element '0' from an empty list");
+        runAndCheckError(dir + "run_260.bds", "Runtime error StatementExpr test/unit/run/run_260.bds:4,1: Cannot get element '0' from an empty list");
     }
 
     @Test

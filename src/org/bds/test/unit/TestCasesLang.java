@@ -13,7 +13,7 @@ import org.junit.Test;
 public class TestCasesLang extends TestCasesBase {
 
     public TestCasesLang() {
-        dir = "test/lang/";
+        dir = "test/unit/lang/";
     }
 
     @Test
@@ -70,7 +70,7 @@ public class TestCasesLang extends TestCasesBase {
     public void test08() {
         // Increment and decrement operators
         // Compile error trying to increment an expression
-        String errs = "ERROR [ file 'test/lang/test08.bds', line 11 ] :	Only variable reference can be used with ++ or -- operators\n";
+        String errs = "ERROR [ file 'test/unit/lang/test08.bds', line 11 ] :	Only variable reference can be used with ++ or -- operators\n";
         compileErrors(dir + "test08.bds", errs);
     }
 
@@ -83,14 +83,14 @@ public class TestCasesLang extends TestCasesBase {
     @Test
     public void test10() {
         // Compile error: Undefined variable, direct reference
-        String err = "ERROR [ file 'test/lang/test10.bds', line 2 ] :	Symbol 'j' cannot be resolved\n";
+        String err = "ERROR [ file 'test/unit/lang/test10.bds', line 2 ] :	Symbol 'j' cannot be resolved\n";
         compileErrors(dir + "test10.bds", err);
     }
 
     @Test
     public void test11() {
         // Compile error: Undefined variable, within expression
-        String err = "ERROR [ file 'test/lang/test11.bds', line 2 ] :	Symbol 'j' cannot be resolved\n";
+        String err = "ERROR [ file 'test/unit/lang/test11.bds', line 2 ] :	Symbol 'j' cannot be resolved\n";
         compileErrors(dir + "test11.bds", err);
     }
 
@@ -109,8 +109,8 @@ public class TestCasesLang extends TestCasesBase {
     @Test
     public void test14() {
         // For loop using an undefined variable in 'for' definition
-        String errs = "ERROR [ file 'test/lang/test14.bds', line 3 ] :	Symbol 'i' cannot be resolved\n"//
-                + "ERROR [ file 'test/lang/test14.bds', line 4 ] :	Symbol 'i' cannot be resolved\n";
+        String errs = "ERROR [ file 'test/unit/lang/test14.bds', line 3 ] :	Symbol 'i' cannot be resolved\n"//
+                + "ERROR [ file 'test/unit/lang/test14.bds', line 4 ] :	Symbol 'i' cannot be resolved\n";
 
         compileErrors(dir + "test14.bds", errs);
     }
@@ -118,7 +118,7 @@ public class TestCasesLang extends TestCasesBase {
     @Test
     public void test15() {
         // For loop using an undefined variable in loop block
-        String errs = "ERROR [ file 'test/lang/test15.bds', line 4 ] :	Symbol 'j' cannot be resolved\n";
+        String errs = "ERROR [ file 'test/unit/lang/test15.bds', line 4 ] :	Symbol 'j' cannot be resolved\n";
         compileErrors(dir + "test15.bds", errs);
     }
 
@@ -143,7 +143,7 @@ public class TestCasesLang extends TestCasesBase {
     @Test
     public void test19() {
         // Duplicate variable definition
-        String errs = "ERROR [ file 'test/lang/test19.bds', line 4 ] :	Duplicate local name 'i'\n";
+        String errs = "ERROR [ file 'test/unit/lang/test19.bds', line 4 ] :	Duplicate local name 'i'\n";
         compileErrors(dir + "test19.bds", errs);
     }
 
@@ -192,7 +192,7 @@ public class TestCasesLang extends TestCasesBase {
     @Test
     public void test27() {
         // Type casting error: real to int
-        String errs = "ERROR [ file 'test/lang/test27.bds', line 2 ] :	Cannot cast real to int\n";
+        String errs = "ERROR [ file 'test/unit/lang/test27.bds', line 2 ] :	Cannot cast real to int\n";
         compileErrors(dir + "test27.bds", errs);
     }
 
@@ -205,21 +205,21 @@ public class TestCasesLang extends TestCasesBase {
     @Test
     public void test29() {
         // For loops with non-bool condition
-        String errs = "ERROR [ file 'test/lang/test29.bds', line 3 ] :	For loop condition must be a bool expression\n";
+        String errs = "ERROR [ file 'test/unit/lang/test29.bds', line 3 ] :	For loop condition must be a bool expression\n";
         compileErrors(dir + "test29.bds", errs);
     }
 
     @Test
     public void test30() {
         // Function definition: Wrong casting in 'return' statement
-        String errs = "ERROR [ file 'test/lang/test30.bds', line 4 ] :	Cannot cast real to int\n";
+        String errs = "ERROR [ file 'test/unit/lang/test30.bds', line 4 ] :	Cannot cast real to int\n";
         compileErrors(dir + "test30.bds", errs);
     }
 
     @Test
     public void test31() {
         // Function definition: Missing return statement
-        String errs = "ERROR [ file 'test/lang/test31.bds', line 4 ] :	Function has no return statement\n";
+        String errs = "ERROR [ file 'test/unit/lang/test31.bds', line 4 ] :	Function has no return statement\n";
         compileErrors(dir + "test31.bds", errs);
     }
 
@@ -238,7 +238,7 @@ public class TestCasesLang extends TestCasesBase {
     @Test
     public void test34() {
         // Function call: Undefined function
-        String errs = "ERROR [ file 'test/lang/test34.bds', line 5 ] :	Function f(int) cannot be resolved\n";
+        String errs = "ERROR [ file 'test/unit/lang/test34.bds', line 5 ] :	Function f(int) cannot be resolved\n";
         compileErrors(dir + "test34.bds", errs);
     }
 
@@ -251,35 +251,35 @@ public class TestCasesLang extends TestCasesBase {
     @Test
     public void test36() {
         // String interpolation: Missing variable
-        String errs = "ERROR [ file 'test/lang/test36.bds', line 3 ] :	Symbol 'j' cannot be resolved\n";
+        String errs = "ERROR [ file 'test/unit/lang/test36.bds', line 3 ] :	Symbol 'j' cannot be resolved\n";
         compileErrors(dir + "test36.bds", errs);
     }
 
     @Test
     public void test37() {
         // List definition: List literal and missing variable
-        String errs = "ERROR [ file 'test/lang/test37.bds', line 16 ] :	Symbol 'fruit' cannot be resolved\n";
+        String errs = "ERROR [ file 'test/unit/lang/test37.bds', line 16 ] :	Symbol 'fruit' cannot be resolved\n";
         compileErrors(dir + "test37.bds", errs);
     }
 
     @Test
     public void test38() {
         // For loop: Iterating over a list
-        String errs = "ERROR [ file 'test/lang/test38.bds', line 6 ] :	Cannot cast string to int\n";
+        String errs = "ERROR [ file 'test/unit/lang/test38.bds', line 6 ] :	Cannot cast string to int\n";
         compileErrors(dir + "test38.bds", errs);
     }
 
     @Test
     public void test39() {
         // List: Incorrect type assignment
-        String errs = "ERROR [ file 'test/lang/test39.bds', line 6 ] :	Cannot cast string to int\n";
+        String errs = "ERROR [ file 'test/unit/lang/test39.bds', line 6 ] :	Cannot cast string to int\n";
         compileErrors(dir + "test39.bds", errs);
     }
 
     @Test
     public void test40() {
         // List: Push method with wrong type
-        String errs = "ERROR [ file 'test/lang/test40.bds', line 6 ] :	Method int[].push(string) cannot be resolved\n";
+        String errs = "ERROR [ file 'test/unit/lang/test40.bds', line 6 ] :	Method int[].push(string) cannot be resolved\n";
         compileErrors(dir + "test40.bds", errs);
     }
 
@@ -298,14 +298,14 @@ public class TestCasesLang extends TestCasesBase {
     @Test
     public void test43() {
         // Variable type void not allowed (assignment via function)
-        String errs = "ERROR [ file 'test/lang/test43.bds', line 8 ] :	Cannot declare variable 'res' type 'void'";
+        String errs = "ERROR [ file 'test/unit/lang/test43.bds', line 8 ] :	Cannot declare variable 'res' type 'void'";
         compileErrors(dir + "test43.bds", errs);
     }
 
     @Test
     public void test44() {
         // List plus operator, wrong type
-        String errs = "ERROR [ file 'test/lang/test44.bds', line 2 ] :	Cannot append int[] to string[]";
+        String errs = "ERROR [ file 'test/unit/lang/test44.bds', line 2 ] :	Cannot append int[] to string[]";
         compileErrors(dir + "test44.bds", errs);
     }
 
@@ -324,36 +324,36 @@ public class TestCasesLang extends TestCasesBase {
     @Test
     public void test47() {
         // Function has the same name as a variable
-        String errs = "ERROR [ file 'test/lang/test47.bds', line 5 ] :	Duplicate local name 'gsea'";
+        String errs = "ERROR [ file 'test/unit/lang/test47.bds', line 5 ] :	Duplicate local name 'gsea'";
         compileErrors(dir + "test47.bds", errs);
     }
 
     @Test
     public void test48() {
         // Variable name using a reserved word
-        // String errs = "ERROR [ file 'test/lang/test48.bds', line 5 ] :	extraneous input ':=' expecting {<EOF>, 'while', '{', 'void', 'for', 'error', 'debug', 'int', 'include', 'task', '(', 'kill', '\n', 'println', 'exit', '++', '~', 'wait', 'dep', '+', 'goal', 'continue', 'return', ';', 'if', 'warning', 'break', 'print', 'switch', 'parallel', 'par', '[', '--', 'bool', '!', 'string', 'checkpoint', 'breakpoint', '-', 'real', BOOL_LITERAL, INT_LITERAL, REAL_LITERAL, STRING_LITERAL, STRING_LITERAL_SINGLE, HELP_LITERAL, SYS_LITERAL, TASK_LITERAL, ID}";
-        String errs = "ERROR [ file 'test/lang/test48.bds', line 5 ] :	extraneous input ':=' expecting ";
+        // String errs = "ERROR [ file 'test/unit/lang/test48.bds', line 5 ] :	extraneous input ':=' expecting {<EOF>, 'while', '{', 'void', 'for', 'error', 'debug', 'int', 'include', 'task', '(', 'kill', '\n', 'println', 'exit', '++', '~', 'wait', 'dep', '+', 'goal', 'continue', 'return', ';', 'if', 'warning', 'break', 'print', 'switch', 'parallel', 'par', '[', '--', 'bool', '!', 'string', 'checkpoint', 'breakpoint', '-', 'real', BOOL_LITERAL, INT_LITERAL, REAL_LITERAL, STRING_LITERAL, STRING_LITERAL_SINGLE, HELP_LITERAL, SYS_LITERAL, TASK_LITERAL, ID}";
+        String errs = "ERROR [ file 'test/unit/lang/test48.bds', line 5 ] :	extraneous input ':=' expecting ";
         compileErrors(dir + "test48.bds", errs);
     }
 
     @Test
     public void test49() {
         // Task definition: Using two lines without braces
-        String errs = "ERROR [ file 'test/lang/test49.bds', line 4 ] :\tTask has empty statement";
+        String errs = "ERROR [ file 'test/unit/lang/test49.bds', line 4 ] :\tTask has empty statement";
         compileErrors(dir + "test49.bds", errs);
     }
 
     @Test
     public void test50() {
         // List: Incorrect assignment (trying to assign a value to a list returned from a function)
-        String errs = "ERROR [ file 'test/lang/test50.bds', line 6 ] :\tCannot assign to non-variable 'f(  )[0]'";
+        String errs = "ERROR [ file 'test/unit/lang/test50.bds', line 6 ] :\tCannot assign to non-variable 'f(  )[0]'";
         compileErrors(dir + "test50.bds", errs);
     }
 
     @Test
     public void test51() {
         // Map: Incorrect assignment (trying to assign a value to a map returned from a function)
-        String errs = "ERROR [ file 'test/lang/test51.bds', line 6 ] :	Cannot assign to non-variable 'f(  ){\"hi\"}'";
+        String errs = "ERROR [ file 'test/unit/lang/test51.bds', line 6 ] :	Cannot assign to non-variable 'f(  ){\"hi\"}'";
         compileErrors(dir + "test51.bds", errs);
     }
 
@@ -372,14 +372,14 @@ public class TestCasesLang extends TestCasesBase {
     @Test
     public void test54() {
         // Switch statement, Incorrect type in 'case' expression
-        String errs = "ERROR [ file 'test/lang/test54.bds', line 9 ] :	Switch expression and case expression types do not match (string vs int): case 7";
+        String errs = "ERROR [ file 'test/unit/lang/test54.bds', line 9 ] :	Switch expression and case expression types do not match (string vs int): case 7";
         compileErrors(dir + "test54.bds", errs);
     }
 
     @Test
     public void test55() {
         // Switch: Missing variable
-        String errs = "ERROR [ file 'test/lang/test55.bds', line 15 ] :	Symbol 'b' cannot be resolved";
+        String errs = "ERROR [ file 'test/unit/lang/test55.bds', line 15 ] :	Symbol 'b' cannot be resolved";
         compileErrors(dir + "test55.bds", errs);
     }
 
@@ -428,7 +428,7 @@ public class TestCasesLang extends TestCasesBase {
     @Test
     public void test63() {
         // Function definition: Duplicate name for variable and function
-        compileErrors(dir + "test63.bds", "ERROR [ file 'test/lang/test63.bds', line 5 ] :	Duplicate local name 'zzz'");
+        compileErrors(dir + "test63.bds", "ERROR [ file 'test/unit/lang/test63.bds', line 5 ] :	Duplicate local name 'zzz'");
     }
 
     @Test
@@ -497,10 +497,10 @@ public class TestCasesLang extends TestCasesBase {
         // Unary operator: '+-' does not exits
         //
         // Using '+-' instead of '+=' creates a "This should never happen" error instead of compilation error
-        //		$ bds -v test/lang/test73.bds
+        //		$ bds -v test/unit/lang/test73.bds
         //		2022/09/07 08:34:05 Verbose mode set
-        //		00:00:00.000	Compile error ExpressionUnaryPlusMinus test/lang/test73.bds:4,3: Cannot cast to 'int' or 'real'. This should never happen!
-        //				java.lang.RuntimeException: Compile error ExpressionUnaryPlusMinus test/lang/test73.bds:4,3: Cannot cast to 'int' or 'real'. This should never happen!
+        //		00:00:00.000	Compile error ExpressionUnaryPlusMinus test/unit/lang/test73.bds:4,3: Cannot cast to 'int' or 'real'. This should never happen!
+        //				java.lang.RuntimeException: Compile error ExpressionUnaryPlusMinus test/unit/lang/test73.bds:4,3: Cannot cast to 'int' or 'real'. This should never happen!
         //				at org.bds.BdsLog.compileError(BdsLog.java:21)
         //		at org.bds.BdsLog.compileError(BdsLog.java:14)
         //		at org.bds.lang.expression.ExpressionUnaryPlusMinus.toAsmUnaryMinus(ExpressionUnaryPlusMinus.java:79)
@@ -524,7 +524,7 @@ public class TestCasesLang extends TestCasesBase {
         // Unary operator: '+-' does not exits
         //
         // Using '+-' instead of '+=' creates a null pointer error instead of compilation error
-        //		$ bds -v test/lang/test74.bds
+        //		$ bds -v test/unit/lang/test74.bds
         //		2022/09/07 08:34:10 Verbose mode set
         //		java.lang.NullPointerException
         //		at org.bds.lang.expression.ExpressionPlus.toAsm(ExpressionPlus.java:87)
