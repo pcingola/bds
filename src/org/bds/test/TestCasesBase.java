@@ -26,6 +26,7 @@ public class TestCasesBase implements BdsLog {
 
     public boolean debug = false;
     public boolean verbose = false;
+    public String dir = "";
 
     @Before
     public void before() {
