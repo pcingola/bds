@@ -88,7 +88,7 @@ public class BdsCompiler implements BdsLog {
         List<Module> modules = compileLibraries(); // Compile standard libraries
         for (Module m : modules) programUnit.addModule(m);
 
-        CompilerMessages.reset(); // Reset messages, now we only want look into type-checking messages
+        if( CompilerMessages.get().hasErrors()) return null;
 
         // Add local symbols
         if (addSymbols(programUnit)) return null;
@@ -272,7 +272,6 @@ public class BdsCompiler implements BdsLog {
      */
     ProgramUnit createModel(ParseTree tree) {
         debug("Creating bds tree.");
-        CompilerMessages.reset();
         ProgramUnit pu = (ProgramUnit) BdsNodeFactory.get().factory(null, tree); // Transform AST to BdsNode tree
         debug("AST:\n" + pu.toString());
         // Any error messages?
