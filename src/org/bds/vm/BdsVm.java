@@ -1728,27 +1728,27 @@ public class BdsVm implements Serializable, BdsLog {
         if (Throw.isExceptionClass(exceptionValue.getType())) {
             exceptionObject = (ValueObject) exceptionValue;
         } else {
-            Gpr.debug("DEBUG: exceptionValue=" + exceptionValue.getType());
             // If 'exceptionValue' is not an 'Exception' class object, create
             // an Exception object and wrap the original value in it
             var typeException = Types.get(CLASS_NAME_EXCEPTION);
             exceptionObject = new ValueObject(typeException);
             exceptionObject.initializeFields();
 
-            // Add original 'exceptionValue' to object
-            if (exceptionObject.getFieldValue(FIELD_NAME_VALUE) == null) {
-                exceptionObject.setValue(FIELD_NAME_VALUE, exceptionValue);
+            // Add original 'exceptionValue' to object to 'exception.value' field (unless the field is already set)
+            var ev = exceptionObject.getFieldValue(EXCEPTION_FIELD_VALUE);
+            if (ev == null || ev.asString().isEmpty()) {
+                exceptionObject.setValue(EXCEPTION_FIELD_VALUE, exceptionValue);
             }
         }
 
         // Register the exception object
         this.exception = exceptionObject;
 
-        // Populate Exception's stack trace message, if empty
-        Value stackTrace = exceptionObject.getFieldValue(FIELD_NAME_STACK_TRACE);
-        if (stackTrace == null) { // Set field
+        // Populate Exception's stack trace message (if the field is empty)
+        Value stackTrace = exceptionObject.getFieldValue(EXCEPTION_FIELD_STACK_TRACE);
+        if (stackTrace == null || stackTrace.asString().isEmpty()) { // Set field
             stackTrace = new ValueString(stackTrace());
-            exceptionObject.setValue(FIELD_NAME_STACK_TRACE, stackTrace);
+            exceptionObject.setValue(EXCEPTION_FIELD_STACK_TRACE, stackTrace);
         }
 
         // Use current exception handler if available
@@ -1767,7 +1767,7 @@ public class BdsVm implements Serializable, BdsLog {
         }
 
         // No Exception handler was found, fatal error
-        Value value = exceptionObject.getFieldValue(FIELD_NAME_VALUE);
+        Value value = exceptionObject.getFieldValue(EXCEPTION_FIELD_VALUE);
         fatalError(exceptionValue.getType() + " thrown: " //
                 + (value != null ? value : exceptionValue) //
                 + "\n" //
