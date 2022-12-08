@@ -57,7 +57,7 @@ public enum OpCode {
 	// Add to Exception Handler (parameter string 'Exception handler label (catch entry)')
 	, EHADD
 	// Create new exception handler
-	, EHCREATE
+	, EHSTART
 	// Finish exception handling
 	, EHEND
 	// Start exception handler (catch or finally block)
@@ -173,7 +173,7 @@ public enum OpCode {
 		case CALLSUPER:
 		case CAST_TOC:
 		case EHADD:
-		case EHCREATE:
+		case EHSTART:
 		case JMP:
 		case JMPT:
 		case JMPF:
@@ -220,7 +220,7 @@ public enum OpCode {
 		case CALLSUPER:
 		case CAST_TOC:
 		case EHADD:
-		case EHCREATE:
+		case EHSTART:
 		case JMP:
 		case JMPT:
 		case JMPF:
@@ -259,7 +259,7 @@ public enum OpCode {
 		case CALLSUPER:
 		case CAST_TOC:
 		case EHADD:
-		case EHCREATE:
+		case EHSTART:
 		case JMP:
 		case JMPT:
 		case JMPF:

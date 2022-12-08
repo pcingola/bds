@@ -1,0 +1,11 @@
+void f() {
+    throw "You can also throw a string, but it's a bit weird..."
+}
+
+try {
+    f()
+} catch(MyException e) {
+    println "CATCH: $e"
+}
+
+class MyException extends Exception { }

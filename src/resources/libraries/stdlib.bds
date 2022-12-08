@@ -1,0 +1,4 @@
+void zzzStdLib() {
+	println "MODULE: STDLIB"
+}
+

@@ -16,8 +16,6 @@ import org.bds.lang.nativeMethods.string.NativeLibraryString;
 import org.bds.lang.statement.FunctionDeclaration;
 import org.bds.lang.statement.Statement;
 import org.bds.lang.type.TypeClass;
-import org.bds.lang.type.TypeClassException;
-import org.bds.lang.type.TypeClassExceptionConcurrentModification;
 import org.bds.lang.type.Types;
 import org.bds.languageServer.LanguageServerBds;
 import org.bds.osCmd.CmdAws;
@@ -331,9 +329,6 @@ public class BdsRun implements BdsLog {
      */
     void initilaizeNativeClasses() {
         debug("Initialize standard classes.");
-
-        initilaizeNativeClass(new TypeClassException());
-        initilaizeNativeClass(new TypeClassExceptionConcurrentModification());
     }
 
     /**

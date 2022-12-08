@@ -4,7 +4,6 @@ import junit.framework.Assert;
 import org.bds.Bds;
 import org.bds.compile.CompilerMessages;
 import org.bds.lang.value.Value;
-import org.bds.lang.value.ValueObject;
 import org.bds.osCmd.TeeOutputStream;
 import org.bds.run.BdsThread;
 import org.bds.run.RunState;
@@ -178,13 +177,14 @@ public class BdsTest {
         Assert.assertEquals("Error message does not match", error, errmsg);
     }
 
-    public void checkException(String exceptionType) {
+    public Value checkException(String exceptionType) {
         BdsVm vm = bds.getBdsRun().getVm();
-        ValueObject evc = vm.getExceptionValue();
-        Assert.assertTrue(errMsg("No exception found"), evc != null);
+        Value exceptionValue = vm.getException();
+        Assert.assertTrue(errMsg("No exception found"), exceptionValue != null);
 
-        String exType = evc.getType().getCanonicalName();
+        String exType = exceptionValue.getType().getCanonicalName();
         Assert.assertEquals(errMsg("Exception type does not match, expecting '" + exceptionType + "', got '" + exType + "'"), exType, exceptionType);
+        return exceptionValue;
     }
 
     /**
@@ -364,6 +364,10 @@ public class BdsTest {
         sb.append("\t" + this);
 
         return sb.toString();
+    }
+
+    public Bds getBds() {
+        return bds;
     }
 
     /**

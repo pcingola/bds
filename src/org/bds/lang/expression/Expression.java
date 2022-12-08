@@ -12,36 +12,37 @@ import org.bds.lang.statement.Statement;
  */
 public class Expression extends Statement {
 
-	private static final long serialVersionUID = -2172180316283535708L;
+    private static final long serialVersionUID = -2172180316283535708L;
 
-	/**
-	 * Create an expression from a string (compile to BdsNode)
-	 */
-	public static Expression factory(BdsNode parent, String exprStr) {
-		if (exprStr == null || exprStr.trim().isEmpty()) return null;
+    public Expression(BdsNode parent, ParseTree tree) {
+        super(parent, tree);
+    }
 
-		// Sometimes expressions from interpolated variables have several '$' signs
-		// E.g. Convert '$list[$i].x{$key}' to 'list[i].x{key}'
-		exprStr = exprStr.replace('$', ' ');
+    /**
+     * Create an expression from a string (compile to BdsNode)
+     */
+    public static Expression factory(BdsNode parent, String exprStr) {
+        if (exprStr == null || exprStr.trim().isEmpty()) return null;
 
-		// Compile expression
-		BdsCompilerExpression be = new BdsCompilerExpression(exprStr);
-		Expression expr = be.compileExpr();
-		if (expr == null) return null;
-		if (parent != null) {
-			expr.setParent(parent);
-			expr.setLineNum(parent.getLineNum());
-		}
-		return expr;
-	}
+        // Sometimes expressions from interpolated variables have several '$' signs
+        // E.g. Convert '$list[$i].x{$key}' to 'list[i].x{key}'
+        exprStr = exprStr.replace('$', ' ');
 
-	public Expression(BdsNode parent, ParseTree tree) {
-		super(parent, tree);
-	}
+        // Compile expression
+        var parentFileName = parent != null ? parent.getFileName() : null;
+        BdsCompilerExpression be = new BdsCompilerExpression(parentFileName, exprStr);
+        Expression expr = be.compileExpr();
+        if (expr == null) return null;
+        if (parent != null) {
+            expr.setParent(parent);
+            expr.setLineNum(parent.getLineNum());
+        }
+        return expr;
+    }
 
-	@Override
-	public String toAsm() {
-		return "";
-	}
+    @Override
+    public String toAsm() {
+        return "";
+    }
 
 }

@@ -18,7 +18,7 @@ public class FunctionNativeAssertBoolNoMsg extends FunctionNativeAssert {
         functionName = "assert";
         returnType = Types.BOOL;
 
-        String[] argNames = {"cond"};
+        String[] argNames = {"value"};
         Type[] argTypes = {Types.BOOL};
         parameters = Parameters.get(argTypes, argNames);
         addNativeFunction();
@@ -30,7 +30,7 @@ public class FunctionNativeAssertBoolNoMsg extends FunctionNativeAssert {
      */
     @Override
     protected Object runFunctionNative(BdsThread bdsThread) {
-        boolean ok = bdsThread.getBool("cond");
+        boolean ok = bdsThread.getBool("value");
         return ok ? null : "Expecting 'true', got 'false'";
     }
 }

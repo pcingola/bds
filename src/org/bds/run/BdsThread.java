@@ -384,7 +384,11 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
     }
 
     /**
-     * Show a fatal error
+     * Fatal error:
+     * 1) Show a fatal error message
+     * 2) Show stack trace
+     * 3) Save checkpoint
+     * 4) Exit VM
      */
     public void fatalError(BdsNode bdsnode, String message) {
         setRunState(RunState.FATAL_ERROR);
@@ -396,7 +400,8 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
 
         // Show BDS stack trace
         try {
-            System.err.println("Stack trace:\n" + stackTrace());
+            String stackTrace = stackTrace();
+            if (!stackTrace.isEmpty()) System.err.println("Stack trace:\n" + stackTrace());
         } catch (Throwable t) {
             t.printStackTrace();
         }

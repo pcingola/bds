@@ -63,7 +63,7 @@ public class Catch extends StatementWithScope {
     }
 
     /**
-     * Add to Exception handler
+     * Add this 'catch' block to the current Exception handler
      */
     public String toAsmAddToExceptionHandler() {
         return OpCode.PUSHS + " '" + varName + "'\n" //

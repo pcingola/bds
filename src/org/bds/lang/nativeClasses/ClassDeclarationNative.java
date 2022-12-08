@@ -7,6 +7,8 @@ import org.bds.lang.statement.FieldDeclaration;
 import org.bds.lang.statement.MethodDeclaration;
 import org.bds.lang.statement.VariableInit;
 import org.bds.lang.type.Type;
+import org.bds.lang.type.TypeClass;
+import org.bds.lang.type.Types;
 import org.bds.symbol.SymbolTable;
 
 /**
@@ -15,55 +17,55 @@ import org.bds.symbol.SymbolTable;
  */
 public abstract class ClassDeclarationNative extends ClassDeclaration {
 
-	private static final long serialVersionUID = -831104482356629903L;
+    private static final long serialVersionUID = -831104482356629903L;
 
-	public ClassDeclarationNative() {
-		this(null, null);
-	}
+    public ClassDeclarationNative() {
+        this(null, null);
+    }
 
-	public ClassDeclarationNative(BdsNode parent, ParseTree tree) {
-		super(parent, tree);
-		initNativeClass();
-	}
+    public ClassDeclarationNative(BdsNode parent, ParseTree tree) {
+        super(parent, tree);
+        initNativeClass();
+    }
 
-	/**
-	 * Add symbols to type symbol table
-	 */
-	public void addToTypeSymbolTable() {
-		SymbolTable typeSymTab = getType().getSymbolTable();
+    /**
+     * Add symbols to type symbol table
+     */
+    public void addToTypeSymbolTable() {
+        SymbolTable typeSymTab = getType().getSymbolTable();
 
-		// Add all fields
-		for (FieldDeclaration fd : getFieldDecl()) {
-			Type type = fd.getType();
-			for (VariableInit vi : fd.getVarInit()) {
-				typeSymTab.addVariable(vi.getVarName(), type);
-			}
-		}
+        // Add all fields
+        for (FieldDeclaration fd : getFieldDecl()) {
+            Type type = fd.getType();
+            for (VariableInit vi : fd.getVarInit()) {
+                typeSymTab.addVariable(vi.getVarName(), type);
+            }
+        }
 
-		// Add methods
-		for (MethodDeclaration md : getMethodDecl())
-			typeSymTab.addFunction(md);
-	}
+        // Add methods
+        for (MethodDeclaration md : getMethodDecl())
+            typeSymTab.addFunction(md);
+    }
 
-	/**
-	 * Create class fields
-	 */
-	protected abstract FieldDeclaration[] createFields();
+    /**
+     * Create class fields
+     */
+    protected abstract FieldDeclaration[] createFields();
 
-	/**
-	 * Create class methods
-	 */
-	protected abstract MethodDeclaration[] createMethods();
+    /**
+     * Create class methods
+     */
+    protected abstract MethodDeclaration[] createMethods();
 
-	protected void initNativeClass() {
-		classNameParent = null;
-		classParent = null;
+    protected void initNativeClass() {
+        if (classTypeParent == null) classTypeParent = (TypeClass) Types.get(classNameParent);
+        if (classDeclarationParent == null && classTypeParent != null) classDeclarationParent = classTypeParent.getClassDeclaration();
 
-		fieldDecl = createFields();
-		methodDecl = createMethods();
+        fieldDecl = createFields();
+        methodDecl = createMethods();
 
-		addThisArgToMethods(); // Add 'this' argument to all method declarations
-		addToTypeSymbolTable(); // Add all methods to TypeClass' symbol table
-	}
+        addThisArgToMethods(); // Add 'this' argument to all method declarations
+        addToTypeSymbolTable(); // Add all methods to TypeClass' symbol table
+    }
 
 }

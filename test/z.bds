@@ -1,12 +1,19 @@
 
-void f() {
-    throw new MyException()
-}
+string s
+s = 5  // Automatic cast to string?
+println "s = '$s'\ttype: " + type(s)
 
-try {
-    f()
-} catch(MyException e) {
-    println "CATCH: $e"
-}
+s = true
+println "s = '$s'\ttype: " + type(s)
 
-class MyException extends Exception { }
+int i
+i = true // ????
+println "i = $i\ttype: " + type(i)
+
+/*
+    any z
+    z = 5
+    z = "hi"
+    z = 5.4534
+    z = true
+*/

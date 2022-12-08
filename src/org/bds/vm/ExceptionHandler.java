@@ -1,12 +1,10 @@
 package org.bds.vm;
 
+import org.bds.lang.value.Value;
+
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-
-import org.bds.lang.value.ValueObject;
 
 /**
  * Exception handlers are added when try/catch/finally blocks are executed
@@ -20,7 +18,7 @@ public class ExceptionHandler implements Serializable {
 	boolean catchStart, finallyStart; // Exception handling started
 	List<CatchBlockInfo> catchBlocks; // Catch blocks (sorted in order of appearance)
 	String finallyLabel; // Finally label for this try/catch/block
-	ValueObject pendingException; // Pending exception (to be re-thrown)
+	Value pendingException; // Pending exception (to be re-thrown)
 
 	public ExceptionHandler(String finallyLabel) {
 		this.finallyLabel = finallyLabel;
@@ -46,7 +44,7 @@ public class ExceptionHandler implements Serializable {
 	/**
 	 * Get catch block info if available for 'exception'
 	 */
-	public CatchBlockInfo getCatchBlockInfo(ValueObject exception) {
+	public CatchBlockInfo getCatchBlockInfo(Value exception) {
 		if (catchBlocks == null) return null;
 		var exType = exception.getType();
 		for(CatchBlockInfo cb: catchBlocks) {
@@ -60,7 +58,7 @@ public class ExceptionHandler implements Serializable {
 		return finallyLabel;
 	}
 
-	public ValueObject getPendingException() {
+	public Value getPendingException() {
 		return pendingException;
 	}
 
@@ -72,7 +70,7 @@ public class ExceptionHandler implements Serializable {
 		return finallyStart;
 	}
 
-	public void setPendingException(ValueObject ex) {
+	public void setPendingException(Value ex) {
 		pendingException = ex;
 	}
 

@@ -28,7 +28,7 @@ public class ClassDeclaration extends Block {
     private static final long serialVersionUID = -8891327817053470787L;
     protected String className;
     protected String classNameParent;
-    protected ClassDeclaration classParent;
+    protected ClassDeclaration classDeclarationParent;
     protected TypeClass classType;
     protected TypeClass classTypeParent;
     protected FieldDeclaration[] fieldDecl;
@@ -71,7 +71,7 @@ public class ClassDeclaration extends Block {
      */
     protected Map<String, Type> fieldTypesByName() {
         Map<String, Type> ftypes = new HashMap<>();
-        for (ClassDeclaration cd = this; cd != null; cd = cd.getClassParent()) {
+        for (ClassDeclaration cd = this; cd != null; cd = cd.getClassDeclarationParent()) {
             FieldDeclaration[] fieldDecls = cd.getFieldDecl();
             for (FieldDeclaration fieldDecl : fieldDecls) { // Add all fields
                 Type vt = fieldDecl.getType();
@@ -89,8 +89,8 @@ public class ClassDeclaration extends Block {
         return className;
     }
 
-    public ClassDeclaration getClassParent() {
-        return classParent;
+    public ClassDeclaration getClassDeclarationParent() {
+        return classDeclarationParent;
     }
 
     public TypeClass getClassTypeParent() {
@@ -213,7 +213,7 @@ public class ClassDeclaration extends Block {
 
         if (classNameParent != null) {
             classTypeParent = (TypeClass) Types.get(classNameParent);
-            if (classTypeParent != null) classParent = classTypeParent.getClassDeclaration();
+            if (classTypeParent != null) classDeclarationParent = classTypeParent.getClassDeclaration();
         }
 
         for (VarDeclaration vd : fieldDecl)

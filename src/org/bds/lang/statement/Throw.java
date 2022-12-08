@@ -1,15 +1,15 @@
 package org.bds.lang.statement;
 
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.bds.compile.CompilerMessage.MessageType;
 import org.bds.compile.CompilerMessages;
 import org.bds.lang.BdsNode;
 import org.bds.lang.expression.Expression;
-import org.bds.lang.nativeClasses.exception.ClassDeclarationException;
 import org.bds.lang.type.Type;
 import org.bds.lang.type.TypeClass;
 import org.bds.symbol.SymbolTable;
 import org.bds.vm.OpCode;
+
+import static org.bds.libraries.LibraryException.CLASS_NAME_EXCEPTION;
 
 /**
  * Throw statement
@@ -27,18 +27,24 @@ public class Throw extends StatementWithScope {
     }
 
     /**
-     * Is the expression derived from 'Exception'?
+     * Is the type derived from 'Exception'?
      */
-    boolean isExceptionClass() {
-        Type t = expr.getReturnType();
+    public static boolean isExceptionClass(Type t) {
         if (t == null) return false;
         if (!t.isClass()) return false;
 
         for (TypeClass tc = (TypeClass) t; tc != null; tc = tc.getClassDeclaration().getClassTypeParent()) {
-            if (tc.getCanonicalName().equals(ClassDeclarationException.CLASS_NAME_EXCEPTION)) return true;
+            if (tc.getCanonicalName().equals(CLASS_NAME_EXCEPTION)) return true;
         }
 
         return false;
+    }
+
+    /**
+     * Is the expression derived from 'Exception'?
+     */
+    boolean isExceptionClass() {
+        return isExceptionClass(expr.getReturnType());
     }
 
     @Override
@@ -67,9 +73,8 @@ public class Throw extends StatementWithScope {
 
     @Override
     public void typeCheckNotNull(SymbolTable symtab, CompilerMessages compilerMessages) {
-        if (!isExceptionClass()) {
-            compilerMessages.add(this, "Trying to 'throw' a non-Exception object", MessageType.ERROR);
-        }
+        // We no longer require the class to be a subclass of 'Exception' because now
+        // we wrap it in an 'Exception' object automatically
     }
 
 }

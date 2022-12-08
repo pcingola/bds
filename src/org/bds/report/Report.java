@@ -39,13 +39,14 @@ public class Report implements BdsLog {
     public static final int REPORT_TIME = 60; // Update report every 'REPORT_TIME' seconds
     public static final int REPORT_TIMELINE_HEIGHT = 42; // Size of time-line element (life, universe and everything)
     public static final String REPORT_YELLOW_COLOR = "style=\"background-color: #fdff96\"";
-    public static String DAG_TEMPLATE = "DagTaskTemplate.js";
-    public static String REPORT_TEMPLATE = "SummaryTemplate.html";
-    public static String REPORT_TEMPLATE_YAML = "SummaryTemplate.yaml";
+
+    public static final String TEMPLATES_DIR = "/resources/templates/";
+    public static String DAG_TEMPLATE = TEMPLATES_DIR + "DagTaskTemplate.js";
+    public static String REPORT_TEMPLATE = TEMPLATES_DIR + "SummaryTemplate.html";
+    public static String REPORT_TEMPLATE_YAML = TEMPLATES_DIR + "SummaryTemplate.yaml";
     protected static Timer timerReport = new Timer(); // Report timer (added by Jin Lee)
 
     BdsThread bdsThread;
-
     boolean debug;
     Map<String, BdsThread> taskId2BdsThread;
     boolean timeVsSizeReport;

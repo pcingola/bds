@@ -43,7 +43,6 @@ public class Finally extends StatementWithScope {
             sb.append(statement.toAsm());
             if (isNeedsScope()) sb.append(OpCode.SCOPEPOP + "\n");
         }
-        sb.append(OpCode.EHEND + "\n"); // Cleanup and Re-throw pending exceptions
         return sb.toString();
     }
 
