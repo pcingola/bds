@@ -21,7 +21,7 @@ task( out2 <- out1 ) {
 }
 
 print("Before checkpoint\n")
-checkpoint "test/graph_04.chp"
+checkpoint "test/integration/graph/graph_04.chp"
 print("After checkpoint\n")
 
 out2.delete()

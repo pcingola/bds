@@ -3,7 +3,7 @@
 tid := task echo Task start; sleep 2; echo Task end
 print("Task id: $tid\n")
 
-checkpoint "test/graph_03.chp"
+checkpoint "test/integration/graph/graph_03.chp"
 print("After checkpoint\n")
 
 print("Waiting\n")

@@ -1,0 +1,9 @@
+#!/usr/bin/env bds
+
+task ( "test/integration/graph/graph_05.csv" <- "test/integration/graph/graph_05.txt" ) {
+	sys cp test/integration/graph/graph_05.txt test/integration/graph/graph_05.csv; echo "copying to csv"
+}
+
+task ( "test/integration/graph/graph_05.xml" <- "test/integration/graph/graph_05.csv") {
+	sys cp test/integration/graph/graph_05.csv test/integration/graph/graph_05.xml; echo "copying to xml"
+}
