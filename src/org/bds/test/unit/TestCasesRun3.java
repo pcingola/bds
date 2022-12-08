@@ -20,6 +20,10 @@ import static org.bds.libraries.LibraryException.EXCEPTION_FIELD_VALUE;
  */
 public class TestCasesRun3 extends TestCasesBase {
 
+    public TestCasesRun2() {
+        dir = "test/run/";
+    }
+
     @Test
     public void test201() {
         Map<String, Object> expectedValues = new HashMap<>();
