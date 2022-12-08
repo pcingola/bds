@@ -1,6 +1,6 @@
 #!/usr/bin/env bds
 
-fileName := "test/json_04.json"
+fileName := "test/json/json_04.json"
 
 class Address {
     string streetAddress

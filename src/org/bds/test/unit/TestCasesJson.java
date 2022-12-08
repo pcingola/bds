@@ -116,12 +116,12 @@ public class TestCasesJson extends TestCasesBase {
 
     @Test
     public void test_12_subsubjson_error_key() {
-        runAndCheckError(dir + "json_12.bds", "JSON object from file 'test/json_11.json' does not contain field 'sub_b.sub_ii.sub_Z'");
+        runAndCheckError(dir + "json_12.bds", "JSON object from file 'test/json/json_11.json' does not contain field 'sub_b.sub_ii.sub_Z'");
     }
 
     @Test
     public void test_13_subsubjson_error_type() {
-        runAndCheckError(dir + "json_13.bds", "JSON object from file 'test/json_11.json', field 'sub_b.sub_i' is not an Object (value type 'NUMBER')");
+        runAndCheckError(dir + "json_13.bds", "JSON object from file 'test/json/json_11.json', field 'sub_b.sub_i' is not an Object (value type 'NUMBER')");
     }
 
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env bds
 
-fileName := "test/json_07.json"
+fileName := "test/json/json_07.json"
 
 firstName := ""
 lastName := ""
