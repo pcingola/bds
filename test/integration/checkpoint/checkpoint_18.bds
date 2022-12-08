@@ -2,7 +2,7 @@
 
 int f2(int n) {
 	for(int i=0 ; i < 10 ; i++) {
-		if( i == 5 )	checkpoint "test/checkpoint_18.chp"
+		if( i == 5 )	checkpoint "test/integration/checkpoint/checkpoint_18.chp"
 		if( n == i )	return i;
 	}
 	return n + 7

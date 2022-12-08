@@ -5,6 +5,6 @@ void usage() {
 }
 
 usage()
-checkpoint 'test/checkpoint_13.chp'
+checkpoint 'test/integration/checkpoint/checkpoint_13.chp'
 
 ok := true

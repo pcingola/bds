@@ -20,7 +20,7 @@ for( int i : range(1,10) ) {
 
 	if( i == 3 ) { 
 		print("Checkpoint\n")
-		checkpoint "test/checkpoint_10.chp"
+		checkpoint "test/integration/checkpoint/checkpoint_11.chp"
 	}
 
 	sumMain += i

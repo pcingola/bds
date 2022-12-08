@@ -3,7 +3,7 @@ print "============= Ignore errors (begin) ============= \n"
 bool b = false
 
 task echo Hello
-task sleep 1; rm test/checkpoint_06.tmp
+task sleep 1; rm test/integration/checkpoint/checkpoint_06.tmp
 
 wait
 b = true

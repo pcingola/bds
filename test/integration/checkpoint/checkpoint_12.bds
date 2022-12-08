@@ -5,6 +5,6 @@ include 'checkpoint_12_include.bds'
 
 print "Hi\n"
 
-checkpoint 'test/checkpoint_12.chp'
+checkpoint 'test/integration/checkpoint/checkpoint_12.chp'
 
 ok := true

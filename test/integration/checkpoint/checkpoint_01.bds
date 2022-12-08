@@ -6,7 +6,7 @@ int i
 for( i = 0 ; i < 10 ; i++ ) {
 	println("i : $i")
 	int h = i + i
-	if( i == j ) checkpoint "test/checkpoint_01.bds.chp"
+	if( i == j ) checkpoint "test/integration/checkpoint/checkpoint_01.bds.chp"
 }
 
 print "Done\n"

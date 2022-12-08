@@ -3,7 +3,7 @@
 int fact(int x) {
 	if(x <= 1)	{
 		print "Before Checkpoint\n"
-		checkpoint 'test/checkpoint_16.chp'
+		checkpoint 'test/integration/checkpoint/checkpoint_16.chp'
 		print "After Checkpoint\n"
 		return 1;
 	}

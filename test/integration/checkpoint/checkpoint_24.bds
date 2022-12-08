@@ -3,7 +3,7 @@
 
 int zzzCheck(int num) {
 	num += 1
-	checkpoint("test/checkpoint_26.chp")
+	checkpoint("test/integration/checkpoint/checkpoint_24.chp")
 	return num + 2
 }
 
@@ -22,7 +22,6 @@ int zzz(string in) {
 
 		case 'b':
 			out *= 7
-			break
 
 		default:
 			out *= 100
@@ -32,4 +31,4 @@ int zzz(string in) {
 }
 
 # Main
-out := zzz('zx')
+out := zzz('x')

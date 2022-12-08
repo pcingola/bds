@@ -16,7 +16,7 @@ par show("hi", l)
 # Checkpoint in the middle of 'par' -> sleep(3)
 sleep(1)
 print "Checkpoint\n"
-checkpoint 'test/checkpoint_15.chp'
+checkpoint 'test/integration/checkpoint/checkpoint_15.chp'
 
 # Done
 print "Done\n"

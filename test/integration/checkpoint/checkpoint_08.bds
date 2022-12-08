@@ -1,6 +1,6 @@
 #!/usr/bin/env bds
 
-prefix := "test/checkpoint_09"
+prefix := "test/integration/checkpoint/checkpoint_08"
 txt := prefix + ".txt"
 csv := prefix + ".csv"
 xml := prefix + ".xml"

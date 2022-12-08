@@ -3,7 +3,7 @@
 int g(string s) {
 	println("g($s)")
 	y := s.length()
-	checkpoint("test/checkpoint_28.chp")
+	checkpoint("test/integration/checkpoint/checkpoint_28.chp")
 	return y
 }
 
