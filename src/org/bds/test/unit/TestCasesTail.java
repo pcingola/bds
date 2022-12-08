@@ -17,7 +17,7 @@ public class TestCasesTail extends TestCasesBase {
     public TestCasesTail() {
         dir = "test/tail/";
     }
-    
+
     @Test
     public void test01() {
         String tail = TailFile.tail(dir + "tail_01.txt");
