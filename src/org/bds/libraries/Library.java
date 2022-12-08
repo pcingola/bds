@@ -11,7 +11,7 @@ public class Library implements BdsLog {
     public static final String[] LIBRARIES = { //
             "exceptions.bds" // Define throwable, exception, etc.
             , "stdlib.bds" //
-            , "z.bds" // Only used for testing new library code
+            , "test_library.bds" // Only used for testing new library code
     };
 
 
