@@ -1,0 +1,23 @@
+
+string s1
+s1 = 5  // Automatic cast to string?
+outs1 := "s1 = '$s1', type: " + type(s1)
+println outs1
+
+string s2
+s2 = true
+outs2 := "s2 = '$s2', type: " + type(s2)
+println outs2
+
+int i
+i = true 
+outi := "i = $i, type: " + type(i)
+println outi
+
+/*
+    any z
+    z = 5
+    z = "hi"
+    z = 5.4534
+    z = true
+*/

@@ -646,4 +646,24 @@ public class TestCasesRun3 extends TestCasesBase {
         Value exceptionValue = exceptionObject.getFieldValue(EXCEPTION_FIELD_VALUE);
         Assert.assertEquals("You can also throw a string, but it's a bit weird...", exceptionValue.asString());
     }
+
+    @Test
+    public void test278_auto_casting() {
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("outs1", "s1 = '5', type: string");
+        expectedValues.put("outs2", "s2 = 'true', type: string");
+        expectedValues.put("outi", "i = true, type: bool");
+        runAndCheck(1, "test/run_278_auto_casting.bds", expectedValues);
+    }
+
+    @Test
+    public void test278_type_any() {
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("outz1", "z1 = 5, type: int");
+        expectedValues.put("outz2", "z2 = hi, type: string");
+        expectedValues.put("outz3", "z3 = 1.234, type: real");
+        expectedValues.put("outz4", "z4 = true, type: bool");
+        runAndCheck(1, "test/run_279_type_any.bds", expectedValues);
+    }
+
 }
