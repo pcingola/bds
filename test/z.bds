@@ -1,3 +1,12 @@
 
-println "Hi"
-zzz()
+string s
+s = 5  // Automatic cast to string?
+println "s = '$s'\ttype: " + type(s)
+
+s = true
+println "s = '$s'\ttype: " + type(s)
+
+int i
+i = true // ????
+println "i = $i\ttype: " + type(i)
+
