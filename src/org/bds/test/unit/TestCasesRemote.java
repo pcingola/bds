@@ -391,6 +391,4 @@ public class TestCasesRemote extends TestCasesBase {
 		Assert.assertTrue(dpath.isFile());
 		Assert.assertFalse(dpath.isDirectory());
 	}
-
-
 }

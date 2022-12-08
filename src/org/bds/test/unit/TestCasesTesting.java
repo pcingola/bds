@@ -59,7 +59,7 @@ public class TestCasesTesting extends TestCasesBase {
     }
 
     @Test
-    public void testTestCasesCoverage07_fail() {
+    public void testTestCasesCoverage07Fail() {
         // Check that coverage is correctly computed
         runTestCasesFailCoverage(dir + "test_case_run_07.bds", 0.8);
     }
