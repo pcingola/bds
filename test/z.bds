@@ -10,3 +10,10 @@ int i
 i = true // ????
 println "i = $i\ttype: " + type(i)
 
+/*
+    any z
+    z = 5
+    z = "hi"
+    z = 5.4534
+    z = true
+*/
