@@ -1,13 +1,5 @@
 package org.bds.test.integration;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Comparator;
-
 import org.bds.Config;
 import org.bds.data.Data;
 import org.bds.data.DataHttp;
@@ -19,219 +11,230 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Comparator;
+
 /**
  * Test cases for DataRemote files
  *
  * @author pcingola
- *
  */
 public class TestCasesIntegrationDataRemote extends TestCasesBase {
 
-	@Before
-	public void beforeEachTest() {
-		BdsRun.reset();
-		//		Config.reset();
-		Config.get().load();
+    public TestCasesIntegrationDataRemote() {
+        dir = "test/integration/data_remote/";
+    }
 
-		// Delete 'tmp' download dir
-		String tmpDownloadDir = Config.get().getTmpDir() + "/" + DataRemote.TMP_BDS_DATA;
-		try {
-			Files.walk(Paths.get(tmpDownloadDir)) //
-					.map(Path::toFile) //
-					.sorted(Comparator.reverseOrder()) //
-					.forEach(File::delete);
-		} catch (NoSuchFileException e) {
-			// OK
-		} catch (IOException e) {
-			throw new RuntimeException("Error deleting tmp directory '" + tmpDownloadDir + "'", e);
-		}
-	}
+    @Before
+    public void beforeEachTest() {
+        BdsRun.reset();
+        //		Config.reset();
+        Config.get().load();
 
-	String getCurrPath() {
-		try {
-			return (new File(".")).getCanonicalPath();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
+        // Delete 'tmp' download dir
+        String tmpDownloadDir = Config.get().getTmpDir() + "/" + DataRemote.TMP_BDS_DATA;
+        try {
+            Files.walk(Paths.get(tmpDownloadDir)) //
+                    .map(Path::toFile) //
+                    .sorted(Comparator.reverseOrder()) //
+                    .forEach(File::delete);
+        } catch (NoSuchFileException e) {
+            // OK
+        } catch (IOException e) {
+            throw new RuntimeException("Error deleting tmp directory '" + tmpDownloadDir + "'", e);
+        }
+    }
 
-	/**
-	 * Test parsing a remote HTTP file (DataHttp)
-	 */
-	@Test
-	public void test01_parseUrlHttp() {
-		Data d = Data.factory("http://www.google.com/index.html");
-		d.setVerbose(verbose);
-		d.setDebug(debug);
-		long lastMod = d.getLastModified().getTime();
-		if (verbose) Gpr.debug("Path: " + d.getPath() + "\tlastModified: " + lastMod + "\tSize: " + d.size());
+    String getCurrPath() {
+        try {
+            return (new File(".")).getCanonicalPath();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-		// Check some features
-		Assert.assertTrue(d instanceof DataHttp);
-		Assert.assertEquals("http://www.google.com/index.html", d.toString());
-		Assert.assertEquals("http://www.google.com/", d.getParent().toString());
-		Assert.assertEquals("/index.html", d.getPath());
-		Assert.assertEquals("/index.html", d.getAbsolutePath());
-		Assert.assertEquals("/index.html", d.getCanonicalPath());
-		Assert.assertEquals("index.html", d.getName());
-		Assert.assertTrue("Is file?", d.isFile());
-		Assert.assertFalse("Is directory?", d.isDirectory());
-		Assert.assertFalse("Is downloaded?", d.isDownloaded());
+    /**
+     * Test parsing a remote HTTP file (DataHttp)
+     */
+    @Test
+    public void test01_parseUrlHttp() {
+        Data d = Data.factory("http://www.google.com/index.html");
+        d.setVerbose(verbose);
+        d.setDebug(debug);
+        long lastMod = d.getLastModified().getTime();
+        if (verbose) Gpr.debug("Path: " + d.getPath() + "\tlastModified: " + lastMod + "\tSize: " + d.size());
 
-		// Download file
-		boolean ok = d.download();
-		Assert.assertTrue("Download OK", ok);
+        // Check some features
+        Assert.assertTrue(d instanceof DataHttp);
+        Assert.assertEquals("http://www.google.com/index.html", d.toString());
+        Assert.assertEquals("http://www.google.com/", d.getParent().toString());
+        Assert.assertEquals("/index.html", d.getPath());
+        Assert.assertEquals("/index.html", d.getAbsolutePath());
+        Assert.assertEquals("/index.html", d.getCanonicalPath());
+        Assert.assertEquals("index.html", d.getName());
+        Assert.assertTrue("Is file?", d.isFile());
+        Assert.assertFalse("Is directory?", d.isDirectory());
+        Assert.assertFalse("Is downloaded?", d.isDownloaded());
 
-		// Is it at the correct local file?
-		Assert.assertEquals("/tmp/bds/http/www/google/com/index.html", d.getLocalPath());
+        // Download file
+        boolean ok = d.download();
+        Assert.assertTrue("Download OK", ok);
 
-		// Check last modified time
-		File file = new File(d.getLocalPath());
-		long lastModLoc = file.lastModified();
-		Assert.assertTrue("Last modified check:" //
-				+ "\n\tlastMod    : " + lastMod //
-				+ "\n\tlastModLoc : " + lastModLoc //
-				+ "\n\tDiff       : " + (lastMod - lastModLoc)//
-				, Math.abs(lastMod - lastModLoc) < 2 * DataRemote.CACHE_TIMEOUT);
-	}
+        // Is it at the correct local file?
+        Assert.assertEquals("/tmp/bds/http/www/google/com/index.html", d.getLocalPath());
 
-	/**
-	 * Download a remote file using `file.download()`
-	 */
-	@Test
-	public void test10_DownloadHttpFunction() {
-		runAndCheck("test/remote_10.bds", "locFile", "/tmp/bds/http/pcingola/github/io/bds/index.html");
-	}
+        // Check last modified time
+        File file = new File(d.getLocalPath());
+        long lastModLoc = file.lastModified();
+        Assert.assertTrue("Last modified check:" //
+                        + "\n\tlastMod    : " + lastMod //
+                        + "\n\tlastModLoc : " + lastModLoc //
+                        + "\n\tDiff       : " + (lastMod - lastModLoc)//
+                , Math.abs(lastMod - lastModLoc) < 2 * DataRemote.CACHE_TIMEOUT);
+    }
 
-	/**
-	 * Test Data.factory for remote HTTP file
-	 */
-	@Test
-	public void test106_url() {
-		String url = "http://www.google.com";
-		Data durl = Data.factory(url);
-		Assert.assertFalse("Relative: " + durl.isRelative(), durl.isRelative());
-		Assert.assertTrue("Exists: " + durl.exists(), durl.exists());
-		Assert.assertFalse("Is dir: " + durl.isDirectory(), durl.isDirectory());
-		Assert.assertTrue("Wrong data type: " + durl.getClass().getCanonicalName(), durl instanceof DataHttp);
+    /**
+     * Download a remote file using `file.download()`
+     */
+    @Test
+    public void test10_DownloadHttpFunction() {
+        runAndCheck(dir + "remote_10.bds", "locFile", "/tmp/bds/http/pcingola/github/io/bds/index.html");
+    }
 
-		Assert.assertEquals("Path: " + durl.getPath(), "", durl.getPath());
-		Assert.assertEquals("Canonical: " + durl.getAbsolutePath(), "", durl.getAbsolutePath());
-		Assert.assertEquals("URL: " + durl, url, durl.toString());
-	}
+    /**
+     * Test Data.factory for remote HTTP file
+     */
+    @Test
+    public void test106_url() {
+        String url = "http://www.google.com";
+        Data durl = Data.factory(url);
+        Assert.assertFalse("Relative: " + durl.isRelative(), durl.isRelative());
+        Assert.assertTrue("Exists: " + durl.exists(), durl.exists());
+        Assert.assertFalse("Is dir: " + durl.isDirectory(), durl.isDirectory());
+        Assert.assertTrue("Wrong data type: " + durl.getClass().getCanonicalName(), durl instanceof DataHttp);
 
-	/**
-	 * Download a remote file to a specific local file
-	 */
-	@Test
-	public void test11_DownloadHttpToLocalFile() {
-		runAndCheck("test/remote_11.bds", "ok", "true");
-	}
+        Assert.assertEquals("Path: " + durl.getPath(), "", durl.getPath());
+        Assert.assertEquals("Canonical: " + durl.getAbsolutePath(), "", durl.getAbsolutePath());
+        Assert.assertEquals("URL: " + durl, url, durl.toString());
+    }
 
-	/**
-	 * Downloading with FTP
-	 */
-	@Test
-	public void test19_FtpDownload() {
-		String localFilePath = runAndGet("test/remote_19.bds", "fLocal").toString();
+    /**
+     * Download a remote file to a specific local file
+     */
+    @Test
+    public void test11_DownloadHttpToLocalFile() {
+        runAndCheck(dir + "remote_11.bds", "ok", "true");
+    }
 
-		// Check that the file exists (remove tmp file after)
-		File f = new File(localFilePath);
-		Assert.assertTrue("Local file '" + localFilePath + "' does not exists", f.exists());
-		f.delete();
-	}
+    /**
+     * Downloading with FTP
+     */
+    @Test
+    public void test19_FtpDownload() {
+        String localFilePath = runAndGet(dir + "remote_19.bds", "fLocal").toString();
 
-	/**
-	 * Checking a remote FTP file exists
-	 */
-	@Test
-	public void test20_FtpExists() {
-		runAndCheck("test/remote_20.bds", "fExists", "true");
-	}
+        // Check that the file exists (remove tmp file after)
+        File f = new File(localFilePath);
+        Assert.assertTrue("Local file '" + localFilePath + "' does not exists", f.exists());
+        f.delete();
+    }
 
-	/**
-	 * Listing a remote FTP directory and getting the file base names
-	 */
-	@Test
-	public void test21_FtpDirBasename() {
-		runAndCheck("test/remote_21.bds", "dHasReadme", "true");
-	}
+    /**
+     * Checking a remote FTP file exists
+     */
+    @Test
+    public void test20_FtpExists() {
+        runAndCheck(dir + "remote_20.bds", "fExists", "true");
+    }
 
-	/**
-	 * Listing a remote FTP directory `d.dirPath()`
-	 */
-	@Test
-	public void test22_FtpDirPath() {
-		runAndCheck("test/remote_22.bds", "dHasReadme", "true");
-	}
+    /**
+     * Listing a remote FTP directory and getting the file base names
+     */
+    @Test
+    public void test21_FtpDirBasename() {
+        runAndCheck(dir + "remote_21.bds", "dHasReadme", "true");
+    }
 
-	/**
-	 * Downloading an FTP remote file using user credentials
-	 */
-	@Test
-	public void test23_FtpDownloadWithUserAndPasswd() {
-		String localFilePath = runAndGet("test/remote_23.bds", "fLocal").toString();
+    /**
+     * Listing a remote FTP directory `d.dirPath()`
+     */
+    @Test
+    public void test22_FtpDirPath() {
+        runAndCheck(dir + "remote_22.bds", "dHasReadme", "true");
+    }
 
-		// Check that the file exists (remove tmp file after)
-		File f = new File(localFilePath);
-		Assert.assertTrue("Local file '" + localFilePath + "' does not exists", f.exists());
-		f.delete();
-	}
+    /**
+     * Downloading an FTP remote file using user credentials
+     */
+    @Test
+    public void test23_FtpDownloadWithUserAndPasswd() {
+        String localFilePath = runAndGet(dir + "remote_23.bds", "fLocal").toString();
 
-	/**
-	 * Checking a remote FTP file exists, using user credentials
-	 */
-	@Test
-	public void test24_FtpExistsWithUserAndPasswd() {
-		runAndCheck("test/remote_24.bds", "fExists", "true");
-	}
+        // Check that the file exists (remove tmp file after)
+        File f = new File(localFilePath);
+        Assert.assertTrue("Local file '" + localFilePath + "' does not exists", f.exists());
+        f.delete();
+    }
 
-	/**
-	 * Listing a remote FTP directory, using user credentials: `d.dir()`
-	 */
-	@Test
-	public void test25_FtpDirWithUserAndPasswd() {
-		runAndCheck("test/remote_25.bds", "dHasReadme", "true");
-	}
+    /**
+     * Checking a remote FTP file exists, using user credentials
+     */
+    @Test
+    public void test24_FtpExistsWithUserAndPasswd() {
+        runAndCheck(dir + "remote_24.bds", "fExists", "true");
+    }
 
-	/**
-	 * Listing a remote FTP directory, using user credentials: `d.dirPath()`)
-	 */
-	@Test
-	public void test26_FtpDirPathWithUserAndPasswd() {
-		runAndCheck("test/remote_26.bds", "dHasReadme", "true");
-	}
+    /**
+     * Listing a remote FTP directory, using user credentials: `d.dir()`
+     */
+    @Test
+    public void test25_FtpDirWithUserAndPasswd() {
+        runAndCheck(dir + "remote_25.bds", "dHasReadme", "true");
+    }
 
-	/**
-	 * Listing a remote FTP directory using regex: `d.dir(regex)`
-	 */
-	@Test
-	public void test27_FtpDirRegex() {
-		runAndCheck("test/remote_27.bds", "dd", "[Homo_sapiens.GRCh37.75.dna.toplevel.fa.gz]");
-	}
+    /**
+     * Listing a remote FTP directory, using user credentials: `d.dirPath()`)
+     */
+    @Test
+    public void test26_FtpDirPathWithUserAndPasswd() {
+        runAndCheck(dir + "remote_26.bds", "dHasReadme", "true");
+    }
 
-	/**
-	 * Listing a remote FTP directory using regex (`dirPath(regex)`)
-	 */
-	@Test
-	public void test28_FtpDirPathRegex() {
-		runAndCheck("test/remote_28.bds", "dd", "[ftp://ftp.ensembl.org/pub/release-75/fasta/homo_sapiens/dna/Homo_sapiens.GRCh37.75.dna.toplevel.fa.gz]");
-	}
+    /**
+     * Listing a remote FTP directory using regex: `d.dir(regex)`
+     */
+    @Test
+    public void test27_FtpDirRegex() {
+        runAndCheck(dir + "remote_27.bds", "dd", "[Homo_sapiens.GRCh37.75.dna.toplevel.fa.gz]");
+    }
 
-	/**
-	 * Listing a remote HTTP directory using regex (`dirPath(regex)`)
-	 */
-	@Test
-	public void test29_HttpDirPathRegex() {
-		runAndCheck("test/remote_29.bds", "dd", "[http://ftp.ensembl.org/pub/release-75/fasta/homo_sapiens/dna/Homo_sapiens.GRCh37.75.dna.toplevel.fa.gz]");
-	}
+    /**
+     * Listing a remote FTP directory using regex (`dirPath(regex)`)
+     */
+    @Test
+    public void test28_FtpDirPathRegex() {
+        runAndCheck(dir + "remote_28.bds", "dd", "[ftp://ftp.ensembl.org/pub/release-75/fasta/homo_sapiens/dna/Homo_sapiens.GRCh37.75.dna.toplevel.fa.gz]");
+    }
 
-	/**
-	 * Listing a remote HTTP directory using regex (`dir(regex)`)
-	 */
-	@Test
-	public void test30_HttpDirRegex() {
-		runAndCheck("test/remote_30.bds", "dd", "[Homo_sapiens.GRCh37.75.dna.toplevel.fa.gz]");
-	}
+    /**
+     * Listing a remote HTTP directory using regex (`dirPath(regex)`)
+     */
+    @Test
+    public void test29_HttpDirPathRegex() {
+        runAndCheck(dir + "remote_29.bds", "dd", "[http://ftp.ensembl.org/pub/release-75/fasta/homo_sapiens/dna/Homo_sapiens.GRCh37.75.dna.toplevel.fa.gz]");
+    }
+
+    /**
+     * Listing a remote HTTP directory using regex (`dir(regex)`)
+     */
+    @Test
+    public void test30_HttpDirRegex() {
+        runAndCheck(dir + "remote_30.bds", "dd", "[Homo_sapiens.GRCh37.75.dna.toplevel.fa.gz]");
+    }
 
 }
