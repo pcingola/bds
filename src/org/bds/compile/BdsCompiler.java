@@ -110,8 +110,7 @@ public class BdsCompiler implements BdsLog {
 
         // All libraries
         for (String libraryName : LIBRARIES) {
-            var lib = LIBRARIES_PATH + "/" + libraryName;
-            Module module = compileLibrary(lib);
+            Module module = compileLibrary(LIBRARIES_PATH + "/" + libraryName);
             modules.add(module);
         }
 
@@ -121,14 +120,14 @@ public class BdsCompiler implements BdsLog {
     /**
      * Compile a single library file, return a Module (BdsNode)
      */
-    protected Module compileLibrary(String libraryName) {
-        debug("Compiling library: '" + libraryName + "'");
+    protected Module compileLibrary(String libraryPath) {
+        debug("Compiling library: '" + libraryPath + "'");
 
         // Find library respect to Bds class location, and create an input stream
-        InputStream inStream = Bds.class.getResourceAsStream(libraryName);
-        if (inStream == null) throw new RuntimeException("Cannot open library '" + libraryName + "'");
+        InputStream inStream = Bds.class.getResourceAsStream(libraryPath);
+        if (inStream == null) throw new RuntimeException("Cannot open library '" + libraryPath + "'");
         String input = Gpr.read(inStream);
-        debug("Library '" + libraryName + "', input:\n" + input);
+        debug("Library '" + libraryPath + "', input:\n" + input);
 
         // Parse, create AST and convert to ProgramUnit (BdsNode)
         ParseTree tree = createAst(null, input, debug, new HashSet<>());

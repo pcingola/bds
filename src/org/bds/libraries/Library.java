@@ -7,7 +7,7 @@ import org.bds.BdsLog;
  */
 public class Library implements BdsLog {
 
-    public static final String LIBRARIES_PATH = "libraries";
+    public static final String LIBRARIES_PATH = "/resources/libraries";
     public static final String[] LIBRARIES = { //
             "exceptions.bds" // Define throwable, exception, etc.
             , "stdlib.bds" //

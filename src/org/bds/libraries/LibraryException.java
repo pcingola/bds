@@ -12,6 +12,4 @@ public class LibraryException implements BdsLog {
     public static final String FIELD_NAME_STACK_TRACE = "stackTrace"; // Stack trace as a string (hidden field)
 
     public static final String CLASS_NAME_EXCEPTION_CONCURRENT_MODIFICATION = "ConcurrentModificationException";
-
-
 }
