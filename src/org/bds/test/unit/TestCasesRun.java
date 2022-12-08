@@ -24,57 +24,61 @@ public class TestCasesRun extends TestCasesBase {
 
     @Test
     public void test00_plus_int() {
+        // Binary operator: Integer addition
         runAndCheck(dir + "run_00_plus_int.bds", "i", 42L);
     }
 
     @Test
     public void test00_plus_real() {
+        // Binary operator: Real addition
         runAndCheck(dir + "run_00_plus_real.bds", "i", 42.0);
     }
 
     @Test
     public void test00_plus_string() {
+        // Binary operator: string addition (concatenation)
         runAndCheck(dir + "run_00_plus_string.bds", "i", "42 life universe, and everything");
     }
 
     @Test
     public void test00_minus_int() {
+        // Binary operator: Integer subtraction
         runAndCheck(dir + "run_00_minus_int.bds", "i", 42L);
     }
 
     @Test
     public void test00_minus_real() {
+        // Binary operator: Real subtraction
         runAndCheck(dir + "run_00_minus_real.bds", "i", 42.0);
     }
 
     @Test
     public void test00_div_int() {
+        // Binary operator: Integer division
         runAndCheck(dir + "run_00_div_int.bds", "i", 3L);
     }
 
     @Test
     public void test00_div_real() {
+        // Binary operator: Real division
         runAndCheck(dir + "run_00_div_real.bds", "i", 3.3333333333333335);
-    }
-
-
-    @Test
-    public void test00_plus() {
-        runAndCheck(dir + "run_00_plus_int.bds", "i", 42L);
     }
 
     @Test
     public void test01() {
+        // If condition
         runAndCheck(dir + "run_01.bds", "i", 2L);
     }
 
     @Test
     public void test02() {
+        // If condition, else
         runAndCheck(dir + "run_02.bds", "i", 9L);
     }
 
     @Test
     public void test03() {
+        // For loop
         runAndCheck(dir + "run_03.bds", "i", 10L);
     }
 
@@ -85,21 +89,25 @@ public class TestCasesRun extends TestCasesBase {
 
     @Test
     public void test04() {
+        // For loop, double post statement
         runAndCheck(dir + "run_04.bds", "i", 10L);
     }
 
     @Test
     public void test04_2() {
+        //
         runAndCheck(dir + "run_04.bds", "j", 11L);
     }
 
     @Test
     public void test05() {
+        // While loop
         runAndCheck(dir + "run_05.bds", "i", 10L);
     }
 
     @Test
     public void test06() {
+        // Cast in Variable assignment: Real from bool and int
         runAndCheck(dir + "run_06.bds", "i", 1L);
     }
 
@@ -115,76 +123,91 @@ public class TestCasesRun extends TestCasesBase {
 
     @Test
     public void test07() {
+        // Function definition
         runAndCheck(dir + "run_07.bds", "j", 4L);
     }
 
     @Test
     public void test08() {
+        // Function definition
         runAndCheck(dir + "run_08.bds", "j", 5L);
     }
 
     @Test
     public void test09() {
+        // Function with two return statements
         runAndCheck(dir + "run_09.bds", "i", 5L);
     }
 
     @Test
     public void test10() {
+        // For loop with break statement
         runAndCheck(dir + "run_10.bds", "i", 4L);
     }
 
     @Test
     public void test11() {
+        // For loop with continue
         runAndCheck(dir + "run_11.bds", "i", 6L);
     }
 
     @Test
     public void test12() {
+        // Function: Variable inside a function shadowing a global variable
         runAndCheck(dir + "run_12.bds", "i", 1L);
     }
 
     @Test
     public void test13() {
+        // Function: Variable inside a function shadowing a global variable
         runAndCheck(dir + "run_13.bds", "h", 8L);
     }
 
     @Test
     public void test14() {
+        // String interpolation
         runAndCheck(dir + "run_14.bds", "s", "this is string interpolation: int i = 42 and str = \"hi\" and both hi42");
     }
 
     @Test
     public void test15_2() {
+        // List initialization
         runAndCheck(dir + "run_15.bds", "li2", "[apple, orange, bannana]");
     }
 
     @Test
     public void test15_3() {
+        // List initialization
         runAndCheck(dir + "run_15.bds", "li3", "[apple, orange, 1]");
     }
 
     @Test
     public void test15_4() {
+        // List initialization
         runAndCheck(dir + "run_15.bds", "li4", "[apple, orange, 3.14]");
     }
 
     @Test
     public void test15_5() {
+        // List initialization
         runAndCheck(dir + "run_15.bds", "li5", "[apple, orange, false]");
     }
 
     @Test
     public void test15_6() {
+        // List initialization
         runAndCheck(dir + "run_15.bds", "li6", "[apple, orange, i=10hihihi]");
     }
 
     @Test
     public void test16() {
+        // For loop iterating over a list
         runAndCheck(dir + "run_16.bds", "ss", "onetwothree");
     }
 
     @Test
     public void test17() {
+        // String methods
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("s", " HEllo ");
         expectedValues.put("s1", "HEllo");
@@ -210,16 +233,19 @@ public class TestCasesRun extends TestCasesBase {
 
     @Test
     public void test18() {
+        // For loop iterating over a list
         runAndCheck(dir + "run_18.bds", "s1", "three");
     }
 
     @Test
     public void test18_2() {
+        // For loop iterating over a list
         runAndCheck(dir + "run_18.bds", "s3", "three");
     }
 
     @Test
     public void test19() {
+        // List method head
         runAndCheck(dir + "run_19.bds", "h", "one");
     }
 
