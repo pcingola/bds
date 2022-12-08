@@ -23,6 +23,10 @@ import junit.framework.Assert;
  */
 public class TestCasesRun2 extends TestCasesBase {
 
+	public TestCasesRun2() {
+		dir = "test/run/";
+	}
+
 	@Test
 	public void test100() {
 
