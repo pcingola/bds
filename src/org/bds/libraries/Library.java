@@ -13,6 +13,4 @@ public class Library implements BdsLog {
             , "stdlib.bds" //
             , "test_library.bds" // Only used for testing new library code
     };
-
-
 }

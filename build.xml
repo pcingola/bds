@@ -12,9 +12,6 @@
           target: resolve
          ================================= -->
     <target name="create_run_jar" depends="compile">
-		<copy file="src/org/bds/SummaryTemplate.html" tofile="bin/org/bds/SummaryTemplate.html"/>
-		<copy file="src/org/bds/SummaryTemplate.yaml" tofile="bin/org/bds/SummaryTemplate.yaml"/>
-		<copy file="src/org/bds/DagTaskTemplate.js" tofile="bin/org/bds/DagTaskTemplate.js"/>
 		<copy todir="bin/resources/">
 			<fileset dir="src/resources"/>
 		</copy>
