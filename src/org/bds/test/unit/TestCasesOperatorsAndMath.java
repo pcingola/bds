@@ -47,7 +47,7 @@ public class TestCasesOperatorsAndMath extends TestCasesBase {
     public void test08() {
         // Increment and decrement operators
         // Compile error trying to increment an expression
-        String errs = "ERROR [ file 'test/unit/lang/test08.bds', line 11 ] :	Only variable reference can be used with ++ or -- operators\n";
+        String errs = "ERROR [ file 'test/unit/operators_and_math/test08.bds', line 11 ] :	Only variable reference can be used with ++ or -- operators\n";
         compileErrors(dir + "test08.bds", errs);
     }
 
