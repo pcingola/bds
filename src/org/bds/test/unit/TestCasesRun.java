@@ -251,26 +251,31 @@ public class TestCasesRun extends TestCasesBase {
 
     @Test
     public void test20() {
+        // List assign
         runAndCheck(dir + "run_20.bds", "h", "dos");
     }
 
     @Test
     public void test21() {
+        // File readLines
         runAndCheck(dir + "run_21.bds", "l1", "line 1\nline 2\nline 3\n");
     }
 
     @Test
     public void test21_2() {
+        // File: readLines
         runAndCheck(dir + "run_21.bds", "l2", "line 2");
     }
 
     @Test
     public void test22() {
+        // Files: Dir
         runAndCheck(dir + "run_22.bds", "l2", "file_3.txt");
     }
 
     @Test
     public void test23() {
+        // List: head, tail
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("ltsize", 2);
         expectedValues.put("lh", "one");
@@ -281,6 +286,7 @@ public class TestCasesRun extends TestCasesBase {
 
     @Test
     public void test24() {
+        // List: pop
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("p", 3);
         expectedValues.put("s", 3);
@@ -292,6 +298,7 @@ public class TestCasesRun extends TestCasesBase {
 
     @Test
     public void test25() {
+        // List: add
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("l0", 1);
         expectedValues.put("l1", 2);
@@ -301,6 +308,7 @@ public class TestCasesRun extends TestCasesBase {
 
     @Test
     public void test26() {
+        // List: sort and element access
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("l0", 1);
         expectedValues.put("l1", 2);
@@ -313,15 +321,19 @@ public class TestCasesRun extends TestCasesBase {
 
     @Test
     public void test28() {
+        // List: add
         runAndCheck(dir + "run_28.bds", "events", "[done]");
     }
 
+    @Test
     public void test29() {
+        // Task: Schedule and wait
         runAndCheck(dir + "run_29.bds", "events", "[runnning, wait, done]");
     }
 
     @Test
     public void test31() {
+        // Task: kill
         Timer timer = new Timer();
         timer.start();
         runAndCheck(1, dir + "run_31.bds", "events", "[runnning, kill, done]");
@@ -330,42 +342,50 @@ public class TestCasesRun extends TestCasesBase {
 
     @Test
     public void test32() {
+        // Task: read task's stdout
         runAndCheck(dir + "run_32.bds", "out", "Hi\n");
     }
 
     @Test
     public void test33() {
+        // Task: read stderr
         runAndCheck(dir + "run_33.bds", "err", "Hi\n");
     }
 
     @Test
     public void test34() {
+        // Task: get exit code
         runAndCheck(dir + "run_34.bds", "exitStat", "0");
     }
 
     @Test
     public void test35() {
+        // Task: 'canFail = true'
         runAndCheck(dir + "run_35.bds", "exitStat", "1");
     }
 
     @Test
     public void test37() {
+        // Task: Can fail
         runAndCheck(dir + "run_37.bds", "s", "after");
     }
 
     @Test
     public void test38() {
+        // String interpolation: Literal string with '$'
         runAndCheck(dir + "run_38.bds", "su", "$s world \\n");
     }
 
     @Test
     public void test39() {
+        // Variables: Inheriting from environment
         String home = System.getenv("HOME");
         runAndCheck(dir + "run_39.bds", "home", home);
     }
 
     @Test
     public void test40() {
+        // Command line arguments: Setting global variables from command line arguments
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("file", "zzz.txt");
         expectedValues.put("opt", "true");
@@ -396,33 +416,43 @@ public class TestCasesRun extends TestCasesBase {
 
     @Test
     public void test41() {
+        // Global variable 'programName'
         runAndCheck(dir + "run_01.bds", "programName", "run_01.bds");
     }
 
     @Test
     public void test42() {
+        // If statement: different syntaxes
         runAndCheck(dir + "run_42.bds", "i", 6L);
     }
 
     @Test
     public void test43() {
+        // Task: Dependencies
         runAndCheck(1, dir + "run_43.bds", "finished", 0L);
     }
 
+    @Test
     public void test44() {
+        // Task: timeout
         runAndCheckExit(dir + "run_44.bds", 0);
     }
 
+    @Test
     public void test45() {
+        // Task: timeout
         runAndCheckExit(dir + "run_45.bds", 1);
     }
 
+    @Test
     public void test46() {
+        // Sys
         runAndCheck(dir + "run_46.bds", "i", 2L);
     }
 
     @Test
     public void test47() {
+        // Command line arguments: Passing a list of values
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("in", "[in1.txt, in2.txt, in3.txt]");
         expectedValues.put("out", "zzz.txt");
@@ -445,11 +475,13 @@ public class TestCasesRun extends TestCasesBase {
 
     @Test
     public void test48() {
+        // Statements: Warning and error
         runAndCheck(1, dir + "run_48.bds", "step", 2L);
     }
 
     @Test
     public void test50() {
+        // Include
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("i", "32");
         expectedValues.put("j", "302");
@@ -461,26 +493,31 @@ public class TestCasesRun extends TestCasesBase {
 
     @Test
     public void test51() {
+        // Interpolating a hash
         runAndCheck(dir + "run_51.bds", "hash", "{ hi => bye }");
     }
 
     @Test
     public void test52() {
+        // Hash assignment
         runAndCheck(dir + "run_52.bds", "hash", "{ one => 1 }");
     }
 
     @Test
     public void test53() {
+        // For loop: Iterating over a hash
         runAndCheck(dir + "run_53.bds", "vals", "[bye, chau]");
     }
 
     @Test
     public void test54() {
+        // Iterating over a hash
         runAndCheck(dir + "run_54.bds", "vals", "[hi, hola]");
     }
 
     @Test
     public void test55() {
+        // Hash: hasValue, size, hasKey
         runAndCheck(dir + "run_55.bds", "hk1", "true");
         runAndCheck(dir + "run_55.bds", "hk2", "false");
         runAndCheck(dir + "run_55.bds", "hv1", "true");
@@ -490,27 +527,32 @@ public class TestCasesRun extends TestCasesBase {
 
     @Test
     public void test56() {
+        // For loop on hash
         runAndCheck(dir + "run_56.bds", "out", "Adios;Au revoir;Bye;");
         runAndCheck(dir + "run_56.bds", "str", "map = { Bonjour => Au revoir, Hello => Bye, Hola => Adios }");
     }
 
     @Test
     public void test57() {
+        // Function: If with return
         runAndCheck(dir + "run_57.bds", "z", 0L);
     }
 
     @Test
     public void test58() {
+        // Function: recursion
         runAndCheck(dir + "run_58.bds", "z", 0L);
     }
 
     @Test
     public void test59() {
+        // Function: recursion
         runAndCheck(dir + "run_59.bds", "z", -1L);
     }
 
     @Test
     public void test60() {
+        // Command line arguments: boolean
         String fileName = dir + "run_60.bds";
         String[] args = {fileName, "-b"};
         runAndCheck(fileName, args, "b", true);
@@ -518,6 +560,7 @@ public class TestCasesRun extends TestCasesBase {
 
     @Test
     public void test61() {
+        // Command line arguments: boolean
         String fileName = dir + "run_60.bds";
         String[] args = {fileName, "-b", "true"};
         runAndCheck(fileName, args, "b", true);
@@ -525,6 +568,7 @@ public class TestCasesRun extends TestCasesBase {
 
     @Test
     public void test62() {
+        // Command line arguments: boolean
         String fileName = dir + "run_60.bds";
         String[] args = {fileName, "-b", "false"};
         runAndCheck(fileName, args, "b", false);
@@ -532,16 +576,19 @@ public class TestCasesRun extends TestCasesBase {
 
     @Test
     public void test63() {
+        // List: Empty list literals
         runAndCheck(dir + "run_63.bds", "l", "[]");
     }
 
     @Test
     public void test64() {
+        // Hash: Empty hash literal
         runAndCheck(dir + "run_64.bds", "m", "{}");
     }
 
     @Test
     public void test65() {
+        // Variable initialization
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("bsfalse", false);
         expectedValues.put("bstrue", true);
@@ -558,6 +605,7 @@ public class TestCasesRun extends TestCasesBase {
 
     @Test
     public void test66() {
+        // If string as boolean empty
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("sif", "String 'hi' is NOT empty");
         expectedValues.put("lif", "List '[hi, bye]' is NOT empty");
@@ -567,6 +615,7 @@ public class TestCasesRun extends TestCasesBase {
 
     @Test
     public void test67() {
+        // String interpolation, escaping '$'
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("s", "varS");
         expectedValues.put("s1", "Hi '$'");
@@ -577,70 +626,103 @@ public class TestCasesRun extends TestCasesBase {
 
     @Test
     public void test68() {
+        // Sys: Multi line
         runAndCheck(dir + "run_68.bds", "out", "hi bye end\n");
     }
 
     @Test
+    public void test69() {
+        // File: removeExt
+        runAndCheck(dir + "run_69.bds", "bgz", "path/to/file.txt");
+    }
+
+    @Test
+    public void test69b() {
+        // File: removeExt
+        runAndCheck(dir + "run_69.bds", "btxt", "path/to/file");
+    }
+
+    @Test
     public void test70() {
+        // For: Empty initialization clause
         runAndCheck(dir + "run_70.bds", "i", 10L);
     }
 
     @Test
     public void test71() {
+        // For: Empty initialization clause, empty post (i.e. 'while')
         runAndCheck(dir + "run_71.bds", "i", 10L);
     }
 
     @Test
     public void test72() {
+        // For: 'for(;;)'
         runAndCheck(dir + "run_72.bds", "i", 10L);
     }
 
     @Test
     public void test73() {
+        // While loop
         runAndCheck(dir + "run_73.bds", "i", 10L);
     }
 
     @Test
     public void test74() {
+        // While loop: Empty condition 'while()'
         runAndCheck(dir + "run_74.bds", "i", 10L);
     }
 
     @Test
     public void test75() {
+        // sys: return commands outputs
         runAndCheck(dir + "run_75.bds", "ls", "EXEC\ntest/unit/run/run_75.bds\nDONE\n");
     }
 
     @Test
     public void test76() {
+        // For loop: List: add
         runAndCheck(dir + "run_76.bds", "list", "[0, 2, 4, 6, 8, 10]");
     }
 
+    @Test
     public void test77() {
+        // For loop: List: add
         runAndCheck(dir + "run_77.bds", "list", "[10, 8, 6, 4, 2, 0]");
     }
 
+    @Test
     public void test78() {
+        // For loop: List: add
         runAndCheck(dir + "run_78.bds", "list", "[1, 2, 4, 8, 16, 32, 64]");
     }
 
+    @Test
     public void test79() {
+        // For loop: List: add
         runAndCheck(dir + "run_79.bds", "list", "[128, 64, 32, 16, 8, 4, 2, 1]");
     }
 
+    @Test
     public void test80() {
+        // Binary bit operator: '&'
         runAndCheck(dir + "run_80.bds", "j", 2L);
     }
 
+    @Test
     public void test81() {
+        // Binary bit operator: '|'
         runAndCheck(dir + "run_81.bds", "j", 19L);
     }
 
+    @Test
     public void test82() {
+        // Operator '+=': String
         runAndCheck(dir + "run_82.bds", "s", "Hi.Bye.");
     }
 
     @Test
     public void test83() {
+        // Operator '+=': String, real
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("i", 3L);
         expectedValues.put("f", 5.85);
@@ -649,7 +731,9 @@ public class TestCasesRun extends TestCasesBase {
         runAndCheck(dir + "run_83.bds", expectedValues);
     }
 
-    public void test86() {
+    @Test
+    public void test85() {
+        // Global variables: K, M, G, T, P
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("m", 60L);
         expectedValues.put("h", 3600L);
@@ -664,11 +748,13 @@ public class TestCasesRun extends TestCasesBase {
 
     @Test
     public void test88() {
+        // Task: cpus, not enough resources
         runAndCheckStderr(dir + "run_88.bds", "Not enough resources to execute task:");
     }
 
     @Test
     public void test89() {
+        // String: swapExt
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("f", "file.txt");
         expectedValues.put("f2", "file.vcf");
@@ -679,21 +765,25 @@ public class TestCasesRun extends TestCasesBase {
 
     @Test
     public void test94() {
+        // sys: failing command
         runAndCheckExit(dir + "run_94.bds", 1);
     }
 
     @Test
     public void test95() {
+        // List: Concatenation
         runAndCheck(dir + "run_95.bds", "ll", "[zero, one, two, three, four, 5]");
     }
 
     @Test
     public void test96() {
+        // Operator '+=': List
         runAndCheck(dir + "run_96.bds", "l", "[one, two, three, four]");
     }
 
     @Test
     public void test97() {
+        // String interpolation and '\t', '\n' characters
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("h1", "1");
         expectedValues.put("h2", "3");
@@ -705,6 +795,7 @@ public class TestCasesRun extends TestCasesBase {
 
     @Test
     public void test98() {
+        // Operator '++' and '--' on list element
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("h1", "1");
         expectedValues.put("h2", "3");
@@ -716,6 +807,7 @@ public class TestCasesRun extends TestCasesBase {
 
     @Test
     public void test99() {
+        // sys with 'canFail'
         runAndCheck(dir + "run_99.bds", "finished", "true");
     }
 
