@@ -1,7 +1,5 @@
 #!/usr/bin/env bds
 
-#!/usr/bin/env bds
-
 d := 2500
 
 n1 := d / 10 * 2

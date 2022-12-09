@@ -107,21 +107,25 @@ public class TestCasesRun2 extends TestCasesBase {
         runAndCheck(dir + "run_108.bds", expectedValues);
     }
 
+    @Test
     public void test109() {
         // Random seed
         runAndCheck(dir + "run_109.bds", "r1", "4027146782649399912");
     }
 
+    @Test
     public void test110() {
         // Task: 'allowEmpty'
         runAndCheck(dir + "run_110.bds", "runOk", "true");
     }
 
+    @Test
     public void test111() {
         // Error statement
         runAndCheck(dir + "run_111.bds", "runOk", "false");
     }
 
+    @Test
     public void test112() {
         // Exit statement
         runAndCheck(dir + "run_112.bds", "runOk", "false");
@@ -341,6 +345,7 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test130_chdir_task() {
+        // sys & chdir
         String out = runAndReturnStdout(dir + "run_130.bds");
         Assert.assertTrue(out.contains("FILE_01\n"));
         Assert.assertTrue(out.contains("FILE_02\n"));
@@ -348,6 +353,7 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test131_chdir_fileMethods() {
+        // File functions: read(), readLines(), etc.
         String out = ""//
                 + "chdir_test_file_01.txt\tread:FILE_01\n" //
                 + "chdir_test_file_01.txt\treadLines:[FILE_01]\n" //
@@ -373,30 +379,25 @@ public class TestCasesRun2 extends TestCasesBase {
         Assert.assertEquals(out, outreal);
     }
 
-    /**
-     * Make sure taskId contains 'taskName' parameter
-     */
     @Test
     public void test132_taskName() {
+        // Task: taskIds. Make sure taskId contains 'taskName' parameter
         String out = runAndReturnStdout(dir + "run_132.bds");
         Assert.assertTrue(out.contains("run_132.mytask"));
     }
 
-    /**
-     * Make sure taskId contains 'taskName' parameter
-     * In this test 'taskName' is not safe to be used with as file name, so it has to be sanitized
-     */
     @Test
     public void test133_taskName_unsafe() {
+        // Task: taskName
+        //   - Make sure taskId contains 'taskName' parameter
+        //   - In this test 'taskName' is not safe to be used with as file name, so it has to be sanitized
         String out = runAndReturnStdout(dir + "run_133.bds");
         Assert.assertTrue(out.contains("run_133.mytask_unsafe_with_spaces"));
     }
 
-    /**
-     * Show help when there are no arguments
-     */
     @Test
     public void test134_automatic_help_sections() {
+        // Show help when there are no arguments
         String output = "This program does blah\n" //
                 + "Actually, a lot of blah blah\n" //
                 + "    and even more blah\n" //
@@ -414,6 +415,7 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test135() {
+        // List: Variable assignment
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("l", "[1, 2, 3, 99]");
         expectedValues.put("lc1", "[1, 2, 3, 99]");
@@ -425,6 +427,7 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test135_clone() {
+        // List: Clone
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("l", "[1, 2, 3, 99]");
         expectedValues.put("lc1", "[1, 2, 3]");
@@ -436,6 +439,7 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test136() {
+        // List Methods: Reverse, add, clone, count, indexOf, removeIdx
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("l", "[1, 99, 2, 3]");
         expectedValues.put("l2", "[3, 2, 99, 1]");
@@ -450,6 +454,7 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test137() {
+        // List: has() method
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("l", "[1, 2, 3]");
         expectedValues.put("has2", "true");
@@ -458,34 +463,33 @@ public class TestCasesRun2 extends TestCasesBase {
         runAndCheck(dir + "run_137.bds", expectedValues);
     }
 
-    /**
-     * Cos(x)
-     */
     @Test
     public void test138() {
+        // Math functions: cos(), acos()
         runAndCheck(dir + "run_138.bds", "hasErr", "false");
     }
 
-    /**
-     * Sin(x)
-     */
     @Test
     public void test139() {
+        // Math functions: sin(), asin()
         runAndCheck(dir + "run_139.bds", "hasErr", "false");
     }
 
     @Test
     public void test140_list_nonvariable() {
+        // List: Assignment from function return value
         runAndCheck(dir + "run_140.bds", "i", "2");
     }
 
     @Test
     public void test141_map_nonvariable() {
+        // Map: Assignment from function return value
         runAndCheck(dir + "run_141.bds", "i", "42");
     }
 
     @Test
     public void test142_dirPath() {
+        // File: dir, dirPath
         ValueList dir2 = (ValueList) runAndGet(dir + "run_142.bds", "dir2");
 
         Assert.assertEquals(10, dir2.size());
@@ -500,12 +504,14 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test143_pathAbsolute() {
+        // File: baseName
         runAndCheck(dir + "run_143.bds", "fileBase", "tmp_run_143_link.txt");
     }
 
     @Test
     public void test144_dollar_sign_in_task() {
-
+        // Task: Variable interpolation and literals
+        //
         // We want to execute an inline perl script within a task
         // E.g.:
         //     task perl -e 'use English; print "PID: \$PID\n";'
@@ -531,26 +537,31 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test145_switch() {
+        // Switch statement: Case
         runAndCheck(dir + "run_145.bds", "out", 3);
     }
 
     @Test
     public void test146_switch_fallthrough() {
+        // Switch statement: case fallthrough
         runAndCheck(dir + "run_146.bds", "out", 35);
     }
 
     @Test
     public void test147_switch_default() {
+        // Switch statement: default
         runAndCheck(dir + "run_147.bds", "out", 100);
     }
 
     @Test
     public void test148_switch_default_fallthrough() {
+        // Switch statement: default fallthrough
         runAndCheck(dir + "run_148.bds", "out", 700);
     }
 
     @Test
     public void test149_div() {
+        // Math operators: Real and int division
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("val0", 50);
         expectedValues.put("val1", 50.0);
@@ -562,6 +573,7 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test150_mult() {
+        // Math operators: Real and int multiplication
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("val0", 200);
         expectedValues.put("val1", 200.0);
@@ -573,6 +585,7 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test151_plus() {
+        // Math operators: Real and int addition
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("val0", 102);
         expectedValues.put("val1", 102.0);
@@ -584,6 +597,7 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test152_minus() {
+        // Math operators: Real and int substraction
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("val0", 98);
         expectedValues.put("val1", 98.0);
@@ -595,57 +609,74 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test153_caseInt() {
+        // Switch: Case using int
         runAndCheck(dir + "run_153.bds", "r", "The answer");
     }
 
     @Test
     public void test154_caseReal() {
+        // Switch: Case using real
         runAndCheck(dir + "run_154.bds", "res", "OK");
     }
 
     @Test
     public void test155_list_sort() {
+        // List: sort string
         runAndCheck(dir + "run_155.bds", "sl", "[a, a, a+a, a_a, aa, aaa, aaaa, aaaaaa, x, y, z]");
     }
 
     @Test
     public void test156_list_int_sort() {
+        // List: sort int
         runAndCheck(dir + "run_156.bds", "sl", "[-99, -1, 1, 2, 3, 9, 23, 99, 101]");
     }
 
     @Test
     public void test157_multiline_sys() {
+        // Sys: multi-line statements
         runAndCheck(dir + "run_157.bds", "o", "hello world\n");
     }
 
     @Test
     public void test158_log() {
+        // Log messages to console
         runAndCheckStderr(dir + "run_158.bds", "hi there");
     }
 
     @Test
     public void test159_task_prelude() {
+        // Task: prelude in Config file
         String[] args = {"-c", dir + "run159_prelude_task.config"};
         runAndCheckStdout(dir + "run_159.bds", "=== TASK PRELUDE local ===", args, false);
     }
 
     @Test
     public void test161() {
+        // Class: field access
         runAndCheck(dir + "run_161.bds", "out", "a.x = 42");
     }
 
     @Test
     public void test162() {
+        // Class: Method in derived class
         runAndCheck(dir + "run_162.bds", "out", "B: A: Hi");
     }
 
     @Test
+    public void test163() {
+        // Class: Defining a class inside a class, shadowing class names
+        runAndCheck(dir + "run_163.bds", "out", "B: A: Hi");
+    }
+
+    @Test
     public void test164() {
+        // PrintErr: print to stderr
         runAndCheck(dir + "run_164.bds", "out", "hi");
     }
 
     @Test
     public void test165() {
+        // Math: Grouping operators div, mult
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("n1", "500");
         expectedValues.put("n2", "500");
@@ -654,11 +685,13 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test166_switch_case_return() {
+        // Switch: case + return statement
         runAndCheck(dir + "run_166.bds", "res", "1");
     }
 
     @Test
     public void test167_binary_expression_assign_bool() {
+        // Operators: boolean '&=', '|='
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("band1", "true");
         expectedValues.put("band2", "false");
