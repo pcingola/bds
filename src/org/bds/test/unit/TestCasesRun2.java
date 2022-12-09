@@ -27,7 +27,7 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test100() {
-
+        // Operator: Ternary
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("s", 1);
         expectedValues.put("s2", -1);
@@ -37,6 +37,7 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test101() {
+        // Variables: Multiple assignment
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("a", 1);
         expectedValues.put("b", 3);
@@ -47,6 +48,7 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test102() {
+        // Variables: Multiple assignment
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("a", 1);
         expectedValues.put("b", 3);
@@ -58,6 +60,7 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test103() {
+        // Range
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("is", "[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]");
         expectedValues.put("is2", "[1, 3, 5, 7, 9]");
@@ -68,6 +71,7 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test106() {
+        // Interpolation: hash elements
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("str1", "l[1] : '2'");
         expectedValues.put("str2", "m{'Hello'} : 'Bye'");
@@ -77,6 +81,7 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test107() {
+        // Config function
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("paramName", "parameter_value");
         expectedValues.put("file1", "/path/to/file_1.txt");
@@ -90,6 +95,7 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test108() {
+        // Config function
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("paramName", "parameter_value");
         expectedValues.put("file1", "/path/to/file_1.txt");
@@ -102,23 +108,28 @@ public class TestCasesRun2 extends TestCasesBase {
     }
 
     public void test109() {
+        // Random seed
         runAndCheck(dir + "run_109.bds", "r1", "4027146782649399912");
     }
 
     public void test110() {
+        // Task: 'allowEmpty'
         runAndCheck(dir + "run_110.bds", "runOk", "true");
     }
 
     public void test111() {
+        // Error statement
         runAndCheck(dir + "run_111.bds", "runOk", "false");
     }
 
     public void test112() {
+        // Exit statement
         runAndCheck(dir + "run_112.bds", "runOk", "false");
     }
 
     @Test
     public void test113_parallel_function_calls() {
+        // Parallel function calls 'par'
         String stdout = runAndReturnStdout(dir + "run_113.bds");
 
         Set<String> linesPar = new HashSet<>();
@@ -132,33 +143,38 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test116_lineWrap_backslashId() {
+        // Function definition multiple lines continued
         String stdout = runAndReturnStdout(dir + "run_116.bds");
         Assert.assertEquals("hi bye\nThe answer\t\tis: 42", stdout);
     }
 
     @Test
     public void test118_dependency_using_path() {
+        // Task: 'dep' and 'goal'
         runAndCheckExit(dir + "run_118.bds", 0);
     }
 
     @Test
     public void test120_split_empty_string() {
+        // List: String split, list size(), list isEmpty()
         runAndCheck(dir + "run_120.bds", "len", "0");
     }
 
     @Test
     public void test121_split_fail_regex() {
+        // List: split with invalid regex
         runAndCheck(dir + "run_121.bds", "len", "1");
     }
 
     @Test
     public void test122_nestest_break_continue() {
+        // For loops: Nested loops with 'break' and 'continue' statements
         runAndCheck(dir + "run_122.bds", "out", "5\t7");
     }
 
     @Test
     public void test123_literals() {
-
+        // String literals, interpolation and escaped characters
         String output = "print_quote        |\\t|\n" //
                 + "print_quote        |\\t|    variable:$hi\n" //
                 + "print_double       |\t|\n" //
@@ -172,7 +188,7 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test123_literals_sys() {
-
+        // String literals, interpolation and escaped characters
         String output = "" //
                 // Note: This result may change if we use a different sysShell in bds.config
                 + "sys                |\t|\n" //
@@ -185,6 +201,7 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test124_quiet_mode() {
+        // Task: quiet mode
         String output = "print 0\n" //
                 + "print 1\n" //
                 + "print 2\n" //
@@ -210,6 +227,7 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test125_automatic_help() {
+        // Command line options: Help
         String output = "Command line options 'run_125.bds' :\n" //
                 + "\t-mean <int>                                  : Help for argument 'mean' should be printed here\n" //
                 + "\t-min <int>                                   : Help for argument 'min' should be printed here\n" //
@@ -225,6 +243,7 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test125b_automatic_help_unsorted() {
+        // Command line options: Help
         String output = "Command line options 'run_125b.bds' :\n" //
                 + "\t-useTab <bool>                               : Use tab before printing line\n" //
                 + "\t-someVeryLongCommandLineArgumentName <bool>  : This command line argument has a really long name\n" //
@@ -243,6 +262,7 @@ public class TestCasesRun2 extends TestCasesBase {
      */
     @Test
     public void test125c_automatic_help() {
+        // Command line options: Help
         String output = "Command line options 'run_125c.bds' :\n" //
                 + "\t-mean <int>                                  : Help for argument 'mean' should be printed here\n" //
                 + "\t-min <int>                                   : Help for argument 'min' should be printed here\n" //
@@ -261,7 +281,7 @@ public class TestCasesRun2 extends TestCasesBase {
      */
     @Test
     public void test126_task_dependency_scheduled() {
-
+        // Task: Nested loops of tasks (mutiple dependencies)
         String expectedOutput = "IN: " + Gpr.HOME + "/zzz/in.txt\n" //
                 + "OUT: " + Gpr.HOME + "/zzz/out.txt\n" //
                 + "OUT_0: " + Gpr.HOME + "/zzz/out_0.txt\n" //
@@ -295,7 +315,7 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test127_interpolate_variable_with_underscores() {
-
+        // Task and sys combined
         String output = "bwa parameters\n" //
                 + "bwa parameters\n" //
                 + "bwa parameters\n" //
@@ -307,11 +327,13 @@ public class TestCasesRun2 extends TestCasesBase {
 
     @Test
     public void test128_task_local_variables() {
+        // Task: Defining a variable within the task
         runAndCheckStdout(dir + "run_128.bds", "TEST\n");
     }
 
     @Test
     public void test129_chdir_sys() {
+        // sys: chDir
         String out = runAndReturnStdout(dir + "run_129.bds");
         Assert.assertTrue(out.contains("FILE_01\n"));
         Assert.assertTrue(out.contains("FILE_02\n"));
