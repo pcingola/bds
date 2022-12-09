@@ -205,7 +205,7 @@ public class TestCasesLang extends TestCasesBase {
     @Test
     public void test111() {
         // Error statement
-        runAndCheck(dir + "run_111.bds", "runOk", "false");
+        runAndCheckError(dir + "run_111.bds", "Cannot escape error");
     }
 
     @Test

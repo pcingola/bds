@@ -8,7 +8,7 @@ void die(string anything) {
 }
 
 # Die within a function
-die("hard")
+die("error")
 
 # This should never be executed
 runOk = true
