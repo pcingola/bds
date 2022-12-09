@@ -34,7 +34,7 @@ public class TestCasesSys extends TestCasesBase {
     @Test
     public void test75() {
         // sys: return commands outputs
-        runAndCheck(dir + "run_75.bds", "ls", "EXEC\ntest/unit/run/run_75.bds\nDONE\n");
+        runAndCheck(dir + "run_75.bds", "ls", "EXEC\ntest/unit/sys/run_75.bds\nDONE\n");
     }
 
     @Test

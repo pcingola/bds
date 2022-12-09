@@ -37,7 +37,7 @@ public class TestCasesTask extends TestCasesBase {
     @Test
     public void test49() {
         // Task definition: Using two lines without braces
-        String errs = "ERROR [ file 'test/unit/lang/test49.bds', line 4 ] :\tTask has empty statement";
+        String errs = "ERROR [ file 'test/unit/task/test49.bds', line 4 ] :\tTask has empty statement";
         compileErrors(dir + "test49.bds", errs);
     }
     @Test

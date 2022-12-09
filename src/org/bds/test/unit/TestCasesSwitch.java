@@ -35,14 +35,14 @@ public class TestCasesSwitch extends TestCasesBase {
     @Test
     public void test54() {
         // Switch statement, Incorrect type in 'case' expression
-        String errs = "ERROR [ file 'test/unit/lang/test54.bds', line 9 ] :	Switch expression and case expression types do not match (string vs int): case 7";
+        String errs = "ERROR [ file 'test/unit/switch/test54.bds', line 9 ] :	Switch expression and case expression types do not match (string vs int): case 7";
         compileErrors(dir + "test54.bds", errs);
     }
 
     @Test
     public void test55() {
         // Switch: Missing variable
-        String errs = "ERROR [ file 'test/unit/lang/test55.bds', line 15 ] :	Symbol 'b' cannot be resolved";
+        String errs = "ERROR [ file 'test/unit/switch/test55.bds', line 15 ] :	Symbol 'b' cannot be resolved";
         compileErrors(dir + "test55.bds", errs);
     }
 
