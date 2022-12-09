@@ -136,7 +136,7 @@ public class TestCasesVariable extends TestCasesBase {
     @Test
     public void test41() {
         // Global variable 'programName'
-        runAndCheck(dir + "run_01.bds", "programName", "run_01.bds");
+        runAndCheck(dir + "run_41.bds", "programName", "run_41.bds");
     }
 
     @Test

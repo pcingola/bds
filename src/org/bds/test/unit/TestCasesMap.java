@@ -21,7 +21,7 @@ public class TestCasesMap extends TestCasesBase {
     @Test
     public void test51() {
         // Map: Incorrect assignment (trying to assign a value to a map returned from a function)
-        String errs = "ERROR [ file 'test/unit/lang/test51.bds', line 6 ] :	Cannot assign to non-variable 'f(  ){\"hi\"}'";
+        String errs = "ERROR [ file 'test/unit/maps/test51.bds', line 6 ] :	Cannot assign to non-variable 'f(  ){\"hi\"}'";
         compileErrors(dir + "test51.bds", errs);
     }
 
