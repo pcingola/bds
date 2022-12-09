@@ -1,3 +1,4 @@
+#!/bin/bash
 
 mv \
 	test04.bds test05.bds test06.bds test07.bds test08.bds test73.bds test74.bds test75.bds \
@@ -25,14 +26,14 @@ mv \
 
 mv \
 	run_89.bds run_17.bds run_103.bds run_131.bds run_253.bds run_254.bds run_255.bds run_256.bds run_257.bds \
-	../functions_native
+	../functions_native/
 
 
 mv \
 	test09.bds test14.bds test15.bds test16.bds test28.bds test29.bds test38.bds run_01.bds run_02.bds run_03.bds run_03.bds run_04.bds \
 	run_04.bds run_05.bds run_10.bds run_11.bds run_16.bds run_18.bds run_18.bds run_42.bds run_53.bds run_54.bds run_56.bds run_56.bds run_66.bds \
 	run_70.bds run_71.bds run_72.bds run_73.bds run_74.bds run_122.bds run_244.bds run_249.bds \
-	../loops_if 
+	../loops_if/
 
 mv \
 	test37.bds test39.bds test40.bds test44.bds test45.bds test46.bds test50.bds test71.bds run_15.bds run_15.bds run_15.bds run_15.bds \
@@ -71,3 +72,4 @@ mv \
 	run_230.bds run_231.bds run_232.bds run_233.bds run_234.bds run_235.bds run_235_rev.bds run_236.bds run_237.bds \
 	run_238.bds run_239.bds run_240.bds run_241.bds run_265.bds run_266.bds run_267.bds run_268.bds run_277.bds \
 	../try_catch_finally/
+
