@@ -13,13 +13,13 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ //
-        TestCasesTail.class, //
+        TestCasesTail.class, // Tail, following files
         TestCasesVm.class, // Virtual machine
-        TestCasesLang.class, // Language (compiler)
         TestCasesInterpolate.class, // Variable interpolation
         TestCasesExecutioners.class, // Task executioners
         TestCasesFunctionDeclaration.class, // Function declaration
         //
+        TestCasesLang.class, // Language, compiler, built-in statements
         TestCasesClass.class, // Class definition, fields, methods, etc.
         TestCasesFile.class, // File (native) functions
         TestCasesFunctions.class, // Function definitions

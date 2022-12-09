@@ -59,7 +59,6 @@ public class TestCasesLang extends TestCasesBase {
         compileOk(dir + "test42.bds");
     }
 
-
     @Test
     public void test60_1() {
         // Include statements: Multiple includes. Include order should not affect compilation
@@ -71,11 +70,13 @@ public class TestCasesLang extends TestCasesBase {
         // String interpolation
         runAndCheck(dir + "run_14.bds", "s", "this is string interpolation: int i = 42 and str = \"hi\" and both hi42");
     }
+
     @Test
     public void test38() {
         // String interpolation: Literal string with '$'
         runAndCheck(dir + "run_38.bds", "su", "$s world \\n");
     }
+
     @Test
     public void test40() {
         // Command line arguments: Setting global variables from command line arguments
@@ -106,7 +107,6 @@ public class TestCasesLang extends TestCasesBase {
 
         runAndCheck(dir + "run_40.bds", expectedValues, argsAfter);
     }
-
 
     @Test
     public void test47() {
@@ -154,6 +154,7 @@ public class TestCasesLang extends TestCasesBase {
         // Interpolating a hash
         runAndCheck(dir + "run_51.bds", "hash", "{ hi => bye }");
     }
+
     @Test
     public void test60() {
         // Command line arguments: boolean
@@ -177,7 +178,6 @@ public class TestCasesLang extends TestCasesBase {
         String[] args = {fileName, "-b", "false"};
         runAndCheck(fileName, args, "b", false);
     }
-
 
     @Test
     public void test67() {
@@ -215,7 +215,7 @@ public class TestCasesLang extends TestCasesBase {
     }
 
     @Test
-    public void test123_literals() {
+    public void test123Literals() {
         // String literals, interpolation and escaped characters
         String output = "print_quote        |\\t|\n" //
                 + "print_quote        |\\t|    variable:$hi\n" //
@@ -229,7 +229,7 @@ public class TestCasesLang extends TestCasesBase {
     }
 
     @Test
-    public void test125_automatic_help() {
+    public void test125AutomaticHelp() {
         // Command line options: Help
         String output = "Command line options 'run_125.bds' :\n" //
                 + "\t-mean <int>                                  : Help for argument 'mean' should be printed here\n" //
@@ -245,7 +245,7 @@ public class TestCasesLang extends TestCasesBase {
     }
 
     @Test
-    public void test125b_automatic_help_unsorted() {
+    public void test125bAutomaticHelpUnsorted() {
         // Command line options: Help
         String output = "Command line options 'run_125b.bds' :\n" //
                 + "\t-useTab <bool>                               : Use tab before printing line\n" //
@@ -280,8 +280,8 @@ public class TestCasesLang extends TestCasesBase {
     }
 
     @Test
-    public void test134_automatic_help_sections() {
-        // Show help when there are no arguments
+    public void test134AutomaticHelpSections() {
+        // Show help when there are no arguments (sections)
         String output = "This program does blah\n" //
                 + "Actually, a lot of blah blah\n" //
                 + "    and even more blah\n" //
@@ -298,10 +298,11 @@ public class TestCasesLang extends TestCasesBase {
     }
 
     @Test
-    public void test158_log() {
+    public void test158Log() {
         // Log messages to console
         runAndCheckStderr(dir + "run_158.bds", "hi there");
     }
+
     @Test
     public void test164() {
         // PrintErr: print to stderr
