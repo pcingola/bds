@@ -8,9 +8,9 @@ import org.junit.Test;
  *
  * @author pcingola
  */
-public class TestCasesCustomResources extends TestCasesBase {
+public class TestCasesTaskCustomResources extends TestCasesBase {
 
-    public TestCasesCustomResources() {
+    public TestCasesTaskCustomResources() {
         dir = "test/unit/task/custom_resources/";
     }
 

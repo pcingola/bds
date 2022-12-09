@@ -20,27 +20,26 @@ import org.junit.runners.Suite.SuiteClasses;
         TestCasesFunctionDeclaration.class, // Function declaration
         //
         TestCasesLang.class, // Language, compiler, built-in statements
-        TestCasesClass.class, // Class definition, fields, methods, etc.
-        TestCasesFile.class, // File (native) functions
-        TestCasesFunctions.class, // Function definitions
-        TestCasesFunctionsMethodsNative.class, // Native functions
-        TestCasesList.class, // Lists
-        TestCasesLoopsIf.class, // Loops ('for', 'while') and 'if'
-        TestCasesMap.class, // Maps
         TestCasesOperatorsAndMath.class, // Operators and math
+        TestCasesVariable.class, // Variables, initializations, casting, etc.
+        TestCasesFunctions.class, // Function definitions
+        TestCasesFile.class, // File (native) functions
+        TestCasesFunctionsMethodsNative.class, // Native functions
+        TestCasesJson.class, // JSON parsing
+        TestCasesLoopsIf.class, // Loops ('for', 'while') and 'if'
+        TestCasesList.class, // Lists
+        TestCasesMap.class, // Maps
         TestCasesSwitch.class, // Swtch statements
+        TestCasesClass.class, // Class definition, fields, methods, etc.
         TestCasesSys.class, // 'sys' expressions
         TestCasesTask.class, // 'task' expressions, task dependencies, etc.
+        TestCasesTaskCustomResources.class, // Custom resource allocation in tasks (e.g. GPU, FFPGA, etc.)
         TestCasesTryCatchFinally.class, // Try, catch, finally statements
-        TestCasesVariable.class, // Variables, initializations, casting, etc.
-        TestCasesCustomResources.class, // Custom resource allocation in tasks (e.g. GPU, FFPGA, etc.)
-        TestCasesJson.class, // JSON parsing
         //
         TestCasesTesting.class, // Check bds unit testing system
         TestCasesCommandLineOptions.class, // Check command line options
         TestCasesRemote.class, // Accessing remote data (cloud storage)
         TestCasesReport.class, // Report generation
-
 
 
 })
