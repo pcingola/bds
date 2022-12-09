@@ -15,7 +15,7 @@ import java.util.Map;
 public class TestCasesFunctionsMethodsNative extends TestCasesBase {
 
     public TestCasesFunctionsMethodsNative() {
-        dir = "test/unit/run/";
+        dir = "test/unit/functions_native/";
     }
 
     @Test
@@ -66,7 +66,7 @@ public class TestCasesFunctionsMethodsNative extends TestCasesBase {
     }
 
     @Test
-    public void test131_chdir_fileMethods() {
+    public void test131ChdirFileMethods() {
         // File functions: read(), readLines(), etc.
         String out = ""//
                 + "chdir_test_file_01.txt\tread:FILE_01\n" //
@@ -94,7 +94,7 @@ public class TestCasesFunctionsMethodsNative extends TestCasesBase {
     }
 
     @Test
-    public void test253_getvar() {
+    public void test253Getvar() {
         // Function: getVar()
         HashMap<String, Object> expectedValues = new HashMap<>();
 
@@ -108,7 +108,7 @@ public class TestCasesFunctionsMethodsNative extends TestCasesBase {
     }
 
     @Test
-    public void test254_getvar() {
+    public void test254Getvar() {
         // Function: getVar() with default value
         HashMap<String, Object> expectedValues = new HashMap<>();
 
@@ -120,22 +120,20 @@ public class TestCasesFunctionsMethodsNative extends TestCasesBase {
     }
 
     @Test
-    public void test255_getModuleName() {
+    public void test255GetModuleName() {
         // Function: getModulePath()
         runAndCheck(dir + "run_255.bds", "b", "run_255.bds");
     }
 
     @Test
-    public void test256_getModuleName() {
+    public void test256GetModuleName() {
         // Function: getModulePath()
         runAndCheck(dir + "run_256.bds", "db", "run");
     }
 
     @Test
-    public void test257_randIntDivisionByZero() {
+    public void test257RandIntDivisionByZero() {
         // Function: randInt(0)
         runAndCheck(dir + "run_257.bds", "r", "0");
     }
-
-
 }

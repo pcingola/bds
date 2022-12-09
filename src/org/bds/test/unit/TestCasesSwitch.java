@@ -17,9 +17,8 @@ import java.util.Map;
 public class TestCasesSwitch extends TestCasesBase {
 
     public TestCasesSwitch() {
-        dir = "test/unit/run/";
+        dir = "test/unit/switch/";
     }
-
 
     @Test
     public void test52() {
@@ -53,43 +52,43 @@ public class TestCasesSwitch extends TestCasesBase {
         compileErrors(dir + "test68.bds", "Empty switch statement");
     }
     @Test
-    public void test145_switch() {
+    public void test145Switch() {
         // Switch statement: Case
         runAndCheck(dir + "run_145.bds", "out", 3);
     }
 
     @Test
-    public void test146_switch_fallthrough() {
+    public void test146SwitchFallthrough() {
         // Switch statement: case fallthrough
         runAndCheck(dir + "run_146.bds", "out", 35);
     }
 
     @Test
-    public void test147_switch_default() {
+    public void test147SwitchDefault() {
         // Switch statement: default
         runAndCheck(dir + "run_147.bds", "out", 100);
     }
 
     @Test
-    public void test148_switch_default_fallthrough() {
+    public void test148Switch_defaultFallthrough() {
         // Switch statement: default fallthrough
         runAndCheck(dir + "run_148.bds", "out", 700);
     }
 
     @Test
-    public void test153_caseInt() {
+    public void test153CaseInt() {
         // Switch: Case using int
         runAndCheck(dir + "run_153.bds", "r", "The answer");
     }
 
     @Test
-    public void test154_caseReal() {
+    public void test154CaseReal() {
         // Switch: Case using real
         runAndCheck(dir + "run_154.bds", "res", "OK");
     }
 
     @Test
-    public void test166_switch_case_return() {
+    public void test166SwitchCaseReturn() {
         // Switch: case + return statement
         runAndCheck(dir + "run_166.bds", "res", "1");
     }

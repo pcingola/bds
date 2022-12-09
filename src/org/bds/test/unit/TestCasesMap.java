@@ -14,7 +14,7 @@ import java.util.Map;
 public class TestCasesMap extends TestCasesBase {
 
     public TestCasesMap() {
-        dir = "test/unit/run/";
+        dir = "test/unit/maps/";
     }
 
 
@@ -26,7 +26,7 @@ public class TestCasesMap extends TestCasesBase {
     }
 
     @Test
-    public void test72_castEmptyMapOfObjects() {
+    public void test72CastEmptyMapOfObjects() {
         // Initialize with an empty map of objects
         compileOk(dir + "test72.bds");
     }
@@ -62,13 +62,13 @@ public class TestCasesMap extends TestCasesBase {
     }
 
     @Test
-    public void test141_map_nonvariable() {
+    public void test141MapNonvariable() {
         // Map: Assignment from function return value
         runAndCheck(dir + "run_141.bds", "i", "42");
     }
 
     @Test
-    public void test224_map_of_lists() {
+    public void test224MapOfLists() {
         // Map of lists
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("m", "{ en => [hi, bye, hello], sp => [hola, adios] }");
@@ -78,9 +78,8 @@ public class TestCasesMap extends TestCasesBase {
         runAndCheck(dir + "run_224.bds", expectedValues);
     }
     @Test
-    public void test261_invalidKey() {
+    public void test261InvalidKey() {
         // Map: Invalid index
         runAndCheckError(dir + "run_261.bds", "Invalid key 'hi' in map.");
     }
-
 }

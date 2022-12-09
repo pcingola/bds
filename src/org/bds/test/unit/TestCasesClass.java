@@ -14,7 +14,7 @@ import java.util.Map;
 public class TestCasesClass extends TestCasesBase {
 
     public TestCasesClass() {
-        dir = "test/unit/run/";
+        dir = "test/unit/class/";
     }
 
     @Test
@@ -194,25 +194,25 @@ public class TestCasesClass extends TestCasesBase {
     }
 
     @Test
-    public void test225_super() {
+    public void test225Super() {
         // Class: super method invocation
         runAndCheck(dir + "run_225.bds", "ret", "2");
     }
 
     @Test
-    public void test226_refref() {
+    public void test226Refref() {
         // Class: field of field reference
         runAndCheck(dir + "run_226.bds", "ret", "42");
     }
 
     @Test
-    public void test227_refref() {
+    public void test227Refref() {
         // Class: local variable (class) reference
         runAndCheck(dir + "run_227.bds", "ret", "42");
     }
 
     @Test
-    public void test228_method_call() {
+    public void test228MethodCall() {
         // Class: Method invocation in subclass
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("ret1", "1");
@@ -222,7 +222,7 @@ public class TestCasesClass extends TestCasesBase {
     }
 
     @Test
-    public void test229_super() {
+    public void test229Super() {
         // Class: super in constructor
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("af", "1");
@@ -236,26 +236,26 @@ public class TestCasesClass extends TestCasesBase {
     }
 
     @Test
-    public void test242_derivedMethodParamNames() {
+    public void test242DerivedMethodParamNames() {
         // Class: Overriding method, different parameter names
         runAndCheck(dir + "run_242.bds", "ret", "n:hi");
     }
 
     @Test
-    public void test243_downCasting() {
+    public void test243DownCasting() {
         // Class: Down-casting
         runAndCheck(dir + "run_243.bds", "ret", "42");
     }
 
 
     @Test
-    public void test250_super_super_method_call() {
+    public void test250SuperSuperMethodCall() {
         // Class: Method override multiple childs
         runAndCheckStdout(dir + "run_250.bds", "GrandParent\nParent\nChild\n");
     }
 
     @Test
-    public void test251_super_super_constructor_call() {
+    public void test251SuperSuperConstructorCall() {
         // Class: Constructor invoke super -> super ...
         runAndCheckStdout(dir + "run_251.bds", "GrandParent\nParent\nChild\n");
     }
@@ -267,34 +267,32 @@ public class TestCasesClass extends TestCasesBase {
     }
 
     @Test
-    public void test258_infiniteRecursionPrint() {
+    public void test258InfiniteRecursionPrint() {
         // Class: Class includes a reference to a list of the same type of the class
         runOk(dir + "run_258.bds");
     }
 
     @Test
-    public void test259_infiniteRecursionFor() {
+    public void test259InfiniteRecursionFor() {
         // Class: Class includes a reference to a list of the same type of the class
         runOk(dir + "run_259.bds");
     }
 
     @Test
-    public void test262_simpleClassCast() {
+    public void test262SimpleClassCast() {
         // Class: casting
         runOk(dir + "run_262.bds");
     }
 
     @Test
-    public void test263_invokeMethodOnNullObject() {
+    public void test263InvokeMethodOnNullObject() {
         // Class: Invoke a method on a null object
         runAndCheckError(dir + "run_263.bds", "Null pointer: Invoking method 'z' on null object type 'Z', signature z(Z this) -> void");
     }
 
     @Test
-    public void test264_typeOfClass() {
+    public void test264TypeOfClass() {
         // Class: type() for object
         runAndCheck(dir + "run_264.bds", "objType", "A");
     }
-
-
 }

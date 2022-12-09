@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class TestCasesVariable extends TestCasesBase {
 
     public TestCasesVariable() {
-        dir = "test/unit/run/";
+        dir = "test/unit/variables/";
     }
 
     @Test
@@ -200,7 +200,7 @@ public class TestCasesVariable extends TestCasesBase {
     }
 
     @Test
-    public void test278_auto_casting() {
+    public void test278AutoCasting() {
         // Variables: Casting and automatic type casts
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("outs1", "s1 = '5', type: string");
@@ -210,7 +210,7 @@ public class TestCasesVariable extends TestCasesBase {
     }
 
     @Test
-    public void test278_type_any() {
+    public void test278TypeAny() {
         // Variables: type 'any'
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("outz1", "z1 = 5, type: int");
@@ -219,6 +219,4 @@ public class TestCasesVariable extends TestCasesBase {
         expectedValues.put("outz4", "z4 = true, type: bool");
         runAndCheck(1, dir + "run_279_type_any.bds", expectedValues);
     }
-
-
 }

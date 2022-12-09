@@ -13,8 +13,9 @@ import java.util.HashMap;
 public class TestCasesLoopsIf extends TestCasesBase {
 
     public TestCasesLoopsIf() {
-        dir = "test/unit/run/";
+        dir = "test/unit/loops_if/";
     }
+
     @Test
     public void test09() {
         // For loop
@@ -74,6 +75,7 @@ public class TestCasesLoopsIf extends TestCasesBase {
         // If condition, else
         runAndCheck(dir + "run_02.bds", "i", 9L);
     }
+
     @Test
     public void test03() {
         // For loop
@@ -140,7 +142,6 @@ public class TestCasesLoopsIf extends TestCasesBase {
         runAndCheck(dir + "run_42.bds", "i", 6L);
     }
 
-
     @Test
     public void test53() {
         // For loop: Iterating over a hash
@@ -159,6 +160,7 @@ public class TestCasesLoopsIf extends TestCasesBase {
         runAndCheck(dir + "run_56.bds", "out", "Adios;Au revoir;Bye;");
         runAndCheck(dir + "run_56.bds", "str", "map = { Bonjour => Au revoir, Hello => Bye, Hola => Adios }");
     }
+
     @Test
     public void test66() {
         // If string as boolean empty
@@ -168,6 +170,7 @@ public class TestCasesLoopsIf extends TestCasesBase {
         expectedValues.put("mif", "Map '{}' IS empty");
         runAndCheck(dir + "run_66.bds", expectedValues);
     }
+
     @Test
     public void test70() {
         // For: Empty initialization clause
@@ -199,23 +202,20 @@ public class TestCasesLoopsIf extends TestCasesBase {
     }
 
     @Test
-    public void test122_nestest_break_continue() {
+    public void test122NestestBreakContinue() {
         // For loops: Nested loops with 'break' and 'continue' statements
         runAndCheck(dir + "run_122.bds", "out", "5\t7");
     }
 
     @Test
-    public void test244_concurrent_modification() {
+    public void test244ConcurrentModification() {
         // For loop List:ConcurrentModificationException
         runAndCheckException(dir + "run_244.bds", "ConcurrentModificationException");
     }
 
     @Test
-    public void test249_concurrent_modification_hash() {
+    public void test249ConcurrentModificationHash() {
         // For loop Map: ConcurrentModificationException
         runAndCheckException(dir + "run_249.bds", "ConcurrentModificationException");
     }
-
-
-
 }

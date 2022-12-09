@@ -12,7 +12,7 @@ import org.junit.Test;
 public class TestCasesSys extends TestCasesBase {
 
     public TestCasesSys() {
-        dir = "test/unit/run/";
+        dir = "test/unit/sys/";
     }
 
     @Test
@@ -80,6 +80,4 @@ public class TestCasesSys extends TestCasesBase {
         // Sys: multi-line statements
         runAndCheck(dir + "run_157.bds", "o", "hello world\n");
     }
-
-
 }

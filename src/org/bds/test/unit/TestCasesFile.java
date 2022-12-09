@@ -16,7 +16,7 @@ import java.io.File;
 public class TestCasesFile extends TestCasesBase {
 
     public TestCasesFile() {
-        dir = "test/unit/run/";
+        dir = "test/unit/file/";
     }
 
     @Test
@@ -49,9 +49,8 @@ public class TestCasesFile extends TestCasesBase {
         runAndCheck(dir + "run_69.bds", "btxt", "path/to/file");
     }
 
-
     @Test
-    public void test142_dirPath() {
+    public void test142DirPath() {
         // File: dir, dirPath
         ValueList dir2 = (ValueList) runAndGet(dir + "run_142.bds", "dir2");
 
@@ -66,12 +65,13 @@ public class TestCasesFile extends TestCasesBase {
     }
 
     @Test
-    public void test143_pathAbsolute() {
+    public void test143PathAbsolute() {
         // File: baseName
         runAndCheck(dir + "run_143.bds", "fileBase", "tmp_run_143_link.txt");
     }
+
     @Test
-    public void test269_rmOnExit() {
+    public void test269RmOnExit() {
         // File: rmOnExit()
         var tmpFile = new File("/tmp/run_269.tmp");
         var txtFile = new File("/tmp/run_269.txt");
@@ -81,7 +81,7 @@ public class TestCasesFile extends TestCasesBase {
     }
 
     @Test
-    public void test270_rmOnExit_error() {
+    public void test270RmOnExitError() {
         // File: rmOnExit() on error statement
         var tmpFile = new File("/tmp/run_270.tmp");
         var txtFile = new File("/tmp/run_270.txt");
@@ -91,7 +91,7 @@ public class TestCasesFile extends TestCasesBase {
     }
 
     @Test
-    public void test271_rmOnExit_dirWithFiles() {
+    public void test271RmOnExitDirWithFiles() {
         // File: rmOnExit() for directories
         runOk(dir + "run_271.bds");
 
@@ -112,7 +112,7 @@ public class TestCasesFile extends TestCasesBase {
     }
 
     @Test
-    public void test272_rmOnExitCancel() {
+    public void test272RmOnExitCancel() {
         // File: rmOnExitCancel()
         var tmpFile = new File("/tmp/run_272.tmp");
         var txtFile = new File("/tmp/run_272.txt");
@@ -122,7 +122,7 @@ public class TestCasesFile extends TestCasesBase {
     }
 
     @Test
-    public void test273_rmOnExitCancel_error() {
+    public void test273RmOnExitCancelError() {
         // File: rmOnExitCancel()
         var tmpFile = new File("/tmp/run_273.tmp");
         var txtFile = new File("/tmp/run_273.txt");
@@ -132,7 +132,7 @@ public class TestCasesFile extends TestCasesBase {
     }
 
     @Test
-    public void test274_rmOnExitCancelList() {
+    public void test274RmOnExitCancelList() {
         // File: rmOnExitCancel() with a list of files
         var tmpFile1 = new File("/tmp/run_274.1.tmp");
         var tmpFile2 = new File("/tmp/run_274.2.tmp");
@@ -146,7 +146,7 @@ public class TestCasesFile extends TestCasesBase {
     }
 
     @Test
-    public void test275_rmOnExitCancelList_error() {
+    public void test275RmOnExitCancelListError() {
         // File: rmOnExitCancel() with a list of files, error statement forcing exit
         var tmpFile1 = new File("/tmp/run_275.1.tmp");
         var tmpFile2 = new File("/tmp/run_275.2.tmp");
@@ -158,6 +158,4 @@ public class TestCasesFile extends TestCasesBase {
         org.junit.Assert.assertTrue("Tmp file " + tmpFile3 + " should exist", tmpFile3.exists());
         org.junit.Assert.assertTrue("Tmp file " + txtFile + " should exists", txtFile.exists());
     }
-
-
 }

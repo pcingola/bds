@@ -14,7 +14,7 @@ import java.util.Map;
 public class TestCasesList extends TestCasesBase {
 
     public TestCasesList() {
-        dir = "test/unit/run/";
+        dir = "test/unit/list/";
     }
 
     @Test
@@ -57,7 +57,6 @@ public class TestCasesList extends TestCasesBase {
         compileOk(dir + "test46.bds");
     }
 
-
     @Test
     public void test50() {
         // List: Incorrect assignment (trying to assign a value to a list returned from a function)
@@ -65,9 +64,8 @@ public class TestCasesList extends TestCasesBase {
         compileErrors(dir + "test50.bds", errs);
     }
 
-
     @Test
-    public void test71_castEmptyListOfObjects() {
+    public void test71CastEmptyListOfObjects() {
         // Initialize with an empty list of objects
         compileOk(dir + "test71.bds");
     }
@@ -207,13 +205,13 @@ public class TestCasesList extends TestCasesBase {
         runAndCheck(dir + "run_96.bds", "l", "[one, two, three, four]");
     }
     @Test
-    public void test120_split_empty_string() {
+    public void test120SplitEmptyString() {
         // List: String split, list size(), list isEmpty()
         runAndCheck(dir + "run_120.bds", "len", "0");
     }
 
     @Test
-    public void test121_split_fail_regex() {
+    public void test121SplitFailRegex() {
         // List: split with invalid regex
         runAndCheck(dir + "run_121.bds", "len", "1");
     }
@@ -230,7 +228,7 @@ public class TestCasesList extends TestCasesBase {
     }
 
     @Test
-    public void test135_clone() {
+    public void test135Clone() {
         // List: Clone
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("l", "[1, 2, 3, 99]");
@@ -268,25 +266,24 @@ public class TestCasesList extends TestCasesBase {
     }
 
     @Test
-    public void test140_list_nonvariable() {
+    public void test140ListNonVariable() {
         // List: Assignment from function return value
         runAndCheck(dir + "run_140.bds", "i", "2");
     }
     @Test
-    public void test155_list_sort() {
+    public void test155ListSort() {
         // List: sort string
         runAndCheck(dir + "run_155.bds", "sl", "[a, a, a+a, a_a, aa, aaa, aaaa, aaaaaa, x, y, z]");
     }
 
     @Test
-    public void test156_list_int_sort() {
+    public void test156ListIntSort() {
         // List: sort int
         runAndCheck(dir + "run_156.bds", "sl", "[-99, -1, 1, 2, 3, 9, 23, 99, 101]");
     }
 
-
     @Test
-    public void test223_list_of_list() {
+    public void test223ListOfList() {
         // List of lists
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("l", "[[hi, bye], [hola, adios]]");
@@ -314,17 +311,14 @@ public class TestCasesList extends TestCasesBase {
     }
 
     @Test
-    public void test248_out_of_bounds() {
+    public void test248OutOfBounds() {
         // List: out of bounds index
         runAndCheck(dir + "run_248.bds", "ret", "1");
     }
 
-
     @Test
-    public void test260_emptyListIndex() {
+    public void test260EmptyListIndex() {
         // List: Invalid index from empty list
         runAndCheckError(dir + "run_260.bds", "Runtime error StatementExpr test/unit/run/run_260.bds:4,1: Cannot get element '0' from an empty list");
     }
-
-
 }

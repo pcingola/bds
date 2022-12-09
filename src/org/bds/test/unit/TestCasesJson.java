@@ -18,7 +18,7 @@ public class TestCasesJson extends TestCasesBase {
     }
 
     @Test
-    public void test_01_scopeGlobalVariables() {
+    public void test01ScopeGlobalVariables() {
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("firstName", "John");
         expectedValues.put("lastName", "Smith");
@@ -29,7 +29,7 @@ public class TestCasesJson extends TestCasesBase {
     }
 
     @Test
-    public void test_02_scopeFunctionVariables() {
+    public void test02ScopeFunctionVariables() {
         Map<String, Object> expectedValues = new HashMap<>();
 
         // Function's private variables should be set
@@ -48,7 +48,7 @@ public class TestCasesJson extends TestCasesBase {
     }
 
     @Test
-    public void test_03_scopeGlobalObject() {
+    public void test03ScopeGlobalObject() {
         Map<String, Object> expectedValues = new HashMap<>();
 
         // Function's private variables should be set
@@ -61,7 +61,7 @@ public class TestCasesJson extends TestCasesBase {
     }
 
     @Test
-    public void test_04_scopeFunctionObject() {
+    public void test04ScopeFunctionObject() {
         Map<String, Object> expectedValues = new HashMap<>();
 
         // Function's private variables should be set
@@ -72,18 +72,18 @@ public class TestCasesJson extends TestCasesBase {
     }
 
     @Test
-    public void test_05_scopeGlobalList() {
+    public void test05ScopeGlobalList() {
         runAndCheck(dir + "json_05.bds", "phoneNumbers", "[{ number: 212 555-1234, type: home }, { number: 646 555-4567, type: fax }]");
     }
 
     @Test
-    public void test_06_object() {
+    public void test06Object() {
         var expVal = "{ address: { city: New York, postalCode: 10021, state: NY, streetAddress: 21 2nd Street }, age: 25, firstName: John, isbool: true, lastName: Smith, phone: { number: 212 555-1234, type: home }, phoneNumbers: [{ number: 212 555-1234, type: home }, { number: 646 555-4567, type: fax }] }";
         runAndCheck(dir + "json_06.bds", "person", expVal);
     }
 
     @Test
-    public void test_07_scopeGlobalVariablesMatch() {
+    public void test07ScopeGlobalVariablesMatch() {
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("firstName", "John");
         expectedValues.put("lastName", "Smith");
@@ -94,33 +94,33 @@ public class TestCasesJson extends TestCasesBase {
     }
 
     @Test
-    public void test_08_fieldNamesMatch() {
+    public void test08FieldNamesMatch() {
         runAndCheck(dir + "json_08.bds", "a", "{ anotherName: Joe, anotherName2: Bill, firstName: John, last_Name: Smith }");
     }
 
     @Test
-    public void test_09_json_set_side_effects() {
+    public void test09JsonSetSideEffects() {
         Map<String, Object> expected = Map.of("var2", "default_value", "globalVar", "VALUE_FROM_JSON");
         runAndCheck(dir + "json_09.bds", expected);
     }
 
     @Test
-    public void test_10_subjson() {
+    public void test10SubJson() {
         runAndCheck(dir + "json_10.bds", "a", "{ firstName: John, last_Name: Smith }");
     }
 
     @Test
-    public void test_11_subsubjson() {
+    public void test11SubsubJson() {
         runAndCheck(dir + "json_11.bds", "a", "{ firstName: John, last_Name: Smith }");
     }
 
     @Test
-    public void test_12_subsubjson_error_key() {
+    public void test12SubsubJsonErrorKey() {
         runAndCheckError(dir + "json_12.bds", "JSON object from file 'test/unit/json/json_11.json' does not contain field 'sub_b.sub_ii.sub_Z'");
     }
 
     @Test
-    public void test_13_subsubjson_error_type() {
+    public void test13SubsubJsonErrorType() {
         runAndCheckError(dir + "json_13.bds", "JSON object from file 'test/unit/json/json_11.json', field 'sub_b.sub_i' is not an Object (value type 'NUMBER')");
     }
 

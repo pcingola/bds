@@ -16,7 +16,7 @@ import java.util.Set;
 public class TestCasesFunctions extends TestCasesBase {
 
     public TestCasesFunctions() {
-        dir = "test/unit/run/";
+        dir = "test/unit/functions/";
     }
 
     @Test
@@ -163,7 +163,7 @@ public class TestCasesFunctions extends TestCasesBase {
     }
 
     @Test
-    public void test113_parallel_function_calls() {
+    public void test113ParallelFunctionCalls() {
         // Parallel function calls 'par'
         String stdout = runAndReturnStdout(dir + "run_113.bds");
 
@@ -177,12 +177,9 @@ public class TestCasesFunctions extends TestCasesBase {
     }
 
     @Test
-    public void test116_lineWrap_backslashId() {
+    public void test116LineWrapBackslashId() {
         // Function definition multiple lines continued
         String stdout = runAndReturnStdout(dir + "run_116.bds");
         Assert.assertEquals("hi bye\nThe answer\t\tis: 42", stdout);
     }
-
-
-
 }
