@@ -20,11 +20,11 @@ import static org.bds.libraries.LibraryException.EXCEPTION_FIELD_VALUE;
 public class TestCasesTryCatchFinally extends TestCasesBase {
 
     public TestCasesTryCatchFinally() {
-        dir = "test/unit/run/";
+        dir = "test/unit/try_catch_finally/";
     }
 
     @Test
-    public void test230_tryCatch() {
+    public void test230TryCatch() {
         // Try/Catch/Finally
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("try1", "true");
@@ -35,7 +35,7 @@ public class TestCasesTryCatchFinally extends TestCasesBase {
     }
 
     @Test
-    public void test231_tryCatch() {
+    public void test231TryCatch() {
         // Try/Catch/Finally: Throw exception within try
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("try1", "true");
@@ -46,7 +46,7 @@ public class TestCasesTryCatchFinally extends TestCasesBase {
     }
 
     @Test
-    public void test232_tryCatch() {
+    public void test232TryCatch() {
         // Try/Catch/Finally: Throw exception within function
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("f1", "true");
@@ -60,7 +60,7 @@ public class TestCasesTryCatchFinally extends TestCasesBase {
     }
 
     @Test
-    public void test233_tryCatch() {
+    public void test233TryCatch() {
         // Try/Catch/Finally: Throw exception with multiple catch clauses within a function
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("f1", "true");
@@ -74,7 +74,7 @@ public class TestCasesTryCatchFinally extends TestCasesBase {
     }
 
     @Test
-    public void test234_tryCatch() {
+    public void test234TryCatch() {
         // Try/Catch/Finally: Nestes try/catch
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("try11", "true");
@@ -91,7 +91,7 @@ public class TestCasesTryCatchFinally extends TestCasesBase {
     }
 
     @Test
-    public void test235_tryCatch() {
+    public void test235TryCatch() {
         // Try/Catch/Finally: Nested try/catch in nested functions
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("f11", "true");
@@ -113,7 +113,7 @@ public class TestCasesTryCatchFinally extends TestCasesBase {
     }
 
     @Test
-    public void test235_tryCatch_rev() {
+    public void test235TryCatchRev() {
         // Try/Catch/Finally: Custom exception classes
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("f11", "true");
@@ -135,7 +135,7 @@ public class TestCasesTryCatchFinally extends TestCasesBase {
     }
 
     @Test
-    public void test236_tryCatch() {
+    public void test236TryCatch() {
         // Try/Catch/Finally: Custom exception classes, nested try/catch in nested functions
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("f11", "true");
@@ -157,7 +157,7 @@ public class TestCasesTryCatchFinally extends TestCasesBase {
     }
 
     @Test
-    public void test237_tryCatch() {
+    public void test237TryCatch() {
         // Try/Catch/Finally: Catching exceptions (no finally clause)
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("main1", "true");
@@ -171,7 +171,7 @@ public class TestCasesTryCatchFinally extends TestCasesBase {
     }
 
     @Test
-    public void test238_tryCatch() {
+    public void test238TryCatch() {
         // Try/Catch/Finally: Finally clause without any catch clause
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("main1", "true");
@@ -186,7 +186,7 @@ public class TestCasesTryCatchFinally extends TestCasesBase {
     }
 
     @Test
-    public void test239_tryCatch() {
+    public void test239TryCatch() {
         // Try/Catch/Finally: Finally clause throw an exc exception
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("main1", "true");
@@ -201,7 +201,7 @@ public class TestCasesTryCatchFinally extends TestCasesBase {
     }
 
     @Test
-    public void test240_tryCatch() {
+    public void test240TryCatch() {
         // Try/Catch/Finally: Finally clause without any catch clause invokes a function that throws an exception
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("main1", "true");
@@ -216,7 +216,7 @@ public class TestCasesTryCatchFinally extends TestCasesBase {
     }
 
     @Test
-    public void test241_tryCatch() {
+    public void test241TryCatch() {
         // Try/Catch/Finally: Within a function, finally clause without any catch clause invokes a function that throws an exception
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("main1", "true");
@@ -232,25 +232,25 @@ public class TestCasesTryCatchFinally extends TestCasesBase {
         runAndCheck(1, dir + "run_241.bds", expectedValues);
     }
     @Test
-    public void test265_try_catch_parent_exception_class() {
+    public void test265TryCatchParentExceptionClass() {
         // Try/Catch: Catching a derived exception type
         runAndCheck(dir + "run_265.bds", "out", "try_start catch finally");
     }
 
     @Test
-    public void test266_try_catch_exception_class() {
+    public void test266TryCatchExceptionClass() {
         // Try/Catch: Catching a derived exception type
         runAndCheck(dir + "run_266.bds", "out", "try_start catch finally");
     }
 
     @Test
-    public void test267_try_catch_exception_class_defined_after() {
+    public void test267TryCatchExceptionClassDefinedAfter() {
         // Try/Catch: Catching a derived exception type defined after the try/catch statement
         runOk(dir + "run_267.bds");
     }
 
     @Test
-    public void test268_try_catch_nested() {
+    public void test268TryCatchNested() {
         // Try/Catch: Catching exceptions in nested try/catch clauses
         var expectedStdout = "START\n" //
                 + "TRY 1: Start\n" //
@@ -264,13 +264,11 @@ public class TestCasesTryCatchFinally extends TestCasesBase {
     }
 
     @Test
-    public void test277_throw_string() {
+    public void test277ThrowString() {
         // Try/Catch: Throwing a string instead of an Exception object
         BdsTest bdsTets = runAndCheckException(dir + "run_277.bds", "Exception");
         ValueObject exceptionObject = (ValueObject) bdsTets.getBds().getBdsRun().getVm().getException();
         Value exceptionValue = exceptionObject.getFieldValue(EXCEPTION_FIELD_VALUE);
         Assert.assertEquals("You can also throw a string, but it's a bit weird...", exceptionValue.asString());
     }
-
-
 }

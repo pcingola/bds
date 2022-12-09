@@ -15,7 +15,7 @@ public class TestCasesTaskCustomResources extends TestCasesBase {
     }
 
     @Test
-    public void test01_onlyOneTask() {
+    public void test01OnlyOneTask() {
         var expectedOut = "Start task 0\n" +
                 "End task 0\n" +
                 "Start task 1\n" +
@@ -26,7 +26,7 @@ public class TestCasesTaskCustomResources extends TestCasesBase {
     }
 
     @Test
-    public void test02_allTasksInParallel() {
+    public void test02AllTasksInParallel() {
         var expectedOut = "Start\n" +
                 "Start\n" +
                 "Start\n" +
@@ -37,7 +37,7 @@ public class TestCasesTaskCustomResources extends TestCasesBase {
     }
 
     @Test
-    public void test03_notEnoughResources() {
+    public void test03NotEnoughResources() {
         runAndCheckError(dir + "run_custom_resources_03.bds", "Error in wait statement, file test/unit/task/custom_resources/run_custom_resources_03.bds, line 13");
     }
 }
