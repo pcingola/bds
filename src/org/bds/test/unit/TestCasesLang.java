@@ -202,5 +202,110 @@ public class TestCasesLang extends TestCasesBase {
         runAndCheck(dir + "run_97.bds", expectedValues);
     }
 
+    @Test
+    public void test111() {
+        // Error statement
+        runAndCheck(dir + "run_111.bds", "runOk", "false");
+    }
+
+    @Test
+    public void test112() {
+        // Exit statement
+        runAndCheck(dir + "run_112.bds", "runOk", "false");
+    }
+
+    @Test
+    public void test123_literals() {
+        // String literals, interpolation and escaped characters
+        String output = "print_quote        |\\t|\n" //
+                + "print_quote        |\\t|    variable:$hi\n" //
+                + "print_double       |\t|\n" //
+                + "print_double       |\t|    variable:Hello\n" //
+                + "print_double_esc   |\\t|\n" //
+                + "print_double_esc   |\\t|   variable:Hello\n" //
+                ;
+
+        runAndCheckStdout(dir + "run_123.bds", output);
+    }
+
+    @Test
+    public void test125_automatic_help() {
+        // Command line options: Help
+        String output = "Command line options 'run_125.bds' :\n" //
+                + "\t-mean <int>                                  : Help for argument 'mean' should be printed here\n" //
+                + "\t-min <int>                                   : Help for argument 'min' should be printed here\n" //
+                + "\t-num <int>                                   : Number of times 'hi' should be printed\n" //
+                + "\t-salutation <string>                         : Salutation to use\n" //
+                + "\t-someVeryLongCommandLineArgumentName <bool>  : This command line argument has a really long name\n" //
+                + "\t-useTab <bool>                               : Use tab before printing line\n" //
+                + "\n" //
+                ;
+
+        runAndCheckHelp(dir + "run_125.bds", output);
+    }
+
+    @Test
+    public void test125b_automatic_help_unsorted() {
+        // Command line options: Help
+        String output = "Command line options 'run_125b.bds' :\n" //
+                + "\t-useTab <bool>                               : Use tab before printing line\n" //
+                + "\t-someVeryLongCommandLineArgumentName <bool>  : This command line argument has a really long name\n" //
+                + "\t-salutation <string>                         : Salutation to use\n" //
+                + "\t-num <int>                                   : Number of times 'hi' should be printed\n" //
+                + "\t-min <int>                                   : Help for argument 'min' should be printed here\n" //
+                + "\t-mean <int>                                  : Help for argument 'mean' should be printed here\n" //
+                + "\n" //
+                ;
+
+        runAndCheckHelp(dir + "run_125b.bds", output);
+    }
+
+    /**
+     * Show help when there are no arguments
+     */
+    @Test
+    public void test125c_automatic_help() {
+        // Command line options: Help
+        String output = "Command line options 'run_125c.bds' :\n" //
+                + "\t-mean <int>                                  : Help for argument 'mean' should be printed here\n" //
+                + "\t-min <int>                                   : Help for argument 'min' should be printed here\n" //
+                + "\t-num <int>                                   : Number of times 'hi' should be printed\n" //
+                + "\t-salutation <string>                         : Salutation to use\n" //
+                + "\t-someVeryLongCommandLineArgumentName <bool>  : This command line argument has a really long name\n" //
+                + "\t-useTab <bool>                               : Use tab before printing line\n" //
+                + "\n" //
+                ;
+
+        runAndCheckHelp(dir + "run_125c.bds", output);
+    }
+
+    @Test
+    public void test134_automatic_help_sections() {
+        // Show help when there are no arguments
+        String output = "This program does blah\n" //
+                + "Actually, a lot of blah blah\n" //
+                + "    and even more blah\n" //
+                + "    or blah\n" //
+                + "\t-quiet <bool>     : Be very quiet\n" //
+                + "\t-verbose <bool>   : Be verbose\n" //
+                + "Options related to database\n" //
+                + "\t-dbName <string>  : Database name\n" //
+                + "\t-dbPort <int>     : Database port\n" //
+                + "\n" //
+                ;
+
+        runAndCheckHelp(dir + "run_134.bds", output);
+    }
+
+    @Test
+    public void test158_log() {
+        // Log messages to console
+        runAndCheckStderr(dir + "run_158.bds", "hi there");
+    }
+    @Test
+    public void test164() {
+        // PrintErr: print to stderr
+        runAndCheck(dir + "run_164.bds", "out", "hi");
+    }
 
 }

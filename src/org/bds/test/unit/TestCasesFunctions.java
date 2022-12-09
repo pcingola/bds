@@ -1,7 +1,12 @@
 package org.bds.test.unit;
 
+import junit.framework.Assert;
 import org.bds.test.TestCasesBase;
 import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Test cases for function definitions, invocations, etc.
@@ -121,6 +126,61 @@ public class TestCasesFunctions extends TestCasesBase {
     public void test59() {
         // Function: recursion
         runAndCheck(dir + "run_59.bds", "z", -1L);
+    }
+
+    @Test
+    public void test107() {
+        // Config function
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("paramName", "parameter_value");
+        expectedValues.put("file1", "/path/to/file_1.txt");
+        expectedValues.put("file2", "/path/to/file_2.txt");
+        expectedValues.put("file3", "/path/to/file_3.txt");
+        expectedValues.put("file4", "/path/to/file_4.txt");
+        expectedValues.put("file5", "/path/to/file_5.txt");
+
+        runAndCheck(dir + "run_107.bds", expectedValues);
+    }
+
+    @Test
+    public void test108() {
+        // Config function
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("paramName", "parameter_value");
+        expectedValues.put("file1", "/path/to/file_1.txt");
+        expectedValues.put("file2", "/path/to/file_2.txt");
+        expectedValues.put("file3", "/path/to/file_3.NEW.txt");
+        expectedValues.put("file4", "/path/to/file_4.txt");
+        expectedValues.put("file5", "/path/to/file_5.NEW.txt");
+
+        runAndCheck(dir + "run_108.bds", expectedValues);
+    }
+
+    @Test
+    public void test109() {
+        // Random seed
+        runAndCheck(dir + "run_109.bds", "r1", "4027146782649399912");
+    }
+
+    @Test
+    public void test113_parallel_function_calls() {
+        // Parallel function calls 'par'
+        String stdout = runAndReturnStdout(dir + "run_113.bds");
+
+        Set<String> linesPar = new HashSet<>();
+        for (String line : stdout.split("\n")) {
+            if (line.startsWith("Par:")) {
+                if (linesPar.contains(line)) throw new RuntimeException("Line repeated (this should never happen): '" + line + "'");
+                linesPar.add(line);
+            }
+        }
+    }
+
+    @Test
+    public void test116_lineWrap_backslashId() {
+        // Function definition multiple lines continued
+        String stdout = runAndReturnStdout(dir + "run_116.bds");
+        Assert.assertEquals("hi bye\nThe answer\t\tis: 42", stdout);
     }
 
 

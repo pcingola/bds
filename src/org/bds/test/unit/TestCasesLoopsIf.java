@@ -198,6 +198,13 @@ public class TestCasesLoopsIf extends TestCasesBase {
         runAndCheck(dir + "run_74.bds", "i", 10L);
     }
 
+    @Test
+    public void test122_nestest_break_continue() {
+        // For loops: Nested loops with 'break' and 'continue' statements
+        runAndCheck(dir + "run_122.bds", "out", "5\t7");
+    }
+
+
 
 
 }

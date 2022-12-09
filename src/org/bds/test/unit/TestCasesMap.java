@@ -3,6 +3,8 @@ package org.bds.test.unit;
 import org.bds.test.TestCasesBase;
 import org.junit.Test;
 
+import java.util.HashMap;
+
 /**
  * Test cases for Map
  *
@@ -48,5 +50,20 @@ public class TestCasesMap extends TestCasesBase {
         runAndCheck(dir + "run_64.bds", "m", "{}");
     }
 
+    @Test
+    public void test106() {
+        // Interpolation: hash elements
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("str1", "l[1] : '2'");
+        expectedValues.put("str2", "m{'Hello'} : 'Bye'");
+
+        runAndCheck(dir + "run_106.bds", expectedValues);
+    }
+
+    @Test
+    public void test141_map_nonvariable() {
+        // Map: Assignment from function return value
+        runAndCheck(dir + "run_141.bds", "i", "42");
+    }
 
 }

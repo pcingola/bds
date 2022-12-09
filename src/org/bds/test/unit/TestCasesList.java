@@ -205,5 +205,83 @@ public class TestCasesList extends TestCasesBase {
         // Operator '+=': List
         runAndCheck(dir + "run_96.bds", "l", "[one, two, three, four]");
     }
+    @Test
+    public void test120_split_empty_string() {
+        // List: String split, list size(), list isEmpty()
+        runAndCheck(dir + "run_120.bds", "len", "0");
+    }
+
+    @Test
+    public void test121_split_fail_regex() {
+        // List: split with invalid regex
+        runAndCheck(dir + "run_121.bds", "len", "1");
+    }
+    @Test
+    public void test135() {
+        // List: Variable assignment
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("l", "[1, 2, 3, 99]");
+        expectedValues.put("lc1", "[1, 2, 3, 99]");
+        expectedValues.put("lc2", "[1, 2, 3, 99]");
+        expectedValues.put("lc3", "[1, 2, 3, 99]");
+
+        runAndCheck(dir + "run_135.bds", expectedValues);
+    }
+
+    @Test
+    public void test135_clone() {
+        // List: Clone
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("l", "[1, 2, 3, 99]");
+        expectedValues.put("lc1", "[1, 2, 3]");
+        expectedValues.put("lc2", "[1, 2, 3]");
+        expectedValues.put("lc3", "[1, 2, 3]");
+
+        runAndCheck(dir + "run_135_clone.bds", expectedValues);
+    }
+
+    @Test
+    public void test136() {
+        // List Methods: Reverse, add, clone, count, indexOf, removeIdx
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("l", "[1, 99, 2, 3]");
+        expectedValues.put("l2", "[3, 2, 99, 1]");
+        expectedValues.put("l3", "[3, 2, 99, 1, 99]");
+        expectedValues.put("l3count", "2");
+        expectedValues.put("l3idx", "2");
+        expectedValues.put("l4", "[3, 2, 1, 99]");
+        expectedValues.put("l5", "[3, 2, 1, 99]");
+
+        runAndCheck(dir + "run_136.bds", expectedValues);
+    }
+
+    @Test
+    public void test137() {
+        // List: has() method
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("l", "[1, 2, 3]");
+        expectedValues.put("has2", "true");
+        expectedValues.put("has7", "false");
+
+        runAndCheck(dir + "run_137.bds", expectedValues);
+    }
+
+    @Test
+    public void test140_list_nonvariable() {
+        // List: Assignment from function return value
+        runAndCheck(dir + "run_140.bds", "i", "2");
+    }
+    @Test
+    public void test155_list_sort() {
+        // List: sort string
+        runAndCheck(dir + "run_155.bds", "sl", "[a, a, a+a, a_a, aa, aaa, aaaa, aaaaaa, x, y, z]");
+    }
+
+    @Test
+    public void test156_list_int_sort() {
+        // List: sort int
+        runAndCheck(dir + "run_156.bds", "sl", "[-99, -1, 1, 2, 3, 9, 23, 99, 101]");
+    }
+
 
 }

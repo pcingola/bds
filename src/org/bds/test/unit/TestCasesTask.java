@@ -2,6 +2,7 @@ package org.bds.test.unit;
 
 import junit.framework.Assert;
 import org.bds.test.TestCasesBase;
+import org.bds.util.Gpr;
 import org.bds.util.Timer;
 import org.junit.Test;
 
@@ -113,6 +114,150 @@ public class TestCasesTask extends TestCasesBase {
         // Task: cpus, not enough resources
         runAndCheckStderr(dir + "run_88.bds", "Not enough resources to execute task:");
     }
+
+    @Test
+    public void test110() {
+        // Task: 'allowEmpty'
+        runAndCheck(dir + "run_110.bds", "runOk", "true");
+    }
+    @Test
+    public void test118_dependency_using_path() {
+        // Task: 'dep' and 'goal'
+        runAndCheckExit(dir + "run_118.bds", 0);
+    }
+
+
+    @Test
+    public void test124_quiet_mode() {
+        // Task: quiet mode
+        String output = "print 0\n" //
+                + "print 1\n" //
+                + "print 2\n" //
+                + "print 3\n" //
+                + "print 4\n" //
+                + "print 5\n" //
+                + "print 6\n" //
+                + "print 7\n" //
+                + "print 8\n" //
+                + "print 9\n" //
+                ;
+
+        // Run and capture stdout
+        String[] args = {"-quiet"};
+        String stdout = runAndReturnStdout(dir + "run_124.bds", args);
+        if (verbose) System.err.println("STDOUT: " + stdout);
+
+        // Check that sys and task outputs are not there
+        Assert.assertTrue("Print output should be in STDOUT", stdout.contains(output));
+        Assert.assertTrue("Task output should NOT be in STDOUT", !stdout.contains("task"));
+        Assert.assertTrue("Sys output should NOT be in STDOUT", !stdout.contains("sys"));
+    }
+    /**
+     * Task dependent on output from a scheduled task
+     */
+    @Test
+    public void test126_task_dependency_scheduled() {
+        // Task: Nested loops of tasks (mutiple dependencies)
+        String expectedOutput = "IN: " + Gpr.HOME + "/zzz/in.txt\n" //
+                + "OUT: " + Gpr.HOME + "/zzz/out.txt\n" //
+                + "OUT_0: " + Gpr.HOME + "/zzz/out_0.txt\n" //
+                + "    OUT_0_0: " + Gpr.HOME + "/zzz/out_0_0.txt\n" //
+                + "    OUT_0_1: " + Gpr.HOME + "/zzz/out_0_1.txt\n" //
+                + "    OUT_0_2: " + Gpr.HOME + "/zzz/out_0_2.txt\n" //
+                + "OUT_1: " + Gpr.HOME + "/zzz/out_1.txt\n" //
+                + "    OUT_1_0: " + Gpr.HOME + "/zzz/out_1_0.txt\n" //
+                + "    OUT_1_1: " + Gpr.HOME + "/zzz/out_1_1.txt\n" //
+                + "    OUT_1_2: " + Gpr.HOME + "/zzz/out_1_2.txt\n" //
+                + "OUT_2: " + Gpr.HOME + "/zzz/out_2.txt\n" //
+                + "    OUT_2_0: " + Gpr.HOME + "/zzz/out_2_0.txt\n" //
+                + "    OUT_2_1: " + Gpr.HOME + "/zzz/out_2_1.txt\n" //
+                + "    OUT_2_2: " + Gpr.HOME + "/zzz/out_2_2.txt\n" //
+                ;
+
+        String stdout = runAndReturnStdout(dir + "run_126.bds");
+        if (verbose) {
+            System.err.println("STDOUT:" //
+                    + "\n----------------------------------------\n" //
+                    + stdout //
+                    + "\n----------------------------------------" //
+            );
+        }
+
+        // Check that task output lines
+        for (String out : expectedOutput.split("\n")) {
+            Assert.assertTrue("Expected output line not found: '" + out + "'", stdout.contains(out));
+        }
+    }
+
+    @Test
+    public void test127_interpolate_variable_with_underscores() {
+        // Task and sys combined
+        String output = "bwa parameters\n" //
+                + "bwa parameters\n" //
+                + "bwa parameters\n" //
+                + "bwa parameters\n" //
+                ;
+
+        runAndCheckStdout(dir + "run_127.bds", output);
+    }
+
+    @Test
+    public void test128_task_local_variables() {
+        // Task: Defining a variable within the task
+        runAndCheckStdout(dir + "run_128.bds", "TEST\n");
+    }
+
+    @Test
+    public void test132_taskName() {
+        // Task: taskIds. Make sure taskId contains 'taskName' parameter
+        String out = runAndReturnStdout(dir + "run_132.bds");
+        Assert.assertTrue(out.contains("run_132.mytask"));
+    }
+
+    @Test
+    public void test133_taskName_unsafe() {
+        // Task: taskName
+        //   - Make sure taskId contains 'taskName' parameter
+        //   - In this test 'taskName' is not safe to be used with as file name, so it has to be sanitized
+        String out = runAndReturnStdout(dir + "run_133.bds");
+        Assert.assertTrue(out.contains("run_133.mytask_unsafe_with_spaces"));
+    }
+
+    @Test
+    public void test144_dollar_sign_in_task() {
+        // Task: Variable interpolation and literals
+        //
+        // We want to execute an inline perl script within a task
+        // E.g.:
+        //     task perl -e 'use English; print "PID: \$PID\n";'
+        //
+        // Here $PID is a perl variable and should not be interpreted
+        // by bds. We need a way to escape such variables.
+        String bdsFile = dir + "run_144.bds";
+
+        String stdout = runAndReturnStdout(bdsFile);
+
+        // Parse STDOUT
+        String[] lines = stdout.split("\n");
+        Assert.assertEquals("No lines found?", 3, lines.length);
+
+        for (String line : lines) {
+            String[] fields = line.split(":");
+            Assert.assertEquals("Cannot parse line:\n" + line, 2, fields.length);
+
+            int positiveNumber = Gpr.parseIntSafe(fields[1]);
+            Assert.assertTrue("Positive number expected: '" + fields[1] + "'", positiveNumber > 0);
+        }
+    }
+
+
+    @Test
+    public void test159_task_prelude() {
+        // Task: prelude in Config file
+        String[] args = {"-c", dir + "run159_prelude_task.config"};
+        runAndCheckStdout(dir + "run_159.bds", "=== TASK PRELUDE local ===", args, false);
+    }
+
 
 
 

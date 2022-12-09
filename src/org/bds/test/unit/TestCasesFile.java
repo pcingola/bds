@@ -1,5 +1,8 @@
 package org.bds.test.unit;
 
+import junit.framework.Assert;
+import org.bds.lang.value.Value;
+import org.bds.lang.value.ValueList;
 import org.bds.test.TestCasesBase;
 import org.junit.Test;
 
@@ -44,5 +47,26 @@ public class TestCasesFile extends TestCasesBase {
         runAndCheck(dir + "run_69.bds", "btxt", "path/to/file");
     }
 
+
+    @Test
+    public void test142_dirPath() {
+        // File: dir, dirPath
+        ValueList dir2 = (ValueList) runAndGet(dir + "run_142.bds", "dir2");
+
+        Assert.assertEquals(10, dir2.size());
+
+        for (Value v : dir2) {
+            String f = v.toString();
+            debug(f);
+            Assert.assertTrue("Path must be canonical", f.startsWith("/"));
+            Assert.assertTrue("Path must be canonical", f.endsWith(".txt"));
+        }
+    }
+
+    @Test
+    public void test143_pathAbsolute() {
+        // File: baseName
+        runAndCheck(dir + "run_143.bds", "fileBase", "tmp_run_143_link.txt");
+    }
 
 }

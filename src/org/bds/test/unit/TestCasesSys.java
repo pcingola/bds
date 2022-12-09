@@ -1,5 +1,6 @@
 package org.bds.test.unit;
 
+import junit.framework.Assert;
 import org.bds.test.TestCasesBase;
 import org.junit.Test;
 
@@ -45,6 +46,39 @@ public class TestCasesSys extends TestCasesBase {
     public void test99() {
         // sys with 'canFail'
         runAndCheck(dir + "run_99.bds", "finished", "true");
+    }
+    @Test
+    public void test123_literals_sys() {
+        // String literals, interpolation and escaped characters
+        String output = "" //
+                // Note: This result may change if we use a different sysShell in bds.config
+                + "sys                |\t|\n" //
+                + "sys                |\t|    variable:Hello\n" //
+                + "sys                |\\t|   variable:Hello\n" //
+                ;
+
+        runAndCheckStdout(dir + "run_123_literals_sys.bds", output);
+    }
+    @Test
+    public void test129_chdir_sys() {
+        // sys: chDir
+        String out = runAndReturnStdout(dir + "run_129.bds");
+        Assert.assertTrue(out.contains("FILE_01\n"));
+        Assert.assertTrue(out.contains("FILE_02\n"));
+    }
+
+    @Test
+    public void test130_chdir_task() {
+        // sys & chdir
+        String out = runAndReturnStdout(dir + "run_130.bds");
+        Assert.assertTrue(out.contains("FILE_01\n"));
+        Assert.assertTrue(out.contains("FILE_02\n"));
+    }
+
+    @Test
+    public void test157_multiline_sys() {
+        // Sys: multi-line statements
+        runAndCheck(dir + "run_157.bds", "o", "hello world\n");
     }
 
 

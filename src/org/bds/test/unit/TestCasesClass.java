@@ -32,5 +32,23 @@ public class TestCasesClass extends TestCasesBase {
         compileErrors(dir + "test58.bds", "Symbol 'out' cannot be resolved");
     }
 
+    @Test
+    public void test161() {
+        // Class: field access
+        runAndCheck(dir + "run_161.bds", "out", "a.x = 42");
+    }
+
+    @Test
+    public void test162() {
+        // Class: Method in derived class
+        runAndCheck(dir + "run_162.bds", "out", "B: A: Hi");
+    }
+
+    @Test
+    public void test163() {
+        // Class: Defining a class inside a class, shadowing class names
+        runAndCheck(dir + "run_163.bds", "out", "B: A: Hi");
+    }
+
 
 }

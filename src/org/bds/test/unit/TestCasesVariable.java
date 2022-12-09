@@ -170,6 +170,29 @@ public class TestCasesVariable extends TestCasesBase {
         expectedValues.put("oneP", 1125899906842624L);
         runAndCheck(dir + "run_85.bds", expectedValues);
     }
+    @Test
+    public void test101() {
+        // Variables: Multiple assignment
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("a", 1);
+        expectedValues.put("b", 3);
+        expectedValues.put("c", 5);
+
+        runAndCheck(dir + "run_101.bds", expectedValues);
+    }
+
+    @Test
+    public void test102() {
+        // Variables: Multiple assignment
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("a", 1);
+        expectedValues.put("b", 3);
+        expectedValues.put("c", 5);
+        expectedValues.put("d", 1);
+
+        runAndCheck(dir + "run_102.bds", expectedValues);
+    }
+
 
 
 }

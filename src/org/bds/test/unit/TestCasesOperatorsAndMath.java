@@ -4,6 +4,7 @@ import org.bds.test.TestCasesBase;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Test cases for 'switch' statements
@@ -186,6 +187,95 @@ public class TestCasesOperatorsAndMath extends TestCasesBase {
         expectedValues.put("h4", "2");
         expectedValues.put("h5", "1");
         runAndCheck(dir + "run_98.bds", expectedValues);
+    }
+    @Test
+    public void test100() {
+        // Operator: Ternary
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("s", 1);
+        expectedValues.put("s2", -1);
+
+        runAndCheck(dir + "run_100.bds", expectedValues);
+    }
+    @Test
+    public void test138() {
+        // Math functions: cos(), acos()
+        runAndCheck(dir + "run_138.bds", "hasErr", "false");
+    }
+
+    @Test
+    public void test139() {
+        // Math functions: sin(), asin()
+        runAndCheck(dir + "run_139.bds", "hasErr", "false");
+    }
+
+    @Test
+    public void test149_div() {
+        // Math operators: Real and int division
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("val0", 50);
+        expectedValues.put("val1", 50.0);
+        expectedValues.put("val2", 50.0);
+        expectedValues.put("val3", 50.0);
+
+        runAndCheck(dir + "run_149.bds", expectedValues);
+    }
+
+    @Test
+    public void test150_mult() {
+        // Math operators: Real and int multiplication
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("val0", 200);
+        expectedValues.put("val1", 200.0);
+        expectedValues.put("val2", 200.0);
+        expectedValues.put("val3", 200.0);
+
+        runAndCheck(dir + "run_150.bds", expectedValues);
+    }
+
+    @Test
+    public void test151_plus() {
+        // Math operators: Real and int addition
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("val0", 102);
+        expectedValues.put("val1", 102.0);
+        expectedValues.put("val2", 102.0);
+        expectedValues.put("val3", 102.0);
+
+        runAndCheck(dir + "run_151.bds", expectedValues);
+    }
+
+    @Test
+    public void test152_minus() {
+        // Math operators: Real and int substraction
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("val0", 98);
+        expectedValues.put("val1", 98.0);
+        expectedValues.put("val2", 98.0);
+        expectedValues.put("val3", 98.0);
+
+        runAndCheck(dir + "run_152.bds", expectedValues);
+    }
+
+
+    @Test
+    public void test165() {
+        // Math: Grouping operators div, mult
+        Map<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("n1", "500");
+        expectedValues.put("n2", "500");
+        runAndCheck(dir + "run_165.bds", expectedValues);
+    }
+
+    @Test
+    public void test167_binary_expression_assign_bool() {
+        // Operators: boolean '&=', '|='
+        Map<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("band1", "true");
+        expectedValues.put("band2", "false");
+        expectedValues.put("bor1", "true");
+        expectedValues.put("bor2", "false");
+        runAndCheck(dir + "run_167.bds", expectedValues);
     }
 
 }
