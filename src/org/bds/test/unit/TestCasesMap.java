@@ -4,6 +4,7 @@ import org.bds.test.TestCasesBase;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Test cases for Map
@@ -64,6 +65,22 @@ public class TestCasesMap extends TestCasesBase {
     public void test141_map_nonvariable() {
         // Map: Assignment from function return value
         runAndCheck(dir + "run_141.bds", "i", "42");
+    }
+
+    @Test
+    public void test224_map_of_lists() {
+        // Map of lists
+        Map<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("m", "{ en => [hi, bye, hello], sp => [hola, adios] }");
+        expectedValues.put("typem", "string[]{string}");
+        expectedValues.put("typemen", "string[]");
+
+        runAndCheck(dir + "run_224.bds", expectedValues);
+    }
+    @Test
+    public void test261_invalidKey() {
+        // Map: Invalid index
+        runAndCheckError(dir + "run_261.bds", "Invalid key 'hi' in map.");
     }
 
 }

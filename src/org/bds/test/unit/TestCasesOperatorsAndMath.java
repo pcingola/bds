@@ -277,5 +277,18 @@ public class TestCasesOperatorsAndMath extends TestCasesBase {
         expectedValues.put("bor2", "false");
         runAndCheck(dir + "run_167.bds", expectedValues);
     }
+    @Test
+    public void test276_modulo_bug() {
+        // Math operators: Modulo test cases
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("a", 0);
+        expectedValues.put("b", 0);
+        expectedValues.put("c", 17);
+        expectedValues.put("d", 17);
+        expectedValues.put("e", 1);
+        expectedValues.put("f", 0);
+        runAndCheck(dir + "run_276.bds", expectedValues);
+    }
+
 
 }

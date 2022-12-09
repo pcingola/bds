@@ -204,6 +204,17 @@ public class TestCasesLoopsIf extends TestCasesBase {
         runAndCheck(dir + "run_122.bds", "out", "5\t7");
     }
 
+    @Test
+    public void test244_concurrent_modification() {
+        // For loop List:ConcurrentModificationException
+        runAndCheckException(dir + "run_244.bds", "ConcurrentModificationException");
+    }
+
+    @Test
+    public void test249_concurrent_modification_hash() {
+        // For loop Map: ConcurrentModificationException
+        runAndCheckException(dir + "run_249.bds", "ConcurrentModificationException");
+    }
 
 
 

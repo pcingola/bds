@@ -93,5 +93,49 @@ public class TestCasesFunctionsMethodsNative extends TestCasesBase {
         Assert.assertEquals(out, outreal);
     }
 
+    @Test
+    public void test253_getvar() {
+        // Function: getVar()
+        HashMap<String, Object> expectedValues = new HashMap<>();
+
+        expectedValues.put("shome", System.getenv().get("HOME"));
+        expectedValues.put("bhome", true);
+
+        expectedValues.put("szzz", "");
+        expectedValues.put("bzzz", false);
+
+        runAndCheck(dir + "run_253.bds", expectedValues);
+    }
+
+    @Test
+    public void test254_getvar() {
+        // Function: getVar() with default value
+        HashMap<String, Object> expectedValues = new HashMap<>();
+
+        expectedValues.put("shome", System.getenv().get("HOME"));
+        expectedValues.put("szzz", "VALUE_DEFAULT_2");
+        expectedValues.put("szzzxxxzzz", "VALUE_DEFAULT_3");
+
+        runAndCheck(dir + "run_254.bds", expectedValues);
+    }
+
+    @Test
+    public void test255_getModuleName() {
+        // Function: getModulePath()
+        runAndCheck(dir + "run_255.bds", "b", "run_255.bds");
+    }
+
+    @Test
+    public void test256_getModuleName() {
+        // Function: getModulePath()
+        runAndCheck(dir + "run_256.bds", "db", "run");
+    }
+
+    @Test
+    public void test257_randIntDivisionByZero() {
+        // Function: randInt(0)
+        runAndCheck(dir + "run_257.bds", "r", "0");
+    }
+
 
 }

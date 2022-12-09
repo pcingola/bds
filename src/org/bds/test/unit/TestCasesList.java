@@ -4,6 +4,7 @@ import org.bds.test.TestCasesBase;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Test cases for List
@@ -281,6 +282,48 @@ public class TestCasesList extends TestCasesBase {
     public void test156_list_int_sort() {
         // List: sort int
         runAndCheck(dir + "run_156.bds", "sl", "[-99, -1, 1, 2, 3, 9, 23, 99, 101]");
+    }
+
+
+    @Test
+    public void test223_list_of_list() {
+        // List of lists
+        Map<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("l", "[[hi, bye], [hola, adios]]");
+        expectedValues.put("typel", "string[][]");
+        expectedValues.put("typel0", "string[]");
+
+        runAndCheck(dir + "run_223.bds", expectedValues);
+    }
+    @Test
+    public void test245NegativeIndex() {
+        // List: Negative index
+        runAndCheck(dir + "run_245.bds", "ret", "5");
+    }
+
+    @Test
+    public void test246NegativeIndex() {
+        // List: Negative index
+        runAndCheck(dir + "run_246.bds", "ret", "1");
+    }
+
+    @Test
+    public void test247NegativeIndex() {
+        // List: Negative index
+        runAndCheck(dir + "run_247.bds", "ret", "5");
+    }
+
+    @Test
+    public void test248_out_of_bounds() {
+        // List: out of bounds index
+        runAndCheck(dir + "run_248.bds", "ret", "1");
+    }
+
+
+    @Test
+    public void test260_emptyListIndex() {
+        // List: Invalid index from empty list
+        runAndCheckError(dir + "run_260.bds", "Runtime error StatementExpr test/unit/run/run_260.bds:4,1: Cannot get element '0' from an empty list");
     }
 
 

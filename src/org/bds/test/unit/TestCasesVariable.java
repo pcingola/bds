@@ -193,6 +193,32 @@ public class TestCasesVariable extends TestCasesBase {
         runAndCheck(dir + "run_102.bds", expectedValues);
     }
 
+    @Test
+    public void test200() {
+        // Variable: Assign a function
+        runAndCheck(dir + "run_200.bds", "z", "(int) -> int");
+    }
+
+    @Test
+    public void test278_auto_casting() {
+        // Variables: Casting and automatic type casts
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("outs1", "s1 = '5', type: string");
+        expectedValues.put("outs2", "s2 = 'true', type: string");
+        expectedValues.put("outi", "i = true, type: bool");
+        runAndCheck(1, dir + "run_278_auto_casting.bds", expectedValues);
+    }
+
+    @Test
+    public void test278_type_any() {
+        // Variables: type 'any'
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("outz1", "z1 = 5, type: int");
+        expectedValues.put("outz2", "z2 = hi, type: string");
+        expectedValues.put("outz3", "z3 = 1.234, type: real");
+        expectedValues.put("outz4", "z4 = true, type: bool");
+        runAndCheck(1, dir + "run_279_type_any.bds", expectedValues);
+    }
 
 
 }
