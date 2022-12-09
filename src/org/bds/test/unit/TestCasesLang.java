@@ -61,7 +61,7 @@ public class TestCasesLang extends TestCasesBase {
 
 
     @Test
-    public void test60() {
+    public void test60_1() {
         // Include statements: Multiple includes. Include order should not affect compilation
         compileOk(dir + "test60.bds");
     }

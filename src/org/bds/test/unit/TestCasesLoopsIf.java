@@ -38,7 +38,7 @@ public class TestCasesLoopsIf extends TestCasesBase {
     }
 
     @Test
-    public void test16() {
+    public void test16_1() {
         // For loop with variables defined in loop block
         compileOk(dir + "test16.bds");
     }

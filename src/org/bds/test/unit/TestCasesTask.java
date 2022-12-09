@@ -19,13 +19,13 @@ public class TestCasesTask extends TestCasesBase {
 
 
     @Test
-    public void test32() {
+    public void test32_1() {
         // Task definition
         compileOk(dir + "test32.bds");
     }
 
     @Test
-    public void test33() {
+    public void test33_1() {
         // Task definition: Improper tasks
         compileOk(dir + "test33.bds");
     }
