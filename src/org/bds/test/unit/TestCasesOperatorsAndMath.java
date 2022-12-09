@@ -14,7 +14,7 @@ import java.util.Map;
 public class TestCasesOperatorsAndMath extends TestCasesBase {
 
     public TestCasesOperatorsAndMath() {
-        dir = "test/unit/run/";
+        dir = "test/unit/operators_and_math/";
     }
 
     @Test
@@ -52,7 +52,7 @@ public class TestCasesOperatorsAndMath extends TestCasesBase {
     }
 
     @Test
-    public void test73_plus_minus_typo_string() {
+    public void test73PlusMinusTypoString() {
         // Unary operator: '+-' does not exits
         //
         // Using '+-' instead of '+=' creates a "This should never happen" error instead of compilation error
@@ -79,7 +79,7 @@ public class TestCasesOperatorsAndMath extends TestCasesBase {
     }
 
     @Test
-    public void test74_plus_minus_typo_string() {
+    public void test74PlusMinusTypoString() {
         // Unary operator: '+-' does not exits
         //
         // Using '+-' instead of '+=' creates a null pointer error instead of compilation error
@@ -100,50 +100,51 @@ public class TestCasesOperatorsAndMath extends TestCasesBase {
     }
 
     @Test
-    public void test75_plus_minus_typo_string() {
+    public void test75PlusMinusTypoString() {
         // Unary operator: '+-' does not exits
         //
         // Using '+-' instead of '+=' creates a null pointer error instead of compilation error
         compileErrors(dir + "test75.bds", "Unary expression '-' unknown return type");
     }
+
     @Test
-    public void test00_plus_int() {
+    public void test00PlusInt() {
         // Binary operator: Integer addition
         runAndCheck(dir + "run_00_plus_int.bds", "i", 42L);
     }
 
     @Test
-    public void test00_plus_real() {
+    public void test00PlusReal() {
         // Binary operator: Real addition
         runAndCheck(dir + "run_00_plus_real.bds", "i", 42.0);
     }
 
     @Test
-    public void test00_plus_string() {
+    public void test00PlusString() {
         // Binary operator: string addition (concatenation)
         runAndCheck(dir + "run_00_plus_string.bds", "i", "42 life universe, and everything");
     }
 
     @Test
-    public void test00_minus_int() {
+    public void test00MinusInt() {
         // Binary operator: Integer subtraction
         runAndCheck(dir + "run_00_minus_int.bds", "i", 42L);
     }
 
     @Test
-    public void test00_minus_real() {
+    public void test00MinusReal() {
         // Binary operator: Real subtraction
         runAndCheck(dir + "run_00_minus_real.bds", "i", 42.0);
     }
 
     @Test
-    public void test00_div_int() {
+    public void test00DivInt() {
         // Binary operator: Integer division
         runAndCheck(dir + "run_00_div_int.bds", "i", 3L);
     }
 
     @Test
-    public void test00_div_real() {
+    public void test00DivReal() {
         // Binary operator: Real division
         runAndCheck(dir + "run_00_div_real.bds", "i", 3.3333333333333335);
     }
@@ -188,6 +189,7 @@ public class TestCasesOperatorsAndMath extends TestCasesBase {
         expectedValues.put("h5", "1");
         runAndCheck(dir + "run_98.bds", expectedValues);
     }
+
     @Test
     public void test100() {
         // Operator: Ternary
@@ -197,6 +199,7 @@ public class TestCasesOperatorsAndMath extends TestCasesBase {
 
         runAndCheck(dir + "run_100.bds", expectedValues);
     }
+
     @Test
     public void test138() {
         // Math functions: cos(), acos()
@@ -210,7 +213,7 @@ public class TestCasesOperatorsAndMath extends TestCasesBase {
     }
 
     @Test
-    public void test149_div() {
+    public void test149Div() {
         // Math operators: Real and int division
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("val0", 50);
@@ -222,7 +225,7 @@ public class TestCasesOperatorsAndMath extends TestCasesBase {
     }
 
     @Test
-    public void test150_mult() {
+    public void test150Mult() {
         // Math operators: Real and int multiplication
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("val0", 200);
@@ -234,7 +237,7 @@ public class TestCasesOperatorsAndMath extends TestCasesBase {
     }
 
     @Test
-    public void test151_plus() {
+    public void test151Plus() {
         // Math operators: Real and int addition
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("val0", 102);
@@ -246,7 +249,7 @@ public class TestCasesOperatorsAndMath extends TestCasesBase {
     }
 
     @Test
-    public void test152_minus() {
+    public void test152Minus() {
         // Math operators: Real and int substraction
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("val0", 98);
@@ -256,7 +259,6 @@ public class TestCasesOperatorsAndMath extends TestCasesBase {
 
         runAndCheck(dir + "run_152.bds", expectedValues);
     }
-
 
     @Test
     public void test165() {
@@ -268,7 +270,7 @@ public class TestCasesOperatorsAndMath extends TestCasesBase {
     }
 
     @Test
-    public void test167_binary_expression_assign_bool() {
+    public void test167BinaryExpressionAssignBool() {
         // Operators: boolean '&=', '|='
         Map<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("band1", "true");
@@ -277,8 +279,9 @@ public class TestCasesOperatorsAndMath extends TestCasesBase {
         expectedValues.put("bor2", "false");
         runAndCheck(dir + "run_167.bds", expectedValues);
     }
+
     @Test
-    public void test276_modulo_bug() {
+    public void test276Modulo() {
         // Math operators: Modulo test cases
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("a", 0);
@@ -289,6 +292,4 @@ public class TestCasesOperatorsAndMath extends TestCasesBase {
         expectedValues.put("f", 0);
         runAndCheck(dir + "run_276.bds", expectedValues);
     }
-
-
 }
