@@ -40,35 +40,35 @@ public class TestCasesFunctions extends TestCasesBase {
     @Test
     public void test30() {
         // Function definition: Wrong casting in 'return' statement
-        String errs = "ERROR [ file 'test/unit/lang/test30.bds', line 4 ] :	Cannot cast real to int\n";
+        String errs = "ERROR [ file 'test/unit/functions/test30.bds', line 4 ] :	Cannot cast real to int\n";
         compileErrors(dir + "test30.bds", errs);
     }
 
     @Test
     public void test31() {
         // Function definition: Missing return statement
-        String errs = "ERROR [ file 'test/unit/lang/test31.bds', line 4 ] :	Function has no return statement\n";
+        String errs = "ERROR [ file 'test/unit/functions/test31.bds', line 4 ] :	Function has no return statement\n";
         compileErrors(dir + "test31.bds", errs);
     }
 
     @Test
     public void test34() {
         // Function call: Undefined function
-        String errs = "ERROR [ file 'test/unit/lang/test34.bds', line 5 ] :	Function f(int) cannot be resolved\n";
+        String errs = "ERROR [ file 'test/unit/functions/test34.bds', line 5 ] :	Function f(int) cannot be resolved\n";
         compileErrors(dir + "test34.bds", errs);
     }
 
     @Test
     public void test47() {
         // Function has the same name as a variable
-        String errs = "ERROR [ file 'test/unit/lang/test47.bds', line 5 ] :	Duplicate local name 'gsea'";
+        String errs = "ERROR [ file 'test/unit/functions/test47.bds', line 5 ] :	Duplicate local name 'gsea'";
         compileErrors(dir + "test47.bds", errs);
     }
 
     @Test
     public void test63() {
         // Function definition: Duplicate name for variable and function
-        compileErrors(dir + "test63.bds", "ERROR [ file 'test/unit/lang/test63.bds', line 5 ] :	Duplicate local name 'zzz'");
+        compileErrors(dir + "test63.bds", "ERROR [ file 'test/unit/functions/test63.bds', line 5 ] :	Duplicate local name 'zzz'");
     }
 
     @Test
@@ -159,6 +159,7 @@ public class TestCasesFunctions extends TestCasesBase {
     @Test
     public void test109() {
         // Random seed
+        verbose = true;
         runAndCheck(dir + "run_109.bds", "r1", "4027146782649399912");
     }
 

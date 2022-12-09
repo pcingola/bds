@@ -128,7 +128,7 @@ public class TestCasesFunctionsMethodsNative extends TestCasesBase {
     @Test
     public void test256GetModuleName() {
         // Function: getModulePath()
-        runAndCheck(dir + "run_256.bds", "db", "run");
+        runAndCheck(dir + "run_256.bds", "db", "functions_native");
     }
 
     @Test

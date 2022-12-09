@@ -1,5 +1,3 @@
-#!/bin/sh
-
 randSeed(20141020)
 int r1 = randInt()
 println "r1 = $r1"
