@@ -3,6 +3,9 @@ package org.bds.test.unit;
 import org.bds.test.TestCasesBase;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * Test cases for language & compilation
  * <p>
@@ -62,4 +65,142 @@ public class TestCasesLang extends TestCasesBase {
         // Include statements: Multiple includes. Include order should not affect compilation
         compileOk(dir + "test60.bds");
     }
+
+    @Test
+    public void test14() {
+        // String interpolation
+        runAndCheck(dir + "run_14.bds", "s", "this is string interpolation: int i = 42 and str = \"hi\" and both hi42");
+    }
+    @Test
+    public void test38() {
+        // String interpolation: Literal string with '$'
+        runAndCheck(dir + "run_38.bds", "su", "$s world \\n");
+    }
+    @Test
+    public void test40() {
+        // Command line arguments: Setting global variables from command line arguments
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("file", "zzz.txt");
+        expectedValues.put("opt", "true");
+        expectedValues.put("num", "42");
+        expectedValues.put("rnum", "3.1415");
+        expectedValues.put("args", "[-file, zzz.txt, -num, 42, -rnum, 3.1415, -opt, -notProcessed, more, arguments]");
+
+        // Arguments to add after program name
+        ArrayList<String> argsAfter = new ArrayList<>();
+
+        argsAfter.add("-file");
+        argsAfter.add("zzz.txt");
+
+        argsAfter.add("-num");
+        argsAfter.add("42");
+
+        argsAfter.add("-rnum");
+        argsAfter.add("3.1415");
+
+        argsAfter.add("-opt");
+
+        argsAfter.add("-notProcessed");
+        argsAfter.add("more");
+        argsAfter.add("arguments");
+
+        runAndCheck(dir + "run_40.bds", expectedValues, argsAfter);
+    }
+
+
+    @Test
+    public void test47() {
+        // Command line arguments: Passing a list of values
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("in", "[in1.txt, in2.txt, in3.txt]");
+        expectedValues.put("out", "zzz.txt");
+        expectedValues.put("ok", "true");
+
+        ArrayList<String> args = new ArrayList<>();
+
+        args.add("-ok");
+
+        args.add("-in");
+        args.add("in1.txt");
+        args.add("in2.txt");
+        args.add("in3.txt");
+
+        args.add("-out");
+        args.add("zzz.txt");
+
+        runAndCheck(dir + "run_47.bds", expectedValues, args);
+    }
+
+    @Test
+    public void test48() {
+        // Statements: Warning and error
+        runAndCheck(1, dir + "run_48.bds", "step", 2L);
+    }
+
+    @Test
+    public void test50() {
+        // Include
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("i", "32");
+        expectedValues.put("j", "302");
+        expectedValues.put("jx", "44");
+        expectedValues.put("jy", "91");
+
+        runAndCheck(dir + "run_50.bds", expectedValues);
+    }
+
+    @Test
+    public void test51() {
+        // Interpolating a hash
+        runAndCheck(dir + "run_51.bds", "hash", "{ hi => bye }");
+    }
+    @Test
+    public void test60() {
+        // Command line arguments: boolean
+        String fileName = dir + "run_60.bds";
+        String[] args = {fileName, "-b"};
+        runAndCheck(fileName, args, "b", true);
+    }
+
+    @Test
+    public void test61() {
+        // Command line arguments: boolean
+        String fileName = dir + "run_60.bds";
+        String[] args = {fileName, "-b", "true"};
+        runAndCheck(fileName, args, "b", true);
+    }
+
+    @Test
+    public void test62() {
+        // Command line arguments: boolean
+        String fileName = dir + "run_60.bds";
+        String[] args = {fileName, "-b", "false"};
+        runAndCheck(fileName, args, "b", false);
+    }
+
+
+    @Test
+    public void test67() {
+        // String interpolation, escaping '$'
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("s", "varS");
+        expectedValues.put("s1", "Hi '$'");
+        expectedValues.put("s2", "Hi $");
+        expectedValues.put("s3", "Hi $ bye");
+        runAndCheck(dir + "run_67.bds", expectedValues);
+    }
+
+    @Test
+    public void test97() {
+        // String interpolation and '\t', '\n' characters
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("h1", "1");
+        expectedValues.put("h2", "3");
+        expectedValues.put("h3", "2");
+        expectedValues.put("h4", "2");
+        expectedValues.put("h5", "1");
+        runAndCheck(dir + "run_97.bds", expectedValues);
+    }
+
+
 }

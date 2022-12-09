@@ -3,6 +3,8 @@ package org.bds.test.unit;
 import org.bds.test.TestCasesBase;
 import org.junit.Test;
 
+import java.util.HashMap;
+
 /**
  * Test cases for 'switch' statements
  *
@@ -102,6 +104,88 @@ public class TestCasesOperatorsAndMath extends TestCasesBase {
         //
         // Using '+-' instead of '+=' creates a null pointer error instead of compilation error
         compileErrors(dir + "test75.bds", "Unary expression '-' unknown return type");
+    }
+    @Test
+    public void test00_plus_int() {
+        // Binary operator: Integer addition
+        runAndCheck(dir + "run_00_plus_int.bds", "i", 42L);
+    }
+
+    @Test
+    public void test00_plus_real() {
+        // Binary operator: Real addition
+        runAndCheck(dir + "run_00_plus_real.bds", "i", 42.0);
+    }
+
+    @Test
+    public void test00_plus_string() {
+        // Binary operator: string addition (concatenation)
+        runAndCheck(dir + "run_00_plus_string.bds", "i", "42 life universe, and everything");
+    }
+
+    @Test
+    public void test00_minus_int() {
+        // Binary operator: Integer subtraction
+        runAndCheck(dir + "run_00_minus_int.bds", "i", 42L);
+    }
+
+    @Test
+    public void test00_minus_real() {
+        // Binary operator: Real subtraction
+        runAndCheck(dir + "run_00_minus_real.bds", "i", 42.0);
+    }
+
+    @Test
+    public void test00_div_int() {
+        // Binary operator: Integer division
+        runAndCheck(dir + "run_00_div_int.bds", "i", 3L);
+    }
+
+    @Test
+    public void test00_div_real() {
+        // Binary operator: Real division
+        runAndCheck(dir + "run_00_div_real.bds", "i", 3.3333333333333335);
+    }
+
+    @Test
+    public void test80() {
+        // Binary bit operator: '&'
+        runAndCheck(dir + "run_80.bds", "j", 2L);
+    }
+
+    @Test
+    public void test81() {
+        // Binary bit operator: '|'
+        runAndCheck(dir + "run_81.bds", "j", 19L);
+    }
+
+    @Test
+    public void test82() {
+        // Operator '+=': String
+        runAndCheck(dir + "run_82.bds", "s", "Hi.Bye.");
+    }
+
+    @Test
+    public void test83() {
+        // Operator '+=': String, real
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("i", 3L);
+        expectedValues.put("f", 5.85);
+        expectedValues.put("s", "hibye");
+        expectedValues.put("l", "[hi, bye, world]");
+        runAndCheck(dir + "run_83.bds", expectedValues);
+    }
+
+    @Test
+    public void test98() {
+        // Operator '++' and '--' on list element
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("h1", "1");
+        expectedValues.put("h2", "3");
+        expectedValues.put("h3", "2");
+        expectedValues.put("h4", "2");
+        expectedValues.put("h5", "1");
+        runAndCheck(dir + "run_98.bds", expectedValues);
     }
 
 }

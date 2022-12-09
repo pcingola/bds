@@ -3,6 +3,8 @@ package org.bds.test.unit;
 import org.bds.test.TestCasesBase;
 import org.junit.Test;
 
+import java.util.HashMap;
+
 /**
  * Test cases for varaible definitions, initialization, assignments, etc.
  *
@@ -109,6 +111,65 @@ public class TestCasesVariable extends TestCasesBase {
         compileErrors(dir + "test69.bds", "Cannot cast void to string[]");
     }
 
+    @Test
+    public void test06() {
+        // Cast in Variable assignment: Real from bool and int
+        runAndCheck(dir + "run_06.bds", "i", 1L);
+    }
+
+    @Test
+    public void test06_2() {
+        runAndCheck(dir + "run_06.bds", "r1", 1.0);
+    }
+
+    @Test
+    public void test06_3() {
+        runAndCheck(dir + "run_06.bds", "r2", 5.0);
+    }
+
+    @Test
+    public void test39() {
+        // Variables: Inheriting from environment
+        String home = System.getenv("HOME");
+        runAndCheck(dir + "run_39.bds", "home", home);
+    }
+    @Test
+    public void test41() {
+        // Global variable 'programName'
+        runAndCheck(dir + "run_01.bds", "programName", "run_01.bds");
+    }
+
+    @Test
+    public void test65() {
+        // Variable initialization
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("bsfalse", false);
+        expectedValues.put("bstrue", true);
+        expectedValues.put("bifalse", false);
+        expectedValues.put("bitrue", true);
+        expectedValues.put("brfalse", false);
+        expectedValues.put("brtrue", true);
+        expectedValues.put("blfalse", false);
+        expectedValues.put("bltrue", true);
+        expectedValues.put("bmfalse", false);
+        expectedValues.put("bmtrue", true);
+        runAndCheck(dir + "run_65.bds", expectedValues);
+    }
+
+    @Test
+    public void test85() {
+        // Global variables: K, M, G, T, P
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("m", 60L);
+        expectedValues.put("h", 3600L);
+        expectedValues.put("d", 86400L);
+        expectedValues.put("oneK", 1024L);
+        expectedValues.put("oneM", 1048576L);
+        expectedValues.put("oneG", 1073741824L);
+        expectedValues.put("oneT", 1099511627776L);
+        expectedValues.put("oneP", 1125899906842624L);
+        runAndCheck(dir + "run_85.bds", expectedValues);
+    }
 
 
 }

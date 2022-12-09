@@ -3,6 +3,8 @@ package org.bds.test.unit;
 import org.bds.test.TestCasesBase;
 import org.junit.Test;
 
+import java.util.HashMap;
+
 /**
  * Test cases for List
  *
@@ -67,6 +69,141 @@ public class TestCasesList extends TestCasesBase {
     public void test71_castEmptyListOfObjects() {
         // Initialize with an empty list of objects
         compileOk(dir + "test71.bds");
+    }
+    @Test
+    public void test15_2() {
+        // List initialization
+        runAndCheck(dir + "run_15.bds", "li2", "[apple, orange, bannana]");
+    }
+
+    @Test
+    public void test15_3() {
+        // List initialization
+        runAndCheck(dir + "run_15.bds", "li3", "[apple, orange, 1]");
+    }
+
+    @Test
+    public void test15_4() {
+        // List initialization
+        runAndCheck(dir + "run_15.bds", "li4", "[apple, orange, 3.14]");
+    }
+
+    @Test
+    public void test15_5() {
+        // List initialization
+        runAndCheck(dir + "run_15.bds", "li5", "[apple, orange, false]");
+    }
+
+    @Test
+    public void test15_6() {
+        // List initialization
+        runAndCheck(dir + "run_15.bds", "li6", "[apple, orange, i=10hihihi]");
+    }
+
+    @Test
+    public void test19() {
+        // List method head
+        runAndCheck(dir + "run_19.bds", "h", "one");
+    }
+
+    @Test
+    public void test20() {
+        // List assign
+        runAndCheck(dir + "run_20.bds", "h", "dos");
+    }
+
+    @Test
+    public void test23() {
+        // List: head, tail
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("ltsize", 2);
+        expectedValues.put("lh", "one");
+        expectedValues.put("lt0", "two");
+        expectedValues.put("lt1", "three");
+        runAndCheck(dir + "run_23.bds", expectedValues);
+    }
+
+    @Test
+    public void test24() {
+        // List: pop
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("p", 3);
+        expectedValues.put("s", 3);
+        expectedValues.put("l0", 1);
+        expectedValues.put("l1", 2);
+        expectedValues.put("l2", 4);
+        runAndCheck(dir + "run_24.bds", expectedValues);
+    }
+
+    @Test
+    public void test25() {
+        // List: add
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("l0", 1);
+        expectedValues.put("l1", 2);
+        expectedValues.put("l2", 3);
+        runAndCheck(dir + "run_25.bds", expectedValues);
+    }
+
+    @Test
+    public void test26() {
+        // List: sort and element access
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("l0", 1);
+        expectedValues.put("l1", 2);
+        expectedValues.put("l2", 3);
+        expectedValues.put("l3", 4);
+        expectedValues.put("l4", 5);
+        expectedValues.put("s", 5);
+        runAndCheck(dir + "run_26.bds", expectedValues);
+    }
+
+    @Test
+    public void test28() {
+        // List: add
+        runAndCheck(dir + "run_28.bds", "events", "[done]");
+    }
+
+    @Test
+    public void test63() {
+        // List: Empty list literals
+        runAndCheck(dir + "run_63.bds", "l", "[]");
+    }
+
+    @Test
+    public void test76() {
+        // For loop: List: add
+        runAndCheck(dir + "run_76.bds", "list", "[0, 2, 4, 6, 8, 10]");
+    }
+
+    @Test
+    public void test77() {
+        // For loop: List: add
+        runAndCheck(dir + "run_77.bds", "list", "[10, 8, 6, 4, 2, 0]");
+    }
+
+    @Test
+    public void test78() {
+        // For loop: List: add
+        runAndCheck(dir + "run_78.bds", "list", "[1, 2, 4, 8, 16, 32, 64]");
+    }
+
+    @Test
+    public void test79() {
+        // For loop: List: add
+        runAndCheck(dir + "run_79.bds", "list", "[128, 64, 32, 16, 8, 4, 2, 1]");
+    }
+
+    @Test
+    public void test95() {
+        // List: Concatenation
+        runAndCheck(dir + "run_95.bds", "ll", "[zero, one, two, three, four, 5]");
+    }
+
+    @Test
+    public void test96() {
+        // Operator '+=': List
+        runAndCheck(dir + "run_96.bds", "l", "[one, two, three, four]");
     }
 
 }
