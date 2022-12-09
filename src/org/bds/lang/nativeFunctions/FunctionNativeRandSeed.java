@@ -22,7 +22,7 @@ public class FunctionNativeRandSeed extends FunctionNative {
 	@Override
 	protected void initFunction() {
 		functionName = "randSeed";
-		returnType = Types.VOID;
+		returnType = Types.BOOL;
 
 		String[] argNames = { "seed" };
 		Type[] argTypes = { Types.INT };
@@ -34,6 +34,6 @@ public class FunctionNativeRandSeed extends FunctionNative {
 	protected Object runFunctionNative(BdsThread csThread) {
 		long seed = csThread.getInt("seed");
 		csThread.setRandomSeed(seed);
-		return null;
+		return true;
 	}
 }

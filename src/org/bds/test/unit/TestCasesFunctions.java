@@ -159,7 +159,6 @@ public class TestCasesFunctions extends TestCasesBase {
     @Test
     public void test109() {
         // Random seed
-        verbose = true;
         runAndCheck(dir + "run_109.bds", "r1", "4027146782649399912");
     }
 
