@@ -48,7 +48,7 @@ public class TestCasesSys extends TestCasesBase {
         runAndCheck(dir + "run_99.bds", "finished", "true");
     }
     @Test
-    public void test123_literals_sys() {
+    public void test123LiteralsSys() {
         // String literals, interpolation and escaped characters
         String output = "" //
                 // Note: This result may change if we use a different sysShell in bds.config
@@ -60,7 +60,7 @@ public class TestCasesSys extends TestCasesBase {
         runAndCheckStdout(dir + "run_123_literals_sys.bds", output);
     }
     @Test
-    public void test129_chdir_sys() {
+    public void test129ChdirSys() {
         // sys: chDir
         String out = runAndReturnStdout(dir + "run_129.bds");
         Assert.assertTrue(out.contains("FILE_01\n"));
@@ -68,7 +68,7 @@ public class TestCasesSys extends TestCasesBase {
     }
 
     @Test
-    public void test130_chdir_task() {
+    public void test130ChdirTask() {
         // sys & chdir
         String out = runAndReturnStdout(dir + "run_130.bds");
         Assert.assertTrue(out.contains("FILE_01\n"));
@@ -76,7 +76,7 @@ public class TestCasesSys extends TestCasesBase {
     }
 
     @Test
-    public void test157_multiline_sys() {
+    public void test157MultilineSys() {
         // Sys: multi-line statements
         runAndCheck(dir + "run_157.bds", "o", "hello world\n");
     }

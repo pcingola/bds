@@ -14,9 +14,8 @@ import org.junit.Test;
 public class TestCasesTask extends TestCasesBase {
 
     public TestCasesTask() {
-        dir = "test/unit/run/";
+        dir = "test/unit/task/";
     }
-
 
     @Test
     public void test32_1() {
@@ -109,6 +108,7 @@ public class TestCasesTask extends TestCasesBase {
         // Task: timeout
         runAndCheckExit(dir + "run_45.bds", 1);
     }
+
     @Test
     public void test88() {
         // Task: cpus, not enough resources
@@ -120,15 +120,15 @@ public class TestCasesTask extends TestCasesBase {
         // Task: 'allowEmpty'
         runAndCheck(dir + "run_110.bds", "runOk", "true");
     }
+
     @Test
-    public void test118_dependency_using_path() {
+    public void test118DependencyUsingPath() {
         // Task: 'dep' and 'goal'
         runAndCheckExit(dir + "run_118.bds", 0);
     }
 
-
     @Test
-    public void test124_quiet_mode() {
+    public void test124QuietMode() {
         // Task: quiet mode
         String output = "print 0\n" //
                 + "print 1\n" //
@@ -152,11 +152,12 @@ public class TestCasesTask extends TestCasesBase {
         Assert.assertTrue("Task output should NOT be in STDOUT", !stdout.contains("task"));
         Assert.assertTrue("Sys output should NOT be in STDOUT", !stdout.contains("sys"));
     }
+
     /**
      * Task dependent on output from a scheduled task
      */
     @Test
-    public void test126_task_dependency_scheduled() {
+    public void test126TaskDependencyScheduled() {
         // Task: Nested loops of tasks (mutiple dependencies)
         String expectedOutput = "IN: " + Gpr.HOME + "/zzz/in.txt\n" //
                 + "OUT: " + Gpr.HOME + "/zzz/out.txt\n" //
@@ -190,7 +191,7 @@ public class TestCasesTask extends TestCasesBase {
     }
 
     @Test
-    public void test127_interpolate_variable_with_underscores() {
+    public void test127InterpolateVariableWithUnderscores() {
         // Task and sys combined
         String output = "bwa parameters\n" //
                 + "bwa parameters\n" //
@@ -202,20 +203,20 @@ public class TestCasesTask extends TestCasesBase {
     }
 
     @Test
-    public void test128_task_local_variables() {
+    public void test128TaskLocalVariables() {
         // Task: Defining a variable within the task
         runAndCheckStdout(dir + "run_128.bds", "TEST\n");
     }
 
     @Test
-    public void test132_taskName() {
+    public void test132TaskName() {
         // Task: taskIds. Make sure taskId contains 'taskName' parameter
         String out = runAndReturnStdout(dir + "run_132.bds");
         Assert.assertTrue(out.contains("run_132.mytask"));
     }
 
     @Test
-    public void test133_taskName_unsafe() {
+    public void test133TaskNameUnsafe() {
         // Task: taskName
         //   - Make sure taskId contains 'taskName' parameter
         //   - In this test 'taskName' is not safe to be used with as file name, so it has to be sanitized
@@ -224,7 +225,7 @@ public class TestCasesTask extends TestCasesBase {
     }
 
     @Test
-    public void test144_dollar_sign_in_task() {
+    public void test144DollarSignInTask() {
         // Task: Variable interpolation and literals
         //
         // We want to execute an inline perl script within a task
@@ -250,15 +251,10 @@ public class TestCasesTask extends TestCasesBase {
         }
     }
 
-
     @Test
-    public void test159_task_prelude() {
+    public void test159TaskPrelude() {
         // Task: prelude in Config file
         String[] args = {"-c", dir + "run159_prelude_task.config"};
         runAndCheckStdout(dir + "run_159.bds", "=== TASK PRELUDE local ===", args, false);
     }
-
-
-
-
 }
