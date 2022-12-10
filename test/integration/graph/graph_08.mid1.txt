@@ -1,1 +1,1 @@
-test/graph_08.in.txt
+test/integration/graph/graph_08.in.txt

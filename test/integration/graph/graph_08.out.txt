@@ -1,1 +1,1 @@
-test/graph_08.mid2.txt
+test/integration/graph/graph_08.mid2.txt

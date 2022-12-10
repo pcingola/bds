@@ -1,1 +1,1 @@
-test/graph_10.in1.txt
+test/integration/graph/graph_10.in1.txt
