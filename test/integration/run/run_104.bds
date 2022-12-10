@@ -1,5 +1,5 @@
 
-prefix := "test/run_104"
+prefix := "test/integration/run/run_104"
 
 # Prepare data ('par' should always run)
 in  := "$prefix\.in"

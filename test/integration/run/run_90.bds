@@ -6,7 +6,7 @@ ok := false
 # Task will fail once, then re-executed and succeed
 failOnceFile := "failOnce.txt"
 failOnceFile.delete()
-task ./test/failOnce.pl
+task ./test/integration/run/failOnce.pl
 wait
 
 # Only true if re-execution succeeds
