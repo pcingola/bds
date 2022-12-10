@@ -3,4 +3,5 @@
 int f(int x) return x + 1
 
 z := f
+println "z = $z"
 
