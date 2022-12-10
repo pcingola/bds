@@ -1,8 +1,8 @@
 
 
-string txt = "test/test.txt".read();
+string txt = "test/unit/file/test.txt".read();
 
-string[] lines = "test/test.txt".readLines();
+string[] lines = "test/unit/file/test.txt".readLines();
 
 string l1 = txt
 

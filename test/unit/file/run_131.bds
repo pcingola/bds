@@ -6,7 +6,6 @@
 #		- write
 #		- rm
 #		- exists, canRead, canWrite, dirName, dirPath, isDir, isFile, isEmpty, ...
-#  - Dependency operator '<-'
 
 #-------------------------------------------------------------------------------
 # Tets all file related methods
@@ -30,7 +29,7 @@ void testFile(string fn) {
 fileName01 := "chdir_test_file_01.txt"
 fileName02 := "chdir_test_file_02.txt"
 
-newDir := "test"
+newDir := "test/unit/file"
 newDir.chdir()
 testFile(fileName01)
 

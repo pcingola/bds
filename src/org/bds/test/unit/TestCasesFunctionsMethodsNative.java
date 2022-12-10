@@ -66,34 +66,6 @@ public class TestCasesFunctionsMethodsNative extends TestCasesBase {
     }
 
     @Test
-    public void test131ChdirFileMethods() {
-        // File functions: read(), readLines(), etc.
-        String out = ""//
-                + "chdir_test_file_01.txt\tread:FILE_01\n" //
-                + "chdir_test_file_01.txt\treadLines:[FILE_01]\n" //
-                + "chdir_test_file_01.txt\texists:true\n" //
-                + "chdir_test_file_01.txt\tisDir:false\n" //
-                + "chdir_test_file_01.txt\tisEmpty:false\n" //
-                + "chdir_test_file_01.txt\tisFile:true\n" //
-                + "chdir_test_file_01.txt\tcanRead:true\n" //
-                + "chdir_test_file_01.txt\tcanWrite:true\n" //
-                + "\n" //
-                + "----------\n" //
-                + "chdir_test_file_02.txt\tread:FILE_02\n" //
-                + "chdir_test_file_02.txt\treadLines:[FILE_02]\n" //
-                + "chdir_test_file_02.txt\texists:true\n" //
-                + "chdir_test_file_02.txt\tisDir:false\n" //
-                + "chdir_test_file_02.txt\tisEmpty:false\n" //
-                + "chdir_test_file_02.txt\tisFile:true\n" //
-                + "chdir_test_file_02.txt\tcanRead:true\n" //
-                + "chdir_test_file_02.txt\tcanWrite:true\n" //
-                ;
-
-        String outreal = runAndReturnStdout(dir + "run_131.bds");
-        Assert.assertEquals(out, outreal);
-    }
-
-    @Test
     public void test253Getvar() {
         // Function: getVar()
         HashMap<String, Object> expectedValues = new HashMap<>();

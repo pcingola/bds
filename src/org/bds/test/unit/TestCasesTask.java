@@ -209,6 +209,14 @@ public class TestCasesTask extends TestCasesBase {
     }
 
     @Test
+    public void test130ChdirTask() {
+        // Task & chdir
+        String out = runAndReturnStdout(dir + "run_130.bds");
+        Assert.assertTrue(out.contains("FILE_01\n"));
+        Assert.assertTrue(out.contains("FILE_02\n"));
+    }
+
+    @Test
     public void test132TaskName() {
         // Task: taskIds. Make sure taskId contains 'taskName' parameter
         String out = runAndReturnStdout(dir + "run_132.bds");

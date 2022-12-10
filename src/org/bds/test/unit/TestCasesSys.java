@@ -68,14 +68,6 @@ public class TestCasesSys extends TestCasesBase {
     }
 
     @Test
-    public void test130ChdirTask() {
-        // sys & chdir
-        String out = runAndReturnStdout(dir + "run_130.bds");
-        Assert.assertTrue(out.contains("FILE_01\n"));
-        Assert.assertTrue(out.contains("FILE_02\n"));
-    }
-
-    @Test
     public void test157MultilineSys() {
         // Sys: multi-line statements
         runAndCheck(dir + "run_157.bds", "o", "hello world\n");

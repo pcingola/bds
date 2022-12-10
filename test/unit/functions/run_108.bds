@@ -1,8 +1,8 @@
 #!/usr/bin/env bds
 
-confOri := config("test/myfile.config")
+confOri := config("test/unit/functions/myfile.config")
 
-conf := config("test/myfile_new.config", confOri)
+conf := config("test/unit/functions/myfile_new.config", confOri)
 
 println "OK"
 for( string name : conf.keys() )	{

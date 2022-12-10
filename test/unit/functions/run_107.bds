@@ -1,6 +1,6 @@
 #!/usr/bin/env bds
 
-conf := config("test/myfile.config")
+conf := config("test/unit/functions/myfile.config")
 
 println "OK"
 for( string name : conf.keys() )	{
