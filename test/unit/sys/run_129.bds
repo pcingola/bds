@@ -1,6 +1,6 @@
 #!/usr/bin/env bds
 
-newDir := "test"
+newDir := "test/unit/sys"
 newDir.chdir()
 sys cat chdir_test_file.txt
 
