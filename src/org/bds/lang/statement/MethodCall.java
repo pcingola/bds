@@ -25,7 +25,6 @@ public class MethodCall extends FunctionCall {
 
 	public MethodCall(BdsNode parent, ParseTree tree) {
 		super(parent, tree);
-		argsStart = 1; // First argument is 'this', which is evaluated separately
 	}
 
 	@Override
@@ -43,15 +42,28 @@ public class MethodCall extends FunctionCall {
 
 	@Override
 	protected void parse(ParseTree tree) {
+		// Parsing code example: 'object.methodName( arguments... )'
+
+		// First child is 'object'
 		expresionThis = (Expression) factory(tree, 0);
-		// child[1] = '.'
+
+		// Next child is the dot; child[1] = '.', no need to parse it
+
+		// Next child is methodName
 		functionName = tree.getChild(2).getText();
-		// child[3] = '('
+
+		// Followed by open parenthesis: child[3] = '(', we don't need to parse it
+
+		// Next nodes (until the last one) are method arguments
 		args = new Args(this, null);
 		args.parse(tree, 4, tree.getChildCount() - 1);
-		// child[tree.getChildCount()] = ')'
 
-		// Add 'expresionObj' as first argument ('this')
+		// Last node is a closing parenthesis
+		// child[tree.getChildCount()] = ')'
+		// We don't need to parse it
+
+		// In our method implementation, the first argument is always 'this'
+		// So we need to add 'expresionObj' as first argument
 		args = Args.getArgsThis(args, expresionThis);
 	}
 

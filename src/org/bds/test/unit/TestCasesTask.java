@@ -271,7 +271,7 @@ public class TestCasesTask extends TestCasesBase {
     @Test
     public void testTask28WaitThrowsException() {
         // Task error should produce a 'WaitException' instead of an error
-        verbose = true;
+        verbose = debug = true;
         runAndCheckException(dir + "task_28.bds", "WaitException");
     }
 
