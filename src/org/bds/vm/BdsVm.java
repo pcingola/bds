@@ -881,7 +881,7 @@ public class BdsVm implements Serializable, BdsLog {
                 if (Freeze.isFreeze()) {
                     sleepFreeze();
                 } else {
-                    vmStateRecover(); // Is this recovering from an interrupted long running operation?
+                    vmStateRecover(); // Is this recovering from an interrupted long-running operation?
                     runLoop(); // Run main loop (instruction processing)
                 }
             }
@@ -1903,14 +1903,14 @@ public class BdsVm implements Serializable, BdsLog {
     }
 
     /**
-     * Invalidate saved vm state after long running opcode finished.
+     * Invalidate saved vm state after long-running opcode finished.
      */
     void vmStateInvalidate() {
-        vmState.reset();
+        vmState.invalidate();
     }
 
     /**
-     * Recover state from long running opcode (e.g. checkpoint during 'wait' statement)
+     * Recover state from long-running opcode (e.g. checkpoint during 'wait' statement)
      */
     void vmStateRecover() {
         if (vmState.isValid()) {
@@ -1919,12 +1919,12 @@ public class BdsVm implements Serializable, BdsLog {
             pc = vmState.pc;
             sp = vmState.sp;
             scope = vmState.scope;
+            vmState.invalidate(); // Make sure we don't recover state again
         }
-        vmState.reset(); // Make sure we don't recover state again
     }
 
     /**
-     * Save vm state before long running opcode starts running
+     * Save vm state before long-running opcode starts running
      */
     void vmStateSave() {
         // Save VM state variables

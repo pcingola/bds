@@ -36,3 +36,10 @@ class ConcurrentModificationException extends Exception {
         super.Exception(message)
     }
 }
+
+// WaitException: When a task fails, the wait command throws a WaitException
+class WaitException extends Exception {
+    void WaitException(string message) {
+        super.Exception(message)
+    }
+}
