@@ -1,0 +1,15 @@
+
+captured := false
+
+try {
+	# This task will fail, we want to chack that a WaitException is thrown
+	task my_unknown_command
+
+	# Wait exception has to be inside the 'try' clause, because this is where the exception is thrown
+	wait
+} catch( WaitException e) {
+	capcaptured = true
+	println "Wait exception captured"
+}
+
+println "This will be executed: captured = $captured"

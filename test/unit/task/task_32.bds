@@ -1,0 +1,16 @@
+
+
+captured := false
+
+try {
+	# This task will fail (implicit wait at the end of the program)
+	# But the exception is thrown by the wait exception at the end of the program
+	# So we cannot capture it here
+	task my_unknown_command
+} catch( WaitException e) {
+	# This will never be executed, because we are not wrapping the wait statement
+	capcaptured = true
+	println "Wait exception captured" 
+}
+
+println "This will be executed: captured = $captured"

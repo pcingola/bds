@@ -1,0 +1,5 @@
+
+# This task will fail (implicit wait at the end of the program)
+# we want to chack that a WaitException is thrown
+task my_unknown_command
+

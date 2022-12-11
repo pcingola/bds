@@ -95,7 +95,7 @@ public class TestCasesTask extends TestCasesBase {
 
     @Test
     public void testTask13() {
-        // Task: Dependencies
+        // Task: Checking that output files have zero length (error condition)
         runAndCheck(1, dir + "run_43.bds", "finished", 0L);
     }
 
@@ -119,7 +119,7 @@ public class TestCasesTask extends TestCasesBase {
 
     @Test
     public void testTask17() {
-        // Task: 'allowEmpty'
+        // Task: 'allowEmpty'. Checking that output files have zero length (override error condition)
         runAndCheck(dir + "run_110.bds", "runOk", "true");
     }
 
@@ -131,7 +131,7 @@ public class TestCasesTask extends TestCasesBase {
 
     @Test
     public void testTask19QuietMode() {
-        // Task: quiet mode
+        // Task quiet mode: do not show task's output to STDOUT/STDERR
         String output = "print 0\n" //
                 + "print 1\n" //
                 + "print 2\n" //
@@ -206,7 +206,7 @@ public class TestCasesTask extends TestCasesBase {
 
     @Test
     public void testTask22TaskLocalVariables() {
-        // Task: Defining a variable within the task
+        // Task: Defining a variable within the task's scope
         runAndCheckStdout(dir + "run_128.bds", "TEST\n");
     }
 
@@ -220,7 +220,7 @@ public class TestCasesTask extends TestCasesBase {
 
     @Test
     public void testTask24TaskName() {
-        // Task: taskIds. Make sure taskId contains 'taskName' parameter
+        // Task taskName: Make sure taskId contains 'taskName' parameter
         String out = runAndReturnStdout(dir + "run_132.bds");
         Assert.assertTrue(out.contains("run_132.mytask"));
     }
@@ -263,7 +263,7 @@ public class TestCasesTask extends TestCasesBase {
 
     @Test
     public void testTask27TaskPrelude() {
-        // Task: prelude in Config file
+        // Task: Prelude in Config file
         String[] args = {"-c", dir + "run159_prelude_task.config"};
         runAndCheckStdout(dir + "run_159.bds", "=== TASK PRELUDE local ===", args, false);
     }
@@ -289,7 +289,7 @@ public class TestCasesTask extends TestCasesBase {
     @Test
     public void testTask31WaitThrowsExceptionCatch() {
         // Task error with try catch does not produce an exception
-        runAndCheckException(dir + "task_28.bds", "WaitException");
+        runAndCheckException(dir + "task_31.bds", "WaitException");
     }
 
     @Test

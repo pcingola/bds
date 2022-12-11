@@ -1,0 +1,7 @@
+
+# This task will fail, we want to chack that a WaitException is thrown
+task my_unknown_command
+
+wait
+
+println "This will never be executed!"
