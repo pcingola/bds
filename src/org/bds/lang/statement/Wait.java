@@ -49,14 +49,16 @@ public class Wait extends Statement {
         // Expression literal string 'errMsg'
         LiteralString errMsgLiteral = new LiteralString(args, null);
         errMsgLiteral.setValueInterpolate(errMsg);
+        args.add(errMsgLiteral);
+        exprNew.setArgs(args);
 
-        // Create reference to 'this' object (the WaitException object)
-        TypeClass thisType = (TypeClass) Types.get(CLASS_NAME_WAIT_EXCEPTION);
-        ReferenceThis expresionThis = new ReferenceThis(this, thisType);
-
-        // Update arguments to point to 'this'
-        Args argsThis = Args.getArgsThis(args, expresionThis);
-        exprNew.setArgs(argsThis);
+//        // Create reference to 'this' object (the WaitException object)
+//        TypeClass thisType = (TypeClass) Types.get(CLASS_NAME_WAIT_EXCEPTION);
+//        ReferenceThis expresionThis = new ReferenceThis(this, thisType);
+//
+//        // Update arguments to point to 'this'
+//        Args argsThis = Args.getArgsThis(args, expresionThis);
+//        exprNew.setArgs(argsThis);
 
         return exprNew;
     }
@@ -108,7 +110,7 @@ public class Wait extends Statement {
 
         // Failed 'wait' statement: This code is executed when 'wait' fails
         sb.append(labelFail + ":\n");
-        sb.append(toAsmFailOri());
+        sb.append(toAsmFail());
 
         // Succeeded 'wait' statement: Jump here if 'wait' succeeds
         sb.append(labelOk + ":\n");

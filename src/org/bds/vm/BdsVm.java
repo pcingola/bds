@@ -1578,7 +1578,7 @@ public class BdsVm implements Serializable, BdsLog {
 
                 case VARPOP:
                     name = constantString();
-                    scope.add(name, pop());
+                    scope.add(name, pop()); // We remove the value from the stack
                     break;
 
                 case WAIT:

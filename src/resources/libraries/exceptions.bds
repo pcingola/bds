@@ -6,6 +6,7 @@ class Throwable {
 
     void Throwable(string message) {
         this.value = message
+        this.stackTrace = ''
     }
 }
 
