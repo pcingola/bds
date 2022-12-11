@@ -91,7 +91,7 @@ public class Wait extends Statement {
         // TODO: Create a new WaitException Object
         sb.append(OpCode.NEW + " '" + errMsg + "'\n");
 
-        // TODO: Add object to the stack
+        // Throw new WaitException
         sb.append(OpCode.THROW + "\n"); // Throw WaitException object
         return sb.toString();
     }
