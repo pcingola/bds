@@ -7,6 +7,9 @@ public class Zzz {
     public static void main(String[] args) {
         System.out.println("Start");
 
+        Exception e;
+        Error err;
+
         Config config = new Config();
         config.setVerbose(true);
         config.setDebug(true);

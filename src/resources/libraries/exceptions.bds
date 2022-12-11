@@ -9,7 +9,21 @@ class Throwable {
     }
 }
 
-// Base of exception objects
+// Error class: Base of all error objects
+class Error extends Throwable {
+    void Error(string message) {
+        super.Throwable(message)
+    }
+}
+
+// Fatal error: An error that we cannot recover from
+class FatalError extends Error {
+    void Error(string message) {
+        super.Error(message)
+    }
+}
+
+// Exception class: Base of all exception objects
 class Exception extends Throwable {
     void Exception(string message) {
         super.Throwable(message)

@@ -18,42 +18,44 @@ public class TestCasesTask extends TestCasesBase {
     }
 
     @Test
-    public void test32_1() {
+    public void testTask01() {
         // Task definition
         compileOk(dir + "test32.bds");
     }
 
     @Test
-    public void test33_1() {
+    public void testTask02() {
         // Task definition: Improper tasks
         compileOk(dir + "test33.bds");
     }
 
     @Test
-    public void test41() {
+    public void testTask03() {
         // Task definition syntax
         compileOk(dir + "test41.bds");
     }
+
     @Test
-    public void test49() {
+    public void testTask04() {
         // Task definition: Using two lines without braces
         String errs = "ERROR [ file 'test/unit/task/test49.bds', line 4 ] :\tTask has empty statement";
         compileErrors(dir + "test49.bds", errs);
     }
+
     @Test
-    public void test59() {
+    public void testTask05() {
         // Task: Using a method name instead of a variable
         compileErrors(dir + "test59.bds", "Expression should be string or string[], got '(A) -> string'");
     }
 
     @Test
-    public void test29() {
+    public void testTask06() {
         // Task: Schedule and wait
         runAndCheck(dir + "run_29.bds", "events", "[runnning, wait, done]");
     }
 
     @Test
-    public void test31() {
+    public void testTask07() {
         // Task: kill
         Timer timer = new Timer();
         timer.start();
@@ -62,73 +64,73 @@ public class TestCasesTask extends TestCasesBase {
     }
 
     @Test
-    public void test32() {
+    public void testTask08() {
         // Task: read task's stdout
         runAndCheck(dir + "run_32.bds", "out", "Hi\n");
     }
 
     @Test
-    public void test33() {
+    public void testTask09() {
         // Task: read stderr
         runAndCheck(dir + "run_33.bds", "err", "Hi\n");
     }
 
     @Test
-    public void test34() {
+    public void testTask10() {
         // Task: get exit code
         runAndCheck(dir + "run_34.bds", "exitStat", "0");
     }
 
     @Test
-    public void test35() {
+    public void testTask11() {
         // Task: 'canFail = true'
         runAndCheck(dir + "run_35.bds", "exitStat", "1");
     }
 
     @Test
-    public void test37() {
+    public void testTask12() {
         // Task: Can fail
         runAndCheck(dir + "run_37.bds", "s", "after");
     }
 
     @Test
-    public void test43() {
+    public void testTask13() {
         // Task: Dependencies
         runAndCheck(1, dir + "run_43.bds", "finished", 0L);
     }
 
     @Test
-    public void test44() {
+    public void testTask14() {
         // Task: timeout
         runAndCheckExit(dir + "run_44.bds", 0);
     }
 
     @Test
-    public void test45() {
+    public void testTask15() {
         // Task: timeout
         runAndCheckExit(dir + "run_45.bds", 1);
     }
 
     @Test
-    public void test88() {
+    public void testTask16() {
         // Task: cpus, not enough resources
         runAndCheckStderr(dir + "run_88.bds", "Not enough resources to execute task:");
     }
 
     @Test
-    public void test110() {
+    public void testTask17() {
         // Task: 'allowEmpty'
         runAndCheck(dir + "run_110.bds", "runOk", "true");
     }
 
     @Test
-    public void test118DependencyUsingPath() {
+    public void testTask18DependencyUsingPath() {
         // Task: 'dep' and 'goal'
         runAndCheckExit(dir + "run_118.bds", 0);
     }
 
     @Test
-    public void test124QuietMode() {
+    public void testTask19QuietMode() {
         // Task: quiet mode
         String output = "print 0\n" //
                 + "print 1\n" //
@@ -157,7 +159,7 @@ public class TestCasesTask extends TestCasesBase {
      * Task dependent on output from a scheduled task
      */
     @Test
-    public void test126TaskDependencyScheduled() {
+    public void testTask20TaskDependencyScheduled() {
         // Task: Nested loops of tasks (mutiple dependencies)
         String expectedOutput = "IN: " + Gpr.HOME + "/zzz/in.txt\n" //
                 + "OUT: " + Gpr.HOME + "/zzz/out.txt\n" //
@@ -191,7 +193,7 @@ public class TestCasesTask extends TestCasesBase {
     }
 
     @Test
-    public void test127InterpolateVariableWithUnderscores() {
+    public void testTask21InterpolateVariableWithUnderscores() {
         // Task and sys combined
         String output = "bwa parameters\n" //
                 + "bwa parameters\n" //
@@ -203,13 +205,13 @@ public class TestCasesTask extends TestCasesBase {
     }
 
     @Test
-    public void test128TaskLocalVariables() {
+    public void testTask22TaskLocalVariables() {
         // Task: Defining a variable within the task
         runAndCheckStdout(dir + "run_128.bds", "TEST\n");
     }
 
     @Test
-    public void test130ChdirTask() {
+    public void testTask23ChdirTask() {
         // Task & chdir
         String out = runAndReturnStdout(dir + "run_130.bds");
         Assert.assertTrue(out.contains("FILE_01\n"));
@@ -217,14 +219,14 @@ public class TestCasesTask extends TestCasesBase {
     }
 
     @Test
-    public void test132TaskName() {
+    public void testTask24TaskName() {
         // Task: taskIds. Make sure taskId contains 'taskName' parameter
         String out = runAndReturnStdout(dir + "run_132.bds");
         Assert.assertTrue(out.contains("run_132.mytask"));
     }
 
     @Test
-    public void test133TaskNameUnsafe() {
+    public void testTask25TaskNameUnsafe() {
         // Task: taskName
         //   - Make sure taskId contains 'taskName' parameter
         //   - In this test 'taskName' is not safe to be used with as file name, so it has to be sanitized
@@ -233,7 +235,7 @@ public class TestCasesTask extends TestCasesBase {
     }
 
     @Test
-    public void test144DollarSignInTask() {
+    public void testTask26DollarSignInTask() {
         // Task: Variable interpolation and literals
         //
         // We want to execute an inline perl script within a task
@@ -260,9 +262,46 @@ public class TestCasesTask extends TestCasesBase {
     }
 
     @Test
-    public void test159TaskPrelude() {
+    public void testTask27TaskPrelude() {
         // Task: prelude in Config file
         String[] args = {"-c", dir + "run159_prelude_task.config"};
         runAndCheckStdout(dir + "run_159.bds", "=== TASK PRELUDE local ===", args, false);
     }
+
+    @Test
+    public void testTask28WaitThrowsException() {
+        // Task error should produce a 'WaitException' instead of an error
+        runAndCheckException(dir + "task_28.bds", "WaitException");
+    }
+
+    @Test
+    public void testTask29WaitThrowsException() {
+        // Task error should produce a 'WaitException' instead of an error. Implicit wait (end of program)
+        runAndCheckException(dir + "task_29.bds", "WaitException");
+    }
+
+    @Test
+    public void testTask30WaitThrowsException() {
+        // Task error should produce a 'WaitException' instead of an error. Dependent tasks
+        runAndCheckException(dir + "task_30.bds", "WaitException");
+    }
+
+    @Test
+    public void testTask31WaitThrowsExceptionCatch() {
+        // Task error with try catch does not produce an exception
+        runAndCheckException(dir + "task_28.bds", "WaitException");
+    }
+
+    @Test
+    public void testTask32WaitThrowsExceptionCatch() {
+        // Task error with try catch does NOT CATCH implicit wait at the end of the program
+        runAndCheckException(dir + "task_32.bds", "WaitException");
+    }
+
+    @Test
+    public void testTask33WaitThrowsExceptionCatch() {
+        // Task error with try catch does not produce an exception. Dependet task
+        runAndCheckException(dir + "task_33.bds", "WaitException");
+    }
+
 }
