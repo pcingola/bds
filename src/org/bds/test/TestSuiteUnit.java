@@ -12,22 +12,36 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 
 @RunWith(Suite.class)
-@SuiteClasses({ TestCasesTail.class, //
-		TestCasesVm.class, // Virtual machine
-		TestCasesLang.class, // Language (compiler)
-		TestCasesInterpolate.class, // Variable interpolation
-		TestCasesExecutioners.class, // Task executioners
-		TestCasesFunctionDeclaration.class, // Function declaration
-		TestCasesRun.class, // Running bds code
-		TestCasesRun2.class, // Running bds code
-		TestCasesRun3.class, // Running bds code (classes / object)
-		TestCasesCustomResources.class, // Custom resource allocation in tasks (e.g. GPU, FFPGA, etc.)
-		TestCasesJson.class, // JSON parsing
-		TestCasesTesting.class, // Check bds unit testing system
-		TestCasesCommandLineOptions.class, // Check command line options
-		TestCasesRemote.class, // Accessing remote data (cloud storage)
-		TestCasesReport.class, // Report generation
+@SuiteClasses({ //
+        TestCasesTail.class, // Tail, following files
+        TestCasesVm.class, // Virtual machine
+        TestCasesInterpolate.class, // Variable interpolation
+        TestCasesExecutioners.class, // Task executioners
+        TestCasesFunctionDeclaration.class, // Function declaration
+        //
+        TestCasesLang.class, // Language, compiler, built-in statements
+        TestCasesOperatorsAndMath.class, // Operators and math
+        TestCasesVariable.class, // Variables, initializations, casting, etc.
+        TestCasesFunctions.class, // Function definitions
+        TestCasesFile.class, // File (native) functions
+        TestCasesFunctionsMethodsNative.class, // Native functions
+        TestCasesJson.class, // JSON parsing
+        TestCasesLoopsIf.class, // Loops ('for', 'while') and 'if'
+        TestCasesList.class, // Lists
+        TestCasesMap.class, // Maps
+        TestCasesSwitch.class, // Swtch statements
+        TestCasesClass.class, // Class definition, fields, methods, etc.
+        TestCasesSys.class, // 'sys' expressions
+        TestCasesTask.class, // 'task' expressions, task dependencies, etc.
+        TestCasesTaskCustomResources.class, // Custom resource allocation in tasks (e.g. GPU, FFPGA, etc.)
+        TestCasesTryCatchFinally.class, // Try, catch, finally statements
+        //
+        TestCasesTesting.class, // Check bds unit testing system
+        TestCasesCommandLineOptions.class, // Check command line options
+        TestCasesRemote.class, // Accessing remote data (cloud storage)
+        TestCasesReport.class, // Report generation
+
+
 })
 public class TestSuiteUnit {
-
 }

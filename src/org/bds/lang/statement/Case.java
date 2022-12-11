@@ -138,7 +138,7 @@ public class Case extends StatementWithScope {
 
             Expression switchExpr = ((Switch) parent).getSwitchExpr();
             if (switchExpr == null) {
-                compilerMessages.add(this, "Empty switch statment", MessageType.ERROR);
+                compilerMessages.add(this, "Empty switch statement", MessageType.ERROR);
                 return;
             }
 

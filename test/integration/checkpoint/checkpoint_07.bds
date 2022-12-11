@@ -1,0 +1,14 @@
+#!/usr/bin/env bds
+
+string sloop
+
+print("Loop:\n")
+for( string s : ['one', 'two', 'three'] ) {
+	print("\ts : $s\n")
+	if( s == 'two' ) {
+		checkpoint "test/integration/checkpoint/checkpoint_07.bds.chp"
+		print("\t--- checkpoint ---\n")
+	}
+	sloop = s
+}
+print("End\n")

@@ -1,0 +1,16 @@
+#!/usr/bin/env bds
+
+fileName := "test/unit/json/json_07.json"
+
+firstName := ""
+lastName := ""
+anotherName := ""
+anotherName2 := ""
+
+println "Reading JSON file '$fileName'"
+json(fileName)
+
+println "firstName = '$firstName'"
+println "lastName = '$lastName'"
+println "anotherName = '$anotherName'"
+println "anotherName2 = '$anotherName2'"

@@ -1,0 +1,10 @@
+
+
+string txt = "test/unit/file/test.txt".read();
+
+string[] lines = "test/unit/file/test.txt".readLines();
+
+string l1 = txt
+
+string l2 = lines[1];
+

@@ -3,6 +3,9 @@ package org.bds.test.unit;
 import org.bds.test.TestCasesBase;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * Test cases for language & compilation
  * <p>
@@ -12,463 +15,298 @@ import org.junit.Test;
  */
 public class TestCasesLang extends TestCasesBase {
 
+    public TestCasesLang() {
+        dir = "test/unit/lang/";
+    }
+
     @Test
     public void test00() {
-        compileOk("test/test00.bds");
-    }
-
-    @Test
-    public void test01() {
-        compileOk("test/test01.bds");
-    }
-
-    @Test
-    public void test02() {
-        compileOk("test/test02.bds");
-    }
-
-    @Test
-    public void test03() {
-        compileOk("test/test03.bds");
-    }
-
-    @Test
-    public void test04() {
-        compileOk("test/test04.bds");
-    }
-
-    @Test
-    public void test05() {
-        compileOk("test/test05.bds");
-    }
-
-    @Test
-    public void test06() {
-        compileOk("test/test06.bds");
-    }
-
-    @Test
-    public void test07() {
-        compileOk("test/test07.bds");
-    }
-
-    @Test
-    public void test08() {
-        String errs = "ERROR [ file 'test/test08.bds', line 11 ] :	Only variable reference can be used with ++ or -- operators\n";
-        compileErrors("test/test08.bds", errs);
-    }
-
-    @Test
-    public void test09() {
-        compileOk("test/test09.bds");
-    }
-
-    @Test
-    public void test10() {
-        String err = "ERROR [ file 'test/test10.bds', line 2 ] :	Symbol 'j' cannot be resolved\n";
-        compileErrors("test/test10.bds", err);
-    }
-
-    @Test
-    public void test11() {
-        String err = "ERROR [ file 'test/test11.bds', line 2 ] :	Symbol 'j' cannot be resolved\n";
-        compileErrors("test/test11.bds", err);
-    }
-
-    @Test
-    public void test12() {
-        compileOk("test/test12.bds");
-    }
-
-    @Test
-    public void test13() {
-        compileOk("test/test13.bds");
-    }
-
-    @Test
-    public void test14() {
-        String errs = "ERROR [ file 'test/test14.bds', line 3 ] :	Symbol 'i' cannot be resolved\n"//
-                + "ERROR [ file 'test/test14.bds', line 4 ] :	Symbol 'i' cannot be resolved\n";
-
-        compileErrors("test/test14.bds", errs);
-    }
-
-    @Test
-    public void test15() {
-        String errs = "ERROR [ file 'test/test15.bds', line 4 ] :	Symbol 'j' cannot be resolved\n";
-        compileErrors("test/test15.bds", errs);
-    }
-
-    @Test
-    public void test16() {
-        compileOk("test/test16.bds");
-    }
-
-    @Test
-    public void test17() {
-        compileOk("test/test17.bds");
-    }
-
-    @Test
-    public void test18() {
-        compileOk("test/test18.bds");
-    }
-
-    @Test
-    public void test19() {
-        String errs = "ERROR [ file 'test/test19.bds', line 4 ] :	Duplicate local name 'i'\n";
-        compileErrors("test/test19.bds", errs);
-    }
-
-    @Test
-    public void test20() {
-        compileOk("test/test20.bds");
-    }
-
-    @Test
-    public void test21() {
-        compileOk("test/test21.bds");
-    }
-
-    @Test
-    public void test22() {
-        compileOk("test/test22.bds");
-    }
-
-    @Test
-    public void test23() {
-        compileOk("test/test23.bds");
-    }
-
-    @Test
-    public void test24() {
-        compileOk("test/test24.bds");
+        // EOF test: No '\n' or ';' at the end of last line
+        compileOk(dir + "test00.bds");
     }
 
     @Test
     public void test25() {
-        compileOk("test/test25.bds");
+        // Multi-line strings
+        compileOk(dir + "test25.bds");
     }
 
-    @Test
-    public void test26() {
-        compileOk("test/test26.bds");
-    }
 
     @Test
     public void test27() {
-        String errs = "ERROR [ file 'test/test27.bds', line 2 ] :	Cannot cast real to int\n";
-        compileErrors("test/test27.bds", errs);
-    }
-
-    @Test
-    public void test28() {
-        compileOk("test/test28.bds");
-    }
-
-    @Test
-    public void test29() {
-        String errs = "ERROR [ file 'test/test29.bds', line 3 ] :	For loop condition must be a bool expression\n";
-        compileErrors("test/test29.bds", errs);
-    }
-
-    @Test
-    public void test30() {
-        String errs = "ERROR [ file 'test/test30.bds', line 4 ] :	Cannot cast real to int\n";
-        compileErrors("test/test30.bds", errs);
-    }
-
-    @Test
-    public void test31() {
-        String errs = "ERROR [ file 'test/test31.bds', line 4 ] :	Function has no return statement\n";
-        compileErrors("test/test31.bds", errs);
-    }
-
-    @Test
-    public void test32() {
-        compileOk("test/test32.bds");
-    }
-
-    @Test
-    public void test33() {
-        // As of bds version 3.0, this is no longer a compile error, it is just an "improper task"
-        //
-        //		String errs = "ERROR [ file 'test/test33.bds', line 7 ] :	Only sys statements are allowed in a task (line 11)\n";
-        //		compileErrors("test/test33.bds", errs);
-        //
-        compileOk("test/test33.bds");
-    }
-
-    @Test
-    public void test34() {
-        String errs = "ERROR [ file 'test/test34.bds', line 5 ] :	Function f(int) cannot be resolved\n";
-        compileErrors("test/test34.bds", errs);
+        // Type casting error: real to int
+        String errs = "ERROR [ file 'test/unit/lang/test27.bds', line 2 ] :	Cannot cast real to int\n";
+        compileErrors(dir + "test27.bds", errs);
     }
 
     @Test
     public void test35() {
-        compileOk("test/test35.bds");
+        // String interpolation
+        compileOk(dir + "test35.bds");
     }
 
     @Test
     public void test36() {
-        String errs = "ERROR [ file 'test/test36.bds', line 3 ] :	Symbol 'j' cannot be resolved\n";
-        compileErrors("test/test36.bds", errs);
+        // String interpolation: Missing variable
+        String errs = "ERROR [ file 'test/unit/lang/test36.bds', line 3 ] :	Symbol 'j' cannot be resolved\n";
+        compileErrors(dir + "test36.bds", errs);
+    }
+
+
+    @Test
+    public void test42() {
+        // Includes
+        compileOk(dir + "test42.bds");
     }
 
     @Test
-    public void test37() {
-        String errs = "ERROR [ file 'test/test37.bds', line 16 ] :	Symbol 'fruit' cannot be resolved\n";
-        compileErrors("test/test37.bds", errs);
+    public void test60_1() {
+        // Include statements: Multiple includes. Include order should not affect compilation
+        compileOk(dir + "test60.bds");
+    }
+
+    @Test
+    public void test14() {
+        // String interpolation
+        runAndCheck(dir + "run_14.bds", "s", "this is string interpolation: int i = 42 and str = \"hi\" and both hi42");
     }
 
     @Test
     public void test38() {
-        String errs = "ERROR [ file 'test/test38.bds', line 6 ] :	Cannot cast string to int\n";
-        compileErrors("test/test38.bds", errs);
-    }
-
-    @Test
-    public void test39() {
-        String errs = "ERROR [ file 'test/test39.bds', line 6 ] :	Cannot cast string to int\n";
-        compileErrors("test/test39.bds", errs);
+        // String interpolation: Literal string with '$'
+        runAndCheck(dir + "run_38.bds", "su", "$s world \\n");
     }
 
     @Test
     public void test40() {
-        String errs = "ERROR [ file 'test/test40.bds', line 6 ] :	Method int[].push(string) cannot be resolved\n";
-        compileErrors("test/test40.bds", errs);
-    }
+        // Command line arguments: Setting global variables from command line arguments
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("file", "zzz.txt");
+        expectedValues.put("opt", "true");
+        expectedValues.put("num", "42");
+        expectedValues.put("rnum", "3.1415");
+        expectedValues.put("args", "[-file, zzz.txt, -num, 42, -rnum, 3.1415, -opt, -notProcessed, more, arguments]");
 
-    @Test
-    public void test41() {
-        compileOk("test/test41.bds");
-    }
+        // Arguments to add after program name
+        ArrayList<String> argsAfter = new ArrayList<>();
 
-    @Test
-    public void test42() {
-        compileOk("test/test42.bds");
-    }
+        argsAfter.add("-file");
+        argsAfter.add("zzz.txt");
 
-    @Test
-    public void test43() {
-        String errs = "ERROR [ file 'test/test43.bds', line 8 ] :	Cannot declare variable 'res' type 'void'";
-        compileErrors("test/test43.bds", errs);
-    }
+        argsAfter.add("-num");
+        argsAfter.add("42");
 
-    @Test
-    public void test44() {
-        String errs = "ERROR [ file 'test/test44.bds', line 2 ] :	Cannot append int[] to string[]";
-        compileErrors("test/test44.bds", errs);
-    }
+        argsAfter.add("-rnum");
+        argsAfter.add("3.1415");
 
-    @Test
-    public void test45() {
-        compileOk("test/test45.bds");
-    }
+        argsAfter.add("-opt");
 
-    @Test
-    public void test46() {
-        compileOk("test/test46.bds");
+        argsAfter.add("-notProcessed");
+        argsAfter.add("more");
+        argsAfter.add("arguments");
+
+        runAndCheck(dir + "run_40.bds", expectedValues, argsAfter);
     }
 
     @Test
     public void test47() {
-        String errs = "ERROR [ file 'test/test47.bds', line 5 ] :	Duplicate local name 'gsea'";
-        compileErrors("test/test47.bds", errs);
+        // Command line arguments: Passing a list of values
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("in", "[in1.txt, in2.txt, in3.txt]");
+        expectedValues.put("out", "zzz.txt");
+        expectedValues.put("ok", "true");
+
+        ArrayList<String> args = new ArrayList<>();
+
+        args.add("-ok");
+
+        args.add("-in");
+        args.add("in1.txt");
+        args.add("in2.txt");
+        args.add("in3.txt");
+
+        args.add("-out");
+        args.add("zzz.txt");
+
+        runAndCheck(dir + "run_47.bds", expectedValues, args);
     }
 
     @Test
     public void test48() {
-        // String errs = "ERROR [ file 'test/test48.bds', line 5 ] :	extraneous input ':=' expecting {<EOF>, 'while', '{', 'void', 'for', 'error', 'debug', 'int', 'include', 'task', '(', 'kill', '\n', 'println', 'exit', '++', '~', 'wait', 'dep', '+', 'goal', 'continue', 'return', ';', 'if', 'warning', 'break', 'print', 'switch', 'parallel', 'par', '[', '--', 'bool', '!', 'string', 'checkpoint', 'breakpoint', '-', 'real', BOOL_LITERAL, INT_LITERAL, REAL_LITERAL, STRING_LITERAL, STRING_LITERAL_SINGLE, HELP_LITERAL, SYS_LITERAL, TASK_LITERAL, ID}";
-        String errs = "ERROR [ file 'test/test48.bds', line 5 ] :	extraneous input ':=' expecting ";
-        compileErrors("test/test48.bds", errs);
-    }
-
-    @Test
-    public void test49() {
-        String errs = "ERROR [ file 'test/test49.bds', line 4 ] :\tTask has empty statement";
-        compileErrors("test/test49.bds", errs);
+        // Statements: Warning and error
+        runAndCheck(1, dir + "run_48.bds", "step", 2L);
     }
 
     @Test
     public void test50() {
-        String errs = "ERROR [ file 'test/test50.bds', line 6 ] :\tCannot assign to non-variable 'f(  )[0]'";
-        compileErrors("test/test50.bds", errs);
+        // Include
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("i", "32");
+        expectedValues.put("j", "302");
+        expectedValues.put("jx", "44");
+        expectedValues.put("jy", "91");
+
+        runAndCheck(dir + "run_50.bds", expectedValues);
     }
 
     @Test
     public void test51() {
-        String errs = "ERROR [ file 'test/test51.bds', line 6 ] :	Cannot assign to non-variable 'f(  ){\"hi\"}'";
-        compileErrors("test/test51.bds", errs);
-    }
-
-    @Test
-    public void test52() {
-        compileOk("test/test52.bds");
-    }
-
-    @Test
-    public void test53() {
-        compileOk("test/test53.bds");
-    }
-
-    @Test
-    public void test54() {
-        String errs = "ERROR [ file 'test/test54.bds', line 9 ] :	Switch expression and case expression types do not match (string vs int): case 7";
-        compileErrors("test/test54.bds", errs);
-    }
-
-    @Test
-    public void test55() {
-        String errs = "ERROR [ file 'test/test55.bds', line 15 ] :	Symbol 'b' cannot be resolved";
-        compileErrors("test/test55.bds", errs);
-    }
-
-    @Test
-    public void test56() {
-        compileErrors("test/test56.bds", "Cannot find class 'A'");
-    }
-
-    @Test
-    public void test57() {
-        compileErrors("test/test57.bds", "Cannot cast A to B");
-    }
-
-    @Test
-    public void test58() {
-        compileErrors("test/test58.bds", "Symbol 'out' cannot be resolved");
-    }
-
-    @Test
-    public void test59() {
-        compileErrors("test/test59.bds", "Expression should be string or string[], got '(A) -> string'");
+        // Interpolating a hash
+        runAndCheck(dir + "run_51.bds", "hash", "{ hi => bye }");
     }
 
     @Test
     public void test60() {
-        compileOk("test/test60.bds");
+        // Command line arguments: boolean
+        String fileName = dir + "run_60.bds";
+        String[] args = {fileName, "-b"};
+        runAndCheck(fileName, args, "b", true);
     }
 
     @Test
     public void test61() {
-        compileOk("test/test61.bds");
+        // Command line arguments: boolean
+        String fileName = dir + "run_60.bds";
+        String[] args = {fileName, "-b", "true"};
+        runAndCheck(fileName, args, "b", true);
     }
 
     @Test
     public void test62() {
-        compileOk("test/test62.bds");
-    }
-
-    @Test
-    public void test63() {
-        compileErrors("test/test63.bds", "ERROR [ file 'test/test63.bds', line 5 ] :	Duplicate local name 'zzz'");
-    }
-
-    @Test
-    public void test64() {
-        compileErrors("test/test64.bds", "Duplicate function 'zzz() -> void'");
-    }
-
-    @Test
-    public void test65() {
-        compileErrors("test/test65.bds", "Duplicate method 'A.zzz(A) -> void'");
-    }
-
-    @Test
-    public void test66() {
-        compileOk("test/test66.bds");
-        compileOk("test/test66b.bds");
+        // Command line arguments: boolean
+        String fileName = dir + "run_60.bds";
+        String[] args = {fileName, "-b", "false"};
+        runAndCheck(fileName, args, "b", false);
     }
 
     @Test
     public void test67() {
-        compileOk("test/test67.bds");
+        // String interpolation, escaping '$'
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("s", "varS");
+        expectedValues.put("s1", "Hi '$'");
+        expectedValues.put("s2", "Hi $");
+        expectedValues.put("s3", "Hi $ bye");
+        runAndCheck(dir + "run_67.bds", expectedValues);
     }
 
     @Test
-    public void test67b() {
-        compileErrors("test/test67b.bds", "Cannot cast A to C");
+    public void test97() {
+        // String interpolation and '\t', '\n' characters
+        HashMap<String, Object> expectedValues = new HashMap<>();
+        expectedValues.put("h1", "1");
+        expectedValues.put("h2", "3");
+        expectedValues.put("h3", "2");
+        expectedValues.put("h4", "2");
+        expectedValues.put("h5", "1");
+        runAndCheck(dir + "run_97.bds", expectedValues);
     }
 
     @Test
-    public void test68() {
-        // Switch with empty statement crashes compile
-        compileErrors("test/test68.bds", "Empty switch statment");
+    public void test111() {
+        // Error statement
+        runAndCheckError(dir + "run_111.bds", "Cannot escape error");
     }
 
     @Test
-    public void test69() {
-        // Assign result from 'void' function
-        compileErrors("test/test69.bds", "Cannot cast void to string[]");
+    public void test112() {
+        // Exit statement
+        runAndCheck(dir + "run_112.bds", "runOk", "false");
     }
 
     @Test
-    public void test70() {
-        // Return different type of array
-        compileErrors("test/test70.bds", "Cannot cast A[] to B[]");
+    public void test123Literals() {
+        // String literals, interpolation and escaped characters
+        String output = "print_quote        |\\t|\n" //
+                + "print_quote        |\\t|    variable:$hi\n" //
+                + "print_double       |\t|\n" //
+                + "print_double       |\t|    variable:Hello\n" //
+                + "print_double_esc   |\\t|\n" //
+                + "print_double_esc   |\\t|   variable:Hello\n" //
+                ;
+
+        runAndCheckStdout(dir + "run_123.bds", output);
     }
 
     @Test
-    public void test71_castEmptyListOfObjects() {
-        // Initialize with an empty list of objects
-        compileOk("test/test71.bds");
+    public void test125AutomaticHelp() {
+        // Command line options: Help
+        String output = "Command line options 'run_125.bds' :\n" //
+                + "\t-mean <int>                                  : Help for argument 'mean' should be printed here\n" //
+                + "\t-min <int>                                   : Help for argument 'min' should be printed here\n" //
+                + "\t-num <int>                                   : Number of times 'hi' should be printed\n" //
+                + "\t-salutation <string>                         : Salutation to use\n" //
+                + "\t-someVeryLongCommandLineArgumentName <bool>  : This command line argument has a really long name\n" //
+                + "\t-useTab <bool>                               : Use tab before printing line\n" //
+                + "\n" //
+                ;
+
+        runAndCheckHelp(dir + "run_125.bds", output);
     }
 
     @Test
-    public void test72_castEmptyMapOfObjects() {
-        // Initialize with an empty map of objects
-        compileOk("test/test72.bds");
+    public void test125bAutomaticHelpUnsorted() {
+        // Command line options: Help
+        String output = "Command line options 'run_125b.bds' :\n" //
+                + "\t-useTab <bool>                               : Use tab before printing line\n" //
+                + "\t-someVeryLongCommandLineArgumentName <bool>  : This command line argument has a really long name\n" //
+                + "\t-salutation <string>                         : Salutation to use\n" //
+                + "\t-num <int>                                   : Number of times 'hi' should be printed\n" //
+                + "\t-min <int>                                   : Help for argument 'min' should be printed here\n" //
+                + "\t-mean <int>                                  : Help for argument 'mean' should be printed here\n" //
+                + "\n" //
+                ;
+
+        runAndCheckHelp(dir + "run_125b.bds", output);
+    }
+
+    /**
+     * Show help when there are no arguments
+     */
+    @Test
+    public void test125c_automatic_help() {
+        // Command line options: Help
+        String output = "Command line options 'run_125c.bds' :\n" //
+                + "\t-mean <int>                                  : Help for argument 'mean' should be printed here\n" //
+                + "\t-min <int>                                   : Help for argument 'min' should be printed here\n" //
+                + "\t-num <int>                                   : Number of times 'hi' should be printed\n" //
+                + "\t-salutation <string>                         : Salutation to use\n" //
+                + "\t-someVeryLongCommandLineArgumentName <bool>  : This command line argument has a really long name\n" //
+                + "\t-useTab <bool>                               : Use tab before printing line\n" //
+                + "\n" //
+                ;
+
+        runAndCheckHelp(dir + "run_125c.bds", output);
     }
 
     @Test
-    public void test73_plus_minus_typo_string() {
-        // Using '+-' instead of '+=' creates a "This should never happen" error instead of compilation error
-		//		$ bds -v test/test73.bds
-		//		2022/09/07 08:34:05 Verbose mode set
-		//		00:00:00.000	Compile error ExpressionUnaryPlusMinus test/test73.bds:4,3: Cannot cast to 'int' or 'real'. This should never happen!
-		//				java.lang.RuntimeException: Compile error ExpressionUnaryPlusMinus test/test73.bds:4,3: Cannot cast to 'int' or 'real'. This should never happen!
-		//				at org.bds.BdsLog.compileError(BdsLog.java:21)
-		//		at org.bds.BdsLog.compileError(BdsLog.java:14)
-		//		at org.bds.lang.expression.ExpressionUnaryPlusMinus.toAsmUnaryMinus(ExpressionUnaryPlusMinus.java:79)
-		//		at org.bds.lang.expression.ExpressionUnaryPlusMinus.toAsm(ExpressionUnaryPlusMinus.java:53)
-		//		at org.bds.lang.expression.ExpressionBinary.toAsm(ExpressionBinary.java:74)
-		//		at org.bds.lang.expression.ExpressionPlus.toAsm(ExpressionPlus.java:91)
-		//		at org.bds.lang.expression.ExpressionDelegateBinary.toAsm(ExpressionDelegateBinary.java:67)
-		//		at org.bds.lang.statement.StatementExpr.toAsm(StatementExpr.java:31)
-		//		at org.bds.lang.ProgramUnit.toAsm(ProgramUnit.java:127)
-		//		at org.bds.run.BdsRun.compileAsm(BdsRun.java:165)
-		//		at org.bds.run.BdsRun.compile(BdsRun.java:154)
-		//		at org.bds.run.BdsRun.runCompile(BdsRun.java:532)
-		//		at org.bds.run.BdsRun.run(BdsRun.java:440)
-		//		at org.bds.Bds.run(Bds.java:405)
-		//		at org.bds.Bds.main(Bds.java:56)
-        compileErrors("test/test73.bds", "Unary expression '-' unknown return type");
+    public void test134AutomaticHelpSections() {
+        // Show help when there are no arguments (sections)
+        String output = "This program does blah\n" //
+                + "Actually, a lot of blah blah\n" //
+                + "    and even more blah\n" //
+                + "    or blah\n" //
+                + "\t-quiet <bool>     : Be very quiet\n" //
+                + "\t-verbose <bool>   : Be verbose\n" //
+                + "Options related to database\n" //
+                + "\t-dbName <string>  : Database name\n" //
+                + "\t-dbPort <int>     : Database port\n" //
+                + "\n" //
+                ;
+
+        runAndCheckHelp(dir + "run_134.bds", output);
     }
 
     @Test
-    public void test74_plus_minus_typo_string() {
-        // Using '+-' instead of '+=' creates a null pointer error instead of compilation error
-		//		$ bds -v test/test74.bds
-		//		2022/09/07 08:34:10 Verbose mode set
-		//		java.lang.NullPointerException
-		//		at org.bds.lang.expression.ExpressionPlus.toAsm(ExpressionPlus.java:87)
-		//		at org.bds.lang.expression.ExpressionDelegateBinary.toAsm(ExpressionDelegateBinary.java:67)
-		//		at org.bds.lang.statement.StatementExpr.toAsm(StatementExpr.java:31)
-		//		at org.bds.lang.ProgramUnit.toAsm(ProgramUnit.java:127)
-		//		at org.bds.run.BdsRun.compileAsm(BdsRun.java:165)
-		//		at org.bds.run.BdsRun.compile(BdsRun.java:154)
-		//		at org.bds.run.BdsRun.runCompile(BdsRun.java:532)
-		//		at org.bds.run.BdsRun.run(BdsRun.java:440)
-		//		at org.bds.Bds.run(Bds.java:405)
-		//		at org.bds.Bds.main(Bds.java:56)
-        compileErrors("test/test74.bds", "Unary expression '-' unknown return type");
+    public void test158Log() {
+        // Log messages to console
+        runAndCheckStderr(dir + "run_158.bds", "hi there");
     }
 
     @Test
-    public void test75_plus_minus_typo_string() {
-        // Using '+-' instead of '+=' creates a null pointer error instead of compilation error
-        compileErrors("test/test75.bds", "Unary expression '-' unknown return type");
+    public void test164() {
+        // PrintErr: print to stderr
+        runAndCheck(dir + "run_164.bds", "out", "hi");
     }
 
 }

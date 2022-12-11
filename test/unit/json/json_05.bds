@@ -1,0 +1,16 @@
+#!/usr/bin/env bds
+
+fileName := "test/unit/json/json_05.json"
+
+class Phone {
+    string type
+    string number
+}
+
+Phone[] phoneNumbers
+
+println "Reading JSON file '$fileName'"
+json(fileName)
+
+println "phoneNumbers = $phoneNumbers"
+

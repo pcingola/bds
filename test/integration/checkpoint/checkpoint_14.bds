@@ -1,0 +1,6 @@
+#!/usr/bin/env bds
+
+string{} opt
+print opt.hasKey("key") + "\n"
+checkpoint 'test/integration/checkpoint/checkpoint_14.chp'
+ok := true

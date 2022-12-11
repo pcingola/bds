@@ -1,0 +1,19 @@
+#!/usr/bin/env bds
+
+fileName := "test/unit/json/json_11.json"
+
+class A {
+ string firstName, last_Name
+
+ // This function exactly matches the JSON field, but should be ignored
+ string lastName() {
+    return "last name is '$last_Name'"
+ }
+}
+
+A a = new A()
+println "Reading JSON file '$fileName'"
+json(fileName, a, ['sub_b', 'sub_ii', 'sub_Z'])
+
+println "a = $a"
+println a.lastName()

@@ -1,0 +1,12 @@
+print "============= Ignore errors (begin) ============= \n"
+
+bool b = false
+
+task echo Hello
+task sleep 1; rm test/integration/checkpoint/checkpoint_06.tmp
+
+wait
+b = true
+
+print "============= Ignore errors (end) ============= \n"
+print "b = $b\n"

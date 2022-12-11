@@ -25,6 +25,10 @@ import java.util.Map;
  */
 public class TestCasesIntegrationTaskDataRemote extends TestCasesBase {
 
+    public TestCasesIntegrationTaskDataRemote() {
+        dir = "test/integration/task_data_remote/";
+    }
+
     @Before
     public void beforeEachTest() {
         BdsRun.reset();
@@ -76,7 +80,7 @@ public class TestCasesIntegrationTaskDataRemote extends TestCasesBase {
      */
     @Test
     public void test03_TaskUrlIn() {
-        runAndCheck("test/remote_03.bds", "first", "<!DOCTYPE html>");
+        runAndCheck(dir + "remote_03.bds", "first", "<!DOCTYPE html>");
     }
 
     /**
@@ -85,7 +89,7 @@ public class TestCasesIntegrationTaskDataRemote extends TestCasesBase {
      */
     @Test
     public void test04_TaskUrlInDoubleQuotes() {
-        runAndCheck("test/remote_04.bds", "first", "<!DOCTYPE html>");
+        runAndCheck(dir + "remote_04.bds", "first", "<!DOCTYPE html>");
     }
 
     /**
@@ -94,7 +98,7 @@ public class TestCasesIntegrationTaskDataRemote extends TestCasesBase {
      */
     @Test
     public void test05_TaskUrlInSingleQuotes() {
-        runAndCheck("test/remote_05.bds", "first", "<!DOCTYPE html>");
+        runAndCheck(dir + "remote_05.bds", "first", "<!DOCTYPE html>");
     }
 
     /**
@@ -103,7 +107,7 @@ public class TestCasesIntegrationTaskDataRemote extends TestCasesBase {
      */
     @Test
     public void test06_TaskUrlRemoteListLiteral() {
-        runAndCheck("test/remote_06.bds", "first", "<!DOCTYPE html>");
+        runAndCheck(dir + "remote_06.bds", "first", "<!DOCTYPE html>");
     }
 
     /**
@@ -111,7 +115,7 @@ public class TestCasesIntegrationTaskDataRemote extends TestCasesBase {
      */
     @Test
     public void test07_TaskUrlRemoteList() {
-        runAndCheck("test/remote_07.bds", "first", "<!DOCTYPE html>");
+        runAndCheck(dir + "remote_07.bds", "first", "<!DOCTYPE html>");
     }
 
     /**
@@ -120,7 +124,7 @@ public class TestCasesIntegrationTaskDataRemote extends TestCasesBase {
      */
     @Test
     public void test08_TaskUrlRemoteListReplace() {
-        runAndCheck("test/remote_08.bds", "first", "<!DOCTYPE html>");
+        runAndCheck(dir + "remote_08.bds", "first", "<!DOCTYPE html>");
     }
 
     /**
@@ -129,7 +133,7 @@ public class TestCasesIntegrationTaskDataRemote extends TestCasesBase {
      */
     @Test
     public void test09_TaskUrlRemoteListReplaceLiterals() {
-        runAndCheck("test/remote_09.bds", "first", "<!DOCTYPE html>");
+        runAndCheck(dir + "remote_09.bds", "first", "<!DOCTYPE html>");
     }
 
     /**
@@ -137,7 +141,7 @@ public class TestCasesIntegrationTaskDataRemote extends TestCasesBase {
      */
     @Test
     public void test34_TaskInS3OutLocal() {
-        runAndCheck("test/remote_34.bds", "outStr", "OK");
+        runAndCheck(dir + "remote_34.bds", "outStr", "OK");
     }
 
     /**
@@ -145,7 +149,7 @@ public class TestCasesIntegrationTaskDataRemote extends TestCasesBase {
      */
     @Test
     public void test35_TaskInsLocalOutS3() {
-        runAndCheck("test/remote_35.bds", "outStr", "IN: 'remote_35'");
+        runAndCheck(dir + "remote_35.bds", "outStr", "IN: 'remote_35'");
     }
 
     /**
@@ -153,7 +157,7 @@ public class TestCasesIntegrationTaskDataRemote extends TestCasesBase {
      */
     @Test
     public void test36_TaskInS3OutS3() {
-        runAndCheck("test/remote_36.bds", "outStr", "IN: 'remote_36'");
+        runAndCheck(dir + "remote_36.bds", "outStr", "IN: 'remote_36'");
     }
 
     /**
@@ -163,7 +167,7 @@ public class TestCasesIntegrationTaskDataRemote extends TestCasesBase {
     public void test37_TaskStrictRemoteDependencies() {
         String bucket = readAwsTestConfig().get("bucket");
         String inS3Path = "s3://" + bucket + "/tmp/bds/remote_37/in.txt";
-        runAndCheckStdout("test/remote_37.bds", inS3Path);
+        runAndCheckStdout(dir + "remote_37.bds", inS3Path);
     }
 
 }

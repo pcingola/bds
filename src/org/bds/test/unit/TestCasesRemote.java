@@ -42,7 +42,7 @@ public class TestCasesRemote extends TestCasesBase {
 	 * Test parsing a local file (DataFile)
 	 */
 	@Test
-	public void test01_parse_URLs_file() {
+	public void test01ParseUrlsFile() {
 		String currPath;
 		try {
 			currPath = (new File(".")).getCanonicalPath();
@@ -80,7 +80,7 @@ public class TestCasesRemote extends TestCasesBase {
 	 * Test local file: DataFile using absolute path
 	 */
 	@Test
-	public void test101_data_file_absolute() {
+	public void test101DataFileAbsolute() {
 		String path = "/dir/sub/file.txt";
 		Data dfile = Data.factory(path);
 		Assert.assertFalse("Relative: " + dfile.isRelative(), dfile.isRelative());
@@ -95,7 +95,7 @@ public class TestCasesRemote extends TestCasesBase {
 	 * Test local file: DataFile using "file://" format
 	 */
 	@Test
-	public void test101b_data_file_absolute() {
+	public void test101bDataFileAbsolute() {
 		String path = "/dir/sub/file.txt";
 		Data dfile = Data.factory("file://" + path);
 		Assert.assertFalse("Relative: " + dfile.isRelative(), dfile.isRelative());
@@ -110,7 +110,7 @@ public class TestCasesRemote extends TestCasesBase {
 	 * Test local file: DataFile using relative file
 	 */
 	@Test
-	public void test102_data_file_relative() {
+	public void test102DataFileRelative() {
 		String path = "dir/sub/file.txt";
 		Data dfile = Data.factory(path);
 
@@ -127,7 +127,7 @@ public class TestCasesRemote extends TestCasesBase {
 	 * Test local file: DataFile using relative file with "file://" format
 	 */
 	@Test
-	public void test102b_data_file_relative() {
+	public void test102bDataFileRelative() {
 		String path = "dir/sub/file.txt";
 		Data dfile = Data.factory("file://" + path);
 
@@ -144,7 +144,7 @@ public class TestCasesRemote extends TestCasesBase {
 	 * Test local file: DataFile using relative file with "./" format
 	 */
 	@Test
-	public void test103_data_file_relative() {
+	public void test103DataFileRelative() {
 		String path = "./dir/sub/file.txt";
 		Data dfile = Data.factory(path);
 		Assert.assertTrue("Relative: " + dfile.isRelative(), dfile.isRelative());
@@ -160,7 +160,7 @@ public class TestCasesRemote extends TestCasesBase {
 	 * Test local file: DataFile using relative file with "file://./" format
 	 */
 	@Test
-	public void test103b_data_file_relative() {
+	public void test103bDataFileRelative() {
 		String path = "./dir/sub/file.txt";
 		Data dfile = Data.factory("file://" + path);
 		Assert.assertTrue("Relative: " + dfile.isRelative(), dfile.isRelative());
@@ -176,7 +176,7 @@ public class TestCasesRemote extends TestCasesBase {
 	 * Test `join` for local file segments
 	 */
 	@Test
-	public void test104_file_join_segments() {
+	public void test104FileJoinSegments() {
 		Data dfile = Data.factory("dir/sub/file.txt");
 		Data ddir = Data.factory("/home");
 		Data djoin = ddir.join(dfile);
@@ -197,7 +197,7 @@ public class TestCasesRemote extends TestCasesBase {
 	 * Test `join` for local file segments, using "file://" formats
 	 */
 	@Test
-	public void test104b_file_join_segments() {
+	public void test104bFileJoinSegments() {
 		Data dfile = Data.factory("file://dir/sub/file.txt");
 		Data ddir = Data.factory("file:///home");
 		Data djoin = ddir.join(dfile);
@@ -218,7 +218,7 @@ public class TestCasesRemote extends TestCasesBase {
 	 * Test `join` for local file segments using "./" formats
 	 */
 	@Test
-	public void test105_file_join_segments() {
+	public void test105FileJoinSegments() {
 		Data dfile = Data.factory("./dir/sub/file.txt");
 		Data ddir = Data.factory("/home");
 		Data djoin = ddir.join(dfile);
@@ -239,7 +239,7 @@ public class TestCasesRemote extends TestCasesBase {
 	 * Test `join` for local file segments using "file://./" formats
 	 */
 	@Test
-	public void test105b_file_join_segments() {
+	public void test105bFileJoinSegments() {
 		Data dfile = Data.factory("file://./dir/sub/file.txt");
 		Data ddir = Data.factory("file:///home");
 		Data djoin = ddir.join(dfile);
@@ -261,7 +261,7 @@ public class TestCasesRemote extends TestCasesBase {
 	 * using absolute path
 	 */
 	@Test
-	public void test107_url_join() {
+	public void test107_urlJoin() {
 		Data dfile = Data.factory("/dir/sub/file.txt");
 		Data durl = Data.factory("http://www.ensembl.org");
 		Data djoin = durl.join(dfile);
@@ -283,7 +283,7 @@ public class TestCasesRemote extends TestCasesBase {
 	 * using relative path
 	 */
 	@Test
-	public void test107b_url_join() {
+	public void test107b_urlJoin() {
 		Data dfile = Data.factory("dir/sub/file.txt");
 		Data durl = Data.factory("http://www.ensembl.org");
 		Data djoin = durl.join(dfile);
@@ -305,7 +305,7 @@ public class TestCasesRemote extends TestCasesBase {
 	 * using absolute path
 	 */
 	@Test
-	public void test108_s3_join() {
+	public void test108S3Join() {
 		Data dfile = Data.factory("/dir/sub/file.txt");
 		Data ds3 = Data.factory("s3://my_bucket");
 
@@ -328,7 +328,7 @@ public class TestCasesRemote extends TestCasesBase {
 	 * using relative path
 	 */
 	@Test
-	public void test108b_s3_join() {
+	public void test108bS3Join() {
 		Data dfile = Data.factory("dir/sub/file.txt");
 		Data ds3 = Data.factory("s3://my_bucket");
 		Data djoin = ds3.join(dfile);
@@ -348,7 +348,7 @@ public class TestCasesRemote extends TestCasesBase {
 	 * Test Data.factory using file without any path
 	 */
 	@Test
-	public void test109_parseFile_relative() throws Exception {
+	public void test109ParseFileRelative() throws Exception {
 		String path = "tmp.txt";
 		Data dpath = Data.factory(path);
 		if (verbose) Gpr.debug("Path: " + dpath.getPath());
@@ -372,7 +372,7 @@ public class TestCasesRemote extends TestCasesBase {
 	 * Test Data.factory using file with "./" path
 	 */
 	@Test
-	public void test109b_parseFile_relative_03() throws Exception {
+	public void test109bParseFileRelative_03() throws Exception {
 		String path = "./tmp.txt";
 		Data dpath = Data.factory(path);
 		if (verbose) Gpr.debug("Path: " + dpath.getPath());
@@ -391,6 +391,4 @@ public class TestCasesRemote extends TestCasesBase {
 		Assert.assertTrue(dpath.isFile());
 		Assert.assertFalse(dpath.isDirectory());
 	}
-
-
 }

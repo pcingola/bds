@@ -16,12 +16,16 @@ import java.util.List;
  */
 public class TestCasesIntegrationCheckpoint extends TestCasesBase {
 
+    public TestCasesIntegrationCheckpoint() {
+        dir = "test/integration/checkpoint/";
+    }
+
     /**
      * Test a checkpoint within a for-loop, reload checkpoint and continue execution
      */
     @Test
     public void test01() {
-        runAndCheckpoint("test/checkpoint_01.bds", null, "i", "10");
+        runAndCheckpoint(dir + "checkpoint_01.bds", null, "i", "10");
     }
 
     /**
@@ -29,7 +33,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
      */
     @Test
     public void test02() {
-        runAndCheckpoint("test/checkpoint_02.bds", null, "l", "15");
+        runAndCheckpoint(dir + "checkpoint_02.bds", null, "l", "15");
     }
 
     /**
@@ -37,7 +41,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
      */
     @Test
     public void test03() {
-        runAndCheckpoint("test/checkpoint_03.bds", null, "s2", "After checkpoint 42");
+        runAndCheckpoint(dir + "checkpoint_03.bds", null, "s2", "After checkpoint 42");
     }
 
     /**
@@ -45,7 +49,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
      */
     @Test
     public void test04() {
-        runAndCheckpoint("test/checkpoint_04.bds", null, "s", "one\teins");
+        runAndCheckpoint(dir + "checkpoint_04.bds", null, "s", "one\teins");
     }
 
     /**
@@ -53,7 +57,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
      */
     @Test
     public void test04_2() {
-        runAndCheckpoint("test/checkpoint_04.bds", null, "i", "3");
+        runAndCheckpoint(dir + "checkpoint_04.bds", null, "i", "3");
     }
 
     /**
@@ -61,7 +65,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
      */
     @Test
     public void test04_3() {
-        runAndCheckpoint("test/checkpoint_04.bds", null, "ss", "one\ttwo");
+        runAndCheckpoint(dir + "checkpoint_04.bds", null, "ss", "one\ttwo");
     }
 
     /**
@@ -69,7 +73,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
      */
     @Test
     public void test05() {
-        runAndCheckpoint("test/checkpoint_05.bds", null, "l0", "ONE");
+        runAndCheckpoint(dir + "checkpoint_05.bds", null, "l0", "ONE");
     }
 
     /**
@@ -82,7 +86,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
      */
     @Test
     public void test06() {
-        final String fileToDelete = "test/checkpoint_06.tmp";
+        final String fileToDelete = dir + "checkpoint_06.tmp";
 
         Runnable createFile = new Runnable() {
 
@@ -98,7 +102,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
         (new File(fileToDelete)).delete();
 
         // Run test
-        runAndCheckpoint("test/checkpoint_06.bds", "checkpoint_06.bds.line_8.chp", "b", "true", createFile);
+        runAndCheckpoint(dir + "checkpoint_06.bds", "checkpoint_06.bds.line_8.chp", "b", "true", createFile);
     }
 
     /**
@@ -106,7 +110,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
      */
     @Test
     public void test07() {
-        runAndCheckpoint("test/checkpoint_07.bds", null, "sloop", "three");
+        runAndCheckpoint(dir + "checkpoint_07.bds", null, "sloop", "three");
     }
 
     /**
@@ -116,7 +120,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
     @Test
     public void test08() {
         // Remove old entries
-        String prefix = "test/checkpoint_08";
+        String prefix = dir + "checkpoint_08";
         File txt = new File(prefix + ".txt");
         final File csv = new File(prefix + ".csv");
         final File xml = new File(prefix + ".xml");
@@ -150,7 +154,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
     @Test
     public void test09() {
         // Remove old entries
-        String prefix = "test/checkpoint_09";
+        String prefix = dir + "checkpoint_09";
         File txt = new File(prefix + ".txt");
         final File csv = new File(prefix + ".csv");
         final File xml = new File(prefix + ".xml");
@@ -182,7 +186,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
     @Test
     public void test10() {
         // Run pipeline and test checkpoint
-        runAndCheckpoint("test/checkpoint_10.bds", "test/checkpoint_10.chp", "sumMain", "55");
+        runAndCheckpoint(dir + "checkpoint_10.bds", dir + "checkpoint_10.chp", "sumMain", "55");
     }
 
     /**
@@ -191,7 +195,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
     @Test
     public void test11() {
         // Run pipeline and test checkpoint
-        runAndCheckpoint("test/checkpoint_11.bds", "test/checkpoint_11.chp", "sumPar", "110");
+        runAndCheckpoint(dir + "checkpoint_11.bds", dir + "checkpoint_11.chp", "sumPar", "110");
     }
 
     /**
@@ -199,7 +203,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
      */
     @Test
     public void test12_serializationOfEmptyIncludes() {
-        runAndCheckpoint("test/checkpoint_12.bds", "test/checkpoint_12.chp", "ok", "true");
+        runAndCheckpoint(dir + "checkpoint_12.bds", dir + "checkpoint_12.chp", "ok", "true");
     }
 
     /**
@@ -207,7 +211,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
      */
     @Test
     public void test13_checkPoint_function_with_empty_Args() {
-        runAndCheckpoint("test/checkpoint_13.bds", "test/checkpoint_13.chp", "ok", "true");
+        runAndCheckpoint(dir + "checkpoint_13.bds", dir + "checkpoint_13.chp", "ok", "true");
     }
 
     /**
@@ -215,7 +219,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
      */
     @Test
     public void test14_serialize_method_call_args() {
-        runAndCheckpoint("test/checkpoint_14.bds", "test/checkpoint_14.chp", "ok", "true");
+        runAndCheckpoint(dir + "checkpoint_14.bds", dir + "checkpoint_14.chp", "ok", "true");
     }
 
     /**
@@ -223,7 +227,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
      */
     @Test
     public void test15_checkpoint_par_function_call() {
-        runAndCheckpoint("test/checkpoint_15.bds", "test/checkpoint_15.chp", "ok", "true");
+        runAndCheckpoint(dir + "checkpoint_15.bds", dir + "checkpoint_15.chp", "ok", "true");
     }
 
     /**
@@ -231,7 +235,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
      */
     @Test
     public void test16_checkpoint_recursive() {
-        runAndCheckpoint("test/checkpoint_16.bds", "test/checkpoint_16.chp", "fn", "120");
+        runAndCheckpoint(dir + "checkpoint_16.bds", dir + "checkpoint_16.chp", "fn", "120");
     }
 
     /**
@@ -240,7 +244,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
      */
     @Test
     public void test17_checkpoint_listIndex() {
-        runAndCheckpoint("test/checkpoint_17.bds", "test/checkpoint_17.chp", "res", "19");
+        runAndCheckpoint(dir + "checkpoint_17.bds", dir + "checkpoint_17.chp", "res", "19");
     }
 
     /**
@@ -249,7 +253,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
      */
     @Test
     public void test18_checkpoint_listIndex() {
-        runAndCheckpoint("test/checkpoint_18.bds", "test/checkpoint_18.chp", "res", "34");
+        runAndCheckpoint(dir + "checkpoint_18.bds", dir + "checkpoint_18.chp", "res", "34");
     }
 
     /**
@@ -258,7 +262,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
     @Test
     public void test19_scope_global_global() {
         // Run pipeline and test checkpoint
-        Bds bds = runAndCheckpoint("test/checkpoint_19.bds", "test/checkpoint_19.chp", "ok", "true");
+        Bds bds = runAndCheckpoint(dir + "checkpoint_19.bds", dir + "checkpoint_19.chp", "ok", "true");
 
         // Get scope names
         BdsThread bdsThread = bds.getBdsRun().getBdsThread();
@@ -278,7 +282,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
      */
     @Test
     public void test20_checkpoint_after_main_thread_finished_execution() {
-        runAndCheckpoint("test/checkpoint_20.bds", "test/checkpoint_20.chp", null, null);
+        runAndCheckpoint(dir + "checkpoint_20.bds", dir + "checkpoint_20.chp", null, null);
     }
 
     /**
@@ -286,7 +290,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
      */
     @Test
     public void test21_checkpoint_after_par_thread_finished_execution() {
-        runAndCheckpoint("test/checkpoint_21.bds", "test/checkpoint_21.chp", null, null);
+        runAndCheckpoint(dir + "checkpoint_21.bds", dir + "checkpoint_21.chp", null, null);
     }
 
     /**
@@ -294,7 +298,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
      * i.e.: `par zzz(1)` calling `par zzz(2)` which has a checkpoint
      */
     public void test22_par_par_par() {
-        runAndCheckpoint("test/checkpoint_22.bds", "test/checkpoint_22.chp", "luae", "42");
+        runAndCheckpoint(dir + "checkpoint_22.bds", dir + "checkpoint_22.chp", "luae", "42");
     }
 
     /**
@@ -306,7 +310,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
         try {
             // Run pipeline and test checkpoint
             BdsThreads.doNotRemoveThreads = true;
-            Bds bds = runAndCheckpoint("test/checkpoint_23.bds", "test/checkpoint_23.chp", "luae", "42");
+            Bds bds = runAndCheckpoint(dir + "checkpoint_23.bds", dir + "checkpoint_23.chp", "luae", "42");
 
             // Get scope names
             BdsThread bdsThread = bds.getBdsRun().getBdsThread();
@@ -348,7 +352,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
      */
     @Test
     public void test24_switch() {
-        runAndCheckpoint("test/checkpoint_24.bds", "test/checkpoint_24.chp", "out", 103);
+        runAndCheckpoint(dir + "checkpoint_24.bds", dir + "checkpoint_24.chp", "out", 103);
     }
 
     /**
@@ -356,7 +360,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
      */
     @Test
     public void test25_switch() {
-        runAndCheckpoint("test/checkpoint_25.bds", "test/checkpoint_25.chp", "out", 35);
+        runAndCheckpoint(dir + "checkpoint_25.bds", dir + "checkpoint_25.chp", "out", 35);
     }
 
     /**
@@ -365,7 +369,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
      */
     @Test
     public void test26_switch() {
-        runAndCheckpoint("test/checkpoint_26.bds", "test/checkpoint_26.chp", "out", 56);
+        runAndCheckpoint(dir + "checkpoint_26.bds", dir + "checkpoint_26.chp", "out", 56);
     }
 
     /**
@@ -374,7 +378,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
      */
     @Test
     public void test27_switch() {
-        runAndCheckpoint("test/checkpoint_27.bds", "test/checkpoint_27.chp", "out", 35);
+        runAndCheckpoint(dir + "checkpoint_27.bds", dir + "checkpoint_27.chp", "out", 35);
     }
 
     /**
@@ -382,7 +386,7 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
      */
     @Test
     public void test28() {
-        runAndCheckpoint("test/checkpoint_28.bds", "test/checkpoint_28.chp", "out", 47);
+        runAndCheckpoint(dir + "checkpoint_28.bds", dir + "checkpoint_28.chp", "out", 47);
     }
 
 }

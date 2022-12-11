@@ -7,6 +7,7 @@ import org.bds.run.BdsThread;
 import org.bds.scope.GlobalScope;
 import org.bds.symbol.GlobalSymbolTable;
 import org.bds.symbol.SymbolTable;
+import org.bds.util.Gpr;
 
 /**
  * A native function declaration

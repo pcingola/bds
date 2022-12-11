@@ -1,0 +1,19 @@
+
+any z1, z2, z3, z4
+z1 = 5
+z2 = "hi"
+z3 = 1.234
+z4 = true
+
+outz1 := "z1 = $z1, type: " + type(z1)
+println outz1
+
+outz2 := "z2 = $z2, type: " + type(z2)
+println outz2
+
+outz3 := "z3 = $z3, type: " + type(z3)
+println outz3
+
+outz4 := "z4 = $z4, type: " + type(z4)
+println outz4
+
