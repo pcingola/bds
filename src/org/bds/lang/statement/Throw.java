@@ -9,7 +9,7 @@ import org.bds.lang.type.TypeClass;
 import org.bds.symbol.SymbolTable;
 import org.bds.vm.OpCode;
 
-import static org.bds.libraries.LibraryException.CLASS_NAME_EXCEPTION;
+import static org.bds.libraries.LibraryException.CLASS_NAME_THROWABLE;
 
 /**
  * Throw statement
@@ -27,25 +27,25 @@ public class Throw extends StatementWithScope {
     }
 
     /**
-     * Is the type derived from 'Exception'?
+     * Is the type derived from 'Throwable'?
      */
-    public static boolean isExceptionClass(Type t) {
+    public static boolean isThrowableClass(Type t) {
         if (t == null) return false;
         if (!t.isClass()) return false;
 
         for (TypeClass tc = (TypeClass) t; tc != null; tc = tc.getClassDeclaration().getClassTypeParent()) {
-            if (tc.getCanonicalName().equals(CLASS_NAME_EXCEPTION)) return true;
+            if (tc.getCanonicalName().equals(CLASS_NAME_THROWABLE)) return true;
         }
 
         return false;
     }
 
-    /**
-     * Is the expression derived from 'Exception'?
-     */
-    boolean isExceptionClass() {
-        return isExceptionClass(expr.getReturnType());
-    }
+//    /**
+//     * Is the expression derived from 'Exception'?
+//     */
+//    boolean isExceptionClass() {
+//        return isExceptionClass(expr.getReturnType());
+//    }
 
     @Override
     protected void parse(ParseTree tree) {

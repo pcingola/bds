@@ -7,9 +7,12 @@ import org.bds.BdsLog;
  */
 public class LibraryException implements BdsLog {
 
+    public static final String CLASS_NAME_THROWABLE = "Throwable";
     public static final String CLASS_NAME_EXCEPTION = "Exception";
     public static final String EXCEPTION_FIELD_VALUE = "value"; // Exception value (hidden field). Original value wrapped in an exception object
     public static final String EXCEPTION_FIELD_STACK_TRACE = "stackTrace"; // Stack trace as a string (hidden field)
 
+    // Specific built-in exceptions
     public static final String CLASS_NAME_EXCEPTION_CONCURRENT_MODIFICATION = "ConcurrentModificationException";
+    public static final String CLASS_NAME_WAIT_EXCEPTION = "WaitException";
 }

@@ -3,6 +3,7 @@ package org.bds.lang.statement;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.bds.lang.BdsNode;
 import org.bds.lang.expression.Expression;
+import org.bds.lang.expression.ExpressionNew;
 import org.bds.lang.nativeMethods.list.MethodNativeListAdd;
 import org.bds.lang.type.TypeList;
 import org.bds.lang.type.Types;
@@ -69,16 +70,29 @@ public class Wait extends Statement {
 
         // Failed 'wait' statement: This code is executed when 'wait' fails
         sb.append(labelFail + ":\n");
-        sb.append(OpCode.PUSHS + " '" + errMsg + "'\n");
-        // TODO: Create a new WaitExpcetion Object
-        sb.append(OpCode.NEW + " '" + errMsg + "'\n");
-
-        // TODO: Add object to the stack
-        sb.append(OpCode.THROW + "\n"); // Throw WaitException object
+        sb.append(toAsmFail(errMsg));
 
         // Succeeded 'wait' statement: Jump here if 'wait' succeeds
         sb.append(labelOk + ":\n");
 
+        return sb.toString();
+    }
+
+
+    // Failed 'wait' statement: This code is executed when 'wait' fails
+    protected String toAsmFail(String errMsg) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(OpCode.PUSHS + " '" + errMsg + "'\n");
+
+        // Create a 'new WaitException' expression
+        var exprNew = new ExpressionNew(this, null);
+
+        // TODO: Create a new WaitException Object
+        sb.append(OpCode.NEW + " '" + errMsg + "'\n");
+
+        // TODO: Add object to the stack
+        sb.append(OpCode.THROW + "\n"); // Throw WaitException object
         return sb.toString();
     }
 

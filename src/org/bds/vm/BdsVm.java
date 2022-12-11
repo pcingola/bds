@@ -1725,10 +1725,10 @@ public class BdsVm implements Serializable, BdsLog {
     void throwException(Value exceptionValue) {
         ValueObject exceptionObject = null;
 
-        if (Throw.isExceptionClass(exceptionValue.getType())) {
+        if (Throw.isThrowableClass(exceptionValue.getType())) {
             exceptionObject = (ValueObject) exceptionValue;
         } else {
-            // If 'exceptionValue' is not an 'Exception' class object, create
+            // If 'exceptionValue' is not an 'Throwable' object, create
             // an Exception object and wrap the original value in it
             var typeException = Types.get(CLASS_NAME_EXCEPTION);
             exceptionObject = new ValueObject(typeException);

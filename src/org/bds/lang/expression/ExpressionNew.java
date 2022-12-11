@@ -32,7 +32,7 @@ public class ExpressionNew extends MethodCall {
 
     @Override
     protected void parse(ParseTree tree) {
-        expresionThis = null; // Note that object 'this' does not exists yet
+        expresionThis = null; // Note that object 'this' does not exist yet
         functionName = tree.getChild(1).getText(); // Same as class name
 
         // Parse arguments
