@@ -486,7 +486,7 @@ public class BdsVm implements Serializable, BdsLog {
         List<BdsNode> bdsNodes = new ArrayList<>();
         for (int pc = 0; pc < code.length; pc++) {
             OpCode op = OPCODES[code[pc]];
-            if (op == OpCode.NODE || op == OpCode.NODE_COVERAGE) {
+            if (op.isParamNode()) {
                 int idx = code[pc + 1];
                 BdsNode bdsNode = BdsNodeFactory.get().getNode(idx);
                 bdsNodes.add(bdsNode);
@@ -990,10 +990,10 @@ public class BdsVm implements Serializable, BdsLog {
                     break;
 
                 case CALLNATIVE:
-                    vmStateSave();
+                    vmStateSave(); // Save that sate before long-running BdsVm function
                     name = constantString(); // Get signature
                     v1 = callNative(name);
-                    vmStateInvalidate();
+                    vmStateInvalidate(); // Recover state after long-running BdsVm function
                     push(v1);
                     break;
 
@@ -1529,10 +1529,10 @@ public class BdsVm implements Serializable, BdsLog {
                     break;
 
                 case SYS:
-                    vmStateSave();
+                    vmStateSave(); // Save that sate before long-running BdsVm function
                     SysVmOpcode sf = new SysVmOpcode(bdsThread, usePidInFileNames);
                     s1 = sf.run();
-                    vmStateInvalidate();
+                    vmStateInvalidate(); // Recover state after long-running BdsVm function
                     push(s1);
                     break;
 
@@ -1582,17 +1582,17 @@ public class BdsVm implements Serializable, BdsLog {
                     break;
 
                 case WAIT:
-                    vmStateSave();
+                    vmStateSave(); // Save that sate before long-running BdsVm function
                     ValueList tids = (ValueList) pop();
                     b1 = bdsThread.wait(tids);
-                    vmStateInvalidate();
+                    vmStateInvalidate(); // Recover state after long-running BdsVm function
                     push(b1);
                     break;
 
                 case WAITALL:
-                    vmStateSave();
+                    vmStateSave(); // Save that sate before long-running BdsVm function
                     b1 = bdsThread.waitAll();
-                    vmStateInvalidate();
+                    vmStateInvalidate(); // Recover state after long-running BdsVm function
                     push(b1);
                     break;
 
@@ -1814,7 +1814,7 @@ public class BdsVm implements Serializable, BdsLog {
             int idx = code[++pc];
             if (op.isParamString()) param = "'" + GprString.escape(getConstant(idx).toString()) + "'";
             else if (op.isParamType()) param = "'" + getType(idx) + "'";
-            else if (op == OpCode.NODE || op == OpCode.NODE_COVERAGE) {
+            else if (op.isParamNode()) {
                 // Show some code for this node
                 comment = toStringNode(idx);
                 param = "" + idx;

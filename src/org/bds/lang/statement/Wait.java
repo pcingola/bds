@@ -64,10 +64,19 @@ public class Wait extends Statement {
             sb.append(OpCode.WAIT + "\n");
         }
 
+        // Wait opcode returns 'true' on success, 'false' on failure
         sb.append(OpCode.JMPT + " " + labelOk + "\n");
+
+        // Failed 'wait' statement: This code is executed when 'wait' fails
         sb.append(labelFail + ":\n");
         sb.append(OpCode.PUSHS + " '" + errMsg + "'\n");
-        sb.append(OpCode.ERROR + "\n");
+        // TODO: Create a new WaitExpcetion Object
+        sb.append(OpCode.NEW + " '" + errMsg + "'\n");
+
+        // TODO: Add object to the stack
+        sb.append(OpCode.THROW + "\n"); // Throw WaitException object
+
+        // Succeeded 'wait' statement: Jump here if 'wait' succeeds
         sb.append(labelOk + ":\n");
 
         return sb.toString();
