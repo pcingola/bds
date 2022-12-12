@@ -10,7 +10,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.bds.libraries.LibraryException.EXCEPTION_FIELD_VALUE;
+import static org.bds.libraries.LibraryException.THROWABLE_FIELD_VALUE;
 
 /**
  * Test cases for 'try/catch/finally' statements
@@ -268,7 +268,7 @@ public class TestCasesTryCatchFinally extends TestCasesBase {
         // Try/Catch: Throwing a string instead of an Exception object
         BdsTest bdsTets = runAndCheckException(dir + "run_277.bds", "Exception");
         ValueObject exceptionObject = (ValueObject) bdsTets.getBds().getBdsRun().getVm().getException();
-        Value exceptionValue = exceptionObject.getFieldValue(EXCEPTION_FIELD_VALUE);
+        Value exceptionValue = exceptionObject.getFieldValue(THROWABLE_FIELD_VALUE);
         Assert.assertEquals("You can also throw a string, but it's a bit weird...", exceptionValue.asString());
     }
 }

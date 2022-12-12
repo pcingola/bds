@@ -1735,9 +1735,9 @@ public class BdsVm implements Serializable, BdsLog {
             exceptionObject.initializeFields();
 
             // Add original 'exceptionValue' to object to 'exception.value' field (unless the field is already set)
-            var ev = exceptionObject.getFieldValue(EXCEPTION_FIELD_VALUE);
+            var ev = exceptionObject.getFieldValue(THROWABLE_FIELD_VALUE);
             if (ev == null || ev.asString().isEmpty()) {
-                exceptionObject.setValue(EXCEPTION_FIELD_VALUE, exceptionValue);
+                exceptionObject.setValue(THROWABLE_FIELD_VALUE, exceptionValue);
             }
         }
 
@@ -1745,10 +1745,10 @@ public class BdsVm implements Serializable, BdsLog {
         this.exception = exceptionObject;
 
         // Populate Exception's stack trace message (if the field is empty)
-        Value stackTrace = exceptionObject.getFieldValue(EXCEPTION_FIELD_STACK_TRACE);
+        Value stackTrace = exceptionObject.getFieldValue(THROWABLE_FIELD_STACK_TRACE);
         if (stackTrace == null || stackTrace.asString().isEmpty()) { // Set field
             stackTrace = new ValueString(stackTrace());
-            exceptionObject.setValue(EXCEPTION_FIELD_STACK_TRACE, stackTrace);
+            exceptionObject.setValue(THROWABLE_FIELD_STACK_TRACE, stackTrace);
         }
 
         // Use current exception handler if available
@@ -1767,11 +1767,12 @@ public class BdsVm implements Serializable, BdsLog {
         }
 
         // No Exception handler was found, fatal error
-        Value value = exceptionObject.getFieldValue(EXCEPTION_FIELD_VALUE);
+        Value value = exceptionObject.getFieldValue(THROWABLE_FIELD_VALUE);
+        String stackTraceStr = (stackTrace != null ? stackTrace.asString() : "");
         fatalError(exceptionValue.getType() + " thrown: " //
                 + (value != null ? value : exceptionValue) //
                 + "\n" //
-                + (stackTrace != null ? "Stack trace:\n" + stackTrace : "") //
+                + (!stackTraceStr.isEmpty() ? "Stack trace:\n" + stackTrace : "") //
         );
     }
 

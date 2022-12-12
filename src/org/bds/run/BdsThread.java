@@ -401,7 +401,7 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
         // Show BDS stack trace
         try {
             String stackTrace = stackTrace();
-            if (!stackTrace.isEmpty()) System.err.println("Stack trace:\n" + stackTrace());
+            if (!stackTrace.isEmpty()) System.err.println("Stack trace:\n" + stackTrace);
         } catch (Throwable t) {
             t.printStackTrace();
         }
@@ -410,8 +410,8 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
         try {
             String checkpointFileName = checkpoint(bdsnode);
             if (checkpointFileName.isEmpty())
-                System.err.println("Creating checkpoint file: Config or command line option disabled checkpoint file creation, nothing done.");
-            else System.err.println("Created checkpoint file: '" + checkpointFileName + "'");
+                log("Creating checkpoint file: Config or command line option disabled checkpoint file creation, nothing done.");
+            else log("Created checkpoint file: '" + checkpointFileName + "'");
         } catch (Throwable t) {
             // Ignore serialization error at this stage (we are within a fatal error)
         }
@@ -528,16 +528,23 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
      * Recurse to parent node if not found
      */
     public String getFileLinePos(BdsNode bdsNode) {
-        // If the node has file/line info, we are done
-        if (bdsNode.getFileNameCanonical() != null) { //
-            return bdsNode.getFileName() //
-                    + ", line " + bdsNode.getLineNum() //
-                    + ", pos " + (bdsNode.getCharPosInLine() + 1) //
-                    ;
+        StringBuilder sb = new StringBuilder();
+
+        // If the node has file, add it
+        if (bdsNode.getFileNameCanonical() != null) {
+            sb.append(bdsNode.getFileName());
+            // If the node has line number, add it
+            if (bdsNode.getLineNum() > 0) {
+                sb.append(", line " + bdsNode.getLineNum());
+                // If the node has line possition number, add it
+                if (bdsNode.getCharPosInLine() >= 0) {
+                    sb.append(", pos " + (bdsNode.getCharPosInLine() + 1));
+                }
+            }
         }
 
         // Nothing found? Return empty
-        return "";
+        return sb.toString();
     }
 
     /**
