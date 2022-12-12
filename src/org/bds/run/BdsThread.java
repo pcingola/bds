@@ -345,29 +345,49 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
         return Data.factory(fileName, this);
     }
 
-    void exitCode() {
-        boolean ok = true;
+    /**
+     * There is an implicit 'wait' statment at the end of the program
+     */
+    boolean waitImplicit() {
         // We are done running
         debug("BdsThread finished: " + getBdsThreadId());
         if (getRunState().isFatalError()) {
             // Error condition
-            ok = false;
             debug((isRoot() ? "Program" : "Parallel") + " '" + getBdsThreadId() + "' fatal error");
+            return false;
         } else {
             // OK, we finished running
             debug((isRoot() ? "Program" : "Parallel") + " '" + getBdsThreadId() + "' execution finished");
 
             // Implicit 'wait' statement at the end of the program (only if the program finished 'naturally')
-            ok = waitAll();
+            debug((isRoot() ? "Program" : "Parallel") + " '" + getBdsThreadId() + "' waitAll: Waiting for all threads and tasks to finished");
+
+            var ok = waitAll();
             if (!ok) errorMessage = "Error waiting pending tasks";
+
             debug((isRoot() ? "Program" : "Parallel") + " '" + getBdsThreadId() + "' waitAll: All threads and tasks finished");
+            return ok;
+        }
+    }
+
+    /**
+     * Calculate exitCode after bdsThred runs
+     * @param allTaskFinishedOk: Have all tasks finished OK?
+     */
+    void exitCode(boolean allTaskFinishedOk) {
+        // Exit code already set? Nothing to do
+        if (vm.getExitCode() != null) {
+            setExitValue(vm.getExitCode()); // Make sure local exitValue is populated with the value from VM
+            return;
         }
 
-        // All tasks in wait finished OK?
-        if (!ok) {
+        // Set exitCode based on whether tasks fninished OK
+        if (!allTaskFinishedOk) {
             // Errors? Then set exit status appropriately
             setExitValue(EXITCODE_ERROR);
         } else {
+            // All tasks in wait finished OK?
+            // Set exitCode based on VM's run state
             switch (getRunState()) {
                 case FATAL_ERROR:
                     setExitValue(EXITCODE_FATAL_ERROR);
@@ -378,7 +398,8 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
                     break;
 
                 default:
-                    // Do nothing with exitValue;
+                    // All is OK, exitCode is zero
+                    setExitValue(0);
                     break;
             }
         }
@@ -962,10 +983,9 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
         timer = new Timer();
         createLogDir(); // Create log dir
         initThreads(); // Initialize and start threads
-
         runStatement(); // Run statement (i.e. run program)
-
-        exitCode(); // Calculate exit code
+        var allTaskFinishedOk = waitImplicit(); // Implicit wait at the end of the program
+        exitCode(allTaskFinishedOk); // Calculate exit code
         cleanupBeforeReport(); // Clean up before final report
         reportAfterRun(); // Create reports
         clearupAfterReport(); // Clean up after final report

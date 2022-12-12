@@ -66,6 +66,8 @@ public enum OpCode {
     , EQB, EQI, EQR, EQS
     // Error
     , ERROR
+    // Exit
+    , EXIT
     // Greater or equal than
     , GEB, GEI, GER, GES
     // Goal

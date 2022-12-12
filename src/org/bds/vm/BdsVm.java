@@ -466,13 +466,22 @@ public class BdsVm implements Serializable, BdsLog {
     }
 
     /**
-     * Get exit code. If the stack is empty, then the exit-code is 0 (i.e. program finished OK)
+     * Get exit code
+     * If forced by 'exit' or 'error', use the value
+     * If the stack is empty, then the exit-code is 0 (i.e. program finished OK)
      */
-    int exitCode() {
-        // Set externally? E.g. BdsThread.fatalError()
+    public Integer getExitCode() {
+        // Set externally? E.g. 'exit', 'error', or BdsThread.fatalError()?
         if (exitCode != null) return exitCode;
-        exitCode = isEmptyStack() ? 0 : (int) popInt();
+
+        // Non-empty stack? Use value from stack
+        if (!isEmptyStack()) exitCode = (int) popInt();
+
         return exitCode;
+    }
+
+    public void setExitCode(Integer exitCode) {
+        this.exitCode = exitCode;
     }
 
     public void fatalError(String msg) {
@@ -537,14 +546,6 @@ public class BdsVm implements Serializable, BdsLog {
 
     public Value getException() {
         return exception;
-    }
-
-    public int getExitCode() {
-        return exitCode;
-    }
-
-    public void setExitCode(Integer exitCode) {
-        this.exitCode = exitCode;
     }
 
     public Throwable getJavaException() {
@@ -868,7 +869,7 @@ public class BdsVm implements Serializable, BdsLog {
     /**
      * Run the program in 'code'
      */
-    public int run() {
+    public Integer run() {
         // Initialize program counter
         // Note: If vm parallel, then pc is already initialized in child
         //       process, do not change.
@@ -891,12 +892,12 @@ public class BdsVm implements Serializable, BdsLog {
                 t.printStackTrace();
             }
 
-            exitCode = BdsThread.EXITCODE_FATAL_ERROR;
+            setExitCode(BdsThread.EXITCODE_FATAL_ERROR);
             javaException = t;
             bdsThread.fatalError(getBdsNode(), t.getMessage());
         }
 
-        return exitCode();
+        return getExitCode();
     }
 
     /**
@@ -926,17 +927,17 @@ public class BdsVm implements Serializable, BdsLog {
         while (pc < code.length && run) {
             instruction = code[pc];
             opcode = OPCODES[instruction];
-            if (debug) {
-                String msg = "" //
+            if (debug)
+                System.err.print("" //
                         + (sp > 0 ? "\n\t\t\t\t\t\t\t\t# stack: " + toStringStack() : "") //
                         + (exceptionHandler != null ? "\n\t\t\t\t\t\t\t\t# exceptionHandler: " + exceptionHandler.getFinallyLabel() : "") //
                         + (fp > 0 ? "\n\t\t\t\t\t\t\t\t# call stack: " + toStringCallStack() : "") //
                         + "\n" //
                         + (bdsThread != null ? bdsThread.getBdsThreadId() + "\t\t|" : "") //
                         + toAsm(pc) //
-                        ;
-                System.err.print(msg);
-            }
+                        + "\n" //
+                );
+
             pc++;
 
             switch (opcode) {
@@ -1118,7 +1119,12 @@ public class BdsVm implements Serializable, BdsLog {
 
                 case ERROR:
                     bdsThread.fatalError(popString());
-                    exitCode = BdsThread.EXITCODE_ERROR;
+                    setExitCode(BdsThread.EXITCODE_ERROR);
+                    return;
+
+                case EXIT:
+                    setExitCode((int) popInt());
+                    run = false;
                     return;
 
                 case GEB:
