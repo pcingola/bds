@@ -211,7 +211,7 @@ public class TestCasesLang extends TestCasesBase {
     @Test
     public void testLang20() {
         // Exit statement
-        runAndCheck(dir + "run_112.bds", "runOk", "false");
+        runAndCheckExit(dir + "run_112.bds", 1);
     }
 
     @Test

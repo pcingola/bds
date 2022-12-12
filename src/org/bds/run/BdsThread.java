@@ -1135,5 +1135,4 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
 
         return ok;
     }
-
 }

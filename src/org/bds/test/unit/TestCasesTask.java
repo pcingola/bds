@@ -312,6 +312,4 @@ public class TestCasesTask extends TestCasesBase {
         // Task error with try catch does not produce an exception
         runAndCheckExit(dir + "task_34.bds", 1);
     }
-
-
 }
