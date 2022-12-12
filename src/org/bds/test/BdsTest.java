@@ -213,12 +213,20 @@ public class BdsTest {
     }
 
     /**
+     * Check exit code
+     */
+    public void checkExitCodeFail() {
+        Assert.assertTrue(errMsg("No exit value (program was not run)"), exitCode != null);
+        Assert.assertTrue(errMsg("Expecting non-zero exit code, but it was '" + exitCode + "'"), ((int) exitCode) != 0);
+    }
+
+    /**
      * Check that the program run and finished with a failed exit code
      */
     public void checkRunExitCodeFail() {
         checkCompileOk();
         checkRunState(RunState.FINISHED);
-        checkExitCode(1);
+        checkExitCodeFail();
     }
 
     /**
