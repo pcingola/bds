@@ -37,28 +37,21 @@ public class Wait extends Statement {
      * Create a 'new WaitException(errorMessage)' expression
      */
     ExpressionNew createNewWaitException(String errMsg) {
-        // Create a 'new WaitException' expression
+        // Create a 'new WaitException(errMsg)' expression
         var exprNew = new ExpressionNew(this, null);
 
         // Set function name: A constructor is a method that has the same name as the class
         exprNew.setFunctionName(CLASS_NAME_WAIT_EXCEPTION);
 
-        // Add constructor arguments
+        // Add constructor arguments.
+        // There is only one argument: 'errMsg'
         Args args = new Args(exprNew, null);
+        exprNew.setArgs(args);
 
         // Expression literal string 'errMsg'
         LiteralString errMsgLiteral = new LiteralString(args, null);
         errMsgLiteral.setValueInterpolate(errMsg);
         args.add(errMsgLiteral);
-        exprNew.setArgs(args);
-
-//        // Create reference to 'this' object (the WaitException object)
-//        TypeClass thisType = (TypeClass) Types.get(CLASS_NAME_WAIT_EXCEPTION);
-//        ReferenceThis expresionThis = new ReferenceThis(this, thisType);
-//
-//        // Update arguments to point to 'this'
-//        Args argsThis = Args.getArgsThis(args, expresionThis);
-//        exprNew.setArgs(argsThis);
 
         return exprNew;
     }
