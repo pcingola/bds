@@ -1,5 +1,4 @@
 
-
 captured := false
 
 try {
@@ -9,7 +8,7 @@ try {
 	task my_unknown_command
 } catch( WaitException e) {
 	# This will never be executed, because we are not wrapping the wait statement
-	capcaptured = true
+	captured = true
 	println "Wait exception captured" 
 }
 

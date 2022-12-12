@@ -1,0 +1,18 @@
+
+captured := false
+
+try {
+	# This task will fail, we want to chack that a WaitException is thrown
+	task my_unknown_command
+
+	# Wait exception has to be inside the 'try' clause, because this is where the exception is thrown
+	wait
+} catch( WaitException e) {
+	captured = true
+	println "Wait exception captured"
+} 
+
+println "This will be executed: captured = $captured"
+
+# exit 0     # Commented out: In this test case, we don't force the exit code to zero
+# Note: Since we are NOT forcing the exit code, bds will set it to 1 because there are failed tasks
