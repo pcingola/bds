@@ -6,7 +6,7 @@ try {
 	# But the exception is thrown by the wait exception at the end of the program
 	# So we cannot capture it here
 	task my_unknown_command
-} catch( WaitException e) {
+} catch(WaitException e) {
 	# This will never be executed, because we are not wrapping the wait statement
 	captured = true
 	println "Wait exception captured" 

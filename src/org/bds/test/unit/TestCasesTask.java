@@ -298,19 +298,20 @@ public class TestCasesTask extends TestCasesBase {
     public void testTask32WaitThrowsExceptionCatch() {
         // Task error with try/catch does NOT CATCH the exception, because
         // the "implicit wait at the end of the program" is executed AFTER the
-        // program ends (i.e. outside the try/catch clause)
-        runAndCheck(BdsThread.EXITCODE_ERROR, dir + "task_32.bds", "captured", "true");
+        // program ends (i.e. outside the try/catch clause).
+        runAndCheck(BdsThread.EXITCODE_ERROR, dir + "task_32.bds", "captured", "false");
     }
 
     @Test
     public void testTask33WaitThrowsExceptionCatch() {
-        // Task error with try catch does not produce an exception. Dependent task
+        // Task error with try/catch does not produce an exception. Dependent task
         runAndCheck(dir + "task_33.bds", "captured", "true");
     }
 
     @Test
     public void testTask34WaitThrowsExceptionCatch() {
-        // Task error with try catch does not produce an exception
+        // Task error with try/catch captures the exception, but the exit code
+        // is '1', because it is not forced by an 'exit' statement
         runAndCheck(BdsThread.EXITCODE_ERROR, dir + "task_34.bds", "captured", "true");
     }
 }
