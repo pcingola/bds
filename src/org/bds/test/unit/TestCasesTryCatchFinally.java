@@ -183,7 +183,7 @@ public class TestCasesTryCatchFinally extends TestCasesBase {
         expectedValues.put("finally1", "true");
         expectedValues.put("finally2", "true");
 
-        runAndCheck(1, dir + "run_238.bds", expectedValues);
+        runAndCheck(BdsThread.EXITCODE_FATAL_ERROR, dir + "run_238.bds", expectedValues);
     }
 
     @Test
