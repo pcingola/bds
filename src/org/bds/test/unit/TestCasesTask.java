@@ -284,13 +284,14 @@ public class TestCasesTask extends TestCasesBase {
     @Test
     public void testTask30WaitThrowsException() {
         // Task error should produce a 'WaitException' instead of an error. Dependent tasks
-        runAndCheckException(dir + "task_30.bds", "WaitException");
+        runAndCheckException(dir + "task_30.bds", "WaitException", "Error in wait statement, file test/unit/task/task_30.bds, line 21");
     }
 
     @Test
     public void testTask31WaitThrowsExceptionCatch() {
         // Task error with try catch does not produce an exception
-        runAndCheckException(dir + "task_31.bds", "WaitException");
+        verbose = true;
+        runAndCheck(dir + "task_31.bds", "capcaptured", "true");
     }
 
     @Test
