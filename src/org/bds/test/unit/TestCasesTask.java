@@ -276,8 +276,9 @@ public class TestCasesTask extends TestCasesBase {
 
     @Test
     public void testTask29WaitThrowsException() {
-        // Task error should produce a 'WaitException' instead of an error. Implicit wait (end of program)
-        runAndCheckException(dir + "task_29.bds", "WaitException");
+        // Task error: When the task has an error after the end of the program (i.e. in
+        // the implicit 'wait' statement), there is no exception, just an error
+        runAndCheckError(dir + "task_29.bds", "Error waiting pending tasks");
     }
 
     @Test

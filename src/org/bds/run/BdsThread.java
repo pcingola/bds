@@ -359,6 +359,7 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
 
             // Implicit 'wait' statement at the end of the program (only if the program finished 'naturally')
             ok = waitAll();
+            if (!ok) errorMessage = "Error waiting pending tasks";
             debug((isRoot() ? "Program" : "Parallel") + " '" + getBdsThreadId() + "' waitAll: All threads and tasks finished");
         }
 
