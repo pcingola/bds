@@ -291,7 +291,7 @@ public class TestCasesTask extends TestCasesBase {
     public void testTask31WaitThrowsExceptionCatch() {
         // Task error with try catch does not produce an exception
         verbose = true;
-        runAndCheck(dir + "task_31.bds", "capcaptured", "true");
+        runAndCheck(dir + "task_31.bds", "captured", "true");
     }
 
     @Test
