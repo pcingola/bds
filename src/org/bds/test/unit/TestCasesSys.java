@@ -1,6 +1,7 @@
 package org.bds.test.unit;
 
 import junit.framework.Assert;
+import org.bds.run.BdsThread;
 import org.bds.test.TestCasesBase;
 import org.junit.Test;
 
@@ -40,8 +41,9 @@ public class TestCasesSys extends TestCasesBase {
     @Test
     public void test94() {
         // sys: failing command
-        runAndCheckExit(dir + "run_94.bds", 1);
+        runAndCheckExit(dir + "run_94.bds", BdsThread.EXITCODE_FATAL_ERROR);
     }
+
     @Test
     public void test99() {
         // sys with 'canFail'

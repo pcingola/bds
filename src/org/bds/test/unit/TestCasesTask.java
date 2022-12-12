@@ -1,6 +1,7 @@
 package org.bds.test.unit;
 
 import junit.framework.Assert;
+import org.bds.run.BdsThread;
 import org.bds.test.TestCasesBase;
 import org.bds.util.Gpr;
 import org.bds.util.Timer;
@@ -96,7 +97,7 @@ public class TestCasesTask extends TestCasesBase {
     @Test
     public void testTask13() {
         // Task: Checking that output files have zero length (error condition)
-        runAndCheck(1, dir + "run_43.bds", "finished", 0L);
+        runAndCheck(BdsThread.EXITCODE_FATAL_ERROR, dir + "run_43.bds", "finished", 0L);
     }
 
     @Test
@@ -298,7 +299,7 @@ public class TestCasesTask extends TestCasesBase {
         // Task error with try/catch does NOT CATCH the exception, because
         // the "implicit wait at the end of the program" is executed AFTER the
         // program ends (i.e. outside the try/catch clause)
-        runAndCheckExit(dir + "task_32.bds", 1);
+        runAndCheck(BdsThread.EXITCODE_ERROR, dir + "task_32.bds", "captured", "true");
     }
 
     @Test
@@ -310,6 +311,6 @@ public class TestCasesTask extends TestCasesBase {
     @Test
     public void testTask34WaitThrowsExceptionCatch() {
         // Task error with try catch does not produce an exception
-        runAndCheckExit(dir + "task_34.bds", 1);
+        runAndCheck(BdsThread.EXITCODE_ERROR, dir + "task_34.bds", "captured", "true");
     }
 }
