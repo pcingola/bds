@@ -1,3 +1,4 @@
 #!/usr/bin/env bds
 
-exit 42
+task echo "TASK START"; sleep 5; echo "TASK END"
+println "All tasks scheduled, program end!"

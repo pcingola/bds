@@ -79,6 +79,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#debug">debug</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#dep">dep</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#error">error</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#exit">exit</a>
@@ -87,17 +89,31 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#for-lists">for (lists)</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#goal">goal</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#if-else">if / else</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#include">include</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#kill">kill</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#par">par</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#print-println">print / println</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#return">return</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#sys">sys</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#switch">switch</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task">task</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#ternary-operator-cond-exprtrue-exprfalse">Ternary operator cond ? exprTrue : exprFalse</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#throw">throw</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#try-catch-finally">try / catch / finally</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#variable-assignment">Variable assignment</a>
     </li>
@@ -105,7 +121,7 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#variable-declarations">Variable declarations</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#ternary-operator">Ternary operator</a>
+    <li class="toctree-l2"><a class="reference internal" href="#wait">wait</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#warning">warning</a>
     </li>
@@ -209,9 +225,8 @@
             <div class="section">
               
                 <h1 id="language">Language</h1>
-<p>Learning bds language (<code>bds</code>) is almost trivial, all the statements and expression and data types do what you expect. </p>
-<p>bds is really simple and you should be able to code within a few minutes.
-This section is intended as a reference, so just glance through it.</p>
+<p>Learning bds language (<code>bds</code>) is almost trivial, all the statements and expression and data types do what you expect.</p>
+<p>bds is really simple and you should be able to code within a few minutes. This section is intended as a reference, so just glance through it.</p>
 <h3 id="comments">Comments</h3>
 <p>The usual statements are available</p>
 <pre><code>// Single line comment
@@ -231,45 +246,57 @@ print &quot;Hi\n&quot;; print &quot;Bye\n&quot;;
 print &quot;Hi\n&quot; 
 print &quot;Bye\n&quot;
 </code></pre>
-<h3 id="break">break</h3>
+<h3 id="break"><code>break</code></h3>
 <p>Breaks from current loop</p>
 <pre><code>for( int i=0 ; i &lt; 10 ; i++ ) {
     if( i == 5 ) break;    // Finish when we reach 5
 }
 </code></pre>
-<h3 id="breakpoint">breakpoint</h3>
-<p>Inserts a debugging breakpoint. I.e. when the statement is executed, <code>bds</code> switches execution to debug mode (STEP) </p>
+<h3 id="breakpoint"><code>breakpoint</code></h3>
+<p>Inserts a debugging breakpoint. I.e. when the statement is executed, <code>bds</code> switches execution to debug mode (STEP)</p>
 <pre><code>breakpoint &quot;Program execution will switch do debug mode here!\n&quot;
 </code></pre>
-<h3 id="continue">continue</h3>
+<h3 id="continue"><code>continue</code></h3>
 <p>Continue at the end of the current loop</p>
 <pre><code>for( int i=0 ; i &lt; 10 ; i++ ) {
     if( i == 5 ) continue;  // Skip value 5
 }
 </code></pre>
-<h3 id="debug">debug</h3>
+<h3 id="debug"><code>debug</code></h3>
 <p>Show a debug message on STDERR only if <code>bds</code> is running in 'debug' mode (otherwise the statement is ignored).</p>
 <pre><code>debug &quot;Show this message only if we are in debug mode!\n&quot;
 </code></pre>
-<h3 id="error">error</h3>
+<h3 id="dep"><code>dep</code></h3>
+<p>Define a task dependency in a declarative manner.
+<a href="../goal/">See details in the "goal" section</a></p>
+<h3 id="error"><code>error</code></h3>
 <p>Show an error message and exit the program</p>
-<pre><code>if( num &lt;= 0 )  warning &quot;Number MUST be positive\n&quot;
+<pre><code>if( num &lt;= 0 )  error &quot;Number MUST be positive\n&quot;
 </code></pre>
-<h3 id="exit">exit</h3>
-<p>Exit program, optional expression calculates an exit value.</p>
+<h3 id="exit"><code>exit</code></h3>
+<p>Exit program, with an <code>exitValue</code> that is returned to the operating system, as the command line's exit code</p>
 <pre><code>exit 1
 </code></pre>
-<h3 id="for">for</h3>
+<p>How exit value is calculated:</p>
+<ul>
+<li>If the program uses <code>exit value</code>, the value is used</li>
+<li>The exit code will be non-zero if any of the following happens:<ul>
+<li>There is a fatal error</li>
+<li>There is an (un-caught) exception</li>
+<li>A <code>task</code> fails, is killed, or otherwise finishes un-successfully (unless 'canFail' is set to true in the task)</li>
+</ul>
+</li>
+</ul>
+<h3 id="for"><code>for</code></h3>
 <p>Similar to C or Java <code>for</code> loops</p>
 <pre><code>for( int i=0 ; i &lt; 10 ; i++ ) print(&quot;$i\n&quot;)
 </code></pre>
-<pre><code>                or
-</code></pre>
+<p>or</p>
 <pre><code>for( int i=0 ; i &lt; 10 ; i++ ) {
     print(&quot;$i\n&quot;)
 }
 </code></pre>
-<h3 id="for-lists">for (lists)</h3>
+<h3 id="for-lists"><code>for (lists)</code></h3>
 <p>Java-like for iterator on lists</p>
 <pre><code>string[] mylist
 
@@ -277,7 +304,10 @@ print &quot;Bye\n&quot;
 
 for( string s : mylist ) print(&quot;$s\n&quot;)
 </code></pre>
-<h3 id="if-else">if / else</h3>
+<h3 id="goal"><code>goal</code></h3>
+<p>Define a task DAG objective in a declarative maner.
+<a href="../goal/">See details in the "goal" section</a></p>
+<h3 id="if-else"><code>if / else</code></h3>
 <p>It does exactly what you expect</p>
 <pre><code>if( i &lt; 10 )    print(&quot;Less than ten\n&quot;)
 </code></pre>
@@ -291,29 +321,34 @@ for( string s : mylist ) print(&quot;$s\n&quot;)
     print(&quot;More than twenty\n&quot;)
 }
 </code></pre>
-<h3 id="include">include</h3>
+<h3 id="include"><code>include</code></h3>
 <p>Include source code from another file</p>
 <pre><code>include &quot;mymodule&quot;
 
 // ... use functions from 'mymodule.bds'
 </code></pre>
-<h3 id="kill">kill</h3>
+<h3 id="kill"><code>kill</code></h3>
 <p>Kill a task</p>
 <pre><code>kill taskId
 </code></pre>
-<h3 id="print-println">print / println</h3>
-<p>Print to sdtout</p>
+<h3 id="par"><code>par</code></h3>
+<p>Execute a bds thread in parallel.
+<a href="../par/">See details in the "par" section</a></p>
+<h3 id="print-println"><code>print / println</code></h3>
+<p>Print to <code>STDOUT</code></p>
 <pre><code>print &quot;Show this mesage without a new line at the end.&quot;
 println &quot;This one gets a new line at the end.&quot;
 </code></pre>
-<h3 id="return">return</h3>
+<h3 id="return"><code>return</code></h3>
 <p>Return from a function. Optional expression is a return value.</p>
 <pre><code>// Define a function
 int twice(int n) {
     return( 2 * n )
 }
 </code></pre>
-<h3 id="switch">switch</h3>
+<h3 id="sys"><code>sys</code></h3>
+<p>Execute a command line. <a href="../sys/">See details in the "sys" section</a></p>
+<h3 id="switch"><code>switch</code></h3>
 <p>Switch statements are similar to multiple <code>if / else if</code> statements</p>
 <pre><code>in := 'x'
 out := 1
@@ -333,6 +368,59 @@ switch( in ) {
     default:        # You can define 'default' anywhere (no need to do it after 'case')
         out *= 100
 }
+</code></pre>
+<h3 id="task"><code>task</code></h3>
+<p>A <code>task</code> expression defines a task to be executed.</p>
+<p>See details in the following sections:</p>
+<ul>
+<li><a href="../task/">Task</a></li>
+<li><a href="../task_detached/">Task detached</a></li>
+<li><a href="../task_imp/">Task improper</a></li>
+<li><a href="../task_aws/">Task cloud AWS</a></li>
+<li><a href="../task_resources/">Task resources</a></li>
+</ul>
+<h3 id="ternary-operator-cond-exprtrue-exprfalse">Ternary operator <code>cond ? exprTrue : exprFalse</code></h3>
+<p>The ternary oprator is <code>cond ? exprTrue : exprFalse</code></p>
+<p>This operator evaluates <code>cond</code>:</p>
+<ul>
+<li>If <code>cond</code> is <code>true</code> then it evaluates and returns <code>exprTrue</code>.</li>
+<li>If <code>cond</code> is <code>false, it evalautes and return</code>exprFalse`.</li>
+</ul>
+<p>For example, here we calculate the "sign" of number <code>x</code></p>
+<pre><code>sign = ( x &gt;= 0 ? 1 : -1 )
+</code></pre>
+<h3 id="throw"><code>throw</code></h3>
+<p>Throws an exception, that might be captured by a <code>try</code> / <code>catch</code> block:</p>
+<pre><code>class MyException extends Exception { }
+
+void myFunction() {
+    if( rand() &lt; 0.5) throw new MyException()
+}
+</code></pre>
+<p>Any object can be thrown, it does not have to be a subtype of <code>Exception</code>, but it is better if it is.</p>
+<p>For example, you can throw a <code>string</code>:</p>
+<pre><code>throw &quot;This will be wrapped into an exception&quot;
+</code></pre>
+<h3 id="try-catch-finally"><code>try</code> / <code>catch</code> / <code>finally</code></h3>
+<p>The <code>try</code> / <code>catch</code> / <code>finally</code> combination is used to to capture exceptions. For example:</p>
+<pre><code>class MyException extends Exception { }
+
+// Half of the time this function fails and thorws an exception
+void myFunction() {
+    if( rand() &lt; 0.5) throw new MyException()
+}
+
+try {
+    // This code block might throw an exception
+    myFunction() 
+} catch(MyException e) {
+    // This block is executes only if the `try` block
+    // throws an exception of type `MyException`
+    println &quot;MyException was thrown: $e&quot;
+} finally {
+    // This code is ALWAYS executed
+    println &quot;Finally, we are finished&quot;
+} 
 </code></pre>
 <h3 id="variable-assignment">Variable assignment</h3>
 <p><code>var = expr</code> evaluates expression 'expr' and assign result to 'var'</p>
@@ -359,20 +447,19 @@ string s = &quot;Hello!&quot;
 r := 3.1415927
 s := &quot;Hello!&quot;
 </code></pre>
-<h3 id="ternary-operator">Ternary operator</h3>
-<p><code>expr ? exprTrue : exprFalse</code> Evaluate 'expr', if true evaluate and return 'exprTrue', otherwise evalaute and return 'exprFalse'</p>
-<pre><code>sign = ( i &gt;= 0 ? 1 : -1 )
-</code></pre>
-<h3 id="warning">warning</h3>
+<h3 id="wait"><code>wait</code></h3>
+<p>Wait for a task, a list of tasks, or all tasks to finish exxecution.
+<a href="../wait/">See details in the "wait" section</a></p>
+<h3 id="warning"><code>warning</code></h3>
 <p>Show a warning message</p>
 <pre><code>if( num &lt;= 0 )  warning &quot;Number should be positive\n&quot;
 </code></pre>
-<h3 id="while">while</h3>
+<h3 id="while"><code>while</code></h3>
 <p>Typical <code>while</code> iterator</p>
 <pre><code>while( i &lt; 10 ) i++
 </code></pre>
-<h3 id="function-definition">Function definition</h3>
-<p>A simple, and useless, example:</p>
+<h2 id="function-definition">Function definition</h2>
+<p>Here is a simple (and useless), function definition example:</p>
 <pre><code>// Define a function
 int sumPositive(int n) {
     if( n &lt;= 0 )    return 0

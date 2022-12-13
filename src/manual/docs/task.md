@@ -88,8 +88,8 @@ Please take a look at the [Logging](logging.md) chapter for more details.
 
 A task is scheduled by means of a `task` expression.
 A `task` expression returns a task ID, a string representing a task.
-E.g.:
-File <a href="bds/test_09.bds">test_09.bds</a>
+
+E.g.: File <a href="bds/test_09.bds">test_09.bds</a>
 
 ```
 tid := task echo Hello
@@ -225,99 +225,49 @@ task( shouldExec, cpus := 4 ) {
 ```
 
 **Note:** This feature is particularly useful when combined with the dependency operator `<-`
-For instance, the following `task` will be executed only if 'out.txt' needs to be updated with respect to 'in.txt'
+
+# Task re-execution
+
+Imagine you have a `task` that given an input data (file `in := "in.txt"`), generates an output file (`out := "out.txt"`) but takes a long time to calculate (several minutes or hours).
+A simple diagram would be:
+```
+            +------+
+in.txt >----| Task |---> out.txt
+            +------+                   
+```
+
+When the program is being re-executed, you might not need to re-run the task.
+For example, if you've already run the `task` before, and the output file has already been created, then you don't need to process the input file again.
+This is where the dependency operator (`<-`) is very useful.
+
+See details in ["Dependency operator" section](dep_op.md).
+
+**Note:** In complex data analysis pipelines, this situation happens very often.
+That's why `bds` has mechanisms to address this issue.
+
+A task conditional on a dependency operator, for example `task( out <- in ) ...`, will be executed only when you need to process the output data.
+More strictly, the task will only be executed when the output file (`out`) either does not exist, or has a timestamp before the input file `in`. 
+
+For instance, the following `task` will be executed only if `out.txt` needs to be updated with respect to `in.txt`:
 
 ```
 in  := 'in.txt'
 out := 'out.txt'
 
 task( out <- in , cpus := 4 ) {
+    sys echo "Creating output '$out'"
     sys echo $in > $out
 }
 ```
 
-## Syntax sugar
-
-There are many ways to write task expressions, here we show some examples.
-
--   A simple task
-
-```
-task echo RUNNING
-```
-
--   The same simple task
-
-```
-task {
-    sys echo RUNNING
-}
-```
-
--   A simple, multi-line task (a backslash at the end of the line continues in the next line, just like in a shell script)
-
-```
-task cat file.txt \
-        | grep "^results" \
-        | cut -f 2 \
-        | sort \
-        > out.txtx
-```
-
--   A more complex multi-line task (`sys` commands are just multiple lines in a bash script)
-
-```
-task {
-    sys cat file.txt | grep "^results" > out.txt
-    sys cat other.txt | grep "^exclude" > words.txt
-    sys grep -v -f words.txt out.txt > excluded.txt
-    sys wc -l excluded.txt
-}
-```
-
--   A task with dependencies
-
-```
-task ( out <- in ) {
-    sys cat $in | grep "^results" > $out
-    sys cat other.txt | grep "^exclude" > words.txt
-    sys grep -v -f words.txt $out > excluded.txt
-    sys wc -l excluded.txt
-}
-```
-
--   A task with multiple inputs and outputs dependencies
-
-```
-task ( [out1, out2] <- [in1, in2] ) {
-    sys cat $in1 | grep "^results" > $out1
-    sys cat $in1 $in2 | wc -l > $out2
-}
-```
-
--   A task with multiple inputs and outputs dependencies, using 4 CPUs and declaring a local variable 'tmp'
-
-```
-task ( [out1, out2] <- [in1, in2] , cpus := 4 , tmp := "$in1.tmp" ) {
-    sys cat $in1 | grep "^results" > $out1
-    sys cat $in1 $in2 > $tmp
-    sys wc -l $tmp | wc -l > $out2
-}
-```
-
--   A task with a label (`taskName`) is easier to find in the report
-
-```
-task ( out <- in, cpus := 4 , taskName := "Filter results" ) {
-    sys cat $in | grep "^results" > $out
-}
-```
+If you execute the program for the first time, the task will run and the output `out.txt` will be created.
+But if you execute it the second time, no task will be executed, because the output file already exists, and it doesn't need to be updated respect to the input file.
 
 ## Task dependencies
 
-Using task dependencies, `bds` will internally create and resolve a directed acyclic graph (DAG) of tasks and will execute the tasks only when all the previous tasks have been succefull.
+Using task dependencies (i.e. the dependency operator `<-` in a `task` statement), `bds` will internally create and resolve a directed acyclic graph (DAG) of tasks and will execute the tasks only when all the previous tasks have been succesfull.
 
-For example, imgine you have three tasks where the inputs of the third task are the outputs of the other two tasks:
+For example, imagine you have three tasks where the inputs of the third task are the outputs of the other two tasks:
 
 -   `task_1`: Has input file `in_1.txt`, and output file `out_1.txt`
 -   `task_2`: Has input file `in_2.txt`, and output file `out_2.txt`
@@ -470,3 +420,81 @@ Input file: s3://my_bucket/tmp/in.txt
 Output file: s3://my_bucket/tmp/out.txt
 copy: s3://my_bucket/tmp/in.txt to s3://my_bucket/tmp/out.txt
 ```
+
+## Syntax sugar
+
+There are many ways to write task expressions, here we show some examples.
+
+-   A simple task
+
+```
+task echo RUNNING
+```
+
+-   The same simple task
+
+```
+task {
+    sys echo RUNNING
+}
+```
+
+-   A simple, multi-line task (a backslash at the end of the line continues in the next line, just like in a shell script)
+
+```
+task cat file.txt \
+        | grep "^results" \
+        | cut -f 2 \
+        | sort \
+        > out.txtx
+```
+
+-   A more complex multi-line task (`sys` commands are just multiple lines in a bash script)
+
+```
+task {
+    sys cat file.txt | grep "^results" > out.txt
+    sys cat other.txt | grep "^exclude" > words.txt
+    sys grep -v -f words.txt out.txt > excluded.txt
+    sys wc -l excluded.txt
+}
+```
+
+-   A task with dependencies
+
+```
+task ( out <- in ) {
+    sys cat $in | grep "^results" > $out
+    sys cat other.txt | grep "^exclude" > words.txt
+    sys grep -v -f words.txt $out > excluded.txt
+    sys wc -l excluded.txt
+}
+```
+
+-   A task with multiple inputs and outputs dependencies
+
+```
+task ( [out1, out2] <- [in1, in2] ) {
+    sys cat $in1 | grep "^results" > $out1
+    sys cat $in1 $in2 | wc -l > $out2
+}
+```
+
+-   A task with multiple inputs and outputs dependencies, using 4 CPUs and declaring a local variable 'tmp'
+
+```
+task ( [out1, out2] <- [in1, in2] , cpus := 4 , tmp := "$in1.tmp" ) {
+    sys cat $in1 | grep "^results" > $out1
+    sys cat $in1 $in2 > $tmp
+    sys wc -l $tmp | wc -l > $out2
+}
+```
+
+-   A task with a label (`taskName`) is easier to find in the report
+
+```
+task ( out <- in, cpus := 4 , taskName := "Filter results" ) {
+    sys cat $in | grep "^results" > $out
+}
+```
+

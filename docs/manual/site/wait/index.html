@@ -93,6 +93,26 @@
                     </li>
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">Wait</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#tasks-are-asynchronous">Tasks are asynchronous</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#waiting-for-tasks">Waiting for tasks</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#waiting-for-a-single-task">Waiting for a single task</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#waiting-for-one-task-to-finish">Waiting for one task to finish</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#waiting-for-a-list-of-tasks-to-finish">Waiting for a list of tasks to finish</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-failure">Task failure</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#wait-exception">Wait exception</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#catching-wait-exceptions">Catching wait exceptions</a>
+    </li>
+        </ul>
+    </li>
     </ul>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../dep_op/">Dependency operator</a>
@@ -164,6 +184,7 @@
               
                 <h1 id="wait">Wait</h1>
 <p>Task coordination mechanisms rely on waiting for some tasks to finish before starting new ones.</p>
+<h2 id="tasks-are-asynchronous">Tasks are asynchronous</h2>
 <p>As we mentioned several times, task execution order is not guaranteed.
 File <a href="bds/test_13.bds">test_13.bds</a></p>
 <pre><code>#!/usr/bin/env bds
@@ -193,6 +214,11 @@ AFTER 7
 AFTER 8
 AFTER 9
 </code></pre>
+<p>This is because the <code>task</code> statement only schedules a task to be executed, but it's up to scheduler to decide when to execute the task.
+Schedulers can, and often do, re-order the tasks to be executed.</p>
+<h2 id="waiting-for-tasks">Waiting for tasks</h2>
+<p>If we need some kind of "barrier" to wait for tasks, we use the <code>wait</code> statement</p>
+<h3 id="waiting-for-a-single-task">Waiting for a single task</h3>
 <p>If a task must be executed after another task finishes, we can introduce a <code>wait</code> statement.
 File <a href="bds/test_13.bds">test_13.bds</a></p>
 <pre><code>#!/usr/bin/env bds
@@ -211,28 +237,30 @@ BEFORE 0
 BEFORE 2
 BEFORE 1
 BEFORE 4
-BEFORE 3
-BEFORE 5
-BEFORE 6
 BEFORE 7
+BEFORE 3
+BEFORE 6
+BEFORE 5
 BEFORE 8
 BEFORE 9
 We are done waiting, continue...
 AFTER 0
-AFTER 1
 AFTER 2
-AFTER 3
 AFTER 4
+AFTER 1
+AFTER 3
 AFTER 5
 AFTER 6
-AFTER 7
 AFTER 8
+AFTER 7
 AFTER 9
 </code></pre>
+<h3 id="waiting-for-one-task-to-finish">Waiting for one task to finish</h3>
 <p>We can also wait for a specific task to finish by providing a task ID <code>wait taskId</code>, e.g.:</p>
 <pre><code>string tid = task echo Hi
 wait tid    # Wait only for one task
 </code></pre>
+<h3 id="waiting-for-a-list-of-tasks-to-finish">Waiting for a list of tasks to finish</h3>
 <p>Or you can wait for a list of tasks. 
 For instance, in this program, we create a list of two task IDs and <code>wait</code> on the list:</p>
 <pre><code>string[] tids
@@ -276,6 +304,10 @@ DONE 9
 </code></pre>
 <p><strong>Note:</strong> There is an implicit <code>wait</code> statement at the end of the program. 
 So a program does not exit until all tasks have finished running.</p>
+<h2 id="task-failure">Task failure</h2>
+<p>When a <code>task</code> fails, the </p>
+<h2 id="wait-exception">Wait exception</h2>
+<h3 id="catching-wait-exceptions">Catching wait exceptions</h3>
               
             </div>
           </div>

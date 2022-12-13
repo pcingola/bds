@@ -7,10 +7,12 @@ try {
 
 	# Wait exception has to be inside the 'try' clause, because this is where the exception is thrown
 	wait
+
+	println "This will NOT be executed"  # Code after exception is thrown
 } catch( WaitException e) {
 	captured = true
 	println "Wait exception captured"
 } 
 
 println "This will be executed: captured = $captured"
-exit 0
+exit 0  # Force exit code, otherwise bds returns non-zero on task failure

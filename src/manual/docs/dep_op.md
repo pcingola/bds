@@ -59,7 +59,7 @@ if( outFile <- inFile ) {
 }
 ```
 
-###Multiple dependencies
+### Multiple dependencies
 You can have a dependency operator expression `out <- in`, where either `in` and `out` or both can be lists of files. 
 The same rules apply: The operator is true if any out file is missing, zero length or the minimum of modification times in <code>out</code> is less than the maximum modificaton times in <code>in</code>
 
@@ -82,7 +82,7 @@ out2 := "out2.txt"
 if( [out1, out2] <- [in1, in2] ) print("We should update $out1 and $out2\n")
 ```
 
-###Using `<-` in `tasks`
+### Using `<-` in `tasks`
 This construction is so common that we allow for some syntactic sugar. 
 ```
 task( outFile <- inFile ) { 

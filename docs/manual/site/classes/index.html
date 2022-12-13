@@ -73,6 +73,12 @@
                     </li>
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">Classes</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#creating-new-objects">Creating new objects</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#constructor">Constructor</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#inheritance">Inheritance</a>
+    </li>
     </ul>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../functions/">Functions</a>
@@ -163,13 +169,14 @@
             <div class="section">
               
                 <h1 id="classes">Classes</h1>
-<p>Bds has some basic object oriented model that help to modularize complex data analysis pipelenes.
-Has you may expect, classes can contiain fields (class variables) and methods (class functions).</p>
+<p>Bds has some basic object-oriented model that help to modularize complex data analysis pipelenes.
+Has you may expect, classes can contain fields (class variables) and methods (class functions).</p>
 <pre><code>class A {
     string name
     int value
 }
 </code></pre>
+<h2 id="creating-new-objects">Creating new objects</h2>
 <p><strong><code>new</code> operator</strong>
 To create a new object you use the operator <code>new</code> followed by the class name and parameters for the constructor method.
 A constructor method has the same name as the class and returns <code>void</code>.
@@ -177,6 +184,8 @@ If no constructor is provided in the class definition, a default (empty) method 
 E.g.:</p>
 <pre><code>a := new A()    # Create object 'A' and invoke empty (default) constructor
 </code></pre>
+<h2 id="constructor">Constructor</h2>
+<p>The constructor is a method that has the same name as the class, returns <code>void</code> and can have parameters.</p>
 <p>Example of a constructor with parameters:</p>
 <pre><code>class A {
     int x
@@ -193,7 +202,8 @@ println &quot;a: $a&quot;
 <p>The output of this program would be (by default printing an object shows the fields):</p>
 <pre><code>a: { x: 42 }
 </code></pre>
-<p><strong>Inheritance</strong>: A class can inherit from another class using <code>extends</code> keywors in the class definition. </p>
+<h2 id="inheritance">Inheritance</h2>
+<p>A class can inherit from another class using <code>extends</code> keywords in the class definition. </p>
 <pre><code>class A {
     int x
     void A(int x) { this.x = x }
