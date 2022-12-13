@@ -1,6 +1,7 @@
 package org.bds.test.integration;
 
 import junit.framework.Assert;
+import org.bds.run.BdsThread;
 import org.bds.test.TestCasesBase;
 import org.bds.util.Timer;
 import org.junit.Test;
@@ -127,12 +128,12 @@ public class TestCasesIntegrationRun extends TestCasesBase {
 
     @Test
     public void test36() {
-        runAndCheck(1, dir + "run_36.bds", "s", "before");
+        runAndCheck(BdsThread.EXITCODE_FATAL_ERROR, dir + "run_36.bds", "s", "before");
     }
 
     @Test
     public void test84() {
-        runAndCheck(1, dir + "run_84.bds", "taskOk", "false");
+        runAndCheck(BdsThread.EXITCODE_FATAL_ERROR, dir + "run_84.bds", "taskOk", "false");
     }
 
     @Test
@@ -152,7 +153,7 @@ public class TestCasesIntegrationRun extends TestCasesBase {
 
     @Test
     public void test91() {
-        runAndCheck(1, dir + "run_91.bds", "ok", "false");
+        runAndCheck(BdsThread.EXITCODE_FATAL_ERROR, dir + "run_91.bds", "ok", "false");
     }
 
     @Test
