@@ -180,7 +180,8 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
         String nodeFile = node.getFileNameCanonical();
         String checkpointFileName = Gpr.baseName(programFile);
         if (!programFile.equals(nodeFile)) checkpointFileName += "." + Gpr.baseName(node.getFileName(), ".bds");
-        checkpointFileName += ".line_" + node.getLineNum() + ".chp";
+        if (node.getLineNum() > 0) checkpointFileName += ".line_" + node.getLineNum();
+        checkpointFileName += ".chp";
 
         return checkpoint(checkpointFileName);
     }
@@ -372,6 +373,7 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
 
     /**
      * Calculate exitCode after bdsThred runs
+     *
      * @param allTaskFinishedOk: Have all tasks finished OK?
      */
     void exitCode(boolean allTaskFinishedOk) {

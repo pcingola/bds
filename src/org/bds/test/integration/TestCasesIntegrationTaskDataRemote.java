@@ -141,6 +141,7 @@ public class TestCasesIntegrationTaskDataRemote extends TestCasesBase {
      */
     @Test
     public void test34_TaskInS3OutLocal() {
+        verbose = true;
         runAndCheck(dir + "remote_34.bds", "outStr", "OK");
     }
 
