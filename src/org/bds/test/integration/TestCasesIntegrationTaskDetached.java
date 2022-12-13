@@ -56,7 +56,7 @@ public class TestCasesIntegrationTaskDetached extends TestCasesBase {
      */
     @Test
     public void test03_TwoDetachedOneDependent() {
-        String outFile = "tmp.run_task_detached_03.txt";
+        String outFile = dir + "tmp.run_task_detached_03.txt";
 
         String catout = "Task 1: Start\n" + //
                 "Task 2: Start\n" + //
