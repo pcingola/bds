@@ -124,14 +124,6 @@ public class Wait extends Statement {
         return sb.toString();
     }
 
-    // Failed 'wait' statement: This code is executed when 'wait' fails
-    protected String toAsmFailOri() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(OpCode.PUSHS + " '" + errMsg + "'\n");
-        sb.append(OpCode.ERROR + "\n");
-        return sb.toString();
-    }
-
     @Override
     public String toString() {
         return this.getClass().getSimpleName().toLowerCase() + (taskId != null ? taskId : "") + "\n";
