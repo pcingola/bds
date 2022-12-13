@@ -97,18 +97,20 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#waiting-for-tasks">Waiting for tasks</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#waiting-for-a-single-task">Waiting for a single task</a>
-    </li>
     <li class="toctree-l3"><a class="reference internal" href="#waiting-for-one-task-to-finish">Waiting for one task to finish</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#waiting-for-a-list-of-tasks-to-finish">Waiting for a list of tasks to finish</a>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#waiting-for-all-tasks-to-finish">Waiting for ALL tasks to finish</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#implicit-wait-statement">Implicit wait statement</a>
+    </li>
         </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#task-failure">Task failure</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#wait-exception">Wait exception</a>
         <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#task-failure-on-implicit-wait">Task failure on implicit wait</a>
+    </li>
     <li class="toctree-l3"><a class="reference internal" href="#catching-wait-exceptions">Catching wait exceptions</a>
     </li>
         </ul>
@@ -187,9 +189,7 @@
 <h2 id="tasks-are-asynchronous">Tasks are asynchronous</h2>
 <p>As we mentioned several times, task execution order is not guaranteed.
 File <a href="bds/test_13.bds">test_13.bds</a></p>
-<pre><code>#!/usr/bin/env bds
-
-for( int i=0 ; i &lt; 10 ; i++ ) task echo BEFORE $i
+<pre><code>for( int i=0 ; i &lt; 10 ; i++ ) task echo BEFORE $i
 for( int i=0 ; i &lt; 10 ; i++ ) task echo AFTER $i
 </code></pre>
 <pre><code>$ ./test_13.bds
@@ -218,18 +218,14 @@ AFTER 9
 Schedulers can, and often do, re-order the tasks to be executed.</p>
 <h2 id="waiting-for-tasks">Waiting for tasks</h2>
 <p>If we need some kind of "barrier" to wait for tasks, we use the <code>wait</code> statement</p>
-<h3 id="waiting-for-a-single-task">Waiting for a single task</h3>
 <p>If a task must be executed after another task finishes, we can introduce a <code>wait</code> statement.
 File <a href="bds/test_13.bds">test_13.bds</a></p>
-<pre><code>#!/usr/bin/env bds
-
-for( int i=0 ; i &lt; 10 ; i++ ) task echo BEFORE $i
+<pre><code>for( int i=0 ; i &lt; 10 ; i++ ) task echo BEFORE $i
 
 wait    # Wait until ALL scheduled tasks finish
 print(&quot;We are done waiting, continue...\n&quot;)
 
 for( int i=0 ; i &lt; 10 ; i++ ) task echo AFTER $i
-
 </code></pre>
 <p>Now, we are sure that all tasks 'AFTER' really run after 'BEFORE'</p>
 <pre><code>$ ./test_14.bds 
@@ -261,8 +257,8 @@ AFTER 9
 wait tid    # Wait only for one task
 </code></pre>
 <h3 id="waiting-for-a-list-of-tasks-to-finish">Waiting for a list of tasks to finish</h3>
-<p>Or you can wait for a list of tasks. 
-For instance, in this program, we create a list of two task IDs and <code>wait</code> on the list:</p>
+<p>You can <code>wait</code> for a list of tasks by providing a list of <code>taskIds</code>. </p>
+<p>For instance, in this program, we create a list of two task IDs and <code>wait</code> on the list:</p>
 <pre><code>string[] tids
 
 for( int i=0 ; i &lt; 10 ; i++ ) {
@@ -288,7 +284,7 @@ BEFORE 6
 BEFORE 4
 BEFORE 3
 BEFORE 1
-DONE 0
+DONE 0          &lt;- First task finished
 DONE 3
 DONE 4
 DONE 5
@@ -296,18 +292,139 @@ DONE 6
 DONE 7
 BEFORE 8
 BEFORE 9
-DONE 1
-End of wait     &lt;- Wait finished here
+DONE 1          &lt;- Second task finished
+End of wait     &lt;- Wait finished here: we were waiting for the first two tasks
 DONE 2
 DONE 8
 DONE 9
 </code></pre>
 <p><strong>Note:</strong> There is an implicit <code>wait</code> statement at the end of the program. 
 So a program does not exit until all tasks have finished running.</p>
+<h3 id="waiting-for-all-tasks-to-finish">Waiting for ALL tasks to finish</h3>
+<p>A single <code>wait</code> statement without any arguments, will <code>wait</code> for ALL tasks to finish.</p>
+<p>For example:</p>
+<pre><code>for( int i=0 ; i &lt; 10 ; i++ ) task echo BEFORE $i
+wait  # This will wait for ALL tasks
+println &quot;All tasks finished!&quot;
+</code></pre>
+<h3 id="implicit-wait-statement">Implicit wait statement</h3>
+<p>What happens if there are tasks runnign, but there is not <code>wait</code> statement?</p>
+<p>For example, in the following program there is a long-running task, but there is no <code>wait</code> statement</p>
+<pre><code>task echo &quot;TASK START&quot;; sleep 5; echo &quot;TASK END&quot;
+println &quot;All tasks scheduled, program end!&quot;
+</code></pre>
+<p>So the program execution will finish before the <code>task</code> finishes running.
+What happens with the <code>task</code> that are still executing when <code>bds</code> finishes executing the program?
+<code>bds</code> introduces an implicit <code>wait</code> statement at the end of every program.</p>
+<p>If you execute the program above from the command line, you'll see:</p>
+<pre><code>$ bds test/z.bds
+All tasks scheduled, program end!
+TASK START
+TASK END
+$            &lt;- Note that the command line prompt is AFTER the task finished
+</code></pre>
+<p>In the above example, the implicit <code>wait</code> allows <code>bds</code> to let the tasks finish.</p>
 <h2 id="task-failure">Task failure</h2>
-<p>When a <code>task</code> fails, the </p>
-<h2 id="wait-exception">Wait exception</h2>
+<p>What happens when a <code>task</code> fails?
+When a task fails, a <code>WaitException</code> error is raised.</p>
+<p>We need to remember that the <code>task</code> command does NOT actually execute a task, it only schedules the <code>task</code>.
+So, where is the exception thrown?
+When a task fails, the <code>WaitException</code> is thrown in any <code>wait</code> statement that waiting for tasks to finish. </p>
+<p>For example, the following code shows where the <code>WaitException</code> is thrown:</p>
+<pre><code># This task will fail because &quot;my_unknown_command&quot; does not exist
+task my_unknown_command input.txt &gt; output.txt
+
+wait  # A WaitException will be thrown here because the task fails
+
+println &quot;This will never be executed!&quot;
+</code></pre>
+<p>If you execute the code, the output is (output edited for readability):</p>
+<pre><code>$ bds task_28.bds
+... line 7: my_unknown_command: command not found
+...
+Fatal error: task_28.bds. WaitException thrown: Error in wait statement, file task_28.bds, line 5
+</code></pre>
+<h3 id="task-failure-on-implicit-wait">Task failure on implicit <code>wait</code></h3>
+<p>What happens if there is a task error, but there is no <code>wait</code> statements (i.e. the program has finished executing)?
+In that case an <code>error</code> will be produced by the <a href="#implicit-wait-statement">implicit wait statement</a> that <code>bds</code> introduces after every program.</p>
+<p>There is no point in throwing an exception during an "implicit wait", because this is out of the program's code, so there is no way to catch exceptions from "implicit wait statements".</p>
+<p>Example:</p>
+<pre><code># This task will fail because &quot;my_unknown_command&quot; does not exist
+# Note: It will fail at the &quot;implicit wait&quot; added by bds at the end of the program.
+# Since the implicit 'wait' is after the program's end, there is no exception
+# thrown, only an error.
+task my_unknown_command
+</code></pre>
+<p>executing the above code, you get ():</p>
+<pre><code>$ bds task_29.bds
+task.task_29.line_4.id_1.35e61e0f12d941dd.sh: line 7: my_unknown_command: command not found
+00:00:00.632    ERROR: Task failed:
+    Program &amp; line     : 'task_29.bds', line 4
+    Task Name          : 'null'
+    Task ID            : 'task_29.bds.20221213_071909_868/task.task_29.line_4.id_1.35e61e0f12d941dd'
+    Task PID           : '84742'
+    Task hint          : 'my_unknown_command'
+    Task resources     : 'cpus: 1   mem: -1.0 B timeout: 86400  wall-timeout: 86400'
+    State              : 'ERROR'
+    Dependency state   : 'ERROR'
+    Retries available  : '1 / 0'
+    Retries available  : '1'
+    Input files        : '[]'
+    Output files       : '[]'
+    Script file        : 'task_29.bds.20221213_071909_868/task.task_29.line_4.id_1.35e61e0f12d941dd.sh'
+    Exit status        : '1'
+    StdErr (10 lines)  :
+        task_29.bds.20221213_071909_868/task.task_29.line_4.id_1.35e61e0f12d941dd.sh: line 7: my_unknown_command: command not found
+</code></pre>
+<p>As shown above, an error is produces, instead of an exception, i.e. there is no " WaitException thrown" message. </p>
 <h3 id="catching-wait-exceptions">Catching wait exceptions</h3>
+<p>Since <code>wait</code> statements throws an exception when the <code>task</code> fails, it is possible to handle task failures using <code>try</code> / <code>catch</code> / <code>finally</code> blocks.</p>
+<p>For example:</p>
+<pre><code>captured := false
+
+try {
+    # This task will fail because &quot;my_unknown_command&quot; does not exist
+    task my_unknown_command
+
+    # Wait exception has to be inside the 'try' clause because
+    # this is where the exception is thrown in case of errors
+    wait
+
+    println &quot;This will NOT be executed&quot;  # Code after exception is thrown
+} catch( WaitException e) {
+    captured = true
+    println &quot;Wait exception captured&quot;
+}
+
+println &quot;This WILL be executed: captured = $captured&quot;
+exit 0  # Force exit code, otherwise bds returns non-zero on task failure
+</code></pre>
+<p>Executing the code, will output (edited for readibility):</p>
+<pre><code>$ bds task_31.bds
+
+task.task_31.line_6.id_1.sh: line 7: my_unknown_command: command not found
+00:00:00.691    ERROR: Task failed:
+    Program &amp; line     : 'task_31.bds', line 6
+    Task Name          : 'null'
+    Task ID            : 'task.task_31.line_6.id_1.3e45862489d7bb51'
+    Task PID           : '90485'
+    Task hint          : 'my_unknown_command'
+    Task resources     : 'cpus: 1   mem: -1.0 B timeout: 86400  wall-timeout: 86400'
+...
+Wait exception captured                   &lt;- This message is from the 'catch' code
+This will be executed: captured = true    &lt;- This code would not be executed if we didn't cature the WaitException
+...
+</code></pre>
+<p><strong>IMPORTANT:</strong> <code>bds</code> will produce a non-zero <code>exitCode</code> when a task fails.
+If you want your program to return a zero <code>exitCode</code> to the command line when you've handled the <code>WaitException</code>, you need to explicitly add an <code>exit</code> statement.</p>
+<p>If we look at the previous program's exit code:</p>
+<pre><code># In bash, the '$?' variable shows the exit code of the
+# previouly executed command (which was the bds program)
+
+$ echo &quot;Exit code: $?&quot;
+Exit code: 0
+</code></pre>
+<p>So, we were able to <code>catch</code> the WaitException produce as an error in the <code>task</code>, and handle the exception and program's <code>exitCode</code>.</p>
               
             </div>
           </div>

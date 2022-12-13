@@ -93,7 +93,11 @@
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#basic-resources">Basic resources</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#custom-reosurces">Custom reosurces</a>
+    <li class="toctree-l2"><a class="reference internal" href="#custom-resources">Custom resources</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#adding-a-new-resource">Adding a new resource</a>
+    </li>
+        </ul>
     </li>
     </ul>
                     </li>
@@ -166,7 +170,7 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="resources">Resources</h1>
+                <h1 id="task-resources">Task resources</h1>
 <p>Task resources refer to CPUs and memory consumed by each <code>task</code>.
 Whenever a <code>task</code> is defined, we should set the resources used by the task, so that bds can correctly account for them. 
 This allows bds to correctly schedule each <code>task</code> when the resources are available.</p>
@@ -184,17 +188,17 @@ This allows bds to correctly schedule each <code>task</code> when the resources 
 </code></pre>
 <p>In this case <code>bds</code> will run two tasks in parallel, because each <code>task</code> consumes half the available memory.</p>
 <p><strong>Clusters:</strong> If these tasks are running in a cluster environment, each task would be issued with the appropriate CPUs and memory parameters, so that the cluster system can schedule the job in an appropriate node (keep in mind tha most cluster systems will kill task that consume more resources that the ones declared).</p>
-<h3 id="basic-resources">Basic resources</h3>
+<h2 id="basic-resources">Basic resources</h2>
 <p>The basic resources you can add to a task are:</p>
 <ul>
 <li><code>cpus</code>: Number of CPUs / cores consumed by the task. The default is <code>cpus := 1</code></li>
 <li><code>mem</code>: Amount of memory used by the task. The default value is <code>mem := -1</code>, which doesn't use the resource (e.g. in a cluster system it will use the cluster's default setting).</li>
 </ul>
-<h3 id="custom-reosurces">Custom reosurces</h3>
+<h2 id="custom-resources">Custom resources</h2>
 <p>There are other resources than <code>cpus</code> and <code>mem</code> that you might need to define.
 Typical examples are special hardware accelerator cards (GPUs, TPUs, FFPGA, etc.).
 So <code>bds</code> provides a generic mechanism to define them using the <code>addResources()</code> built-in function.</p>
-<h1 id="adding-a-new-resource">Adding a new resource</h1>
+<h3 id="adding-a-new-resource">Adding a new resource</h3>
 <p>The function <code>addResource(...)</code> lets you defined a new resource.</p>
 <pre><code>addResources(resourceName, count):
 </code></pre>

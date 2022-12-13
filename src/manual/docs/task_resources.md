@@ -1,4 +1,4 @@
-# Resources
+# Task resources
 
 Task resources refer to CPUs and memory consumed by each `task`.
 Whenever a `task` is defined, we should set the resources used by the task, so that bds can correctly account for them. 
@@ -24,20 +24,20 @@ In this case `bds` will run two tasks in parallel, because each `task` consumes 
 
 **Clusters:** If these tasks are running in a cluster environment, each task would be issued with the appropriate CPUs and memory parameters, so that the cluster system can schedule the job in an appropriate node (keep in mind tha most cluster systems will kill task that consume more resources that the ones declared).
 
-### Basic resources
+## Basic resources
 
 The basic resources you can add to a task are:
 
 - `cpus`: Number of CPUs / cores consumed by the task. The default is `cpus := 1`
 - `mem`: Amount of memory used by the task. The default value is `mem := -1`, which doesn't use the resource (e.g. in a cluster system it will use the cluster's default setting).
 
-### Custom reosurces
+## Custom resources
 
 There are other resources than `cpus` and `mem` that you might need to define.
 Typical examples are special hardware accelerator cards (GPUs, TPUs, FFPGA, etc.).
 So `bds` provides a generic mechanism to define them using the `addResources()` built-in function.
 
-# Adding a new resource
+### Adding a new resource
 
 The function `addResource(...)` lets you defined a new resource.
 

@@ -4,17 +4,18 @@ Task coordination mechanisms rely on waiting for some tasks to finish before sta
 
 ## Tasks are asynchronous
 
-As we mentioned several times, task execution order is not guaranteed.
-File <a href="bds/test_13.bds">test_13.bds</a>
+A key concept, is that tasks are asynchronous, which means that task execution order is not guaranteed.
+
+For example, executing the following program (file <a href="bds/test_13.bds">test_13.bds</a>)
 ```
 for( int i=0 ; i < 10 ; i++ ) task echo BEFORE $i
 for( int i=0 ; i < 10 ; i++ ) task echo AFTER $i
 ```
-
+you may see:
 ```
 $ ./test_13.bds
 BEFORE 0
-BEFORE 4
+BEFORE 4    <-- Notice, tasks are out of order
 BEFORE 3
 BEFORE 2
 BEFORE 1
@@ -24,7 +25,7 @@ BEFORE 6
 BEFORE 8
 AFTER 1
 AFTER 0
-BEFORE 9	<-- !!!
+BEFORE 9    <-- Notice this 'BEFORE' task is executed after 'AFTER' task started 
 AFTER 6
 AFTER 5
 AFTER 4
@@ -41,8 +42,6 @@ Schedulers can, and often do, re-order the tasks to be executed.
 ## Waiting for tasks
 
 If we need some kind of "barrier" to wait for tasks, we use the `wait` statement
-
-### Waiting for a single task
 
 If a task must be executed after another task finishes, we can introduce a `wait` statement.
 File <a href="bds/test_13.bds">test_13.bds</a>

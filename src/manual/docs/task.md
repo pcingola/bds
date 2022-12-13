@@ -6,6 +6,8 @@ A `task`expression, just like `sys` expression, also executes a command.
 The main difference is that a `task` is "scheduled for execution" instead of executed immediately.
 Task execution order is not guaranteed but `bds` provides a mechanism for creating task dependencies by means of `wait` statements.
 
+## Tasks basics
+
 A task expression either performs basic resource management or delegates resource management to cluster management tools.
 The idea is that if you schedule a hundred tasks, but you are executing on your laptop which only has 4 CPUs, then `bds` will only execute 4 tasks at a time (assuming each task is declared to consume 1 CPU).
 The rest of the tasks are queued for later execution.
@@ -18,73 +20,7 @@ Again, other tasks are queued for later execution, but in this case, all the res
 Even if they do or if they are executed in the same host, a task can start execution and immediately be preempted.
 So the next task in the queue can effectively start before the previous one.
 
-There are different ways to execute tasks
-
-| System    | Typical usage                                                                                                                | How it is done                                                                                                                                                                                                                                                                                                                                                                                                     |
-| --------- | ---------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `aws`     | Running on an AWS EC2 instance                                                                                               | An AWS EC2 instance is created and the task runs in the instance.                                                                                                                                                                                                                                                                                                                                                  |
-| `cluster` | Running on a cluster (GridEngine, Torque)                                                                                    | Tasks are scheduled for execution (using 'qsub' or equivalent command). Resource management is delegated to cluster workload management.                                                                                                                                                                                                                                                                           |
-| `generic` | Enable user defined scripts to run, kill and find information on tasks                                                       | This 'generic' cluster allows the user to write/customize scripts that send jobs to the cluster system. It can be useful to either add cluster systems not currently supported by bds, or to customize parameters and scheduling options beyond what bds allows to customize in the config file. For details, see bds.config file and examples in the project's source code (directories `config/clusterGeneric`). |
-| `local`   | Running on a single computer. E.g. programming and debugging on your laptop or running stuff on a server                     | A local queue is created, the total number of CPUs used by all tasks running is less or equal than the number of CPU cores available                                                                                                                                                                                                                                                                               |
-| `moab`    | Running on a MOAB/PBS cluster                                                                                                | Tasks are scheduled for execution (using 'msub'). Resource management is delegated to cluster workload management.                                                                                                                                                                                                                                                                                                 |
-| `pbs`     | Running on a PBS cluster                                                                                                     | Tasks are scheduled for execution (using 'msub'). Resource management is delegated to cluster workload management.                                                                                                                                                                                                                                                                                                 |
-| `sge`     | Running on a SGE cluster                                                                                                     | Tasks are scheduled for execution (using 'qsub'). Resource management is delegated to cluster workload management.                                                                                                                                                                                                                                                                                                 |
-| `slurm`   | Running on a SLURM cluster                                                                                                   | Tasks are scheduled for execution (using 'sbatch'). Resource management is delegated to cluster workload management.                                                                                                                                                                                                                                                                                               |
-| `ssh`     | A server farm or a bunch of desktops or servers without a workload management system (e.g. computers in a University campus) | Basic resource management is performed by logging into all computers in the 'cluster' and monitoring resource usage.                                                                                                                                                                                                                                                                                               |
-
-## How does it work
-
-In escense a `task` command creates a shell script (i.e. a bash) and executes the script.
-The script is simply all the `sys` lines whithin the `task`, put toghether, for example:
-
-```
-task {
-    sys echo Hello
-    sys echo The time is
-    sys date
-}
-```
-
-If we execute this script, we get something like:
-
-```
-$ bds -log test/z.bds
-Hello
-The time is
-Tue Nov 29 10:19:52 EST 2022
-```
-
-Let's take a look at the files that `bds -log` created, one of them is the shell script that gets executed:
-
-```
-$ ls z.bds.20221129_101952_164/*.sh
-z.bds.20221129_101952_164/task.z.line_2.id_1.6a8d85248781efbf.sh
-```
-
-If we look into the script we see (comemnts added):
-
-```
-#!/bin/bash -eu             | This will make the shell script stop on errors or undefined variables
-set -o pipefail             | Also will the shell script will stop if any item in a 'piped' command fails
-                            |
-cd '/$HOME/bds_test'        | Change directory to where the script is executed
-                            |
-# SYS command. line 3       | Comment on which line of bds code produced the next command
-echo Hello                  | Command from sys
-# SYS command. line 4       | Comment on which line of bds code produced the next command
-echo The time is            | Command from sys
-# SYS command. line 5       | Comment on which line of bds code produced the next command
-date                        | Command from sys
-# Checksum: 577b1238        | Checksum
-```
-
-This information can be usful for debugging so you can check if the shell script is executing the code you are expecting.
-
-**Logging**: `bds` logs the script's SDTOUT, STDERR, and exit code to files so you can revie them later.
-Note: The `-log` command line option will keep all log files for all tasks. Otherwise they will be cleaned / deleted by `bds`.
-Please take a look at the [Logging](logging.md) chapter for more details.
-
-## Scheduling tasks
+### Scheduling tasks
 
 A task is scheduled by means of a `task` expression.
 A `task` expression returns a task ID, a string representing a task.
@@ -132,9 +68,9 @@ Hi 9
 Hi 8
 ```
 
-## Resource consumption and task options
+### Resource consumption
 
-Often `task` requires many CPUs or resources.
+Often `task` requires many CPUs, memory, or other resources.
 In such case, we should inform the resource management system in order to get an efficient allocation of resources (plus many cluster systems kill tasks that fail to report resources correctly).
 
 E.g., In this example we allocate 4 CPUs per task and run it on an 8-core computer, so obviously only 2 tasks can run at the same time:
@@ -177,26 +113,15 @@ Done 8
 Done 9
 ```
 
-## Task options and resources
+## Task dependencies & DAG
 
-List of resources or task options
+Usually tasks are not executed in isolation, but they are executed in "data analysis pipelines".
+Typically, "data analysis pipelines" (or "pipelines" for short), have many interdependent tasks than need to be orchestrated.
+This is why some people say that `bds` is a "pipeline orchestration" language.
 
-| Variable                   | Default value | Resource / Task options                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| -------------------------- | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `allowEmpty`               | false         | If true, empty files are allowed in task's outputs. This means that a task producing empty files does not result in program termination and checkpointing.                                                                                                                                                                                                                                                                                               |
-| `canFail`                  | false         | If true, a task is allowed to fail. This means that a failed task execution does not result in program termination and checkpointing.                                                                                                                                                                                                                                                                                                                    |
-| `cpus`                     | 1             | Number of CPU (cores) used by the process.                                                                                                                                                                                                                                                                                                                                                                                                               |
-| `detached`                 | false         | If true, the task will be detached, i.e. independent from the bds script originating it                                                                                                                                                                                                                                                                                                                                                                  |
-| `mem`                      | 0             | Maximum amount of memory in bytes used by the process (0 means no restrictions or use cluster default)                                                                                                                                                                                                                                                                                                                                                   |
-| `node`                     |               | If possible this task should be executed on a particular cluster node. This option is only used for cluster systems and ignored on any other systems.                                                                                                                                                                                                                                                                                                    |
-| `queue`                    |               | Queue name of preferred execution queue (only for cluster systems).                                                                                                                                                                                                                                                                                                                                                                                      |
-| `retry`                    | 0             | Number of times a task can be re-executed until it's considered failed.                                                                                                                                                                                                                                                                                                                                                                                  |
-| `strictRemoteDependencies` | false         | If `true`, remote task dependencies are NOT downloaded to a local `tmp` directory, or uploaded to the remote location                                                                                                                                                                                                                                                                                                                                    |
-| `taskName`                 |               | Assign a task name. This adds a label to the task as well as the taskId returned by `task` expression. Task ID is used to create log files related to the task (shell script, STDOUT, STDERR and exitCode files) so those file names are also changed. This makes it easier to find tasks in the final report and log files (it has no effect other than that). Note: If taskName contains non-allowed characters, they are sanitized (replaced by `_`). |
-| `timeout`                  | 0             | Time in seconds that a task is allowed to execute (e.g. when running on a cluster). Ignored if zero or less. If process runs more than `timeout` seconds, it is killed. Zero means no limit.                                                                                                                                                                                                                                                             |
-| `walltimeout`              | 0             | Time in seconds since the task is dispatched to the processing environment. E.g. in busy clusters a task can spend a long time being scheduled (cluster's PENDING state) until the task is run (cluster's RUNNING state), `walltimeout` limits the sum of those times (as oposed to `timeout` that only limits the RUNNIG state time). Zero means no limit.                                                                                              |
-
-## Conditional execution
+Tasks that depend on each other conform a "Directed Acyclik Graph" (DAG), and `bds` ensures that the DAG of tasks always is resolved in proper order, so you don't need to take care of those details.   
+ 
+### Conditional execution
 
 Conditional execution of tasks can, obviously, be achieved using an `if` statement.
 Since conditional execution is so common, we allow for some syntactic sugar by `task( expression1, expression2, ... ) { ... }`.
@@ -226,7 +151,7 @@ task( shouldExec, cpus := 4 ) {
 
 **Note:** This feature is particularly useful when combined with the dependency operator `<-`
 
-# Task re-execution
+### Task re-execution
 
 Imagine you have a `task` that given an input data (file `in := "in.txt"`), generates an output file (`out := "out.txt"`) but takes a long time to calculate (several minutes or hours).
 A simple diagram would be:
@@ -263,7 +188,7 @@ task( out <- in , cpus := 4 ) {
 If you execute the program for the first time, the task will run and the output `out.txt` will be created.
 But if you execute it the second time, no task will be executed, because the output file already exists, and it doesn't need to be updated respect to the input file.
 
-## Task dependencies
+### Task dependencies
 
 Using task dependencies (i.e. the dependency operator `<-` in a `task` statement), `bds` will internally create and resolve a directed acyclic graph (DAG) of tasks and will execute the tasks only when all the previous tasks have been succesfull.
 
@@ -327,7 +252,7 @@ in_2.txt >----| Task 2 |---> out_2.txt >---+
 Internally, `bds` will resolve the DAG to make sure all tasks are executed as soon as possible, but only when the dependecies succeeded.
 So in this example, `task_1` and `task_2` will execute in parallel (assuming there are enough CPUs avaialble), once both of them finished succesfully, `task_3` will be executed.
 
-## Remote dependencies
+### Remote dependencies
 
 `bds` takes care to downloading and uploading remote dependencies for you.
 
@@ -391,7 +316,7 @@ Obviously the unix command `cat` does not handle S3 file, so the command was cha
 cat /tmp/bds/s3/my_bucket/tmp/in.txt > /tmp/bds/s3/my_bucket/tmp/out.txt
 ```
 
-# Strict remote dependencies
+### Strict remote dependencies
 
 In some cases, the commands in a `task` can handle remote files natively, so we don't want `bds` to handle those dependencies for us (e.g. do not download / upload remote files).
 
@@ -421,7 +346,108 @@ Output file: s3://my_bucket/tmp/out.txt
 copy: s3://my_bucket/tmp/in.txt to s3://my_bucket/tmp/out.txt
 ```
 
-## Syntax sugar
+## Task details
+
+### Task's `system`
+
+There are different `system` to execute `bds` tasks
+
+| System    | Typical usage                                                                                                                | How it is done                                                                                                                                                                                                                                                                                                                                                                                                     |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `aws`     | Running on an AWS EC2 instance                                                                                               | An AWS EC2 instance is created and the task runs in the instance.                                                                                                                                                                                                                                                                                                                                                  |
+| `cluster` | Running on a cluster (GridEngine, Torque)                                                                                    | Tasks are scheduled for execution (using 'qsub' or equivalent command). Resource management is delegated to cluster workload management.                                                                                                                                                                                                                                                                           |
+| `generic` | Enable user defined scripts to run, kill and find information on tasks                                                       | This 'generic' cluster allows the user to write/customize scripts that send jobs to the cluster system. It can be useful to either add cluster systems not currently supported by bds, or to customize parameters and scheduling options beyond what bds allows to customize in the config file. For details, see bds.config file and examples in the project's source code (directories `config/clusterGeneric`). |
+| `local`   | Running on a single computer. E.g. programming and debugging on your laptop or running stuff on a server                     | A local queue is created, the total number of CPUs used by all tasks running is less or equal than the number of CPU cores available                                                                                                                                                                                                                                                                               |
+| `moab`    | Running on a MOAB/PBS cluster                                                                                                | Tasks are scheduled for execution (using 'msub'). Resource management is delegated to cluster workload management.                                                                                                                                                                                                                                                                                                 |
+| `pbs`     | Running on a PBS cluster                                                                                                     | Tasks are scheduled for execution (using 'msub'). Resource management is delegated to cluster workload management.                                                                                                                                                                                                                                                                                                 |
+| `sge`     | Running on a SGE cluster                                                                                                     | Tasks are scheduled for execution (using 'qsub'). Resource management is delegated to cluster workload management.                                                                                                                                                                                                                                                                                                 |
+| `slurm`   | Running on a SLURM cluster                                                                                                   | Tasks are scheduled for execution (using 'sbatch'). Resource management is delegated to cluster workload management.                                                                                                                                                                                                                                                                                               |
+| `ssh`     | A server farm or a bunch of desktops or servers without a workload management system (e.g. computers in a University campus) | Basic resource management is performed by logging into all computers in the 'cluster' and monitoring resource usage.                                                                                                                                                                                                                                                                                               |
+
+### Task resources
+
+You can read more about task resources in the ["Task Reosurces"](task_resources.md) section.
+
+Here is a list of pre-defined resources that can be consumed by a `task`:
+
+| Variable                   | Default value | Resource / Task options                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| -------------------------- | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `cpus`                     | 1             | Number of CPU (cores) used by the process.                                                                                                                                                                                                                                                                                                                                                                                                               |
+| `mem`                      | 0             | Maximum amount of memory in bytes used by the process (0 means no restrictions or use cluster default)                                                                                                                                                                                                                                                                                                                                                   |
+| `timeout`                  | 0             | Time in seconds that a task is allowed to execute (e.g. when running on a cluster). Ignored if zero or less. If process runs more than `timeout` seconds, it is killed. Zero means no limit.                                                                                                                                                                                                                                                             |
+| `walltimeout`              | 0             | Time in seconds since the task is dispatched to the processing environment. E.g. in busy clusters a task can spend a long time being scheduled (cluster's PENDING state) until the task is run (cluster's RUNNING state), `walltimeout` limits the sum of those times (as oposed to `timeout` that only limits the RUNNIG state time). Zero means no limit.                                                                                              |
+
+If a resource is not defined in the previous list, you can define your own custom resources, such as GPUs, FPGAs, etc.
+For more details on custom resources, please take a look at the ["Task Reosurces"](task_resources.md) section.
+
+### Task options
+
+List of resources or task options
+
+| Variable                   | Default value | Resource / Task options                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| -------------------------- | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `allowEmpty`               | false         | If true, empty files are allowed in task's outputs. This means that a task producing empty files does not result in program termination and checkpointing.                                                                                                                                                                                                                                                                                               |
+| `canFail`                  | false         | If true, a task is allowed to fail. This means that a failed task execution does not result in program termination and checkpointing.                                                                                                                                                                                                                                                                                                                    |
+| `detached`                 | false         | If true, the task will be detached, i.e. independent from the bds script originating it                                                                                                                                                                                                                                                                                                                                                                  |
+| `node`                     |               | If possible this task should be executed on a particular cluster node. This option is only used for cluster systems and ignored on any other systems.                                                                                                                                                                                                                                                                                                    |
+| `queue`                    |               | Queue name of preferred execution queue (only for cluster systems).                                                                                                                                                                                                                                                                                                                                                                                      |
+| `retry`                    | 0             | Number of times a task can be re-executed until it's considered failed.                                                                                                                                                                                                                                                                                                                                                                                  |
+| `strictRemoteDependencies` | false         | If `true`, remote task dependencies are NOT downloaded to a local `tmp` directory, or uploaded to the remote location                                                                                                                                                                                                                                                                                                                                    |
+| `taskName`                 |               | Assign a task name. This adds a label to the task as well as the taskId returned by `task` expression. Task ID is used to create log files related to the task (shell script, STDOUT, STDERR and exitCode files) so those file names are also changed. This makes it easier to find tasks in the final report and log files (it has no effect other than that). Note: If taskName contains non-allowed characters, they are sanitized (replaced by `_`). |
+
+### How does a `task` work?
+
+In escense a `task` command creates a shell script (i.e. a bash) and executes the script.
+The script is simply all the `sys` lines whithin the `task`, put toghether, for example:
+
+```
+task {
+    sys echo Hello
+    sys echo The time is
+    sys date
+}
+```
+
+If we execute this script, we get something like:
+
+```
+$ bds -log test/z.bds
+Hello
+The time is
+Tue Nov 29 10:19:52 EST 2022
+```
+
+Let's take a look at the files that `bds -log` created, one of them is the shell script that gets executed:
+
+```
+$ ls z.bds.20221129_101952_164/*.sh
+z.bds.20221129_101952_164/task.z.line_2.id_1.6a8d85248781efbf.sh
+```
+
+If we look into the script we see (comemnts added):
+
+```
+#!/bin/bash -eu             | This will make the shell script stop on errors or undefined variables
+set -o pipefail             | Also will the shell script will stop if any item in a 'piped' command fails
+                            |
+cd '/$HOME/bds_test'        | Change directory to where the script is executed
+                            |
+# SYS command. line 3       | Comment on which line of bds code produced the next command
+echo Hello                  | Command from sys
+# SYS command. line 4       | Comment on which line of bds code produced the next command
+echo The time is            | Command from sys
+# SYS command. line 5       | Comment on which line of bds code produced the next command
+date                        | Command from sys
+# Checksum: 577b1238        | Checksum
+```
+
+This information can be usful for debugging so you can check if the shell script is executing the code you are expecting.
+
+**Logging**: `bds` logs the script's SDTOUT, STDERR, and exit code to files so you can revie them later.
+Note: The `-log` command line option will keep all log files for all tasks. Otherwise they will be cleaned / deleted by `bds`.
+Please take a look at the [Logging](logging.md) chapter for more details.
+
+### Syntax sugar
 
 There are many ways to write task expressions, here we show some examples.
 
