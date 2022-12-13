@@ -2,6 +2,7 @@ package org.bds.test.unit;
 
 import org.bds.lang.value.Value;
 import org.bds.lang.value.ValueObject;
+import org.bds.run.BdsThread;
 import org.bds.test.BdsTest;
 import org.bds.test.TestCasesBase;
 import org.junit.Assert;
@@ -10,11 +11,11 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.bds.libraries.LibraryException.EXCEPTION_FIELD_VALUE;
+import static org.bds.libraries.LibraryException.THROWABLE_FIELD_VALUE;
 
 /**
  * Test cases for 'try/catch/finally' statements
- * 
+ *
  * @author pcingola
  */
 public class TestCasesTryCatchFinally extends TestCasesBase {
@@ -182,7 +183,7 @@ public class TestCasesTryCatchFinally extends TestCasesBase {
         expectedValues.put("finally1", "true");
         expectedValues.put("finally2", "true");
 
-        runAndCheck(1, dir + "run_238.bds", expectedValues);
+        runAndCheck(BdsThread.EXITCODE_FATAL_ERROR, dir + "run_238.bds", expectedValues);
     }
 
     @Test
@@ -197,7 +198,7 @@ public class TestCasesTryCatchFinally extends TestCasesBase {
         expectedValues.put("finally1", "true");
         expectedValues.put("finally2", "false");
 
-        runAndCheck(1, dir + "run_239.bds", expectedValues);
+        runAndCheck(BdsThread.EXITCODE_FATAL_ERROR, dir + "run_239.bds", expectedValues);
     }
 
     @Test
@@ -212,7 +213,7 @@ public class TestCasesTryCatchFinally extends TestCasesBase {
         expectedValues.put("finally1", "true");
         expectedValues.put("finally2", "false");
 
-        runAndCheck(1, dir + "run_240.bds", expectedValues);
+        runAndCheck(BdsThread.EXITCODE_FATAL_ERROR, dir + "run_240.bds", expectedValues);
     }
 
     @Test
@@ -229,8 +230,9 @@ public class TestCasesTryCatchFinally extends TestCasesBase {
         expectedValues.put("finally1", "true");
         expectedValues.put("finally2", "false");
 
-        runAndCheck(1, dir + "run_241.bds", expectedValues);
+        runAndCheck(BdsThread.EXITCODE_FATAL_ERROR, dir + "run_241.bds", expectedValues);
     }
+
     @Test
     public void test265TryCatchParentExceptionClass() {
         // Try/Catch: Catching a derived exception type
@@ -268,7 +270,7 @@ public class TestCasesTryCatchFinally extends TestCasesBase {
         // Try/Catch: Throwing a string instead of an Exception object
         BdsTest bdsTets = runAndCheckException(dir + "run_277.bds", "Exception");
         ValueObject exceptionObject = (ValueObject) bdsTets.getBds().getBdsRun().getVm().getException();
-        Value exceptionValue = exceptionObject.getFieldValue(EXCEPTION_FIELD_VALUE);
+        Value exceptionValue = exceptionObject.getFieldValue(THROWABLE_FIELD_VALUE);
         Assert.assertEquals("You can also throw a string, but it's a bit weird...", exceptionValue.asString());
     }
 }

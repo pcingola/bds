@@ -1,6 +1,7 @@
 package org.bds.test.integration;
 
 import junit.framework.Assert;
+import org.bds.run.BdsThread;
 import org.bds.test.BdsTest;
 import org.bds.test.TestCasesBase;
 import org.bds.util.Gpr;
@@ -55,7 +56,7 @@ public class TestCasesIntegrationTaskDetached extends TestCasesBase {
      */
     @Test
     public void test03_TwoDetachedOneDependent() {
-        String outFile = "tmp.run_task_detached_03.txt";
+        String outFile = dir + "tmp.run_task_detached_03.txt";
 
         String catout = "Task 1: Start\n" + //
                 "Task 2: Start\n" + //
@@ -81,7 +82,7 @@ public class TestCasesIntegrationTaskDetached extends TestCasesBase {
     @Test
     public void test04_CheckDetachedOutputError() {
         String expectedExceptionMessage = "Detached task output files cannot be used as dependencies";
-        BdsTest bdsTest = runAndCheckExit(dir + "run_task_detached_04.bds", 1);
+        BdsTest bdsTest = runAndCheckExit(dir + "run_task_detached_04.bds", BdsThread.EXITCODE_FATAL_ERROR);
 
         // Check that the exception causing the 'exit=1' code is the one we expected
         Throwable javaException = bdsTest.bds.getBdsRun().getBdsThread().getVm().getJavaException();

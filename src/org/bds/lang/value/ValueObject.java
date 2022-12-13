@@ -137,7 +137,8 @@ public class ValueObject extends ValueComposite implements ValuesGetSet {
                 if (isHiddenField(fn)) continue; // Don't show hidden fields
                 Value val = fields.get(fn);
                 sb.append((i > 0 ? ", " : " ") + fn + ": ");
-                val.toString(sb, done);
+                if (val != null) val.toString(sb, done);
+                else sb.append("null");
             }
         }
         sb.append(" }");

@@ -180,7 +180,8 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
         String nodeFile = node.getFileNameCanonical();
         String checkpointFileName = Gpr.baseName(programFile);
         if (!programFile.equals(nodeFile)) checkpointFileName += "." + Gpr.baseName(node.getFileName(), ".bds");
-        checkpointFileName += ".line_" + node.getLineNum() + ".chp";
+        if (node.getLineNum() > 0) checkpointFileName += ".line_" + node.getLineNum();
+        checkpointFileName += ".chp";
 
         return checkpoint(checkpointFileName);
     }
@@ -345,28 +346,50 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
         return Data.factory(fileName, this);
     }
 
-    void exitCode() {
-        boolean ok = true;
+    /**
+     * There is an implicit 'wait' statment at the end of the program
+     */
+    boolean waitImplicit() {
         // We are done running
         debug("BdsThread finished: " + getBdsThreadId());
         if (getRunState().isFatalError()) {
             // Error condition
-            ok = false;
             debug((isRoot() ? "Program" : "Parallel") + " '" + getBdsThreadId() + "' fatal error");
+            return false;
         } else {
             // OK, we finished running
             debug((isRoot() ? "Program" : "Parallel") + " '" + getBdsThreadId() + "' execution finished");
 
             // Implicit 'wait' statement at the end of the program (only if the program finished 'naturally')
-            ok = waitAll();
+            debug((isRoot() ? "Program" : "Parallel") + " '" + getBdsThreadId() + "' waitAll: Waiting for all threads and tasks to finished");
+
+            var ok = waitAll();
+            if (!ok) errorMessage = "Error waiting pending tasks";
+
             debug((isRoot() ? "Program" : "Parallel") + " '" + getBdsThreadId() + "' waitAll: All threads and tasks finished");
+            return ok;
+        }
+    }
+
+    /**
+     * Calculate exitCode after bdsThred runs
+     *
+     * @param allTaskFinishedOk: Have all tasks finished OK?
+     */
+    void exitCode(boolean allTaskFinishedOk) {
+        // Exit code already set? Nothing to do
+        if (vm.getExitCode() != null) {
+            setExitValue(vm.getExitCode()); // Make sure local exitValue is populated with the value from VM
+            return;
         }
 
-        // All tasks in wait finished OK?
-        if (!ok) {
+        // Set exitCode based on whether tasks fninished OK
+        if (!allTaskFinishedOk) {
             // Errors? Then set exit status appropriately
             setExitValue(EXITCODE_ERROR);
         } else {
+            // All tasks in wait finished OK?
+            // Set exitCode based on VM's run state
             switch (getRunState()) {
                 case FATAL_ERROR:
                     setExitValue(EXITCODE_FATAL_ERROR);
@@ -377,7 +400,8 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
                     break;
 
                 default:
-                    // Do nothing with exitValue;
+                    // All is OK, exitCode is zero
+                    setExitValue(0);
                     break;
             }
         }
@@ -401,7 +425,7 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
         // Show BDS stack trace
         try {
             String stackTrace = stackTrace();
-            if (!stackTrace.isEmpty()) System.err.println("Stack trace:\n" + stackTrace());
+            if (!stackTrace.isEmpty()) System.err.println("Stack trace:\n" + stackTrace);
         } catch (Throwable t) {
             t.printStackTrace();
         }
@@ -410,8 +434,8 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
         try {
             String checkpointFileName = checkpoint(bdsnode);
             if (checkpointFileName.isEmpty())
-                System.err.println("Creating checkpoint file: Config or command line option disabled checkpoint file creation, nothing done.");
-            else System.err.println("Created checkpoint file: '" + checkpointFileName + "'");
+                log("Creating checkpoint file: Config or command line option disabled checkpoint file creation, nothing done.");
+            else log("Created checkpoint file: '" + checkpointFileName + "'");
         } catch (Throwable t) {
             // Ignore serialization error at this stage (we are within a fatal error)
         }
@@ -528,16 +552,23 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
      * Recurse to parent node if not found
      */
     public String getFileLinePos(BdsNode bdsNode) {
-        // If the node has file/line info, we are done
-        if (bdsNode.getFileNameCanonical() != null) { //
-            return bdsNode.getFileName() //
-                    + ", line " + bdsNode.getLineNum() //
-                    + ", pos " + (bdsNode.getCharPosInLine() + 1) //
-                    ;
+        StringBuilder sb = new StringBuilder();
+
+        // If the node has file, add it
+        if (bdsNode.getFileNameCanonical() != null) {
+            sb.append(bdsNode.getFileName());
+            // If the node has line number, add it
+            if (bdsNode.getLineNum() > 0) {
+                sb.append(", line " + bdsNode.getLineNum());
+                // If the node has line possition number, add it
+                if (bdsNode.getCharPosInLine() >= 0) {
+                    sb.append(", pos " + (bdsNode.getCharPosInLine() + 1));
+                }
+            }
         }
 
         // Nothing found? Return empty
-        return "";
+        return sb.toString();
     }
 
     /**
@@ -954,10 +985,9 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
         timer = new Timer();
         createLogDir(); // Create log dir
         initThreads(); // Initialize and start threads
-
         runStatement(); // Run statement (i.e. run program)
-
-        exitCode(); // Calculate exit code
+        var allTaskFinishedOk = waitImplicit(); // Implicit wait at the end of the program
+        exitCode(allTaskFinishedOk); // Calculate exit code
         cleanupBeforeReport(); // Clean up before final report
         reportAfterRun(); // Create reports
         clearupAfterReport(); // Clean up after final report
@@ -1107,5 +1137,4 @@ public class BdsThread extends Thread implements Serializable, BdsLog {
 
         return ok;
     }
-
 }

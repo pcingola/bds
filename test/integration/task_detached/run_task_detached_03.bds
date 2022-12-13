@@ -1,6 +1,6 @@
 
 println "Before"
-out := "tmp.run_task_detached_03.txt"
+out := "test/integration/task_detached/tmp.run_task_detached_03.txt"
 out.delete()
 
 tid1 := task( detached := true, taskName := "task_1" ) {

@@ -83,21 +83,41 @@
                     </li>
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">Tasks</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#how-does-it-work">How does it work</a>
+    <li class="toctree-l2"><a class="reference internal" href="#tasks-basics">Tasks basics</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#scheduling-tasks">Scheduling tasks</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#scheduling-tasks">Scheduling tasks</a>
+    <li class="toctree-l3"><a class="reference internal" href="#resource-consumption">Resource consumption</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#resource-consumption-and-task-options">Resource consumption and task options</a>
+        </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#task-options-and-resources">Task options and resources</a>
+    <li class="toctree-l2"><a class="reference internal" href="#task-dependencies-dag">Task dependencies &amp; DAG</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#conditional-execution">Conditional execution</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#conditional-execution">Conditional execution</a>
+    <li class="toctree-l3"><a class="reference internal" href="#task-re-execution">Task re-execution</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#syntax-sugar">Syntax sugar</a>
+    <li class="toctree-l3"><a class="reference internal" href="#task-dependencies">Task dependencies</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#task-dependencies">Task dependencies</a>
+    <li class="toctree-l3"><a class="reference internal" href="#remote-dependencies">Remote dependencies</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#remote-dependencies">Remote dependencies</a>
+    <li class="toctree-l3"><a class="reference internal" href="#strict-remote-dependencies">Strict remote dependencies</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#task-details">Task details</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#tasks-system">Task's system</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#task-resources">Task resources</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#task-options">Task options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#how-does-a-task-work">How does a task work?</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#syntax-sugar">Syntax sugar</a>
+    </li>
+        </ul>
     </li>
     </ul>
                     </li>
@@ -183,6 +203,7 @@
 <p>A <code>task</code>expression, just like <code>sys</code> expression, also executes a command.
 The main difference is that a <code>task</code> is "scheduled for execution" instead of executed immediately.
 Task execution order is not guaranteed but <code>bds</code> provides a mechanism for creating task dependencies by means of <code>wait</code> statements.</p>
+<h2 id="tasks-basics">Tasks basics</h2>
 <p>A task expression either performs basic resource management or delegates resource management to cluster management tools.
 The idea is that if you schedule a hundred tasks, but you are executing on your laptop which only has 4 CPUs, then <code>bds</code> will only execute 4 tasks at a time (assuming each task is declared to consume 1 CPU).
 The rest of the tasks are queued for later execution.
@@ -192,7 +213,256 @@ Again, other tasks are queued for later execution, but in this case, all the res
 <p><strong>Warning:</strong> Most cluster resource management do not guarantee that tasks are executed in the same order as queued.
 Even if they do or if they are executed in the same host, a task can start execution and immediately be preempted.
 So the next task in the queue can effectively start before the previous one.</p>
-<p>There are different ways to execute tasks</p>
+<h3 id="scheduling-tasks">Scheduling tasks</h3>
+<p>A task is scheduled by means of a <code>task</code> expression.
+A <code>task</code> expression returns a task ID, a string representing a task.</p>
+<p>E.g.: File <a href="bds/test_09.bds">test_09.bds</a></p>
+<pre><code>tid := task echo Hello
+print(&quot;Task is $tid\n&quot;)
+</code></pre>
+<p>Running we get:</p>
+<pre><code>$ ./test_09.bds
+Task is test_09.bds.20140730_214947_810/task.line_3.id_1
+Hello
+</code></pre>
+<p><code>task</code> is non-blocking, which means that <code>bds</code> continues execution immediately without waiting for the task to finish.
+So, many tasks can be scheduled by simply invoking a task statement many times.</p>
+<p>Once a <code>task</code> is scheduled, execution order depends on the underliying system and there is absolutely no guarantee about execution order (unless you use a <code>wait</code> statements or other dependency mechanism).</p>
+<p>E.g., this example shows clearly all the tasks are NOT executed in order, even on local computers:
+File <a href="bds/test_10.bds">test_10.bds</a></p>
+<pre><code>#!/usr/bin/env bds
+
+for( int i=0 ; i &lt; 10 ; i++ ) task echo Hi $i
+</code></pre>
+<pre><code>$ ./test_10.bds
+Hi 0
+Hi 5
+Hi 4
+Hi 3
+Hi 2
+Hi 1
+Hi 7
+Hi 6
+Hi 9
+Hi 8
+</code></pre>
+<h3 id="resource-consumption">Resource consumption</h3>
+<p>Often <code>task</code> requires many CPUs, memory, or other resources.
+In such case, we should inform the resource management system in order to get an efficient allocation of resources (plus many cluster systems kill tasks that fail to report resources correctly).</p>
+<p>E.g., In this example we allocate 4 CPUs per task and run it on an 8-core computer, so obviously only 2 tasks can run at the same time:
+File <a href="bds/test_11.bds">test_11.bds</a></p>
+<pre><code>#!/usr/bin/env bds
+
+for( int i=0 ; i &lt; 10 ; i++ ) {
+    # Inform resource management that we need 4 core on each of these tasks
+    task ( cpus := 4 ) {
+        sys echo Hi $i ; sleep 1; echo Done $i
+    }
+}
+</code></pre>
+<p>Executing on my 8-core laptop, you can see that only 2 tasks are executed each time (each task is declared to require 4 cpus)</p>
+<pre><code>$ ./test_11.bds
+Hi 0
+Hi 1
+Done 0
+Done 1
+Hi 3
+Hi 2
+Done 2
+Done 3
+Hi 4
+Hi 5
+Done 4
+Done 5
+Hi 6
+Hi 7
+Done 6
+Done 7
+Hi 9
+Hi 8
+Done 8
+Done 9
+</code></pre>
+<h2 id="task-dependencies-dag">Task dependencies &amp; DAG</h2>
+<p>Usually tasks are not executed in isolation, but they are executed in "data analysis pipelines".
+Typically, "data analysis pipelines" (or "pipelines" for short), have many interdependent tasks than need to be orchestrated.
+This is why some people say that <code>bds</code> is a "pipeline orchestration" language.</p>
+<p>Tasks that depend on each other conform a "Directed Acyclik Graph" (DAG), and <code>bds</code> ensures that the DAG of tasks always is resolved in proper order, so you don't need to take care of those details.   </p>
+<h3 id="conditional-execution">Conditional execution</h3>
+<p>Conditional execution of tasks can, obviously, be achieved using an <code>if</code> statement.
+Since conditional execution is so common, we allow for some syntactic sugar by <code>task( expression1, expression2, ... ) { ... }</code>.
+where <code>expression1</code>, <code>expression2</code>, etc. are either boolean expressions or variable declarations.
+The task is executed only if all <code>bool</code> expressions are <code>true</code>.</p>
+<p>So the following programs are equivalent</p>
+<pre><code>shouldExec := true
+if( shouldExec ) {
+    task( cpus := 4 ) {
+        sys echo RUNNING
+    }
+}
+</code></pre>
+<p>Is the same as:</p>
+<pre><code>shouldExec := true
+
+task( shouldExec, cpus := 4 ) {
+    sys echo RUNNING
+}
+</code></pre>
+<p><strong>Note:</strong> This feature is particularly useful when combined with the dependency operator <code>&lt;-</code></p>
+<h3 id="task-re-execution">Task re-execution</h3>
+<p>Imagine you have a <code>task</code> that given an input data (file <code>in := "in.txt"</code>), generates an output file (<code>out := "out.txt"</code>) but takes a long time to calculate (several minutes or hours).
+A simple diagram would be:</p>
+<pre><code>            +------+
+in.txt &gt;----| Task |---&gt; out.txt
+            +------+                   
+</code></pre>
+<p>When the program is being re-executed, you might not need to re-run the task.
+For example, if you've already run the <code>task</code> before, and the output file has already been created, then you don't need to process the input file again.
+This is where the dependency operator (<code>&lt;-</code>) is very useful.</p>
+<p>See details in <a href="../dep_op/">"Dependency operator" section</a>.</p>
+<p><strong>Note:</strong> In complex data analysis pipelines, this situation happens very often.
+That's why <code>bds</code> has mechanisms to address this issue.</p>
+<p>A task conditional on a dependency operator, for example <code>task( out &lt;- in ) ...</code>, will be executed only when you need to process the output data.
+More strictly, the task will only be executed when the output file (<code>out</code>) either does not exist, or has a timestamp before the input file <code>in</code>. </p>
+<p>For instance, the following <code>task</code> will be executed only if <code>out.txt</code> needs to be updated with respect to <code>in.txt</code>:</p>
+<pre><code>in  := 'in.txt'
+out := 'out.txt'
+
+task( out &lt;- in , cpus := 4 ) {
+    sys echo &quot;Creating output '$out'&quot;
+    sys echo $in &gt; $out
+}
+</code></pre>
+<p>If you execute the program for the first time, the task will run and the output <code>out.txt</code> will be created.
+But if you execute it the second time, no task will be executed, because the output file already exists, and it doesn't need to be updated respect to the input file.</p>
+<h3 id="task-dependencies">Task dependencies</h3>
+<p>Using task dependencies (i.e. the dependency operator <code>&lt;-</code> in a <code>task</code> statement), <code>bds</code> will internally create and resolve a directed acyclic graph (DAG) of tasks and will execute the tasks only when all the previous tasks have been succesfull.</p>
+<p>For example, imagine you have three tasks where the inputs of the third task are the outputs of the other two tasks:</p>
+<ul>
+<li><code>task_1</code>: Has input file <code>in_1.txt</code>, and output file <code>out_1.txt</code></li>
+<li><code>task_2</code>: Has input file <code>in_2.txt</code>, and output file <code>out_2.txt</code></li>
+<li><code>task_3</code>: Has input files <code>out_1.txt</code>, and <code>out_2.txt</code>. Output file <code>out_3.txt</code></li>
+</ul>
+<p>Note that <code>task_3</code> cannot execute until both <code>task_1</code> and <code>task_2</code> are succesfully executed, because the inputs of <code>task_3</code> are the outpus of both <code>task_1</code> and <code>task_2</code></p>
+<p>In this case, the <code>bds</code> code would be something like this:</p>
+<pre><code># Define input and output file names
+in_1 := 'in_1.txt'
+out_1 := 'out_1.txt'
+
+in_2 := 'in_2.txt'
+out_2 := 'out_2.txt'
+
+out_3 := 'out_3.txt'
+
+# Create input files for the exampl, if they don't exist
+if( !in_1.exists() )    in_1.write(&quot;IN 1\n&quot;)
+if( !in_2.exists() )    in_2.write(&quot;IN 2\n&quot;)
+
+# Define tasks with their dependencies
+task(out_1 &lt;- in_1, taskName := 'task_1') {
+    sys cat $in_1 &gt; $out_1
+    sys echo &quot;TASK 1&quot; &gt;&gt; $out_1
+}
+
+task(out_2 &lt;- in_2, taskName := 'task_2') {
+    sys cat $in_2 &gt; $out_2
+    sys echo &quot;TASK 2&quot; &gt;&gt; $out_2
+}
+
+# Note: &quot;task_3&quot; inputs are the output files from &quot;task_1&quot; and &quot;task_2&quot;
+task(out_3 &lt;- [out_1, out_2], taskName := 'task_3') {
+    sys cat $out_1 &gt;&gt; $out_3
+    sys cat $out_2 &gt;&gt; $out_3
+    sys echo &quot;TASK 3&quot; &gt;&gt; $out_3
+}
+</code></pre>
+<p>The task's DAG would be:</p>
+<pre><code>              +--------+
+in_1.txt &gt;----| Task 1 |---&gt; out_1.txt &gt;---+
+              +--------+                   |
+                                           |    +--------+
+                                           +----| Task 3 |---&gt; out_3.txt
+                                           |    +--------+
+              +--------+                   |
+in_2.txt &gt;----| Task 2 |---&gt; out_2.txt &gt;---+
+              +--------+
+</code></pre>
+<p>Internally, <code>bds</code> will resolve the DAG to make sure all tasks are executed as soon as possible, but only when the dependecies succeeded.
+So in this example, <code>task_1</code> and <code>task_2</code> will execute in parallel (assuming there are enough CPUs avaialble), once both of them finished succesfully, <code>task_3</code> will be executed.</p>
+<h3 id="remote-dependencies">Remote dependencies</h3>
+<p><code>bds</code> takes care to downloading and uploading remote dependencies for you.</p>
+<p>A task's inputs and outputs dependencies can be remote files, for example files in AWS S3.
+In that case, <code>bds</code> will add code to download the remote files, change the command lines to local files names, and then upload the results (if the outputs are remote).</p>
+<p>For example, in the following code:</p>
+<pre><code># You should change the &quot;my_bucket&quot; to a real bucket you have access to
+in := &quot;s3://my_bucket/tmp/in.txt&quot;
+out := &quot;s3://my_bucket/tmp/out.txt&quot;
+
+# Note that 'cat' unix command cannot operate on S3 files
+task(out &lt;- in) {
+    sys cat $in &gt; $out
+    sys echo &quot;ADD DATA&quot; &gt;&gt; $out
+}
+</code></pre>
+<p>If you run this program, <code>bds</code> will:</p>
+<ol>
+<li>Create a shell script for the <code>task</code></li>
+<li>Add code to download the remote input files at the beggining of the shell script</li>
+<li>Replace all the input / output file names by the location where the files are downloaded (in a temp directory)</li>
+<li>Add code to upload the remote output files at the end of the shell script</li>
+<li>Execute the script</li>
+</ol>
+<p>Let's run the script using something like <code>bds -log z.bds</code>, and now let's take a look at the shell script created by <code>bds</code> for the <code>task</code> (edited for readbility):</p>
+<pre><code>#!/bin/bash -eu
+set -o pipefail
+...
+
+# Download commands
+bds -download &quot;s3://my_bucket/tmp/in.txt&quot; &quot;/tmp/bds/s3/my_bucket/tmp/in.txt&quot;
+
+# SYS command. line 6
+cat /tmp/bds/s3/my_bucket/tmp/in.txt &gt; /tmp/bds/s3/my_bucket/tmp/out.txt
+# SYS command. line 7
+echo &quot;ADD DATA&quot; &gt;&gt; /tmp/bds/s3/my_bucket/tmp/out.txt
+
+# Upload commands
+bds -upload &quot;/tmp/bds/s3/my_bucket/tmp/out.txt&quot; &quot;s3://my_bucket/tmp/out.txt&quot;
+</code></pre>
+<p>Note that:</p>
+<ul>
+<li>There are download and upload commands (<code>bds -download ...</code> and <code>bds -upload ...</code>)</li>
+<li>In the original <code>sys</code> command (<code>cat $in &gt; $out</code>) the remote S3 files were replaced by the local file names.
+    So instead of:</li>
+</ul>
+<pre><code>cat s3://my_bucket/tmp/in.txt &gt; s3://my_bucket/tmp/out.txt
+</code></pre>
+<p>Obviously the unix command <code>cat</code> does not handle S3 file, so the command was changed to:</p>
+<pre><code>cat /tmp/bds/s3/my_bucket/tmp/in.txt &gt; /tmp/bds/s3/my_bucket/tmp/out.txt
+</code></pre>
+<h3 id="strict-remote-dependencies">Strict remote dependencies</h3>
+<p>In some cases, the commands in a <code>task</code> can handle remote files natively, so we don't want <code>bds</code> to handle those dependencies for us (e.g. do not download / upload remote files).</p>
+<p>We can use the <code>task</code> option <code>strictRemoteDependencies</code>.
+When set to <code>true</code>, the commands in the task will not be changed in any way (no files will be downloaded ot uploaded).</p>
+<p>For example, in the follwowing program:</p>
+<pre><code>in := &quot;s3://my_bucket/tmp/in.txt&quot;
+out := &quot;s3://my_bucket/tmp/out.txt&quot;
+
+task(out &lt;- in, strictRemoteDependencies := true) {
+    sys echo Input file: $in
+    sys echo Output file: $out
+    sys aws s3 cp $in $out
+}
+</code></pre>
+<p>Since <code>strictRemoteDependencies = true</code>, there is no remote file manipulation by <code>bds</code>.
+So when we execute the program, we can see the paths are the original ones:</p>
+<pre><code>$ ./test/z.bds
+Input file: s3://my_bucket/tmp/in.txt
+Output file: s3://my_bucket/tmp/out.txt
+copy: s3://my_bucket/tmp/in.txt to s3://my_bucket/tmp/out.txt
+</code></pre>
+<h2 id="task-details">Task details</h2>
+<h3 id="tasks-system">Task's <code>system</code></h3>
+<p>There are different <code>system</code> to execute <code>bds</code> tasks</p>
 <table>
 <thead>
 <tr>
@@ -249,7 +519,96 @@ So the next task in the queue can effectively start before the previous one.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="how-does-it-work">How does it work</h2>
+<h3 id="task-resources">Task resources</h3>
+<p>You can read more about task resources in the <a href="../task_resources/">"Task Reosurces"</a> section.</p>
+<p>Here is a list of pre-defined resources that can be consumed by a <code>task</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default value</th>
+<th>Resource / Task options</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cpus</code></td>
+<td>1</td>
+<td>Number of CPU (cores) used by the process.</td>
+</tr>
+<tr>
+<td><code>mem</code></td>
+<td>0</td>
+<td>Maximum amount of memory in bytes used by the process (0 means no restrictions or use cluster default)</td>
+</tr>
+<tr>
+<td><code>timeout</code></td>
+<td>0</td>
+<td>Time in seconds that a task is allowed to execute (e.g. when running on a cluster). Ignored if zero or less. If process runs more than <code>timeout</code> seconds, it is killed. Zero means no limit.</td>
+</tr>
+<tr>
+<td><code>walltimeout</code></td>
+<td>0</td>
+<td>Time in seconds since the task is dispatched to the processing environment. E.g. in busy clusters a task can spend a long time being scheduled (cluster's PENDING state) until the task is run (cluster's RUNNING state), <code>walltimeout</code> limits the sum of those times (as oposed to <code>timeout</code> that only limits the RUNNIG state time). Zero means no limit.</td>
+</tr>
+</tbody>
+</table>
+<p>If a resource is not defined in the previous list, you can define your own custom resources, such as GPUs, FPGAs, etc.
+For more details on custom resources, please take a look at the <a href="../task_resources/">"Task Reosurces"</a> section.</p>
+<h3 id="task-options">Task options</h3>
+<p>List of resources or task options</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default value</th>
+<th>Resource / Task options</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>allowEmpty</code></td>
+<td>false</td>
+<td>If true, empty files are allowed in task's outputs. This means that a task producing empty files does not result in program termination and checkpointing.</td>
+</tr>
+<tr>
+<td><code>canFail</code></td>
+<td>false</td>
+<td>If true, a task is allowed to fail. This means that a failed task execution does not result in program termination and checkpointing.</td>
+</tr>
+<tr>
+<td><code>detached</code></td>
+<td>false</td>
+<td>If true, the task will be detached, i.e. independent from the bds script originating it</td>
+</tr>
+<tr>
+<td><code>node</code></td>
+<td></td>
+<td>If possible this task should be executed on a particular cluster node. This option is only used for cluster systems and ignored on any other systems.</td>
+</tr>
+<tr>
+<td><code>queue</code></td>
+<td></td>
+<td>Queue name of preferred execution queue (only for cluster systems).</td>
+</tr>
+<tr>
+<td><code>retry</code></td>
+<td>0</td>
+<td>Number of times a task can be re-executed until it's considered failed.</td>
+</tr>
+<tr>
+<td><code>strictRemoteDependencies</code></td>
+<td>false</td>
+<td>If <code>true</code>, remote task dependencies are NOT downloaded to a local <code>tmp</code> directory, or uploaded to the remote location</td>
+</tr>
+<tr>
+<td><code>taskName</code></td>
+<td></td>
+<td>Assign a task name. This adds a label to the task as well as the taskId returned by <code>task</code> expression. Task ID is used to create log files related to the task (shell script, STDOUT, STDERR and exitCode files) so those file names are also changed. This makes it easier to find tasks in the final report and log files (it has no effect other than that). Note: If taskName contains non-allowed characters, they are sanitized (replaced by <code>_</code>).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="how-does-a-task-work">How does a <code>task</code> work?</h3>
 <p>In escense a <code>task</code> command creates a shell script (i.e. a bash) and executes the script.
 The script is simply all the <code>sys</code> lines whithin the <code>task</code>, put toghether, for example:</p>
 <pre><code>task {
@@ -286,180 +645,7 @@ date                        | Command from sys
 <p><strong>Logging</strong>: <code>bds</code> logs the script's SDTOUT, STDERR, and exit code to files so you can revie them later.
 Note: The <code>-log</code> command line option will keep all log files for all tasks. Otherwise they will be cleaned / deleted by <code>bds</code>.
 Please take a look at the <a href="../logging/">Logging</a> chapter for more details.</p>
-<h2 id="scheduling-tasks">Scheduling tasks</h2>
-<p>A task is scheduled by means of a <code>task</code> expression.
-A <code>task</code> expression returns a task ID, a string representing a task.
-E.g.:
-File <a href="bds/test_09.bds">test_09.bds</a></p>
-<pre><code>tid := task echo Hello
-print(&quot;Task is $tid\n&quot;)
-</code></pre>
-<p>Running we get:</p>
-<pre><code>$ ./test_09.bds
-Task is test_09.bds.20140730_214947_810/task.line_3.id_1
-Hello
-</code></pre>
-<p><code>task</code> is non-blocking, which means that <code>bds</code> continues execution immediately without waiting for the task to finish.
-So, many tasks can be scheduled by simply invoking a task statement many times.</p>
-<p>Once a <code>task</code> is scheduled, execution order depends on the underliying system and there is absolutely no guarantee about execution order (unless you use a <code>wait</code> statements or other dependency mechanism).</p>
-<p>E.g., this example shows clearly all the tasks are NOT executed in order, even on local computers:
-File <a href="bds/test_10.bds">test_10.bds</a></p>
-<pre><code>#!/usr/bin/env bds
-
-for( int i=0 ; i &lt; 10 ; i++ ) task echo Hi $i
-</code></pre>
-<pre><code>$ ./test_10.bds
-Hi 0
-Hi 5
-Hi 4
-Hi 3
-Hi 2
-Hi 1
-Hi 7
-Hi 6
-Hi 9
-Hi 8
-</code></pre>
-<h2 id="resource-consumption-and-task-options">Resource consumption and task options</h2>
-<p>Often <code>task</code> requires many CPUs or resources.
-In such case, we should inform the resource management system in order to get an efficient allocation of resources (plus many cluster systems kill tasks that fail to report resources correctly).</p>
-<p>E.g., In this example we allocate 4 CPUs per task and run it on an 8-core computer, so obviously only 2 tasks can run at the same time:
-File <a href="bds/test_11.bds">test_11.bds</a></p>
-<pre><code>#!/usr/bin/env bds
-
-for( int i=0 ; i &lt; 10 ; i++ ) {
-    # Inform resource management that we need 4 core on each of these tasks
-    task ( cpus := 4 ) {
-        sys echo Hi $i ; sleep 1; echo Done $i
-    }
-}
-</code></pre>
-<p>Executing on my 8-core laptop, you can see that only 2 tasks are executed each time (each task is declared to require 4 cpus)</p>
-<pre><code>$ ./test_11.bds
-Hi 0
-Hi 1
-Done 0
-Done 1
-Hi 3
-Hi 2
-Done 2
-Done 3
-Hi 4
-Hi 5
-Done 4
-Done 5
-Hi 6
-Hi 7
-Done 6
-Done 7
-Hi 9
-Hi 8
-Done 8
-Done 9
-</code></pre>
-<h2 id="task-options-and-resources">Task options and resources</h2>
-<p>List of resources or task options</p>
-<table>
-<thead>
-<tr>
-<th>Variable</th>
-<th>Default value</th>
-<th>Resource / Task options</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>allowEmpty</code></td>
-<td>false</td>
-<td>If true, empty files are allowed in task's outputs. This means that a task producing empty files does not result in program termination and checkpointing.</td>
-</tr>
-<tr>
-<td><code>canFail</code></td>
-<td>false</td>
-<td>If true, a task is allowed to fail. This means that a failed task execution does not result in program termination and checkpointing.</td>
-</tr>
-<tr>
-<td><code>cpus</code></td>
-<td>1</td>
-<td>Number of CPU (cores) used by the process.</td>
-</tr>
-<tr>
-<td><code>detached</code></td>
-<td>false</td>
-<td>If true, the task will be detached, i.e. independent from the bds script originating it</td>
-</tr>
-<tr>
-<td><code>mem</code></td>
-<td>0</td>
-<td>Maximum amount of memory in bytes used by the process (0 means no restrictions or use cluster default)</td>
-</tr>
-<tr>
-<td><code>node</code></td>
-<td></td>
-<td>If possible this task should be executed on a particular cluster node. This option is only used for cluster systems and ignored on any other systems.</td>
-</tr>
-<tr>
-<td><code>queue</code></td>
-<td></td>
-<td>Queue name of preferred execution queue (only for cluster systems).</td>
-</tr>
-<tr>
-<td><code>retry</code></td>
-<td>0</td>
-<td>Number of times a task can be re-executed until it's considered failed.</td>
-</tr>
-<tr>
-<td><code>strictRemoteDependencies</code></td>
-<td>false</td>
-<td>If <code>true</code>, remote task dependencies are NOT downloaded to a local <code>tmp</code> directory, or uploaded to the remote location</td>
-</tr>
-<tr>
-<td><code>taskName</code></td>
-<td></td>
-<td>Assign a task name. This adds a label to the task as well as the taskId returned by <code>task</code> expression. Task ID is used to create log files related to the task (shell script, STDOUT, STDERR and exitCode files) so those file names are also changed. This makes it easier to find tasks in the final report and log files (it has no effect other than that). Note: If taskName contains non-allowed characters, they are sanitized (replaced by <code>_</code>).</td>
-</tr>
-<tr>
-<td><code>timeout</code></td>
-<td>0</td>
-<td>Time in seconds that a task is allowed to execute (e.g. when running on a cluster). Ignored if zero or less. If process runs more than <code>timeout</code> seconds, it is killed. Zero means no limit.</td>
-</tr>
-<tr>
-<td><code>walltimeout</code></td>
-<td>0</td>
-<td>Time in seconds since the task is dispatched to the processing environment. E.g. in busy clusters a task can spend a long time being scheduled (cluster's PENDING state) until the task is run (cluster's RUNNING state), <code>walltimeout</code> limits the sum of those times (as oposed to <code>timeout</code> that only limits the RUNNIG state time). Zero means no limit.</td>
-</tr>
-</tbody>
-</table>
-<h2 id="conditional-execution">Conditional execution</h2>
-<p>Conditional execution of tasks can, obviously, be achieved using an <code>if</code> statement.
-Since conditional execution is so common, we allow for some syntactic sugar by <code>task( expression1, expression2, ... ) { ... }</code>.
-where <code>expression1</code>, <code>expression2</code>, etc. are either boolean expressions or variable declarations.
-The task is executed only if all <code>bool</code> expressions are <code>true</code>.</p>
-<p>So the following programs are equivalent</p>
-<pre><code>shouldExec := true
-if( shouldExec ) {
-    task( cpus := 4 ) {
-        sys echo RUNNING
-    }
-}
-</code></pre>
-<p>Is the same as:</p>
-<pre><code>shouldExec := true
-
-task( shouldExec, cpus := 4 ) {
-    sys echo RUNNING
-}
-</code></pre>
-<p><strong>Note:</strong> This feature is particularly useful when combined with the dependency operator <code>&lt;-</code>
-For instance, the following <code>task</code> will be executed only if 'out.txt' needs to be updated with respect to 'in.txt'</p>
-<pre><code>in  := 'in.txt'
-out := 'out.txt'
-
-task( out &lt;- in , cpus := 4 ) {
-    sys echo $in &gt; $out
-}
-</code></pre>
-<h2 id="syntax-sugar">Syntax sugar</h2>
+<h3 id="syntax-sugar">Syntax sugar</h3>
 <p>There are many ways to write task expressions, here we show some examples.</p>
 <ul>
 <li>A simple task</li>
@@ -525,131 +711,6 @@ task( out &lt;- in , cpus := 4 ) {
 <pre><code>task ( out &lt;- in, cpus := 4 , taskName := &quot;Filter results&quot; ) {
     sys cat $in | grep &quot;^results&quot; &gt; $out
 }
-</code></pre>
-<h2 id="task-dependencies">Task dependencies</h2>
-<p>Using task dependencies, <code>bds</code> will internally create and resolve a directed acyclic graph (DAG) of tasks and will execute the tasks only when all the previous tasks have been succefull.</p>
-<p>For example, imgine you have three tasks where the inputs of the third task are the outputs of the other two tasks:</p>
-<ul>
-<li><code>task_1</code>: Has input file <code>in_1.txt</code>, and output file <code>out_1.txt</code></li>
-<li><code>task_2</code>: Has input file <code>in_2.txt</code>, and output file <code>out_2.txt</code></li>
-<li><code>task_3</code>: Has input files <code>out_1.txt</code>, and <code>out_2.txt</code>. Output file <code>out_3.txt</code></li>
-</ul>
-<p>Note that <code>task_3</code> cannot execute until both <code>task_1</code> and <code>task_2</code> are succesfully executed, because the inputs of <code>task_3</code> are the outpus of both <code>task_1</code> and <code>task_2</code></p>
-<p>In this case, the <code>bds</code> code would be something like this:</p>
-<pre><code># Define input and output file names
-in_1 := 'in_1.txt'
-out_1 := 'out_1.txt'
-
-in_2 := 'in_2.txt'
-out_2 := 'out_2.txt'
-
-out_3 := 'out_3.txt'
-
-# Create input files for the exampl, if they don't exist
-if( !in_1.exists() )    in_1.write(&quot;IN 1\n&quot;)
-if( !in_2.exists() )    in_2.write(&quot;IN 2\n&quot;)
-
-# Define tasks with their dependencies
-task(out_1 &lt;- in_1, taskName := 'task_1') {
-    sys cat $in_1 &gt; $out_1
-    sys echo &quot;TASK 1&quot; &gt;&gt; $out_1
-}
-
-task(out_2 &lt;- in_2, taskName := 'task_2') {
-    sys cat $in_2 &gt; $out_2
-    sys echo &quot;TASK 2&quot; &gt;&gt; $out_2
-}
-
-# Note: &quot;task_3&quot; inputs are the output files from &quot;task_1&quot; and &quot;task_2&quot;
-task(out_3 &lt;- [out_1, out_2], taskName := 'task_3') {
-    sys cat $out_1 &gt;&gt; $out_3
-    sys cat $out_2 &gt;&gt; $out_3
-    sys echo &quot;TASK 3&quot; &gt;&gt; $out_3
-}
-</code></pre>
-<p>The task's DAG would be:</p>
-<pre><code>              +--------+
-in_1.txt &gt;----| Task 1 |---&gt; out_1.txt &gt;---+
-              +--------+                   |
-                                           |    +--------+
-                                           +----| Task 3 |---&gt; out_3.txt
-                                           |    +--------+
-              +--------+                   |
-in_2.txt &gt;----| Task 2 |---&gt; out_2.txt &gt;---+
-              +--------+
-</code></pre>
-<p>Internally, <code>bds</code> will resolve the DAG to make sure all tasks are executed as soon as possible, but only when the dependecies succeeded.
-So in this example, <code>task_1</code> and <code>task_2</code> will execute in parallel (assuming there are enough CPUs avaialble), once both of them finished succesfully, <code>task_3</code> will be executed.</p>
-<h2 id="remote-dependencies">Remote dependencies</h2>
-<p><code>bds</code> takes care to downloading and uploading remote dependencies for you.</p>
-<p>A task's inputs and outputs dependencies can be remote files, for example files in AWS S3.
-In that case, <code>bds</code> will add code to download the remote files, change the command lines to local files names, and then upload the results (if the outputs are remote).</p>
-<p>For example, in the following code:</p>
-<pre><code># You should change the &quot;my_bucket&quot; to a real bucket you have access to
-in := &quot;s3://my_bucket/tmp/in.txt&quot;
-out := &quot;s3://my_bucket/tmp/out.txt&quot;
-
-# Note that 'cat' unix command cannot operate on S3 files
-task(out &lt;- in) {
-    sys cat $in &gt; $out
-    sys echo &quot;ADD DATA&quot; &gt;&gt; $out
-}
-</code></pre>
-<p>If you run this program, <code>bds</code> will:</p>
-<ol>
-<li>Create a shell script for the <code>task</code></li>
-<li>Add code to download the remote input files at the beggining of the shell script</li>
-<li>Replace all the input / output file names by the location where the files are downloaded (in a temp directory)</li>
-<li>Add code to upload the remote output files at the end of the shell script</li>
-<li>Execute the script</li>
-</ol>
-<p>Let's run the script using something like <code>bds -log z.bds</code>, and now let's take a look at the shell script created by <code>bds</code> for the <code>task</code> (edited for readbility):</p>
-<pre><code>#!/bin/bash -eu
-set -o pipefail
-...
-
-# Download commands
-bds -download &quot;s3://my_bucket/tmp/in.txt&quot; &quot;/tmp/bds/s3/my_bucket/tmp/in.txt&quot;
-
-# SYS command. line 6
-cat /tmp/bds/s3/my_bucket/tmp/in.txt &gt; /tmp/bds/s3/my_bucket/tmp/out.txt
-# SYS command. line 7
-echo &quot;ADD DATA&quot; &gt;&gt; /tmp/bds/s3/my_bucket/tmp/out.txt
-
-# Upload commands
-bds -upload &quot;/tmp/bds/s3/my_bucket/tmp/out.txt&quot; &quot;s3://my_bucket/tmp/out.txt&quot;
-</code></pre>
-<p>Note that:</p>
-<ul>
-<li>There are download and upload commands (<code>bds -download ...</code> and <code>bds -upload ...</code>)</li>
-<li>In the original <code>sys</code> command (<code>cat $in &gt; $out</code>) the remote S3 files were replaced by the local file names.
-    So instead of:</li>
-</ul>
-<pre><code>cat s3://my_bucket/tmp/in.txt &gt; s3://my_bucket/tmp/out.txt
-</code></pre>
-<p>Obviously the unix command <code>cat</code> does not handle S3 file, so the command was changed to:</p>
-<pre><code>cat /tmp/bds/s3/my_bucket/tmp/in.txt &gt; /tmp/bds/s3/my_bucket/tmp/out.txt
-</code></pre>
-<h1 id="strict-remote-dependencies">Strict remote dependencies</h1>
-<p>In some cases, the commands in a <code>task</code> can handle remote files natively, so we don't want <code>bds</code> to handle those dependencies for us (e.g. do not download / upload remote files).</p>
-<p>We can use the <code>task</code> option <code>strictRemoteDependencies</code>.
-When set to <code>true</code>, the commands in the task will not be changed in any way (no files will be downloaded ot uploaded).</p>
-<p>For example, in the follwowing program:</p>
-<pre><code>in := &quot;s3://my_bucket/tmp/in.txt&quot;
-out := &quot;s3://my_bucket/tmp/out.txt&quot;
-
-task(out &lt;- in, strictRemoteDependencies := true) {
-    sys echo Input file: $in
-    sys echo Output file: $out
-    sys aws s3 cp $in $out
-}
-</code></pre>
-<p>Since <code>strictRemoteDependencies = true</code>, there is no remote file manipulation by <code>bds</code>.
-So when we execute the program, we can see the paths are the original ones:</p>
-<pre><code>$ ./test/z.bds
-Input file: s3://my_bucket/tmp/in.txt
-Output file: s3://my_bucket/tmp/out.txt
-copy: s3://my_bucket/tmp/in.txt to s3://my_bucket/tmp/out.txt
 </code></pre>
               
             </div>

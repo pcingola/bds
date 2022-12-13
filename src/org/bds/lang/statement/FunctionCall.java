@@ -27,11 +27,9 @@ public class FunctionCall extends Expression {
     protected String functionName;
     protected Args args;
     protected FunctionDeclaration functionDeclaration;
-    protected int argsStart;
 
     public FunctionCall(BdsNode parent, ParseTree tree) {
         super(parent, tree);
-        argsStart = 0;
     }
 
     /**
@@ -78,12 +76,20 @@ public class FunctionCall extends Expression {
         return args;
     }
 
+    public void setArgs(Args args) {
+        this.args = args;
+    }
+
     public FunctionDeclaration getFunctionDeclaration() {
         return functionDeclaration;
     }
 
     public String getFunctionName() {
         return functionName;
+    }
+
+    public void setFunctionName(String functionName) {
+        this.functionName = functionName;
     }
 
     protected boolean isMethodCall() {
@@ -104,11 +110,20 @@ public class FunctionCall extends Expression {
 
     @Override
     protected void parse(ParseTree tree) {
+        // Parsing code example: 'functionName( arguments )'
+
+        // First child is functionName
         functionName = tree.getChild(0).getText();
-        // child[1] = '('
+
+        // Child 1 is an open parenthesis: child[1] = '('
+        // We don't need to parse it
+
+        // Next we have function arguments, all childs except the last one
         args = new Args(this, null);
         args.parse(tree, 2, tree.getChildCount() - 1);
-        // child[tree.getChildCount()] = ')'
+
+        // Last child is closing parenthesis: We don't need to parse
+        //    child[tree.getChildCount()] = ')'
 
         if (args == null) args = new Args(this, null);
     }

@@ -20,33 +20,33 @@ public class TestCasesLang extends TestCasesBase {
     }
 
     @Test
-    public void test00() {
+    public void testLang00() {
         // EOF test: No '\n' or ';' at the end of last line
         compileOk(dir + "test00.bds");
     }
 
     @Test
-    public void test25() {
+    public void testLang01() {
         // Multi-line strings
         compileOk(dir + "test25.bds");
     }
 
 
     @Test
-    public void test27() {
+    public void testLang02() {
         // Type casting error: real to int
         String errs = "ERROR [ file 'test/unit/lang/test27.bds', line 2 ] :	Cannot cast real to int\n";
         compileErrors(dir + "test27.bds", errs);
     }
 
     @Test
-    public void test35() {
+    public void testLang03() {
         // String interpolation
         compileOk(dir + "test35.bds");
     }
 
     @Test
-    public void test36() {
+    public void testLang04() {
         // String interpolation: Missing variable
         String errs = "ERROR [ file 'test/unit/lang/test36.bds', line 3 ] :	Symbol 'j' cannot be resolved\n";
         compileErrors(dir + "test36.bds", errs);
@@ -54,31 +54,31 @@ public class TestCasesLang extends TestCasesBase {
 
 
     @Test
-    public void test42() {
+    public void testLang05() {
         // Includes
         compileOk(dir + "test42.bds");
     }
 
     @Test
-    public void test60_1() {
+    public void testLang06() {
         // Include statements: Multiple includes. Include order should not affect compilation
         compileOk(dir + "test60.bds");
     }
 
     @Test
-    public void test14() {
+    public void testLang07() {
         // String interpolation
         runAndCheck(dir + "run_14.bds", "s", "this is string interpolation: int i = 42 and str = \"hi\" and both hi42");
     }
 
     @Test
-    public void test38() {
+    public void testLang08() {
         // String interpolation: Literal string with '$'
         runAndCheck(dir + "run_38.bds", "su", "$s world \\n");
     }
 
     @Test
-    public void test40() {
+    public void testLang09() {
         // Command line arguments: Setting global variables from command line arguments
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("file", "zzz.txt");
@@ -109,7 +109,7 @@ public class TestCasesLang extends TestCasesBase {
     }
 
     @Test
-    public void test47() {
+    public void testLang10() {
         // Command line arguments: Passing a list of values
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("in", "[in1.txt, in2.txt, in3.txt]");
@@ -132,13 +132,13 @@ public class TestCasesLang extends TestCasesBase {
     }
 
     @Test
-    public void test48() {
+    public void testLang11() {
         // Statements: Warning and error
         runAndCheck(1, dir + "run_48.bds", "step", 2L);
     }
 
     @Test
-    public void test50() {
+    public void testLang12() {
         // Include
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("i", "32");
@@ -150,13 +150,13 @@ public class TestCasesLang extends TestCasesBase {
     }
 
     @Test
-    public void test51() {
+    public void testLang13() {
         // Interpolating a hash
         runAndCheck(dir + "run_51.bds", "hash", "{ hi => bye }");
     }
 
     @Test
-    public void test60() {
+    public void testLang14() {
         // Command line arguments: boolean
         String fileName = dir + "run_60.bds";
         String[] args = {fileName, "-b"};
@@ -164,7 +164,7 @@ public class TestCasesLang extends TestCasesBase {
     }
 
     @Test
-    public void test61() {
+    public void testLang15() {
         // Command line arguments: boolean
         String fileName = dir + "run_60.bds";
         String[] args = {fileName, "-b", "true"};
@@ -172,7 +172,7 @@ public class TestCasesLang extends TestCasesBase {
     }
 
     @Test
-    public void test62() {
+    public void testLang16() {
         // Command line arguments: boolean
         String fileName = dir + "run_60.bds";
         String[] args = {fileName, "-b", "false"};
@@ -180,7 +180,7 @@ public class TestCasesLang extends TestCasesBase {
     }
 
     @Test
-    public void test67() {
+    public void testLang17() {
         // String interpolation, escaping '$'
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("s", "varS");
@@ -191,7 +191,7 @@ public class TestCasesLang extends TestCasesBase {
     }
 
     @Test
-    public void test97() {
+    public void testLang18() {
         // String interpolation and '\t', '\n' characters
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("h1", "1");
@@ -203,19 +203,19 @@ public class TestCasesLang extends TestCasesBase {
     }
 
     @Test
-    public void test111() {
+    public void testLang19() {
         // Error statement
         runAndCheckError(dir + "run_111.bds", "Cannot escape error");
     }
 
     @Test
-    public void test112() {
+    public void testLang20() {
         // Exit statement
-        runAndCheck(dir + "run_112.bds", "runOk", "false");
+        runAndCheckExit(dir + "run_112.bds", 1);
     }
 
     @Test
-    public void test123Literals() {
+    public void testLang21Literals() {
         // String literals, interpolation and escaped characters
         String output = "print_quote        |\\t|\n" //
                 + "print_quote        |\\t|    variable:$hi\n" //
@@ -229,7 +229,7 @@ public class TestCasesLang extends TestCasesBase {
     }
 
     @Test
-    public void test125AutomaticHelp() {
+    public void testLang22AutomaticHelp() {
         // Command line options: Help
         String output = "Command line options 'run_125.bds' :\n" //
                 + "\t-mean <int>                                  : Help for argument 'mean' should be printed here\n" //
@@ -245,7 +245,7 @@ public class TestCasesLang extends TestCasesBase {
     }
 
     @Test
-    public void test125bAutomaticHelpUnsorted() {
+    public void testLang23AutomaticHelpUnsorted() {
         // Command line options: Help
         String output = "Command line options 'run_125b.bds' :\n" //
                 + "\t-useTab <bool>                               : Use tab before printing line\n" //
@@ -264,7 +264,7 @@ public class TestCasesLang extends TestCasesBase {
      * Show help when there are no arguments
      */
     @Test
-    public void test125c_automatic_help() {
+    public void testLang24AutomaticHelp() {
         // Command line options: Help
         String output = "Command line options 'run_125c.bds' :\n" //
                 + "\t-mean <int>                                  : Help for argument 'mean' should be printed here\n" //
@@ -280,7 +280,7 @@ public class TestCasesLang extends TestCasesBase {
     }
 
     @Test
-    public void test134AutomaticHelpSections() {
+    public void testLang25AutomaticHelpSections() {
         // Show help when there are no arguments (sections)
         String output = "This program does blah\n" //
                 + "Actually, a lot of blah blah\n" //
@@ -298,15 +298,27 @@ public class TestCasesLang extends TestCasesBase {
     }
 
     @Test
-    public void test158Log() {
+    public void testLang26Log() {
         // Log messages to console
         runAndCheckStderr(dir + "run_158.bds", "hi there");
     }
 
     @Test
-    public void test164() {
+    public void testLang27() {
         // PrintErr: print to stderr
         runAndCheck(dir + "run_164.bds", "out", "hi");
+    }
+
+    @Test
+    public void testLang28ExitCode() {
+        // PrintErr: print to stderr
+        runAndCheckExit(dir + "test_lang_28.bds", 42);
+    }
+
+    @Test
+    public void testLang29ExitCode() {
+        // PrintErr: print to stderr
+        runAndCheckExit(dir + "test_lang_29.bds", 42);
     }
 
 }

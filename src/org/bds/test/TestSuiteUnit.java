@@ -40,8 +40,6 @@ import org.junit.runners.Suite.SuiteClasses;
         TestCasesCommandLineOptions.class, // Check command line options
         TestCasesRemote.class, // Accessing remote data (cloud storage)
         TestCasesReport.class, // Report generation
-
-
 })
 public class TestSuiteUnit {
 }

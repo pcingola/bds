@@ -1,0 +1,36 @@
+
+prefix := "test/unit/task/task_33"
+in := "$prefix\.in.txt"
+out1 := "$prefix\.out_1.txt"
+out2 := "$prefix\.out_2.txt"
+
+# Crete input file
+in.write("hi")
+out1.rm()
+out2.rm()
+
+captured := false
+
+try {
+	# The second task will fail, throwing a WaitException that is captured.
+
+	# First task executes ok
+	task(out1 <- in) {
+		sys cat $in > $out1
+	}
+
+	# This task will fail
+	task(out2 <- out1) {
+		sys invalid_command $out1 > $out2
+	}
+
+	# Here the task error will throw a WaitException
+	wait
+} catch( WaitException e) {
+	# This will be executed when the exception is thrown by the 'wait' statement
+	captured = true
+	println "Wait exception captured" 
+} finally {
+	println "This will be executed: captured = $captured"
+	exit 0
+}

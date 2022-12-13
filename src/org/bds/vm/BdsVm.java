@@ -466,13 +466,22 @@ public class BdsVm implements Serializable, BdsLog {
     }
 
     /**
-     * Get exit code. If the stack is empty, then the exit-code is 0 (i.e. program finished OK)
+     * Get exit code
+     * If forced by 'exit' or 'error', use the value
+     * If the stack is empty, then the exit-code is 0 (i.e. program finished OK)
      */
-    int exitCode() {
-        // Set externally? E.g. BdsThread.fatalError()
+    public Integer getExitCode() {
+        // Set externally? E.g. 'exit', 'error', or BdsThread.fatalError()?
         if (exitCode != null) return exitCode;
-        exitCode = isEmptyStack() ? 0 : (int) popInt();
+
+        // Non-empty stack? Use value from stack
+        if (!isEmptyStack()) exitCode = (int) popInt();
+
         return exitCode;
+    }
+
+    public void setExitCode(Integer exitCode) {
+        this.exitCode = exitCode;
     }
 
     public void fatalError(String msg) {
@@ -486,7 +495,7 @@ public class BdsVm implements Serializable, BdsLog {
         List<BdsNode> bdsNodes = new ArrayList<>();
         for (int pc = 0; pc < code.length; pc++) {
             OpCode op = OPCODES[code[pc]];
-            if (op == OpCode.NODE || op == OpCode.NODE_COVERAGE) {
+            if (op.isParamNode()) {
                 int idx = code[pc + 1];
                 BdsNode bdsNode = BdsNodeFactory.get().getNode(idx);
                 bdsNodes.add(bdsNode);
@@ -537,14 +546,6 @@ public class BdsVm implements Serializable, BdsLog {
 
     public Value getException() {
         return exception;
-    }
-
-    public int getExitCode() {
-        return exitCode;
-    }
-
-    public void setExitCode(Integer exitCode) {
-        this.exitCode = exitCode;
     }
 
     public Throwable getJavaException() {
@@ -868,7 +869,7 @@ public class BdsVm implements Serializable, BdsLog {
     /**
      * Run the program in 'code'
      */
-    public int run() {
+    public Integer run() {
         // Initialize program counter
         // Note: If vm parallel, then pc is already initialized in child
         //       process, do not change.
@@ -881,7 +882,7 @@ public class BdsVm implements Serializable, BdsLog {
                 if (Freeze.isFreeze()) {
                     sleepFreeze();
                 } else {
-                    vmStateRecover(); // Is this recovering from an interrupted long running operation?
+                    vmStateRecover(); // Is this recovering from an interrupted long-running operation?
                     runLoop(); // Run main loop (instruction processing)
                 }
             }
@@ -891,12 +892,12 @@ public class BdsVm implements Serializable, BdsLog {
                 t.printStackTrace();
             }
 
-            exitCode = BdsThread.EXITCODE_FATAL_ERROR;
+            setExitCode(BdsThread.EXITCODE_FATAL_ERROR);
             javaException = t;
             bdsThread.fatalError(getBdsNode(), t.getMessage());
         }
 
-        return exitCode();
+        return getExitCode();
     }
 
     /**
@@ -926,17 +927,17 @@ public class BdsVm implements Serializable, BdsLog {
         while (pc < code.length && run) {
             instruction = code[pc];
             opcode = OPCODES[instruction];
-            if (debug) {
-                String msg = "" //
+            if (debug)
+                System.err.print("" //
                         + (sp > 0 ? "\n\t\t\t\t\t\t\t\t# stack: " + toStringStack() : "") //
                         + (exceptionHandler != null ? "\n\t\t\t\t\t\t\t\t# exceptionHandler: " + exceptionHandler.getFinallyLabel() : "") //
                         + (fp > 0 ? "\n\t\t\t\t\t\t\t\t# call stack: " + toStringCallStack() : "") //
                         + "\n" //
                         + (bdsThread != null ? bdsThread.getBdsThreadId() + "\t\t|" : "") //
                         + toAsm(pc) //
-                        ;
-                System.err.print(msg);
-            }
+                        + "\n" //
+                );
+
             pc++;
 
             switch (opcode) {
@@ -990,10 +991,10 @@ public class BdsVm implements Serializable, BdsLog {
                     break;
 
                 case CALLNATIVE:
-                    vmStateSave();
+                    vmStateSave(); // Save that sate before long-running BdsVm function
                     name = constantString(); // Get signature
                     v1 = callNative(name);
-                    vmStateInvalidate();
+                    vmStateInvalidate(); // Recover state after long-running BdsVm function
                     push(v1);
                     break;
 
@@ -1118,7 +1119,12 @@ public class BdsVm implements Serializable, BdsLog {
 
                 case ERROR:
                     bdsThread.fatalError(popString());
-                    exitCode = BdsThread.EXITCODE_ERROR;
+                    setExitCode(BdsThread.EXITCODE_ERROR);
+                    return;
+
+                case EXIT:
+                    setExitCode((int) popInt());
+                    run = false;
                     return;
 
                 case GEB:
@@ -1529,10 +1535,10 @@ public class BdsVm implements Serializable, BdsLog {
                     break;
 
                 case SYS:
-                    vmStateSave();
+                    vmStateSave(); // Save that sate before long-running BdsVm function
                     SysVmOpcode sf = new SysVmOpcode(bdsThread, usePidInFileNames);
                     s1 = sf.run();
-                    vmStateInvalidate();
+                    vmStateInvalidate(); // Recover state after long-running BdsVm function
                     push(s1);
                     break;
 
@@ -1578,21 +1584,21 @@ public class BdsVm implements Serializable, BdsLog {
 
                 case VARPOP:
                     name = constantString();
-                    scope.add(name, pop());
+                    scope.add(name, pop()); // We remove the value from the stack
                     break;
 
                 case WAIT:
-                    vmStateSave();
+                    vmStateSave(); // Save that sate before long-running BdsVm function
                     ValueList tids = (ValueList) pop();
                     b1 = bdsThread.wait(tids);
-                    vmStateInvalidate();
+                    vmStateInvalidate(); // Recover state after long-running BdsVm function
                     push(b1);
                     break;
 
                 case WAITALL:
-                    vmStateSave();
+                    vmStateSave(); // Save that sate before long-running BdsVm function
                     b1 = bdsThread.waitAll();
-                    vmStateInvalidate();
+                    vmStateInvalidate(); // Recover state after long-running BdsVm function
                     push(b1);
                     break;
 
@@ -1725,19 +1731,19 @@ public class BdsVm implements Serializable, BdsLog {
     void throwException(Value exceptionValue) {
         ValueObject exceptionObject = null;
 
-        if (Throw.isExceptionClass(exceptionValue.getType())) {
+        if (Throw.isThrowableClass(exceptionValue.getType())) {
             exceptionObject = (ValueObject) exceptionValue;
         } else {
-            // If 'exceptionValue' is not an 'Exception' class object, create
+            // If 'exceptionValue' is not an 'Throwable' object, create
             // an Exception object and wrap the original value in it
             var typeException = Types.get(CLASS_NAME_EXCEPTION);
             exceptionObject = new ValueObject(typeException);
             exceptionObject.initializeFields();
 
             // Add original 'exceptionValue' to object to 'exception.value' field (unless the field is already set)
-            var ev = exceptionObject.getFieldValue(EXCEPTION_FIELD_VALUE);
+            var ev = exceptionObject.getFieldValue(THROWABLE_FIELD_VALUE);
             if (ev == null || ev.asString().isEmpty()) {
-                exceptionObject.setValue(EXCEPTION_FIELD_VALUE, exceptionValue);
+                exceptionObject.setValue(THROWABLE_FIELD_VALUE, exceptionValue);
             }
         }
 
@@ -1745,10 +1751,10 @@ public class BdsVm implements Serializable, BdsLog {
         this.exception = exceptionObject;
 
         // Populate Exception's stack trace message (if the field is empty)
-        Value stackTrace = exceptionObject.getFieldValue(EXCEPTION_FIELD_STACK_TRACE);
+        Value stackTrace = exceptionObject.getFieldValue(THROWABLE_FIELD_STACK_TRACE);
         if (stackTrace == null || stackTrace.asString().isEmpty()) { // Set field
             stackTrace = new ValueString(stackTrace());
-            exceptionObject.setValue(EXCEPTION_FIELD_STACK_TRACE, stackTrace);
+            exceptionObject.setValue(THROWABLE_FIELD_STACK_TRACE, stackTrace);
         }
 
         // Use current exception handler if available
@@ -1767,11 +1773,12 @@ public class BdsVm implements Serializable, BdsLog {
         }
 
         // No Exception handler was found, fatal error
-        Value value = exceptionObject.getFieldValue(EXCEPTION_FIELD_VALUE);
+        Value value = exceptionObject.getFieldValue(THROWABLE_FIELD_VALUE);
+        String stackTraceStr = (stackTrace != null ? stackTrace.asString() : "");
         fatalError(exceptionValue.getType() + " thrown: " //
                 + (value != null ? value : exceptionValue) //
                 + "\n" //
-                + (stackTrace != null ? "Stack trace:\n" + stackTrace : "") //
+                + (!stackTraceStr.isEmpty() ? "Stack trace:\n" + stackTrace : "") //
         );
     }
 
@@ -1814,7 +1821,7 @@ public class BdsVm implements Serializable, BdsLog {
             int idx = code[++pc];
             if (op.isParamString()) param = "'" + GprString.escape(getConstant(idx).toString()) + "'";
             else if (op.isParamType()) param = "'" + getType(idx) + "'";
-            else if (op == OpCode.NODE || op == OpCode.NODE_COVERAGE) {
+            else if (op.isParamNode()) {
                 // Show some code for this node
                 comment = toStringNode(idx);
                 param = "" + idx;
@@ -1903,14 +1910,14 @@ public class BdsVm implements Serializable, BdsLog {
     }
 
     /**
-     * Invalidate saved vm state after long running opcode finished.
+     * Invalidate saved vm state after long-running opcode finished.
      */
     void vmStateInvalidate() {
-        vmState.reset();
+        vmState.invalidate();
     }
 
     /**
-     * Recover state from long running opcode (e.g. checkpoint during 'wait' statement)
+     * Recover state from long-running opcode (e.g. checkpoint during 'wait' statement)
      */
     void vmStateRecover() {
         if (vmState.isValid()) {
@@ -1919,12 +1926,12 @@ public class BdsVm implements Serializable, BdsLog {
             pc = vmState.pc;
             sp = vmState.sp;
             scope = vmState.scope;
+            vmState.invalidate(); // Make sure we don't recover state again
         }
-        vmState.reset(); // Make sure we don't recover state again
     }
 
     /**
-     * Save vm state before long running opcode starts running
+     * Save vm state before long-running opcode starts running
      */
     void vmStateSave() {
         // Save VM state variables

@@ -4,6 +4,7 @@ import junit.framework.Assert;
 import org.bds.Bds;
 import org.bds.compile.CompilerMessages;
 import org.bds.lang.value.Value;
+import org.bds.lang.value.ValueObject;
 import org.bds.osCmd.TeeOutputStream;
 import org.bds.run.BdsThread;
 import org.bds.run.RunState;
@@ -15,6 +16,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Map;
+
+import static org.bds.libraries.LibraryException.THROWABLE_FIELD_VALUE;
 
 /**
  * BDS test cases: BdsCompiler or run a bds program and store exitCode, STDOUT, STDERR, etc.
@@ -178,12 +181,26 @@ public class BdsTest {
     }
 
     public Value checkException(String exceptionType) {
+        return checkException(exceptionType, null);
+    }
+
+    public Value checkException(String exceptionType, String exceptionMessage) {
         BdsVm vm = bds.getBdsRun().getVm();
         Value exceptionValue = vm.getException();
+
+        // Check that there was an exception
         Assert.assertTrue(errMsg("No exception found"), exceptionValue != null);
 
+        // Check exception type
         String exType = exceptionValue.getType().getCanonicalName();
-        Assert.assertEquals(errMsg("Exception type does not match, expecting '" + exceptionType + "', got '" + exType + "'"), exType, exceptionType);
+        Assert.assertEquals(errMsg("Exception type does not match, expecting\n\tExpecting : '" + exceptionType + "'\n\tGot       : '" + exType + "'"), exceptionType, exType);
+
+        // Check exception message
+        if (exceptionMessage != null) {
+            var exMsg = ((ValueObject) exceptionValue).getFieldValue(THROWABLE_FIELD_VALUE).asString();
+            Assert.assertEquals(errMsg("Exception message does not match:\n\tExpecting : '" + exceptionMessage + "'\n\tGot       : '" + exMsg + "'"), exceptionMessage, exMsg);
+        }
+
         return exceptionValue;
     }
 
@@ -196,12 +213,20 @@ public class BdsTest {
     }
 
     /**
+     * Check exit code
+     */
+    public void checkExitCodeFail() {
+        Assert.assertTrue(errMsg("No exit value (program was not run)"), exitCode != null);
+        Assert.assertTrue(errMsg("Expecting non-zero exit code, but it was '" + exitCode + "'"), ((int) exitCode) != 0);
+    }
+
+    /**
      * Check that the program run and finished with a failed exit code
      */
     public void checkRunExitCodeFail() {
         checkCompileOk();
         checkRunState(RunState.FINISHED);
-        checkExitCode(1);
+        checkExitCodeFail();
     }
 
     /**

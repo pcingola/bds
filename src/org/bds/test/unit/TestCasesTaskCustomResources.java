@@ -38,6 +38,6 @@ public class TestCasesTaskCustomResources extends TestCasesBase {
 
     @Test
     public void test03NotEnoughResources() {
-        runAndCheckError(dir + "run_custom_resources_03.bds", "Error in wait statement, file test/unit/task/custom_resources/run_custom_resources_03.bds, line 13");
+        runAndCheckError(dir + "run_custom_resources_03.bds", "WaitException thrown: Error in wait statement, file test/unit/task/custom_resources/run_custom_resources_03.bds, line 13\n");
     }
 }

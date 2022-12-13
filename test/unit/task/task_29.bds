@@ -1,0 +1,5 @@
+
+# This task will fail (implicit wait at the end of the program)
+# Since the 'wait' command is after the program's end, there is no exception thrown, only an error.
+task my_unknown_command
+

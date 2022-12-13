@@ -33,3 +33,4 @@ rm -rvf \
 	z.bds.* \
 	`find . -iname "*.chp"` \
 	`find . -iname "*.coverage"` \
+	`find . -iname "*.pid"` \

@@ -98,11 +98,14 @@ public class TestCasesIntegrationCheckpoint extends TestCasesBase {
             }
         };
 
-        // Make sure that the file doesn't exits
+        // Make sure that the file doesn't exists
         (new File(fileToDelete)).delete();
 
         // Run test
-        runAndCheckpoint(dir + "checkpoint_06.bds", "checkpoint_06.bds.line_8.chp", "b", "true", createFile);
+        runAndCheckpoint(dir + "checkpoint_06.bds" //
+                , "checkpoint_06.bds.chp" //
+                , "b", "true" //
+                , createFile);
     }
 
     /**

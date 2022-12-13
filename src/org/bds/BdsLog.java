@@ -58,8 +58,6 @@ public interface BdsLog {
 
     /**
      * Show an 'error' message to STDERR
-     *
-     * @param message
      */
     default void error(Object message) {
         Timer.showStdErr("ERROR: " + (message != null ? message.toString() : "null"));

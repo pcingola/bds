@@ -1,14 +1,9 @@
 package org.bds.test;
 
 import org.bds.Config;
-import org.bds.lang.value.Value;
-import org.bds.lang.value.ValueObject;
 import org.bds.run.BdsRun;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.bds.libraries.LibraryException.EXCEPTION_FIELD_VALUE;
 
 /**
  * Quick test cases when creating a new feature...
@@ -24,11 +19,8 @@ public class TestCasesZzz extends TestCasesBaseAws {
     }
 
     @Test
-    public void test277_throw_string() {
+    public void testExit() {
         verbose = true;
-        BdsTest bdsTets = runAndCheckException("test/run_277.bds", "Exception");
-        ValueObject exceptionObject = (ValueObject) bdsTets.getBds().getBdsRun().getVm().getException();
-        Value exceptionValue = exceptionObject.getFieldValue(EXCEPTION_FIELD_VALUE);
-        Assert.assertEquals("You can also throw a string, but it's a bit weird...", exceptionValue.asString());
+        runAndCheckExit("test/z.bds", 42);
     }
 }

@@ -48,7 +48,7 @@ public class Exit extends Statement {
     public String toAsm() {
         return super.toAsm() //
                 + (expr != null ? expr.toAsm() : "") //
-                + OpCode.HALT + "\n" //
+                + OpCode.EXIT + "\n" //
                 ;
     }
 

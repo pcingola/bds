@@ -7,7 +7,7 @@ import org.bds.scope.Scope;
 /**
  * Call frame object.
  *
- * IMPORTANT: This objects are meant to be re-used!
+ * IMPORTANT: These objects are meant to be re-used!
  *
  * Note: Stack is always clean when calling a function/method because
  *       we pop the parameters when adding them to the function's scope

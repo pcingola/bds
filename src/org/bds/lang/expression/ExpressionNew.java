@@ -27,19 +27,28 @@ public class ExpressionNew extends MethodCall {
     // Operator 'new' calls a constructor method
     public ExpressionNew(BdsNode parent, ParseTree tree) {
         super(parent, tree);
-        argsStart = 1;
     }
 
     @Override
     protected void parse(ParseTree tree) {
-        expresionThis = null; // Note that object 'this' does not exists yet
-        functionName = tree.getChild(1).getText(); // Same as class name
+        // Parsing code example: 'new ClassName( args... )'
+        // Note that the constructor is invoked by the 'new' operator
+        expresionThis = null; // Note that object 'this' does not exist yet
 
-        // Parse arguments
+        // First child: 'new', we don't need to parse it
+        // Second child: ClassName
+        // By definition the constructor is a method that has the same name
+        // as the class, so we invoke a method having the same name as the class
+        functionName = tree.getChild(1).getText();
+
+        // Third child is open parenthesis '(', we don't need to parse it
+        // Parse arguments: All next childs until the last one
+        // Last child is a closing parenthesis, no parsing
         args = new Args(this, null);
         args.parse(tree, 3, tree.getChildCount() - 1);
 
-        // Create empty args
+        // If there are no arguments (empty arguments) we must have
+        // an empty args object
         if (args == null) args = new Args(this, null);
     }
 

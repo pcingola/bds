@@ -6,10 +6,25 @@ class Throwable {
 
     void Throwable(string message) {
         this.value = message
+        this.stackTrace = ''
     }
 }
 
-// Base of exception objects
+// Error class: Base of all error objects
+class Error extends Throwable {
+    void Error(string message) {
+        super.Throwable(message)
+    }
+}
+
+// Fatal error: An error that we cannot recover from
+class FatalError extends Error {
+    void Error(string message) {
+        super.Error(message)
+    }
+}
+
+// Exception class: Base of all exception objects
 class Exception extends Throwable {
     void Exception(string message) {
         super.Throwable(message)
@@ -19,6 +34,13 @@ class Exception extends Throwable {
 // Exception when multiple threads try to modify the same object
 class ConcurrentModificationException extends Exception {
     void ConcurrentModificationException(string message) {
+        super.Exception(message)
+    }
+}
+
+// WaitException: When a task fails, the wait command throws a WaitException
+class WaitException extends Exception {
+    void WaitException(string message) {
         super.Exception(message)
     }
 }

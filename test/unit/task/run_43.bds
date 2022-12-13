@@ -1,5 +1,4 @@
 
-
 dir := "./tests/"
 string in = "$dir/zero_length_file_in.txt";
 string out = "$dir/zero_length_file_out.txt";
