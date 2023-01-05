@@ -848,10 +848,7 @@ public class BdsVm implements Serializable, BdsLog {
         if (type.isClass() && ((ValueObject) vthis).isNull()) fatalError("Null pointer: Invoking method '" + fdecl.getFunctionName() + "' on null object type '" + type + "', signature " + fdecl.signatureVarNames());
         if (!isSuper) return type.resolve(fdecl);
 
-        //---
         // This is a 'super.f()' method call
-        //---
-
         // Get method's declaration class
         MethodDeclaration methodDecl = (MethodDeclaration) fdecl;
         TypeClass typeClass = (TypeClass) methodDecl.getClassType();
@@ -927,7 +924,7 @@ public class BdsVm implements Serializable, BdsLog {
         while (pc < code.length && run) {
             instruction = code[pc];
             opcode = OPCODES[instruction];
-            if (debug)
+            if (debug) {
                 System.err.print("" //
                         + (sp > 0 ? "\n\t\t\t\t\t\t\t\t# stack: " + toStringStack() : "") //
                         + (exceptionHandler != null ? "\n\t\t\t\t\t\t\t\t# exceptionHandler: " + exceptionHandler.getFinallyLabel() : "") //
@@ -937,6 +934,7 @@ public class BdsVm implements Serializable, BdsLog {
                         + toAsm(pc) //
                         + "\n" //
                 );
+            }
 
             pc++;
 

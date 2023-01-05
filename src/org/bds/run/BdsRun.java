@@ -149,7 +149,7 @@ public class BdsRun implements BdsLog {
         if (parseCmdLineArgs()) return CompileCode.OK_HELP;
 
         // Compile to VM assembly
-        vm = compileAsm(programUnit);
+        vm = compileAsm(programUnit, debug);
         return vm != null ? CompileCode.OK : CompileCode.ERROR;
     }
 
@@ -158,17 +158,14 @@ public class BdsRun implements BdsLog {
      *
      * @return A BdsVm with all compiled assembly code
      */
-    BdsVm compileAsm(ProgramUnit programUnit) {
+    BdsVm compileAsm(ProgramUnit programUnit, boolean debug) {
         try {
-            String asm = programUnit.toAsm();
-            debug("Assembly code:\n" + asm);
-
             // Compile assembly
             BdsVmAsm vmasm = new BdsVmAsm(programUnit);
             vmasm.setDebug(debug);
             vmasm.setVerbose(verbose);
             vmasm.setCoverage(coverage);
-            vmasm.setCode(asm);
+            vmasm.setCode(programUnit.toAsm());
 
             // Compile assembly
             return vmasm.compile();
@@ -675,7 +672,7 @@ public class BdsRun implements BdsLog {
         puTest.setStatements(statements.toArray(new Statement[0]));
 
         // Compile and create vm
-        BdsVm vmtest = compileAsm(puTest);
+        BdsVm vmtest = compileAsm(puTest, false);
         BdsThread bdsThreadTest = new BdsThread(puTest, config, vmtest);
 
         // Run thread and check exit code
@@ -700,9 +697,8 @@ public class BdsRun implements BdsLog {
         int exitCode = 0;
         int testOk = 0, testError = 0;
         for (FunctionDeclaration testFunc : testFuncs) {
-            System.out.println();
-
             // Run each function
+            debug("Running test function: '" + testFunc.getFunctionName() + "', file '" + testFunc.getFileName() + "', line " + testFunc.getLineNum());
             int exitValTest = runTestFunction(testFunc);
 
             // Show test result
@@ -717,7 +713,6 @@ public class BdsRun implements BdsLog {
         }
 
         // Show results
-        System.out.println();
         Timer.show("Totals"//
                 + "\n                  OK    : " + testOk //
                 + "\n                  ERROR : " + testError //

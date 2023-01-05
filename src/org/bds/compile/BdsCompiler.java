@@ -36,14 +36,14 @@ import static org.bds.libraries.Library.LIBRARIES_PATH;
  */
 public class BdsCompiler implements BdsLog {
 
-    boolean debug; // debug mode
+    public static boolean debug = false;
+
     boolean verbose; // Verbose mode
     String programFileName; // Program file name
     ProgramUnit programUnit; // Program (parsed nodes)
 
     public BdsCompiler(String fileName) {
         programFileName = fileName;
-        debug = Config.get().isDebug();
         verbose = Config.get().isVerbose();
     }
 
@@ -195,12 +195,12 @@ public class BdsCompiler implements BdsLog {
 
             // Error loading file?
             if (tree == null) {
-                System.err.println("Can't parse file '" + fileName + "'");
+                error("Can't parse file '" + fileName + "'");
                 return null;
             }
 
             // Show main nodes
-            if (debug) debug("AST:" + toStringTree(tree));
+            debug("AST:" + toStringTree(tree));
 
             // Included files
             boolean resolveIncludePending = true;

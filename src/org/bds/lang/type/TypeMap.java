@@ -26,8 +26,6 @@ public class TypeMap extends TypeComposite {
 
 	private static final long serialVersionUID = 3321302248243052342L;
 
-	public static boolean debug = false;
-
 	public static final TypeMap MAP_ANY_ANY = new TypeMap(Types.ANY, Types.ANY);
 
 	protected Type keyType; // Type for 'key' elements

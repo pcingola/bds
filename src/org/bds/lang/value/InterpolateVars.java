@@ -178,6 +178,11 @@ public class InterpolateVars extends Literal {
         return val != null ? val.toString() : "null";
     }
 
+    @Override
+    public boolean isDebug() {
+        return debug;
+    }
+
     public boolean isEmpty() {
         return exprs == null || exprs.length <= 0;
     }
