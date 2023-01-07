@@ -52,10 +52,9 @@ public class Exit extends Statement {
                 ;
     }
 
-    @Override
-    public String toString() {
-        return getClass().getSimpleName().toLowerCase() //
-                + (expr != null ? " " + expr : "") //
+    public String prettyPrint(String sep) {
+        return sep + getClass().getSimpleName().toLowerCase() //
+                + (expr != null ? " " + expr.prettyPrint("") : "") //
                 ;
     }
 

@@ -114,8 +114,7 @@ public class ReferenceVar extends Reference {
         return OpCode.STORE + " " + name + "\n"; // Leave value in the stack
     }
 
-    @Override
-    public String toString() {
+    public String prettyPrint(String sep) {
         return name;
     }
 

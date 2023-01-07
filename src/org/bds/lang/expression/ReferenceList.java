@@ -120,9 +120,8 @@ public class ReferenceList extends Reference {
                 + OpCode.SETLIST + "\n";
     }
 
-    @Override
-    public String toString() {
-        return exprList + "[" + exprIdx + "]";
+    public String prettyPrint(String sep) {
+        return exprList.prettyPrint("") + "[" + exprIdx.prettyPrint("") + "]";
     }
 
     @Override

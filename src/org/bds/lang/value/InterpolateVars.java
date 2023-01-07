@@ -273,16 +273,15 @@ public class InterpolateVars extends Literal {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
-        if (isEmpty()) return "null";
+    public String prettyPrint(String sep) {
+        if (isEmpty()) return sep;
 
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < literals.length; i++) {
             if (sb.length() > 0) sb.append(" + ");
             sb.append("\"" + literals[i] + "\"");
-            if (exprs[i] != null) sb.append(" + " + exprs[i]);
+            if (exprs[i] != null) sb.append(" + " + exprs[i].prettyPrint(""));
         }
 
         return sb.toString();

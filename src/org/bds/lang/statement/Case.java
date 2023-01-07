@@ -8,7 +8,6 @@ import org.bds.lang.expression.Expression;
 import org.bds.lang.expression.ExpressionEq;
 import org.bds.lang.type.Type;
 import org.bds.symbol.SymbolTable;
-import org.bds.util.Gpr;
 import org.bds.vm.OpCode;
 
 import java.util.ArrayList;
@@ -115,16 +114,15 @@ public class Case extends StatementWithScope {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
+    public String prettyPrint(String sep) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("case ");
-        if (expression != null) sb.append(expression);
+        sb.append(sep + "case ");
+        if (expression != null) sb.append(expression.prettyPrint(""));
         sb.append(":\n");
         if (statements != null) {
             for (Statement s : statements)
-                sb.append(Gpr.prependEachLine("\t", s.toString()));
+                sb.append(s.prettyPrint(sep + SEP));
         }
         sb.append("\n");
 

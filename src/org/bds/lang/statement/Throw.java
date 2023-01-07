@@ -40,13 +40,6 @@ public class Throw extends StatementWithScope {
         return false;
     }
 
-//    /**
-//     * Is the expression derived from 'Exception'?
-//     */
-//    boolean isExceptionClass() {
-//        return isExceptionClass(expr.getReturnType());
-//    }
-
     @Override
     protected void parse(ParseTree tree) {
         int idx = 0;
@@ -66,9 +59,8 @@ public class Throw extends StatementWithScope {
         return expr.toAsm() + OpCode.THROW + "\n";
     }
 
-    @Override
-    public String toString() {
-        return "throw " + (expr != null ? expr.toString() : "");
+    public String prettyPrint(String sep) {
+        return sep +"throw " + (expr != null ? expr.prettyPrint("") : "");
     }
 
     @Override

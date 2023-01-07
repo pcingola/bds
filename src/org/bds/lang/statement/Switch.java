@@ -5,7 +5,6 @@ import org.bds.compile.CompilerMessages;
 import org.bds.lang.BdsNode;
 import org.bds.lang.expression.Expression;
 import org.bds.symbol.SymbolTable;
-import org.bds.util.Gpr;
 import org.bds.vm.OpCode;
 
 import java.util.ArrayList;
@@ -127,24 +126,23 @@ public class Switch extends Statement {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
+    public String prettyPrint(String sep) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("switch( ");
-        if (switchExpr != null) sb.append(switchExpr);
+        sb.append(sep + "switch( ");
+        if (switchExpr != null) sb.append(switchExpr.prettyPrint(""));
         sb.append(" ) {\n");
 
         if (caseStatements != null) {
             for (Case c : caseStatements)
-                sb.append(Gpr.prependEachLine("\t", c.toString()));
+                sb.append(c.prettyPrint(sep + SEP));
         }
 
         if (defaultStatement != null) {
-            sb.append(Gpr.prependEachLine("\t", defaultStatement.toString()));
+            sb.append(defaultStatement.prettyPrint(sep + SEP));
         }
 
-        sb.append("\n}");
+        sb.append(sep + "}");
 
         return sb.toString();
     }

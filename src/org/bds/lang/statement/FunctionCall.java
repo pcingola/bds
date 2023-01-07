@@ -192,9 +192,8 @@ public class FunctionCall extends Expression {
         return OpCode.CALL;
     }
 
-    @Override
-    public String toString() {
-        return functionName + "( " + args + " )";
+    public String prettyPrint(String sep) {
+        return functionName + "( " + args.prettyPrint("") + " )";
     }
 
     @Override

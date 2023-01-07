@@ -251,29 +251,24 @@ public class ClassDeclaration extends Block {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
+    public String prettyPrint(String sep) {
         StringBuilder sb = new StringBuilder();
-        sb.append("class " + className);
+        sb.append(sep + "class " + className);
         if (classNameParent != null) sb.append(" extends " + classNameParent);
 
         sb.append(" {\n");
 
         if (fieldDecl != null && fieldDecl.length > 0) {
-            sb.append("\t# Variables\n");
             for (int i = 0; i < fieldDecl.length; i++)
-                sb.append("\t" + fieldDecl[i] + "\n");
-            sb.append("\n");
+                sb.append(fieldDecl[i].prettyPrint(sep + SEP) + "\n");
         }
 
         if (methodDecl != null && methodDecl.length > 0) {
-            sb.append("\t# Methods\n");
             for (int i = 0; i < methodDecl.length; i++)
-                sb.append("\t" + methodDecl[i].signature() + "\n");
-            sb.append("\n");
+                sb.append(methodDecl[i].prettyPrint(sep + SEP) + "\n\n");
         }
 
-        sb.append("}\n");
+        sb.append(sep + "}\n");
         return sb.toString();
     }
 

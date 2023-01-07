@@ -13,52 +13,51 @@ import org.bds.symbol.SymbolTable;
  */
 public class ExpressionUnary extends Expression {
 
-	private static final long serialVersionUID = 2061510479540249610L;
+    private static final long serialVersionUID = 2061510479540249610L;
 
-	protected Expression expr;
-	protected String op;
+    protected Expression expr;
+    protected String op;
 
-	public ExpressionUnary(BdsNode parent, ParseTree tree) {
-		super(parent, tree);
-	}
+    public ExpressionUnary(BdsNode parent, ParseTree tree) {
+        super(parent, tree);
+    }
 
-	boolean isLiteralInt() {
-		return expr instanceof LiteralInt;
-	}
+    boolean isLiteralInt() {
+        return expr instanceof LiteralInt;
+    }
 
-	boolean isLiteralReal() {
-		return expr instanceof LiteralReal;
-	}
+    boolean isLiteralReal() {
+        return expr instanceof LiteralReal;
+    }
 
-	@Override
-	public boolean isReturnTypesNotNull() {
-		return returnType != null && expr.getReturnType() != null;
-	}
+    @Override
+    public boolean isReturnTypesNotNull() {
+        return returnType != null && expr.getReturnType() != null;
+    }
 
-	@Override
-	protected void parse(ParseTree tree) {
-		expr = (Expression) factory(tree, 1);
-	}
+    @Override
+    protected void parse(ParseTree tree) {
+        expr = (Expression) factory(tree, 1);
+    }
 
-	/**
-	 * Which type does this expression return?
-	 */
-	@Override
-	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
-		if (returnType != null) return returnType;
+    /**
+     * Which type does this expression return?
+     */
+    @Override
+    public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
+        if (returnType != null) return returnType;
 
-		returnType = expr.returnType(symtab, compilerMessages);
-		return returnType;
-	}
+        returnType = expr.returnType(symtab, compilerMessages);
+        return returnType;
+    }
 
-	@Override
-	public String toString() {
-		return op + " " + expr.toString();
-	}
+    public String prettyPrint(String sep) {
+        return sep + op + " " + expr.prettyPrint("");
+    }
 
-	@Override
-	protected void typeCheckNotNull(SymbolTable scope, CompilerMessages compilerMessages) {
-		expr.typeCheck(scope, compilerMessages);
-	}
+    @Override
+    protected void typeCheckNotNull(SymbolTable scope, CompilerMessages compilerMessages) {
+        expr.typeCheck(scope, compilerMessages);
+    }
 
 }

@@ -11,7 +11,6 @@ import org.bds.lang.type.TypeFunction;
 import org.bds.lang.type.Types;
 import org.bds.symbol.GlobalSymbolTable;
 import org.bds.symbol.SymbolTable;
-import org.bds.util.Gpr;
 import org.bds.vm.OpCode;
 
 import java.util.ArrayList;
@@ -233,12 +232,11 @@ public class FunctionDeclaration extends StatementWithScope {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
+    public String prettyPrint(String sep) {
         StringBuilder sb = new StringBuilder();
-        sb.append(returnType + " " + functionName + "( " + parameters + " ) {\n");
-        if (statement != null) sb.append(Gpr.prependEachLine("\t", statement.toString()));
-        sb.append("}");
+        sb.append(sep + returnType.prettyPrint("") + " " + functionName + "( " + parameters.prettyPrint("") + " ) {\n");
+        if (statement != null) sb.append(statement.prettyPrint(sep + SEP));
+        sb.append(sep + "}\n");
         return sb.toString();
     }
 

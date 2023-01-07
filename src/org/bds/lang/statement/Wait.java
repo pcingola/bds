@@ -4,9 +4,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.bds.lang.BdsNode;
 import org.bds.lang.expression.Expression;
 import org.bds.lang.expression.ExpressionNew;
-import org.bds.lang.expression.ReferenceThis;
 import org.bds.lang.nativeMethods.list.MethodNativeListAdd;
-import org.bds.lang.type.TypeClass;
 import org.bds.lang.type.TypeList;
 import org.bds.lang.type.Types;
 import org.bds.lang.value.LiteralString;
@@ -124,8 +122,7 @@ public class Wait extends Statement {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName().toLowerCase() + (taskId != null ? taskId : "") + "\n";
+    public String prettyPrint(String sep) {
+        return sep + this.getClass().getSimpleName().toLowerCase() + (taskId != null ? taskId.prettyPrint("") : "") + "\n";
     }
 }

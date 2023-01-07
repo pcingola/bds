@@ -12,77 +12,76 @@ import org.bds.vm.OpCode;
 /**
  * Cast one type to another
  * E.g.
- *
- * 	a = (A) b
+ * <p>
+ * a = (A) b
  *
  * @author pcingola
  */
 public class ExpressionCast extends ExpressionUnary {
 
-	private static final long serialVersionUID = 1043280143559100089L;
-	protected String castTo;
-	protected boolean dynamicChecking = false;
+    private static final long serialVersionUID = 1043280143559100089L;
+    protected String castTo;
+    protected boolean dynamicChecking = false;
 
-	public ExpressionCast(BdsNode parent, ParseTree tree) {
-		super(parent, tree);
-		op = "cast";
-	}
+    public ExpressionCast(BdsNode parent, ParseTree tree) {
+        super(parent, tree);
+        op = "cast";
+    }
 
-	@Override
-	protected void parse(ParseTree tree) {
-		castTo = tree.getChild(1).getText();
-		expr = (Expression) factory(tree, 3);
-	}
+    @Override
+    protected void parse(ParseTree tree) {
+        castTo = tree.getChild(1).getText();
+        expr = (Expression) factory(tree, 3);
+    }
 
-	@Override
-	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
-		if (returnType != null) return returnType;
+    @Override
+    public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
+        if (returnType != null) return returnType;
 
-		returnType = Types.get(castTo);
-		expr.returnType(symtab, compilerMessages);
-		return returnType;
-	}
+        returnType = Types.get(castTo);
+        expr.returnType(symtab, compilerMessages);
+        return returnType;
+    }
 
-	@Override
-	public String toAsm() {
-		return expr.toAsm() + OpCode.CAST_TOC + " " + returnType + "\n";
-	}
+    @Override
+    public String toAsm() {
+        return expr.toAsm() + OpCode.CAST_TOC + " " + returnType + "\n";
+    }
 
-	@Override
-	public String toString() {
-		return "(" + castTo + ") " + expr.toString();
-	}
+    public String prettyPrint(String sep) {
+        return sep + "(" + castTo + ") " + expr.prettyPrint("");
+    }
 
-	@Override
-	public void typeCheck(SymbolTable symtab, CompilerMessages compilerMessages) {
-		// Calculate return type
-		returnType = returnType(symtab, compilerMessages);
+    @Override
+    public void typeCheck(SymbolTable symtab, CompilerMessages compilerMessages) {
+        // Calculate return type
+        returnType = returnType(symtab, compilerMessages);
 
-		// Are return types non-null?
-		// Note: null returnTypes happen if variables are missing.
-		if (isReturnTypesNotNull()) typeCheckNotNull(symtab, compilerMessages);
-		else compilerMessages.add(this, "Unknown type '" + castTo + "'", MessageType.ERROR);
-	}
+        // Are return types non-null?
+        // Note: null returnTypes happen if variables are missing.
+        if (isReturnTypesNotNull()) typeCheckNotNull(symtab, compilerMessages);
+        else compilerMessages.add(this, "Unknown type '" + castTo + "'", MessageType.ERROR);
+    }
 
-	@Override
-	public void typeCheckNotNull(SymbolTable symtab, CompilerMessages compilerMessages) {
-		// Can cast to? (e.g. sub-class)
-		if (expr.canCastTo(returnType)) return;
+    @Override
+    public void typeCheckNotNull(SymbolTable symtab, CompilerMessages compilerMessages) {
+        // Can cast to? (e.g. sub-class)
+        if (expr.canCastTo(returnType)) return;
 
-		// Both classes? Check for down-casting
-		if (expr.getReturnType().isClass() && returnType.isClass() //
-				&& returnType.canCastTo(expr.getReturnType())) {
-			// Could be a 'down-casting'.
-			// E.g.:
-			//    class A {;}
-			//    class B extends A {;}
-			//    A a = new B()
-			//    B b = (B) a       <- Variable 'a' is type A, but contains an object type 'B', so this is valid
-			// In this case, we need to dynamically check if the object can be casted
-			dynamicChecking = true;
-			return;
-		}
-		compilerMessages.add(this, "Cannot cast from type '" + expr.getReturnType() + "' to type '" + castTo + "'", MessageType.ERROR);
-	}
+        // Both classes? Check for down-casting
+        if (expr.getReturnType().isClass() && returnType.isClass() //
+                && returnType.canCastTo(expr.getReturnType())) {
+            // Could be a 'down-casting'.
+            // E.g.:
+            //    class A {;}
+            //    class B extends A {;}
+            //    A a = new B()
+            //    B b = (B) a       <- Variable 'a' is type A, but contains an object type 'B', so this is valid
+            // In this case, we need to dynamically check if the object can be casted
+            dynamicChecking = true;
+            return;
+        }
+        compilerMessages.add(this, "Cannot cast from type '" + expr.getReturnType() + "' to type '" + castTo + "'", MessageType.ERROR);
+    }
 
 }

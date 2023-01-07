@@ -113,14 +113,13 @@ public class LiteralList extends Literal {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
+    public String prettyPrint(String sep) {
         StringBuilder sb = new StringBuilder();
         sb.append("[ ");
 
         for (int i = 0; i < values.length; i++) {
             if (i > 0) sb.append(" , ");
-            sb.append(values[i]);
+            sb.append(values[i].prettyPrint(""));
         }
 
         sb.append(" ]");

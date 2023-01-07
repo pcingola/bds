@@ -78,18 +78,17 @@ public class ExpressionList extends Expression {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
+    public String prettyPrint(String sep) {
         // Special cases: Empty or only one element
         if (expressions.length <= 0) return "";
-        if (expressions.length == 1) return expressions[0].toString();
+        if (expressions.length == 1) return expressions[0].prettyPrint(sep);
 
         // List
         StringBuilder sb = new StringBuilder();
 
-        sb.append("( ");
+        sb.append(sep + "( ");
         for (int i = 0; i < expressions.length; i++) {
-            sb.append(expressions[i]);
+            sb.append(expressions[i].prettyPrint(""));
             if (i < expressions.length) sb.append(", ");
         }
         sb.append(" )");

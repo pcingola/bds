@@ -52,16 +52,15 @@ public class ForInit extends Statement {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
-        if (varDeclaration != null) return varDeclaration.toString();
+    public String prettyPrint(String sep) {
+        if (varDeclaration != null) return varDeclaration.prettyPrint("");
 
         // Use expressions
         StringBuilder sb = new StringBuilder();
         if (expressions != null) {
             for (Expression exp : expressions) {
                 if (sb.length() > 0) sb.append(" , ");
-                sb.append(exp.toString());
+                sb.append(exp.prettyPrint(""));
             }
         }
 

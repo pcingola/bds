@@ -143,16 +143,16 @@ public class ExpressionDepOperator extends Expression {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
+    public String prettyPrint(String sep) {
         StringBuilder sb = new StringBuilder();
+        sb.append(sep);
 
         if (left.length == 1) {
-            sb.append(left[0]);
+            sb.append(left[0].prettyPrint(""));
         } else {
             sb.append("[ ");
             for (int i = 0; i < left.length; i++) {
-                sb.append(left[i]);
+                sb.append(left[i].prettyPrint(""));
                 if (i < left.length) sb.append(",");
             }
             sb.append(" ]");
@@ -161,11 +161,11 @@ public class ExpressionDepOperator extends Expression {
         sb.append(" <- ");
 
         if (right.length == 1) {
-            sb.append(right[0]);
+            sb.append(right[0].prettyPrint(""));
         } else {
             sb.append("[ ");
             for (int i = 0; i < right.length; i++) {
-                sb.append(right[i]);
+                sb.append(right[i].prettyPrint(""));
                 if (i < right.length) sb.append(",");
             }
             sb.append(" ]");

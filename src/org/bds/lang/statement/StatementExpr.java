@@ -21,6 +21,10 @@ public class StatementExpr extends ExpressionWrapper {
         super(parent, tree);
     }
 
+    public String prettyPrint(String sep) {
+        return sep + expression.prettyPrint(sep) + "\n";
+    }
+
     @Override
     public String toAsm() {
         return toAsmNode() //

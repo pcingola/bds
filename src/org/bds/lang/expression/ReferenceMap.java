@@ -123,9 +123,8 @@ public class ReferenceMap extends Reference {
                 + OpCode.SETMAP + "\n";
     }
 
-    @Override
-    public String toString() {
-        return exprMap + "{" + expressionKey + "}";
+    public String prettyPrint(String sep) {
+        return exprMap.prettyPrint("") + "{" + expressionKey.prettyPrint("") + "}";
     }
 
     @Override

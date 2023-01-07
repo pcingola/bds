@@ -16,7 +16,6 @@ import org.bds.lang.value.InterpolateVars;
 import org.bds.lang.value.Literal;
 import org.bds.lang.value.LiteralString;
 import org.bds.symbol.SymbolTable;
-import org.bds.util.Gpr;
 import org.bds.util.GprString;
 import org.bds.vm.OpCode;
 
@@ -375,34 +374,31 @@ public class ExpressionTask extends ExpressionWithScope {
         return "";
     }
 
-    @Override
-    public String toString() {
-        return "" + //
+    public String prettyPrint(String sep) {
+        return sep + //
                 (improper ? OpCode.TASKDEPIMP : OpCode.TASK) //
-                + (options != null ? options : "") //
+                + (options != null ? options.prettyPrint("") : "") //
                 + " " //
-                + toStringStatement() //
+                + prettyPrintStatement(sep + SEP) //
                 ;
     }
 
     /**
-     * Format statements
+     * Format statements.
      */
-    protected String toStringStatement() {
-        if (statement instanceof LiteralString) {
-            // Compact single line
-            return ((LiteralString) statement).getValue().asString().trim();
-        }
-
-        if (statement instanceof ExpressionSys || statement instanceof StatementExpr) {
-            // Compact single line form
-            return statement.toString();
+    protected String prettyPrintStatement(String sep) {
+        // These are continuing from a previous line, so they don't neet to start with 'sep'
+        // Compact single line
+        if (statement instanceof LiteralString //
+                || statement instanceof ExpressionSys //
+                || statement instanceof StatementExpr) {
+            return statement.prettyPrint("");
         }
 
         // Multi-line
         return "{\n" //
-                + (statement != null ? Gpr.prependEachLine("\t", statement.toString()) : "NULL") //
-                + "}" //
+                + sep + (statement != null ? statement.prettyPrint(sep + SEP) : "NULL") //
+                + sep + "}" //
                 ;
     }
 

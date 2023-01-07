@@ -61,9 +61,8 @@ public class Pre extends ExpressionUnary {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
-        return "" + expr + operation;
+    public String prettyPrint(String sep) {
+        return sep + operation + expr.prettyPrint("");
     }
 
     @Override

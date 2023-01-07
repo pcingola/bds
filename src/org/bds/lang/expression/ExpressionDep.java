@@ -22,12 +22,11 @@ public class ExpressionDep extends ExpressionTask {
 		return toAsmCmdOpCode(labelEnd, "taskdep");
 	}
 
-	@Override
-	public String toString() {
-		return "taskdep" //
-				+ (options != null ? options : "") //
+	public String prettyPrint(String sep) {
+		return sep + "taskdep" //
+				+ (options != null ? options.prettyPrint("") : "") //
 				+ " " //
-				+ toStringStatement() //
+				+ prettyPrintStatement(sep + SEP) //
 		;
 	}
 

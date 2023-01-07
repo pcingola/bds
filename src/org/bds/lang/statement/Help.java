@@ -32,9 +32,8 @@ public class Help extends Statement {
 		else helpString = "";
 	}
 
-	@Override
-	public String toString() {
-		return this.getClass().getSimpleName().toLowerCase() + " " + helpString + "\n";
+	public String prettyPrint(String sep) {
+		return sep + this.getClass().getSimpleName().toLowerCase() + " " + helpString + "\n";
 	}
 
 }

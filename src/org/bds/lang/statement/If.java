@@ -67,19 +67,18 @@ public class If extends Statement {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
+    public String prettyPrint(String sep) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("if( ");
-        if (condition != null) sb.append(condition);
+        sb.append(sep + "if( ");
+        if (condition != null) sb.append(condition.prettyPrint(""));
         sb.append(" ) {\n");
-        if (statement != null) sb.append(Gpr.prependEachLine("\t", statement.toString()));
+        if (statement != null) sb.append(Gpr.prependEachLine("\t", statement.prettyPrint(sep + SEP)));
         if (elseStatement != null) {
-            sb.append("\n} else {\n");
-            sb.append(Gpr.prependEachLine("\t", elseStatement.toString()));
+            sb.append(sep + "\n} else {\n");
+            sb.append(elseStatement.prettyPrint(sep + SEP));
         }
-        sb.append("\n}");
+        sb.append(sep + "}");
 
         return sb.toString();
     }

@@ -53,9 +53,8 @@ public class Post extends Pre {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
-        return "" + expr + operation;
+    public String prettyPrint(String sep) {
+        return expr.prettyPrint(sep) + operation;
     }
 
 }

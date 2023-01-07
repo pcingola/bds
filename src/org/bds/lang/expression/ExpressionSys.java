@@ -97,9 +97,8 @@ public class ExpressionSys extends Expression {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
-        return "sys " + commands;
+    public String prettyPrint(String sep) {
+        return sep + "sys " + commands;
     }
 
     @Override

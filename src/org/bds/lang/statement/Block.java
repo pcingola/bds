@@ -62,12 +62,11 @@ public class Block extends StatementWithScope {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
+    public String prettyPrint(String sep) {
         StringBuilder sb = new StringBuilder();
         if (statements != null) {
             for (int i = 0; i < statements.length; i++)
-                sb.append(statements[i] + "\n");
+                sb.append(statements[i].prettyPrint(sep) + "\n");
         }
         return sb.toString();
     }

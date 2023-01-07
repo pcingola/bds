@@ -5,7 +5,6 @@ import org.bds.compile.CompilerMessage.MessageType;
 import org.bds.compile.CompilerMessages;
 import org.bds.lang.BdsNode;
 import org.bds.symbol.SymbolTable;
-import org.bds.util.Gpr;
 import org.bds.vm.OpCode;
 
 /**
@@ -79,11 +78,10 @@ public class ForLoop extends StatementWithScope {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
-        return "for( " + begin + " ; " + condition + " ; " + end + " ) {\n" //
-                + Gpr.prependEachLine("\t", statement.toString()) //
-                + "}" //
+    public String prettyPrint(String sep) {
+        return sep + "for( " + begin.prettyPrint("") + " ; " + condition.prettyPrint("") + " ; " + end.prettyPrint("") + " ) {\n" //
+                + statement.prettyPrint(sep + SEP) //
+                + sep + "}\n" //
                 ;
     }
 

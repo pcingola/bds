@@ -46,9 +46,8 @@ public class Checkpoint extends Statement {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName().toLowerCase() + " " + expr;
+    public String prettyPrint(String sep) {
+        return sep + this.getClass().getSimpleName().toLowerCase() + " " + expr.prettyPrint("");
     }
 
     @Override
