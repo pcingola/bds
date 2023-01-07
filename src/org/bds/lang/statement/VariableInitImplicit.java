@@ -17,65 +17,64 @@ import org.bds.symbol.SymbolTable;
  */
 public class VariableInitImplicit extends VariableInit {
 
-	private static final long serialVersionUID = 3570089204782596851L;
+    private static final long serialVersionUID = 3570089204782596851L;
 
-	public static VariableInitImplicit get(String name) {
-		VariableInitImplicit vi = new VariableInitImplicit(null, null);
-		vi.varName = name;
-		return vi;
-	}
+    public VariableInitImplicit(BdsNode parent, ParseTree tree) {
+        super(parent, tree);
+    }
 
-	public VariableInitImplicit(BdsNode parent, ParseTree tree) {
-		super(parent, tree);
-	}
+    public static VariableInitImplicit get(String name) {
+        VariableInitImplicit vi = new VariableInitImplicit(null, null);
+        vi.varName = name;
+        return vi;
+    }
 
-	@Override
-	protected void parse(ParseTree tree) {
-		int idx = 0;
-		varName = tree.getChild(idx++).getText();
+    @Override
+    protected void parse(ParseTree tree) {
+        int idx = 0;
+        varName = tree.getChild(idx++).getText();
 
-		// Initialization expression
-		if (isTerminal(tree, idx, ":=")) {
-			idx++;
-			expression = (Expression) factory(tree, idx++);
-		}
+        // Initialization expression
+        if (isTerminal(tree, idx, ":=")) {
+            idx++;
+            expression = (Expression) factory(tree, idx++);
+        }
 
-		// Help string
-		ParseTree node = tree.getChild(idx++);
-		if (node != null && node.getText().startsWith("help")) {
-			help = node.getText().substring("help ".length()).trim();
-		}
-	}
+        // Help string
+        ParseTree node = tree.getChild(idx++);
+        if (node != null && node.getText().startsWith("help")) {
+            help = node.getText().substring("help ".length()).trim();
+        }
+    }
 
-	@Override
-	public String toString() {
-		return varName //
-				+ (expression != null ? " := " + expression : "") //
-				+ (help != null ? " help " + help : "") //
-		;
-	}
+    public String prettyPrint(String sep) {
+        return sep + varName //
+                + (expression != null ? " := " + expression.prettyPrint("") : "") //
+                + (help != null ? " help " + help : "") //
+                ;
+    }
 
-	@Override
-	public void typeCheck(SymbolTable symtab, CompilerMessages compilerMessages) {
-		// Variable type
-		Type varType = symtab.getVariableTypeLocal(varName);
+    @Override
+    public void typeCheck(SymbolTable symtab, CompilerMessages compilerMessages) {
+        // Variable type
+        Type varType = symtab.getVariableTypeLocal(varName);
 
-		// Calculate expression type
-		if (expression != null) {
-			Type exprRetType = expression.returnType(symtab, compilerMessages);
+        // Calculate expression type
+        if (expression != null) {
+            Type exprRetType = expression.returnType(symtab, compilerMessages);
 
-			// Compare types
-			if ((varType == null) || (exprRetType == null)) {
-				// Variable not found, nothing else to do
-			} else if (varType.isList() && exprRetType.isList() && (expression instanceof LiteralListEmpty)) {
-				// OK, Empty list literal can be assigned to any list
-			} else if (varType.isMap() && exprRetType.isMap() && (expression instanceof LiteralMapEmpty)) {
-				// OK, Empty map literal can be assigned to any map
-			} else if (!exprRetType.canCastTo(varType)) {
-				// We cannot cast expression's type to variable's type: Error
-				compilerMessages.add(this, "Cannot cast " + exprRetType + " to " + varType, MessageType.ERROR);
-			}
-		}
-	}
+            // Compare types
+            if ((varType == null) || (exprRetType == null)) {
+                // Variable not found, nothing else to do
+            } else if (varType.isList() && exprRetType.isList() && (expression instanceof LiteralListEmpty)) {
+                // OK, Empty list literal can be assigned to any list
+            } else if (varType.isMap() && exprRetType.isMap() && (expression instanceof LiteralMapEmpty)) {
+                // OK, Empty map literal can be assigned to any map
+            } else if (!exprRetType.canCastTo(varType)) {
+                // We cannot cast expression's type to variable's type: Error
+                compilerMessages.add(this, "Cannot cast " + exprRetType + " to " + varType, MessageType.ERROR);
+            }
+        }
+    }
 
 }

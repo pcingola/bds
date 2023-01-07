@@ -159,10 +159,9 @@ public class VariableInit extends BdsNode {
                 ;
     }
 
-    @Override
-    public String toString() {
-        return varName //
-                + (expression != null ? " = " + expression : "") //
+    public String prettyPrint(String sep) {
+        return sep + varName //
+                + (expression != null ? " = " + expression.prettyPrint("") : "") //
                 + (help != null ? " help " + help : "") //
                 ;
     }

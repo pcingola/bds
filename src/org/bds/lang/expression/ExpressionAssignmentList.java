@@ -116,17 +116,16 @@ public class ExpressionAssignmentList extends ExpressionAssignment {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
+    public String prettyPrint(String sep) {
         StringBuilder sb = new StringBuilder();
 
         sb.append("(");
         for (int i = 0; i < lefts.length; i++) {
             if (i > 0) sb.append(", ");
-            sb.append(lefts[i]);
+            sb.append(lefts[i].prettyPrint(""));
         }
 
-        sb.append(") = " + right);
+        sb.append(") = " + right.prettyPrint(""));
 
         return sb.toString();
     }
