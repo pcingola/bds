@@ -43,6 +43,7 @@ public class BdsVm implements Serializable, BdsLog {
     public static final int STACK_SIZE = 100 * 1024; // Initial stack size
     private static final OpCode[] OPCODES = OpCode.values();
     private static final long serialVersionUID = 6533146851765102340L;
+
     BdsThread bdsThread;
     CallFrame[] callFrames; // Call Frame stack
     int[] code; // Compile assembly code (OopCodes)
@@ -463,6 +464,10 @@ public class BdsVm implements Serializable, BdsLog {
     void exceptionHandlerStart(String finallyLabel) {
         pushCallFrame();
         exceptionHandler = new ExceptionHandler(finallyLabel);
+    }
+
+    public ExceptionHandler getExceptionHandler() {
+        return exceptionHandler;
     }
 
     /**
@@ -1623,7 +1628,7 @@ public class BdsVm implements Serializable, BdsLog {
 
     public void sanityCheckStack() {
         if (sp > 1) {
-            Gpr.debug("Stack size: " + sp + "\n" + toStringStack());
+            error("Stack size: " + sp + "\n" + toStringStack());
             throw new RuntimeException("Inconsistent stack. Size: " + sp);
         }
     }
@@ -1869,7 +1874,7 @@ public class BdsVm implements Serializable, BdsLog {
         return bdsNode.getClass().getSimpleName() + " : " + s;
     }
 
-    String toStringStack() {
+    public String toStringStack() {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         String s;
@@ -1889,6 +1894,26 @@ public class BdsVm implements Serializable, BdsLog {
             sb.append((i > 0 ? ", " : "") + s);
         }
         sb.append(" ]");
+        return sb.toString();
+    }
+
+    public String toStringStackLn() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Stack length: " + sp);
+        String s;
+        for (int i = 0; i < sp; i++) {
+            Value v = stack[i];
+            if (v == null) {
+                s = "null";
+            } else if (v.getType() == null) {
+                s = "[ERROR: Type is null]";
+            } else {
+                if (v.getType().isString()) s = "'" + GprString.escape(v.asString()) + "'";
+                else s = v.toString();
+            }
+
+            sb.append(i + " : " + s + "\n");
+        }
         return sb.toString();
     }
 

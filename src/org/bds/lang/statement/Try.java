@@ -2,6 +2,7 @@ package org.bds.lang.statement;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.bds.lang.BdsNode;
+import org.bds.util.Gpr;
 import org.bds.vm.OpCode;
 
 /**
@@ -43,7 +44,9 @@ public class Try extends StatementWithScope {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("try {\n");
-        if (statement != null) sb.append(statement);
+        if (statement != null) {
+            sb.append(Gpr.prependEachLine("\t", statement.toString()));
+        }
         sb.append("} ");
         return sb.toString();
     }

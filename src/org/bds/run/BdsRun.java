@@ -673,6 +673,7 @@ public class BdsRun implements BdsLog {
 
         // Compile and create vm
         BdsVm vmtest = compileAsm(puTest, false);
+        vmtest.setDebug(debug);
         BdsThread bdsThreadTest = new BdsThread(puTest, config, vmtest);
 
         // Run thread and check exit code

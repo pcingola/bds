@@ -3,6 +3,7 @@ class SimpleException extends Exception {}
 bool okCatch, okFinally
 
 void func() {
+    a := 42
 	try {
 		throw new SimpleException()
 	} catch (SimpleException e) {
@@ -15,8 +16,12 @@ void func() {
 }
 
 void testFoo() {
+    t := 3.14
+    debug "Enter debug mode"
+    breakpoint "Break!"
 	func()
 	assert(okCatch)
 	assert(okFinally)
 }
 
+testFoo()
