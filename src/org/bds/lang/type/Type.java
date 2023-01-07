@@ -233,8 +233,7 @@ public abstract class Type extends BdsNode implements Comparable<Type> {
         return null;
     }
 
-    @Override
-    public String toString() {
+    public String prettyPrint(String sep) {
         return primitiveType.toString();
     }
 

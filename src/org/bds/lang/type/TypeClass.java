@@ -95,7 +95,7 @@ public class TypeClass extends TypeComposite {
         String tcn = ((TypeClass) type).getClassName();
 
         // Compare if null
-		if (className == null) return (tcn == null ? 0 : 1);
+        if (className == null) return (tcn == null ? 0 : 1);
         if ((className != null) && (tcn == null)) return 1;
 
         // Compare names
@@ -251,9 +251,8 @@ public class TypeClass extends TypeComposite {
         }
     }
 
-    @Override
-    public String toString() {
-        return className;
+    public String prettyPrint(String sep) {
+        return sep + className;
     }
 
 }
