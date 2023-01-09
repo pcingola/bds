@@ -11,6 +11,7 @@ import org.bds.lang.type.TypeFunction;
 import org.bds.lang.type.Types;
 import org.bds.symbol.GlobalSymbolTable;
 import org.bds.symbol.SymbolTable;
+import org.bds.util.Gpr;
 import org.bds.vm.OpCode;
 
 import java.util.ArrayList;
@@ -94,6 +95,7 @@ public class FunctionDeclaration extends StatementWithScope {
     }
 
     public void setPc(int pc) {
+        Gpr.debug("FUNCTION: " + this.functionName + ", pc: " + pc);
         this.pc = pc;
     }
 

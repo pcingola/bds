@@ -306,12 +306,11 @@ public class BdsVmAsm implements BdsLog {
         this.verbose = verbose;
     }
 
-    /**
-     * Remove any labels
-     */
-    String stripLabel(String line) {
-        int labelIdx = line.indexOf(':');
-        return labelIdx >= 0 ? line.substring(labelIdx + 1) : line;
-    }
-
+//    /**
+//     * Remove any labels
+//     */
+//    String stripLabel(String line) {
+//        int labelIdx = line.indexOf(':');
+//        return labelIdx >= 0 ? line.substring(labelIdx + 1) : line;
+//    }
 }

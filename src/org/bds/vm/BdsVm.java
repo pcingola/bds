@@ -65,6 +65,7 @@ public class BdsVm implements Serializable, BdsLog {
     Scope scope; // Current scope (variables)
     int sp; // Stack pointer
     Value[] stack; // Stack: main stack used for values
+    String toAsmLineFormat; // Line length for 'toAsm'
     List<Type> types;
     Map<Type, Integer> typeToIndex;
     boolean verbose;
@@ -235,14 +236,18 @@ public class BdsVm implements Serializable, BdsLog {
      * @param fsig: Function's signature
      */
     void callMethod(String fsig, boolean isSuper) {
+        Gpr.debug("CALL METHOD\t" + fsig + ", isSuper: " + isSuper);
         pushCallFrame(); // Push stack frame
         FunctionDeclaration fdecl = functionsBySignature.get(fsig);
+        Gpr.debug("CALL METHOD\tfdecl:" + fdecl);
         newScope(); // Create a new scope
         Value[] values = getArgsFromStack(fdecl); // Get arguments from scope
+        Gpr.debug("CALL METHOD\tvalues:" + values);
         Value vthis = values[0]; // First argument is 'this'
         fdecl = resolveVirtualMethod(vthis, fdecl, isSuper, fsig); // Find 'virtual method' (class inheritance)
         addArgsCallScope(fdecl, values); // Add arguments to scope
         pc = fdecl.getPc(); // Jump to method
+        Gpr.debug("CALL METHOD\tpc:" + pc);
     }
 
     /**
@@ -446,7 +451,9 @@ public class BdsVm implements Serializable, BdsLog {
         Value pendingException = exceptionHandler.getPendingException();
         discardCallFrame(); // Discard CallFrame created in 'exceptionHandlerCreate'
         exceptionHandler = callFrames[fp].exceptionHandler; // Restore exception handler from previous CallFrame
-        if (pendingException != null) throwException(pendingException); // Rethrow pending exception
+        if (pendingException != null) {
+            throwException(pendingException); // Rethrow pending exception
+        }
     }
 
     /**
@@ -861,7 +868,9 @@ public class BdsVm implements Serializable, BdsLog {
 
         // Get 'super' class
         ClassDeclaration superClassDecl = classDecl.getClassDeclarationParent();
-        if (superClassDecl == null) return fdecl; // No super class? Nothing to resolve. This can happen on "super.Constructor()" calls
+        // No super class? Nothing to resolve. This can happen on "super.Constructor()" calls
+        if (superClassDecl == null) return fdecl;
+
         FunctionDeclaration superMethodDecl = superClassDecl.getType().resolve(fdecl);
 
         if (superMethodDecl == null) throw new RuntimeException("Null pointer: Cannot resolve 'super' method '" + fsig + "'.");
@@ -931,11 +940,10 @@ public class BdsVm implements Serializable, BdsLog {
             opcode = OPCODES[instruction];
             if (debug) {
                 System.err.print("" //
-                        + (sp > 0 ? "\n\t\t\t\t\t\t\t\t# stack: " + toStringStack() : "") //
-                        + (exceptionHandler != null ? "\n\t\t\t\t\t\t\t\t# exceptionHandler: " + exceptionHandler.getFinallyLabel() : "") //
-                        + (fp > 0 ? "\n\t\t\t\t\t\t\t\t# call stack: " + toStringCallStack() : "") //
-                        + "\n" //
-                        + (bdsThread != null ? bdsThread.getBdsThreadId() + "\t\t|" : "") //
+                        + (!bdsThread.isRoot() ? "\n\t\t\t\t\t\t\t\t# bds thread ID: " + bdsThread.getBdsThreadId() + "\n" : "") //
+                        + (sp > 0 ? "\t\t\t\t\t\t\t\t# stack: " + toStringStack() + "\n" : "") //
+                        + (exceptionHandler != null ? "\t\t\t\t\t\t\t\t# exceptionHandler: " + exceptionHandler.getFinallyLabel() + "\n" : "") //
+                        + (fp > 0 ? "\n\t\t\t\t\t\t\t\t# call stack: " + toStringCallStack() + "\n" : "") //
                         + toAsm(pc) //
                         + "\n" //
                 );
@@ -1790,6 +1798,13 @@ public class BdsVm implements Serializable, BdsLog {
      */
     public String toAsm() {
         StringBuilder sb = new StringBuilder();
+
+        // Line format: Calculate max 'pc' number of digits
+        int i = 1, j = 10;
+        for (; j < code.length && j > 0; i++, j *= 10) ;
+        toAsmLineFormat = "%0" + i + "d %s";
+
+        // Show all lines
         for (int pc = 0; pc < code.length; pc++) {
             sb.append(toAsm(pc) + "\n");
             if (hasParam(pc)) pc++;
@@ -1814,7 +1829,7 @@ public class BdsVm implements Serializable, BdsLog {
         // Show opcode
         OpCode op = OPCODES[code[pc]];
         String opstr = op.toString().toLowerCase();
-        sb.append(String.format("%6d    %s", pc, opstr));
+        sb.append(String.format(toAsmLineFormat, pc, opstr));
 
         // Parameter?
         String comment = null;

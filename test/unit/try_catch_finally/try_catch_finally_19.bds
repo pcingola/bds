@@ -1,0 +1,24 @@
+#!/usr/bin/env bds
+
+class CustomException extends Exception {
+    void CustomException(string msg) {
+        super.Exception("Message: $msg")
+    }
+}
+
+void func() {
+    try {
+        throw new CustomException("foo")
+        println "This should not be executed."
+    } catch (CustomException e) {
+        println "Caught a CustomException."
+    } finally {
+        println "Finally."
+    }
+}
+
+void testFoo() {
+    func()
+}
+
+func()

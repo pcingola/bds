@@ -19,8 +19,8 @@ public class TestCasesZzz extends TestCasesBaseAws {
     }
 
     @Test
-    public void testExit() {
-        verbose = true;
-        runAndCheckExit("test/z.bds", 42);
+    public void test() {
+        verbose = debug = true;
+        runTestCasesPass("test/z.bds");
     }
 }
