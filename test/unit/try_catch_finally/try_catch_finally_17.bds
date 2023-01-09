@@ -19,5 +19,3 @@ void testFoo() {
 	assert(okCatch)
 	assert(okFinally)
 }
-
-testFoo()

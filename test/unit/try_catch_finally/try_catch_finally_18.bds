@@ -6,23 +6,17 @@ class CustomException extends Exception {
 	}
 }
 
-bool okCatch, okFinally
-
 void func() {
 	try {
 		throw new CustomException("My message")
 	} catch (SimpleException e) {
 		println "Catch"
-		okCatch = true
 	} finally {
 		println "Finaly"
-		okFinally = true
 	}
 }
 
 void testFoo() {
-	func()
-	assert(okCatch)
-	assert(okFinally)
+	func() // Exits with an exception
 }
 
