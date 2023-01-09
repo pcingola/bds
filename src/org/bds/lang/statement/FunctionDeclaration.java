@@ -95,7 +95,6 @@ public class FunctionDeclaration extends StatementWithScope {
     }
 
     public void setPc(int pc) {
-        Gpr.debug("FUNCTION: " + this.functionName + ", pc: " + pc);
         this.pc = pc;
     }
 

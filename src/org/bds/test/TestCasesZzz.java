@@ -20,7 +20,6 @@ public class TestCasesZzz extends TestCasesBaseAws {
 
     @Test
     public void test() {
-        verbose = debug = true;
         runTestCasesPass("test/z.bds");
     }
 }

@@ -236,18 +236,14 @@ public class BdsVm implements Serializable, BdsLog {
      * @param fsig: Function's signature
      */
     void callMethod(String fsig, boolean isSuper) {
-        Gpr.debug("CALL METHOD\t" + fsig + ", isSuper: " + isSuper);
         pushCallFrame(); // Push stack frame
         FunctionDeclaration fdecl = functionsBySignature.get(fsig);
-        Gpr.debug("CALL METHOD\tfdecl:" + fdecl);
         newScope(); // Create a new scope
         Value[] values = getArgsFromStack(fdecl); // Get arguments from scope
-        Gpr.debug("CALL METHOD\tvalues:" + values);
         Value vthis = values[0]; // First argument is 'this'
         fdecl = resolveVirtualMethod(vthis, fdecl, isSuper, fsig); // Find 'virtual method' (class inheritance)
         addArgsCallScope(fdecl, values); // Add arguments to scope
         pc = fdecl.getPc(); // Jump to method
-        Gpr.debug("CALL METHOD\tpc:" + pc);
     }
 
     /**

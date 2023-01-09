@@ -28,9 +28,7 @@ import java.util.List;
 public class ProgramUnit extends BlockWithFile {
 
     private static final long serialVersionUID = 3819936306695046515L;
-
     protected Module[] modules;
-
     protected BdsThread bdsThread;
 
     public ProgramUnit(BdsNode parent, ParseTree tree) {
@@ -114,6 +112,10 @@ public class ProgramUnit extends BlockWithFile {
 
     public Module[] getModules() {
         return modules;
+    }
+
+    public void setModules(Module[] modules) {
+        this.modules = modules;
     }
 
     @Override

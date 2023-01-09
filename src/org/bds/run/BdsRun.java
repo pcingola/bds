@@ -15,7 +15,6 @@ import org.bds.lang.nativeFunctions.NativeLibraryFunctions;
 import org.bds.lang.nativeMethods.string.NativeLibraryString;
 import org.bds.lang.statement.FunctionDeclaration;
 import org.bds.lang.statement.Statement;
-import org.bds.lang.type.TypeClass;
 import org.bds.lang.type.Types;
 import org.bds.languageServer.LanguageServerBds;
 import org.bds.osCmd.CmdAws;
@@ -23,6 +22,7 @@ import org.bds.scope.GlobalScope;
 import org.bds.scope.Scope;
 import org.bds.symbol.GlobalSymbolTable;
 import org.bds.task.TaskDependecies;
+import org.bds.util.Gpr;
 import org.bds.util.Timer;
 import org.bds.vm.BdsVm;
 import org.bds.vm.BdsVmAsm;
@@ -149,7 +149,7 @@ public class BdsRun implements BdsLog {
         if (parseCmdLineArgs()) return CompileCode.OK_HELP;
 
         // Compile to VM assembly
-        vm = compileAsm(programUnit, debug);
+        vm = compileAsm(programUnit);
         return vm != null ? CompileCode.OK : CompileCode.ERROR;
     }
 
@@ -158,7 +158,7 @@ public class BdsRun implements BdsLog {
      *
      * @return A BdsVm with all compiled assembly code
      */
-    BdsVm compileAsm(ProgramUnit programUnit, boolean debug) {
+    BdsVm compileAsm(ProgramUnit programUnit) {
         try {
             // Compile assembly
             BdsVmAsm vmasm = new BdsVmAsm(programUnit);
@@ -314,12 +314,12 @@ public class BdsRun implements BdsLog {
         }
     }
 
-    /**
-     * Initialize a base classes provided by 'bds'
-     */
-    void initilaizeNativeClass(TypeClass typeClass) {
-        debug("Native class: " + typeClass.getCanonicalName());
-    }
+//    /**
+//     * Initialize a base classes provided by 'bds'
+//     */
+//    void initilaizeNativeClass(TypeClass typeClass) {
+//        debug("Native class: " + typeClass.getCanonicalName());
+//    }
 
     /**
      * Initialize all base classes provided by 'bds'
@@ -336,11 +336,11 @@ public class BdsRun implements BdsLog {
 
         // Native functions
         NativeLibraryFunctions nativeLibraryFunctions = new NativeLibraryFunctions();
-        debug("Native library: " + nativeLibraryFunctions.size());
+        debug("Native library 'functions', functions: " + nativeLibraryFunctions.size());
 
         // Native library: String
         NativeLibraryString nativeLibraryString = new NativeLibraryString();
-        debug("Native library: " + nativeLibraryString.size());
+        debug("Native library 'string', methods: " + nativeLibraryString.size());
     }
 
     public boolean isCoverage() {
@@ -477,7 +477,7 @@ public class BdsRun implements BdsLog {
                 exitValue = runTaskImproper();
                 break;
 
-            case TEST:
+            case RUN_TEST:
                 exitValue = runTests();
                 break;
 
@@ -669,10 +669,11 @@ public class BdsRun implements BdsLog {
         // Create a program unit having all variable/function/class declarations and the test function's statements
         ProgramUnit puTest = new ProgramUnit(programUnit, null);
         puTest.setFile(programUnit.getFile());
+        puTest.setModules(programUnit.getModules());
         puTest.setStatements(statements.toArray(new Statement[0]));
 
         // Compile and create vm
-        BdsVm vmtest = compileAsm(puTest, false);
+        BdsVm vmtest = compileAsm(puTest);
         vmtest.setDebug(debug);
         BdsThread bdsThreadTest = new BdsThread(puTest, config, vmtest);
 
@@ -828,7 +829,7 @@ public class BdsRun implements BdsLog {
         , RUN // Run a program
         , RUN_CHECKPOINT // Run from a checkpoint
         , RUN_TASK_IMPROPER // Run an improper task from a checkpoint
-        , TEST // Run test cases in bds (i.e. compile and run all functions named `test*()`
+        , RUN_TEST // Run test cases in bds (i.e. compile and run all functions named `test*()`
         , RUN_LANGUAGE_SERVER // Run language server (LSP)
         , ZZZ // Run the 'zzz()' method. This is only used for developing experimental code (undocumented option
     }

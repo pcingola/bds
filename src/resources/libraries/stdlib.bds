@@ -1,4 +1,5 @@
-void zzzStdLib() {
-	println "MODULE: STDLIB"
-}
+# FIXME: Simple test function, comment out!
+#void zzzStdLib() {
+#	println "MODULE: STDLIB"
+#}
 

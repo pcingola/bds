@@ -336,7 +336,7 @@ public class Bds implements BdsLog {
 
                     case "-t":
                     case "-test":
-                        bdsRun.setBdsAction(BdsAction.TEST);
+                        bdsRun.setBdsAction(BdsAction.RUN_TEST);
                         break;
 
                     case "-upload":

@@ -282,7 +282,7 @@ public class TestCasesTryCatchFinally extends TestCasesBase {
 
     @Test
     public void test18TescCaseThrowCustomException() {
-        verbose = debug = true;
+        verbose = true;
         runTestCasesPass(dir + "try_catch_finally_18.bds");
     }
 
