@@ -79,8 +79,14 @@ public class ForLoop extends StatementWithScope {
     }
 
     public String prettyPrint(String sep) {
-        return sep + "for( " + begin.prettyPrint("") + " ; " + condition.prettyPrint("") + " ; " + end.prettyPrint("") + " ) {\n" //
-                + statement.prettyPrint(sep + SEP) //
+        return sep + "for( " //
+                + (begin != null ? begin.prettyPrint("") : "") //
+                + " ; " //
+                + (condition != null ? condition.prettyPrint("") : "") //
+                + " ; "  //
+                + (end != null ? end.prettyPrint("") : "") //
+                // + " ) {\n" //
+                + (statement != null ? statement.prettyPrint(sep + SEP) : "") //
                 + sep + "}\n" //
                 ;
     }

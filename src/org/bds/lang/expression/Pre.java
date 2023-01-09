@@ -62,7 +62,7 @@ public class Pre extends ExpressionUnary {
     }
 
     public String prettyPrint(String sep) {
-        return sep + operation + expr.prettyPrint("");
+        return sep + operation + (expr != null ? expr.prettyPrint("") : "");
     }
 
     @Override
