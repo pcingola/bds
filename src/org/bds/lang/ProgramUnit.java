@@ -20,8 +20,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * A program unit incluses the program's code, libraries, etc.
- * I.e. All elelments that conform the final program
+ * A program unit includes the program's code, libraries, etc.
+ * I.e. All elements that conform the final program
  *
  * @author pcingola
  */

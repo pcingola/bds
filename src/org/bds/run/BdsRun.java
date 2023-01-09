@@ -22,7 +22,6 @@ import org.bds.scope.GlobalScope;
 import org.bds.scope.Scope;
 import org.bds.symbol.GlobalSymbolTable;
 import org.bds.task.TaskDependecies;
-import org.bds.util.Gpr;
 import org.bds.util.Timer;
 import org.bds.vm.BdsVm;
 import org.bds.vm.BdsVmAsm;
@@ -313,13 +312,6 @@ public class BdsRun implements BdsLog {
             coverageCounter = new Coverage();
         }
     }
-
-//    /**
-//     * Initialize a base classes provided by 'bds'
-//     */
-//    void initilaizeNativeClass(TypeClass typeClass) {
-//        debug("Native class: " + typeClass.getCanonicalName());
-//    }
 
     /**
      * Initialize all base classes provided by 'bds'
@@ -641,6 +633,7 @@ public class BdsRun implements BdsLog {
 
         // Show coverage statistics and save them
         if (coverage) {
+            if (1 < 2) throw new RuntimeException("SUBTRACT NODES FROM 'Modules' (I.E. LIBRARY FILES e.g. 'exceptions.bds')");
             // Show stats
             System.out.println(coverageCounter);
             if (debug) debug("Detailed coverage counts:\n" + coverageCounter.toStringCounts());
