@@ -10,15 +10,13 @@ void func() {
 		println "Catch"
 		okCatch = true
 	} finally {
-		println "Finaly"
+		println "Finally"
 		okFinally = true
 	}
 }
 
 void testFoo() {
     t := 3.14
-    debug "Enter debug mode"
-    breakpoint "Break!"
 	func()
 	assert(okCatch)
 	assert(okFinally)
