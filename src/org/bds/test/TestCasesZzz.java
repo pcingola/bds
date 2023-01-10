@@ -27,7 +27,6 @@ public class TestCasesZzz extends TestCasesBaseAws {
     @Test
     public void testTestCasesCoverage06() {
         // Check that coverage is correctly computed: 100% coverage
-        verbose = true;
         Bds bds = runTestCasesPassCoverage(dir + "test_case_run_06.bds", 0.95);
         checkCoverageRatio(bds, 1.0);
     }
