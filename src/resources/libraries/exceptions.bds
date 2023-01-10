@@ -19,7 +19,7 @@ class Error extends Throwable {
 
 // Fatal error: An error that we cannot recover from
 class FatalError extends Error {
-    void Error(string message) {
+    void FatalError(string message) {
         super.Error(message)
     }
 }

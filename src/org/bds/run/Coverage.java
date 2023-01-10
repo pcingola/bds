@@ -3,10 +3,8 @@ package org.bds.run;
 import org.bds.BdsLog;
 import org.bds.compile.BdsNodeWalker;
 import org.bds.lang.BdsNode;
-import org.bds.lang.statement.ClassDeclaration;
-import org.bds.lang.statement.FunctionDeclaration;
-import org.bds.lang.statement.MethodDeclaration;
-import org.bds.lang.statement.StatementFunctionDeclaration;
+import org.bds.lang.statement.Module;
+import org.bds.lang.statement.*;
 import org.bds.vm.BdsVm;
 
 import java.io.Serializable;
@@ -150,7 +148,26 @@ public class Coverage implements Serializable, BdsLog {
     }
 
     /**
-     * Remove coverage stats from all nodes that are in the test*() function
+     * Mark all Module's code as 'native', so we don't calculate coverage on native code
+     */
+    public void markNativeCode(BdsVm vm, Module[] modules) {
+        for (Module m : modules) markNativeCode(vm, m);
+    }
+
+    /**
+     * Mark Module's code as 'native', so we don't calculate coverage on native code
+     */
+    public void markNativeCode(BdsVm vm, Module module) {
+        // Find all nodes that are part of the test function code, and mark them as 'test code'
+        BdsNodeWalker bw = new BdsNodeWalker(module, null, true, true);
+
+        // Mark all nodes within the test function code
+        bw.findNodes().stream().forEach(this::markNativeCode); // Mark all nodes in the function statements
+    }
+
+    /**
+     * Mark all function's statements as 'test' code
+     * This removes coverage stats from all nodes that are in the test*() function
      * because we don't want to calculate coverage on testing code
      */
     void markTestCode(BdsVm vm, FunctionDeclaration testFunc) {
@@ -173,6 +190,14 @@ public class Coverage implements Serializable, BdsLog {
      */
     void markTestCode(BdsNode bdsNode) {
         getFileCoverage(bdsNode).markTestCode(bdsNode);
+    }
+
+    /**
+     * Mark this node as 'native' code
+     * I.e. it is part of the function executing the test case, so it should not be counted for coverage
+     */
+    void markNativeCode(BdsNode bdsNode) {
+        getFileCoverage(bdsNode).markNativeCode(bdsNode);
     }
 
     /**
@@ -266,7 +291,7 @@ class FileCoverage implements Comparable<FileCoverage>, Serializable, BdsLog {
     }
 
     /**
-     * Add to covrarge counters
+     * Add to coverarge counters
      */
     void add(BdsNode bdsNode, int count) {
         var lineCov = getLineCoverage(bdsNode);
@@ -352,6 +377,11 @@ class FileCoverage implements Comparable<FileCoverage>, Serializable, BdsLog {
         return lineCovered;
     }
 
+    void markNativeCode(BdsNode bdsNode) {
+        var lineCov = getLineCoverage(bdsNode);
+        if (lineCov != null) lineCov.markNativeCode();
+    }
+
     void markTestCode(BdsNode bdsNode) {
         var lineCov = getLineCoverage(bdsNode);
         if (lineCov != null) lineCov.markTestCode();
@@ -388,7 +418,7 @@ class FileCoverage implements Comparable<FileCoverage>, Serializable, BdsLog {
             }
         }
 
-        // Lines not covered (intevals)
+        // Lines not covered (intervals)
         int start = -1, end = -1;
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < lines.length; i++) {
@@ -433,6 +463,7 @@ class FileCoverage implements Comparable<FileCoverage>, Serializable, BdsLog {
  * is mantained
  */
 class LineCoverage implements Comparable<LineCoverage>, Serializable {
+    boolean nativeCode;
     boolean testCode; // Is this part of the 'test' code?
     int lineNumber; // Line number within the file
     FileCoverage fileCoverage; // File this line belongs to
@@ -472,7 +503,7 @@ class LineCoverage implements Comparable<LineCoverage>, Serializable {
      * We don't count lines with negative line number, or lines that are part of the test case code
      */
     boolean isCounted() {
-        return lineNumber >= 0 && !testCode;
+        return lineNumber >= 0 && !testCode && !nativeCode;
     }
 
     /**
@@ -485,6 +516,14 @@ class LineCoverage implements Comparable<LineCoverage>, Serializable {
             if (c == 0) return false;
         }
         return true;
+    }
+
+    public boolean isNativeCode() {
+        return nativeCode;
+    }
+
+    public void setNativeCode(boolean nativeCode) {
+        this.nativeCode = nativeCode;
     }
 
     boolean isTestCode() {
@@ -505,6 +544,10 @@ class LineCoverage implements Comparable<LineCoverage>, Serializable {
         // Map nodeIds to sort order
         for (int i = 0; i < nodeIds.size(); i++)
             nodeId2order.put(nodeIds.get(i), i);
+    }
+
+    void markNativeCode() {
+        this.nativeCode = true;
     }
 
     void markTestCode() {

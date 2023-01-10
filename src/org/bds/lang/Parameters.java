@@ -135,11 +135,11 @@ public class Parameters extends BdsNode implements Comparable<Parameters> {
 		return varDecl.length;
 	}
 
-	@Override
-	public String toString() {
+	public String prettyPrint(String sep) {
 		StringBuilder sb = new StringBuilder();
+		sb.append(sep);
 		for (int i = 0; i < varDecl.length; i++) {
-			sb.append(varDecl[i]);
+			sb.append(varDecl[i].prettyPrint(""));
 			if (i < varDecl.length - 1) sb.append(",");
 		}
 		return sb.toString();

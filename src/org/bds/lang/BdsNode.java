@@ -28,6 +28,7 @@ import java.util.Set;
  */
 public abstract class BdsNode implements Serializable, BdsLog {
 
+    public static final String SEP = "\t";
     private static final long serialVersionUID = -2443078474175192104L;
     protected BdsNode parent;
     protected int id, lineNum, charPosInLine; // Source code info
@@ -426,6 +427,14 @@ public abstract class BdsNode implements Serializable, BdsLog {
     }
 
     /**
+     * Return a string with the code (reasonable formatting)
+     */
+    public String prettyPrint(String sep) {
+        throw new RuntimeException("Unimplemented prettyPrint for '" + getClass().getCanonicalName() + "'. This should never happen!");
+    }
+
+
+    /**
      * Calculate return type and assign it to 'returnType' variable.
      */
     public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
@@ -488,11 +497,11 @@ public abstract class BdsNode implements Serializable, BdsLog {
 
     @Override
     public String toString() {
-        return toStringClassFileLinePos();
+        return prettyPrint("");
     }
 
     /**
-     * Show the tree
+     * Show the node tree
      */
     public String toStringTree(String tabs, String fieldName) {
         StringBuilder out = new StringBuilder();

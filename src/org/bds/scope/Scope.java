@@ -5,6 +5,7 @@ import org.bds.lang.statement.FunctionDeclaration;
 import org.bds.lang.type.Type;
 import org.bds.lang.value.Value;
 import org.bds.lang.value.ValueFunction;
+import org.bds.util.Gpr;
 import org.bds.util.GprString;
 
 import java.io.Serializable;
@@ -223,17 +224,27 @@ public class Scope implements Iterable<String>, Serializable, ValuesGetSet {
         List<String> names = new ArrayList<>();
         names.addAll(values.keySet());
         Collections.sort(names);
+        int i = 0;
         for (String n : names) {
             Value v = getValueLocal(n);
             Type t = v.getType();
 
-            if (t.isFunction()) {
-                if (showFunc) sb.append(t.getPrimitiveType() + " : " + v + "\n");
-            } else if (v.getType().isString())
-                sb.append(t + " : " + n + " = '" + GprString.escape(v.asString()) + "'\n");
-            else sb.append(t + " : " + n + " = " + v + "\n");
-
+            if (t.isFunction() && showFunc) {
+                String valStr = Gpr.prependEachLine("\t", v.toString());
+                sb.append(i + " Function " + t.getPrimitiveType() + " " + valStr + "\n");
+                i++;
+            } else if (v.getType().isString()) {
+                sb.append(i + " " + t + " : " + n + " = '" + GprString.escape(v.asString()) + "'\n");
+                i++;
+            } else {
+                String valStr = Gpr.prependEachLine("\t", v.toString());
+                sb.append(i + " " + t + " : " + n + " = " + valStr + "\n");
+                i++;
+            }
         }
+
+        if (sb.length() <= 0) sb.append("Scope ID: " + id + ". Empty");
+        else sb.insert(0, "Scope ID: " + id + ". Scope length: " + i + "\n");
 
         return sb.toString();
     }

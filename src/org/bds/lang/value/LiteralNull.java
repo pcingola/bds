@@ -46,8 +46,7 @@ public class LiteralNull extends Literal {
         return OpCode.PUSHNULL + "\n";
     }
 
-    @Override
-    public String toString() {
+    public String prettyPrint(String sep) {
         return "null";
     }
 

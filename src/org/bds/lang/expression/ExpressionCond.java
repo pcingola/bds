@@ -82,9 +82,8 @@ public class ExpressionCond extends Expression {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
-        return expr.toString() + " ? " + exprTrue + " : " + exprFalse;
+    public String prettyPrint(String sep) {
+        return expr.prettyPrint(sep) + " ? " + exprTrue + " : " + exprFalse;
     }
 
     @Override

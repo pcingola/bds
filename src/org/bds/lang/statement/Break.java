@@ -108,8 +108,7 @@ public class Break extends Statement {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
-        return "break";
+    public String prettyPrint(String sep) {
+        return sep + "break";
     }
 }

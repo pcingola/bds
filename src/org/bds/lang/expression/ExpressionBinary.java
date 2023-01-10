@@ -78,17 +78,16 @@ public class ExpressionBinary extends Expression {
                 ;
     }
 
-	/**
-	 * When an expression can have multiple OpCodes depending on the 'type', this method resolves it
-	 * E.g.: 'DIVI', 'DIVR' are both division opcodes that are specific to the divition type
-	 */
+    /**
+     * When an expression can have multiple OpCodes depending on the 'type', this method resolves it
+     * E.g.: 'DIVI', 'DIVR' are both division opcodes that are specific to the divition type
+     */
     protected OpCode toAsmOp(PrimitiveType type) {
         throw new RuntimeException("Unimplemented! This method must be overridden by child classes using it.");
     }
 
-    @Override
-    public String toString() {
-        return left + " " + op() + " " + right;
+    public String prettyPrint(String sep) {
+        return sep + left.prettyPrint("") + " " + op() + " " + right.prettyPrint("");
     }
 
 }

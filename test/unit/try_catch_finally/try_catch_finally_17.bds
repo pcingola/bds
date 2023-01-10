@@ -1,0 +1,21 @@
+class SimpleException extends Exception {}
+
+bool okCatch, okFinally
+
+void func() {
+	try {
+		throw new SimpleException()
+	} catch (SimpleException e) {
+		println "Catch"
+		okCatch = true
+	} finally {
+		println "Finally"
+		okFinally = true
+	}
+}
+
+void testFoo() {
+	func()
+	assert(okCatch)
+	assert(okFinally)
+}

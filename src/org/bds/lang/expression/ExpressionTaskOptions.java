@@ -88,21 +88,15 @@ public class ExpressionTaskOptions extends ExpressionList {
         return sb.toString();
     }
 
-//    String toAsmList() {
-//        StringBuilder sb = new StringBuilder();
-//        return sb.toString();
-//    }
-
-    @Override
-    public String toString() {
+    public String prettyPrint(String sep) {
         StringBuilder sb = new StringBuilder();
-        sb.append("( ");
+        sb.append(sep + "( ");
 
         if (expressions != null) {
             int i = 0;
             for (Expression exp : expressions) {
                 if (i > 0) sb.append(", ");
-                sb.append(exp);
+                sb.append(exp.prettyPrint(""));
                 i++;
             }
         }

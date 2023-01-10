@@ -6,7 +6,6 @@ import org.bds.compile.CompilerMessages;
 import org.bds.lang.BdsNode;
 import org.bds.lang.expression.Expression;
 import org.bds.symbol.SymbolTable;
-import org.bds.util.Gpr;
 import org.bds.vm.OpCode;
 
 /**
@@ -60,11 +59,10 @@ public class While extends Statement {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
+    public String prettyPrint(String sep) {
         return "while(  " + condition + " ) {\n" //
-                + Gpr.prependEachLine("\t", statement.toString()) //
-                + "\n}" //
+                + statement.prettyPrint(sep + SEP) //
+                + "}\n" //
                 ;
     }
 

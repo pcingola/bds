@@ -43,6 +43,7 @@ public class BdsVm implements Serializable, BdsLog {
     public static final int STACK_SIZE = 100 * 1024; // Initial stack size
     private static final OpCode[] OPCODES = OpCode.values();
     private static final long serialVersionUID = 6533146851765102340L;
+
     BdsThread bdsThread;
     CallFrame[] callFrames; // Call Frame stack
     int[] code; // Compile assembly code (OopCodes)
@@ -64,6 +65,7 @@ public class BdsVm implements Serializable, BdsLog {
     Scope scope; // Current scope (variables)
     int sp; // Stack pointer
     Value[] stack; // Stack: main stack used for values
+    String toAsmLineFormat; // Line length for 'toAsm'
     List<Type> types;
     Map<Type, Integer> typeToIndex;
     boolean verbose;
@@ -445,7 +447,9 @@ public class BdsVm implements Serializable, BdsLog {
         Value pendingException = exceptionHandler.getPendingException();
         discardCallFrame(); // Discard CallFrame created in 'exceptionHandlerCreate'
         exceptionHandler = callFrames[fp].exceptionHandler; // Restore exception handler from previous CallFrame
-        if (pendingException != null) throwException(pendingException); // Rethrow pending exception
+        if (pendingException != null) {
+            throwException(pendingException); // Rethrow pending exception
+        }
     }
 
     /**
@@ -463,6 +467,10 @@ public class BdsVm implements Serializable, BdsLog {
     void exceptionHandlerStart(String finallyLabel) {
         pushCallFrame();
         exceptionHandler = new ExceptionHandler(finallyLabel);
+    }
+
+    public ExceptionHandler getExceptionHandler() {
+        return exceptionHandler;
     }
 
     /**
@@ -848,10 +856,7 @@ public class BdsVm implements Serializable, BdsLog {
         if (type.isClass() && ((ValueObject) vthis).isNull()) fatalError("Null pointer: Invoking method '" + fdecl.getFunctionName() + "' on null object type '" + type + "', signature " + fdecl.signatureVarNames());
         if (!isSuper) return type.resolve(fdecl);
 
-        //---
         // This is a 'super.f()' method call
-        //---
-
         // Get method's declaration class
         MethodDeclaration methodDecl = (MethodDeclaration) fdecl;
         TypeClass typeClass = (TypeClass) methodDecl.getClassType();
@@ -859,7 +864,9 @@ public class BdsVm implements Serializable, BdsLog {
 
         // Get 'super' class
         ClassDeclaration superClassDecl = classDecl.getClassDeclarationParent();
-        if (superClassDecl == null) return fdecl; // No super class? Nothing to resolve. This can happen on "super.Constructor()" calls
+        // No super class? Nothing to resolve. This can happen on "super.Constructor()" calls
+        if (superClassDecl == null) return fdecl;
+
         FunctionDeclaration superMethodDecl = superClassDecl.getType().resolve(fdecl);
 
         if (superMethodDecl == null) throw new RuntimeException("Null pointer: Cannot resolve 'super' method '" + fsig + "'.");
@@ -927,16 +934,16 @@ public class BdsVm implements Serializable, BdsLog {
         while (pc < code.length && run) {
             instruction = code[pc];
             opcode = OPCODES[instruction];
-            if (debug)
+            if (debug) {
                 System.err.print("" //
-                        + (sp > 0 ? "\n\t\t\t\t\t\t\t\t# stack: " + toStringStack() : "") //
-                        + (exceptionHandler != null ? "\n\t\t\t\t\t\t\t\t# exceptionHandler: " + exceptionHandler.getFinallyLabel() : "") //
-                        + (fp > 0 ? "\n\t\t\t\t\t\t\t\t# call stack: " + toStringCallStack() : "") //
-                        + "\n" //
-                        + (bdsThread != null ? bdsThread.getBdsThreadId() + "\t\t|" : "") //
+                        + (!bdsThread.isRoot() ? "\n\t\t\t\t\t\t\t\t# bds thread ID: " + bdsThread.getBdsThreadId() + "\n" : "") //
+                        + (sp > 0 ? "\t\t\t\t\t\t\t\t# stack: " + toStringStack() + "\n" : "") //
+                        + (exceptionHandler != null ? "\t\t\t\t\t\t\t\t# exceptionHandler: " + exceptionHandler.getFinallyLabel() + "\n" : "") //
+                        + (fp > 0 ? "\n\t\t\t\t\t\t\t\t# call stack: " + toStringCallStack() + "\n" : "") //
                         + toAsm(pc) //
                         + "\n" //
                 );
+            }
 
             pc++;
 
@@ -1625,7 +1632,7 @@ public class BdsVm implements Serializable, BdsLog {
 
     public void sanityCheckStack() {
         if (sp > 1) {
-            Gpr.debug("Stack size: " + sp + "\n" + toStringStack());
+            error("Stack size: " + sp + "\n" + toStringStack());
             throw new RuntimeException("Inconsistent stack. Size: " + sp);
         }
     }
@@ -1787,6 +1794,13 @@ public class BdsVm implements Serializable, BdsLog {
      */
     public String toAsm() {
         StringBuilder sb = new StringBuilder();
+
+        // Line format: Calculate max 'pc' number of digits
+        int i = 1, j = 10;
+        for (; j < code.length && j > 0; i++, j *= 10) ;
+        toAsmLineFormat = "%0" + i + "d %s";
+
+        // Show all lines
         for (int pc = 0; pc < code.length; pc++) {
             sb.append(toAsm(pc) + "\n");
             if (hasParam(pc)) pc++;
@@ -1811,7 +1825,7 @@ public class BdsVm implements Serializable, BdsLog {
         // Show opcode
         OpCode op = OPCODES[code[pc]];
         String opstr = op.toString().toLowerCase();
-        sb.append(String.format("%6d    %s", pc, opstr));
+        sb.append(String.format(toAsmLineFormat, pc, opstr));
 
         // Parameter?
         String comment = null;
@@ -1871,7 +1885,7 @@ public class BdsVm implements Serializable, BdsLog {
         return bdsNode.getClass().getSimpleName() + " : " + s;
     }
 
-    String toStringStack() {
+    public String toStringStack() {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         String s;
@@ -1891,6 +1905,26 @@ public class BdsVm implements Serializable, BdsLog {
             sb.append((i > 0 ? ", " : "") + s);
         }
         sb.append(" ]");
+        return sb.toString();
+    }
+
+    public String toStringStackLn() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Stack length: " + sp);
+        String s;
+        for (int i = 0; i < sp; i++) {
+            Value v = stack[i];
+            if (v == null) {
+                s = "null";
+            } else if (v.getType() == null) {
+                s = "[ERROR: Type is null]";
+            } else {
+                if (v.getType().isString()) s = "'" + GprString.escape(v.asString()) + "'";
+                else s = v.toString();
+            }
+
+            sb.append(i + " : " + s + "\n");
+        }
         return sb.toString();
     }
 

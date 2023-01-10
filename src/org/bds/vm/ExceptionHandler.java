@@ -77,15 +77,16 @@ public class ExceptionHandler implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
+		if (catchBlocks != null) {
+			sb.append("Catch blocks:\n");
+			for (CatchBlockInfo cb: catchBlocks)
+				sb.append("\t" + cb + "\n");
+		}
 		sb.append("Finally block: " + finallyLabel);
 		if (isCatchStart()) sb.append(", catchStart: true");
 		if (isFinallyStart()) sb.append(", finalStart: true");
 		sb.append("\n");
 		sb.append("Pending exception: " + (pendingException != null ? pendingException.getType().getCanonicalName() : "null") + "\n");
-		if (catchBlocks != null) {
-			for (CatchBlockInfo cb: catchBlocks)
-				sb.append("\t" + cb + "\n");
-		}
 		return sb.toString();
 	}
 

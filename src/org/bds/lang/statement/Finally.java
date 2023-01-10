@@ -46,12 +46,11 @@ public class Finally extends StatementWithScope {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
+    public String prettyPrint(String sep) {
         StringBuilder sb = new StringBuilder();
-        sb.append("finally {\n");
-        if (statement != null) sb.append(statement);
-        sb.append("} ");
+        sb.append(sep + "finally {\n"); // Note: We don't start with 'sep' since this come from a 'TryCatchFinally' block
+        if (statement != null) sb.append(statement.prettyPrint(sep + SEP));
+        sb.append(sep + "}"); // Note: We don't end with a trailing '\n', it is handled in the 'TryCatchFinally' block
         return sb.toString();
     }
 

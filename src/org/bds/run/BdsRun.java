@@ -14,8 +14,8 @@ import org.bds.lang.ProgramUnit;
 import org.bds.lang.nativeFunctions.NativeLibraryFunctions;
 import org.bds.lang.nativeMethods.string.NativeLibraryString;
 import org.bds.lang.statement.FunctionDeclaration;
+import org.bds.lang.statement.Module;
 import org.bds.lang.statement.Statement;
-import org.bds.lang.type.TypeClass;
 import org.bds.lang.type.Types;
 import org.bds.languageServer.LanguageServerBds;
 import org.bds.osCmd.CmdAws;
@@ -160,15 +160,12 @@ public class BdsRun implements BdsLog {
      */
     BdsVm compileAsm(ProgramUnit programUnit) {
         try {
-            String asm = programUnit.toAsm();
-            debug("Assembly code:\n" + asm);
-
             // Compile assembly
             BdsVmAsm vmasm = new BdsVmAsm(programUnit);
             vmasm.setDebug(debug);
             vmasm.setVerbose(verbose);
             vmasm.setCoverage(coverage);
-            vmasm.setCode(asm);
+            vmasm.setCode(programUnit.toAsm());
 
             // Compile assembly
             return vmasm.compile();
@@ -318,13 +315,6 @@ public class BdsRun implements BdsLog {
     }
 
     /**
-     * Initialize a base classes provided by 'bds'
-     */
-    void initilaizeNativeClass(TypeClass typeClass) {
-        debug("Native class: " + typeClass.getCanonicalName());
-    }
-
-    /**
      * Initialize all base classes provided by 'bds'
      */
     void initilaizeNativeClasses() {
@@ -339,11 +329,11 @@ public class BdsRun implements BdsLog {
 
         // Native functions
         NativeLibraryFunctions nativeLibraryFunctions = new NativeLibraryFunctions();
-        debug("Native library: " + nativeLibraryFunctions.size());
+        debug("Native library 'functions', functions: " + nativeLibraryFunctions.size());
 
         // Native library: String
         NativeLibraryString nativeLibraryString = new NativeLibraryString();
-        debug("Native library: " + nativeLibraryString.size());
+        debug("Native library 'string', methods: " + nativeLibraryString.size());
     }
 
     public boolean isCoverage() {
@@ -480,7 +470,7 @@ public class BdsRun implements BdsLog {
                 exitValue = runTaskImproper();
                 break;
 
-            case TEST:
+            case RUN_TEST:
                 exitValue = runTests();
                 break;
 
@@ -672,10 +662,13 @@ public class BdsRun implements BdsLog {
         // Create a program unit having all variable/function/class declarations and the test function's statements
         ProgramUnit puTest = new ProgramUnit(programUnit, null);
         puTest.setFile(programUnit.getFile());
+        puTest.setModules(programUnit.getModules());
         puTest.setStatements(statements.toArray(new Statement[0]));
 
         // Compile and create vm
         BdsVm vmtest = compileAsm(puTest);
+        vmtest.setDebug(debug);
+
         BdsThread bdsThreadTest = new BdsThread(puTest, config, vmtest);
 
         // Run thread and check exit code
@@ -684,6 +677,7 @@ public class BdsRun implements BdsLog {
         // Show coverage results
         if (coverage) {
             coverageCounter.add(vmtest); // Add all statistics from vm execution
+            coverageCounter.markNativeCode(vmtest, puTest.getModules()); // Then set 'Modules' nodes as 'native code' so they don't count in coverage calculations
             coverageCounter.markTestCode(vmtest, testFunc); // Mark all nodes that are in the test*() function. We don't want to count test code in the coverage statistics
         }
 
@@ -700,9 +694,8 @@ public class BdsRun implements BdsLog {
         int exitCode = 0;
         int testOk = 0, testError = 0;
         for (FunctionDeclaration testFunc : testFuncs) {
-            System.out.println();
-
             // Run each function
+            debug("Running test function: '" + testFunc.getFunctionName() + "', file '" + testFunc.getFileName() + "', line " + testFunc.getLineNum());
             int exitValTest = runTestFunction(testFunc);
 
             // Show test result
@@ -717,7 +710,6 @@ public class BdsRun implements BdsLog {
         }
 
         // Show results
-        System.out.println();
         Timer.show("Totals"//
                 + "\n                  OK    : " + testOk //
                 + "\n                  ERROR : " + testError //
@@ -832,7 +824,7 @@ public class BdsRun implements BdsLog {
         , RUN // Run a program
         , RUN_CHECKPOINT // Run from a checkpoint
         , RUN_TASK_IMPROPER // Run an improper task from a checkpoint
-        , TEST // Run test cases in bds (i.e. compile and run all functions named `test*()`
+        , RUN_TEST // Run test cases in bds (i.e. compile and run all functions named `test*()`
         , RUN_LANGUAGE_SERVER // Run language server (LSP)
         , ZZZ // Run the 'zzz()' method. This is only used for developing experimental code (undocumented option
     }

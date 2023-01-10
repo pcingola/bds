@@ -47,8 +47,7 @@ public abstract class Literal extends Expression {
 		value = v;
 	}
 
-	@Override
-	public String toString() {
+	public String prettyPrint(String sep) {
 		return value.toString();
 	}
 

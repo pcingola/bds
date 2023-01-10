@@ -127,11 +127,10 @@ public class Args extends BdsNode {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
+    public String prettyPrint(String sep) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < arguments.length; i++) {
-            sb.append(arguments[i]);
+            sb.append(arguments[i].prettyPrint(""));
             if (i < arguments.length - 1) sb.append(",");
         }
         return sb.toString();

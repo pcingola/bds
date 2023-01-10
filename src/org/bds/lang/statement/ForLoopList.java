@@ -14,7 +14,6 @@ import org.bds.lang.type.TypeList;
 import org.bds.lang.type.TypeMap;
 import org.bds.lang.value.ValueFunction;
 import org.bds.symbol.SymbolTable;
-import org.bds.util.Gpr;
 import org.bds.vm.OpCode;
 
 import static org.bds.libraries.LibraryException.CLASS_NAME_EXCEPTION_CONCURRENT_MODIFICATION;
@@ -258,10 +257,9 @@ public class ForLoopList extends StatementWithScope {
 
     }
 
-    @Override
-    public String toString() {
-        return "for( " + beginVarDecl + " : " + expression + " ) {\n" //
-                + Gpr.prependEachLine("\t", statement.toString()) //
+    public String prettyPrint(String sep) {
+        return sep + "for( " + beginVarDecl.prettyPrint("") + " : " + expression.prettyPrint("") + " ) {\n" //
+                + statement.prettyPrint(sep + SEP) //
                 + "}" //
                 ;
     }

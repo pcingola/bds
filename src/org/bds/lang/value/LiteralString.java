@@ -16,75 +16,74 @@ import org.bds.vm.OpCode;
  */
 public class LiteralString extends Literal {
 
-	private static final long serialVersionUID = -2844811652533999173L;
+    private static final long serialVersionUID = -2844811652533999173L;
 
-	InterpolateVars interpolateVars;
+    InterpolateVars interpolateVars;
 
-	public LiteralString(BdsNode parent, ParseTree tree) {
-		super(parent, tree);
-	}
+    public LiteralString(BdsNode parent, ParseTree tree) {
+        super(parent, tree);
+    }
 
-	@Override
-	public Type getReturnType() {
-		return Types.STRING;
-	}
+    @Override
+    public Type getReturnType() {
+        return Types.STRING;
+    }
 
-	@Override
-	protected void initialize() {
-		super.initialize();
-		value = new ValueString();
-	}
+    @Override
+    protected void initialize() {
+        super.initialize();
+        value = new ValueString();
+    }
 
-	@Override
-	protected void parse(ParseTree tree) {
-		String valueStr = tree.getChild(0).getText();
+    @Override
+    protected void parse(ParseTree tree) {
+        String valueStr = tree.getChild(0).getText();
 
-		if (valueStr.charAt(0) == '\'' && valueStr.charAt(valueStr.length() - 1) == '\'') {
-			// Remove quotes: No un-escaping, no interpolation
-			valueStr = valueStr.substring(1, valueStr.length() - 1);
-			valueStr = GprString.escape(valueStr);
-			value = new ValueString(valueStr);
-		} else {
-			// Remove quotes and interpolate string
-			valueStr = valueStr.substring(1, valueStr.length() - 1);
-			valueStr = GprString.escapeMultiline(valueStr);
-			setValueInterpolate(valueStr);
-		}
-	}
+        if (valueStr.charAt(0) == '\'' && valueStr.charAt(valueStr.length() - 1) == '\'') {
+            // Remove quotes: No un-escaping, no interpolation
+            valueStr = valueStr.substring(1, valueStr.length() - 1);
+            valueStr = GprString.escape(valueStr);
+            value = new ValueString(valueStr);
+        } else {
+            // Remove quotes and interpolate string
+            valueStr = valueStr.substring(1, valueStr.length() - 1);
+            valueStr = GprString.escapeMultiline(valueStr);
+            setValueInterpolate(valueStr);
+        }
+    }
 
-	@Override
-	protected ValueString parseValue(ParseTree tree) {
-		return new ValueString(tree.getChild(0).getText());
-	}
+    @Override
+    protected ValueString parseValue(ParseTree tree) {
+        return new ValueString(tree.getChild(0).getText());
+    }
 
-	/**
-	 * Sets literal map and finds interpolated variables
-	 */
-	public void setValueInterpolate(String valueStr) {
-		value = new ValueString(valueStr);
+    /**
+     * Sets literal map and finds interpolated variables
+     */
+    public void setValueInterpolate(String valueStr) {
+        value = new ValueString(valueStr);
 
-		// Parse interpolated vars
-		interpolateVars = new InterpolateVars(this, null);
-		if (!interpolateVars.parse(valueStr)) {
-			interpolateVars = null; // Nothing found? don't bother to keep the object
-		}
-	}
+        // Parse interpolated vars
+        interpolateVars = new InterpolateVars(this, null);
+        if (!interpolateVars.parse(valueStr)) {
+            interpolateVars = null; // Nothing found? don't bother to keep the object
+        }
+    }
 
-	@Override
-	public String toAsm() {
-		if (value == null) return OpCode.PUSHS + " ''\n";
-		if (interpolateVars == null) return OpCode.PUSHS + " '" + value.asString() + "'\n";
-		return interpolateVars.toAsm();
-	}
+    @Override
+    public String toAsm() {
+        if (value == null) return OpCode.PUSHS + " ''\n";
+        if (interpolateVars == null) return OpCode.PUSHS + " '" + value.asString() + "'\n";
+        return interpolateVars.toAsm();
+    }
 
-	@Override
-	public String toString() {
-		return "\"" + value.toString() + "\"";
-	}
+    public String prettyPrint(String sep) {
+        return "\"" + value.toString() + "\"";
+    }
 
-	@Override
-	protected void typeCheckNotNull(SymbolTable symtab, CompilerMessages compilerMessages) {
-		// Do we have any interpolated variables? Make sure they are in the scope
-		if (interpolateVars != null) interpolateVars.typeCheckNotNull(symtab, compilerMessages);
-	}
+    @Override
+    protected void typeCheckNotNull(SymbolTable symtab, CompilerMessages compilerMessages) {
+        // Do we have any interpolated variables? Make sure they are in the scope
+        if (interpolateVars != null) interpolateVars.typeCheckNotNull(symtab, compilerMessages);
+    }
 }

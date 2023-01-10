@@ -101,18 +101,25 @@ public class TryCatchFinally extends StatementWithScope {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
+    public String prettyPrint(String sep) {
         StringBuilder sb = new StringBuilder();
 
-        if (tryStatement != null) sb.append(tryStatement);
-
-        if (catchStatements != null) {
-            for (Catch c : catchStatements)
-                sb.append(c);
+        if (tryStatement != null) {
+            sb.append(sep + tryStatement.prettyPrint(sep));
         }
 
-        if (finallyStatement != null) sb.append(finallyStatement);
+        if (catchStatements != null) {
+            for (Catch c : catchStatements) {
+                sb.append(" ");
+                sb.append(c.prettyPrint(sep + SEP));
+            }
+        }
+
+        if (finallyStatement != null) {
+            sb.append(" ");
+            sb.append(finallyStatement.prettyPrint(sep + SEP));
+        }
+        sb.append("\n");
 
         return sb.toString();
     }

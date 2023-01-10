@@ -14,5 +14,4 @@ public class Module extends BlockWithFile {
         super(parent, tree);
     }
 
-
 }

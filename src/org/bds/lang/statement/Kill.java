@@ -38,9 +38,8 @@ public class Kill extends Statement {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName().toLowerCase() + (taskId != null ? " " + taskId : "") + "\n";
+    public String prettyPrint(String sep) {
+        return sep + this.getClass().getSimpleName().toLowerCase() + (taskId != null ? " " + taskId.prettyPrint("") : "") + "\n";
     }
 
 }

@@ -20,17 +20,15 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * A program unit incluses the program's code, libraries, etc.
- * I.e. All elelments that conform the final program
+ * A program unit includes the program's code, libraries, etc.
+ * I.e. All elements that conform the final program
  *
  * @author pcingola
  */
 public class ProgramUnit extends BlockWithFile {
 
     private static final long serialVersionUID = 3819936306695046515L;
-
     protected Module[] modules;
-
     protected BdsThread bdsThread;
 
     public ProgramUnit(BdsNode parent, ParseTree tree) {
@@ -114,6 +112,10 @@ public class ProgramUnit extends BlockWithFile {
 
     public Module[] getModules() {
         return modules;
+    }
+
+    public void setModules(Module[] modules) {
+        this.modules = modules;
     }
 
     @Override

@@ -13,72 +13,71 @@ import org.bds.symbol.SymbolTable;
  */
 public class ExpressionDelegateBinary extends ExpressionBinary {
 
-	private static final long serialVersionUID = 6807552145516884040L;
+    private static final long serialVersionUID = 6807552145516884040L;
 
-	ExpressionBinary expr;
+    ExpressionBinary expr;
 
-	public ExpressionDelegateBinary(BdsNode parent, ParseTree tree) {
-		super(parent, tree);
-	}
+    public ExpressionDelegateBinary(BdsNode parent, ParseTree tree) {
+        super(parent, tree);
+    }
 
-	@Override
-	public Expression getLeft() {
-		return expr.getLeft();
-	}
+    @Override
+    public Expression getLeft() {
+        return expr.getLeft();
+    }
 
-	@Override
-	public Expression getRight() {
-		return expr.getRight();
-	}
+    @Override
+    public void setLeft(Expression left) {
+        expr.setLeft(left);
+    }
 
-	@Override
-	public boolean isReturnTypesNotNull() {
-		return expr.isReturnTypesNotNull();
-	}
+    @Override
+    public Expression getRight() {
+        return expr.getRight();
+    }
 
-	@Override
-	protected String op() {
-		return expr.op();
-	}
+    @Override
+    public void setRight(Expression right) {
+        expr.setRight(right);
+    }
 
-	@Override
-	protected void parse(ParseTree tree) {
-		compileError("Unimplemented parsing. This should never happen!");
-	}
+    @Override
+    public boolean isReturnTypesNotNull() {
+        return expr.isReturnTypesNotNull();
+    }
 
-	@Override
-	public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
-		returnType = expr.returnType(symtab, compilerMessages);
-		return returnType;
-	}
+    @Override
+    protected String op() {
+        return expr.op();
+    }
 
-	@Override
-	public void setLeft(Expression left) {
-		expr.setLeft(left);
-	}
+    @Override
+    protected void parse(ParseTree tree) {
+        compileError("Unimplemented parsing. This should never happen!");
+    }
 
-	@Override
-	public void setRight(Expression right) {
-		expr.setRight(right);
-	}
+    @Override
+    public Type returnType(SymbolTable symtab, CompilerMessages compilerMessages) {
+        returnType = expr.returnType(symtab, compilerMessages);
+        return returnType;
+    }
 
-	@Override
-	public String toAsm() {
-		return expr.toAsm();
-	}
+    @Override
+    public String toAsm() {
+        return expr.toAsm();
+    }
 
-	@Override
-	public String toString() {
-		return expr.toString();
-	}
+    public String prettyPrint(String sep) {
+        return expr.prettyPrint("");
+    }
 
-	@Override
-	public void typeCheck(SymbolTable symtab, CompilerMessages compilerMessages) {
-		expr.typeCheck(symtab, compilerMessages);
-	}
+    @Override
+    public void typeCheck(SymbolTable symtab, CompilerMessages compilerMessages) {
+        expr.typeCheck(symtab, compilerMessages);
+    }
 
-	@Override
-	public void typeChecking(SymbolTable symtab, CompilerMessages compilerMessages) {
-		expr.typeChecking(symtab, compilerMessages);
-	}
+    @Override
+    public void typeChecking(SymbolTable symtab, CompilerMessages compilerMessages) {
+        expr.typeChecking(symtab, compilerMessages);
+    }
 }

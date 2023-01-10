@@ -48,9 +48,8 @@ public class ExpressionWrapper extends Expression {
 		return super.toAsm() + expression.toAsm();
 	}
 
-	@Override
-	public String toString() {
-		return (expression != null ? expression.toString() : getClass().getSimpleName() + ":NULL");
+	public String prettyPrint(String sep) {
+		return (expression != null ? expression.prettyPrint(sep) : "");
 	}
 
 	@Override

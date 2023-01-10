@@ -1,5 +1,6 @@
 package org.bds.vm;
 
+import org.bds.BdsLog;
 import org.bds.compile.BdsNodeWalker;
 import org.bds.lang.BdsNode;
 import org.bds.lang.ProgramUnit;
@@ -25,7 +26,7 @@ import java.util.Map;
  *
  * @author pcingola
  */
-public class BdsVmAsm {
+public class BdsVmAsm implements BdsLog {
 
     boolean debug;
     boolean coverage;
@@ -114,7 +115,7 @@ public class BdsVmAsm {
         }
 
         bdsvm.setCode(code);
-        if (debug) System.err.println("# Assembly: Start\n" + bdsvm.toAsm() + "\n# Assembly: End\n");
+        debug("Bds Assembly:\n# Assembly: Start\n" + bdsvm.toAsm() + "\n# Assembly: End\n");
         return bdsvm;
     }
 
@@ -217,6 +218,15 @@ public class BdsVmAsm {
         this.coverage = coverage;
     }
 
+    @Override
+    public boolean isDebug() {
+        return debug;
+    }
+
+    public void setDebug(boolean debug) {
+        this.debug = debug;
+    }
+
     /**
      * Get a label from an input line, null if there are no labels
      */
@@ -292,20 +302,15 @@ public class BdsVmAsm {
         this.codeStr = codeStr;
     }
 
-    public void setDebug(boolean debug) {
-        this.debug = debug;
-    }
-
     public void setVerbose(boolean verbose) {
         this.verbose = verbose;
     }
 
-    /**
-     * Remove any labels
-     */
-    String stripLabel(String line) {
-        int labelIdx = line.indexOf(':');
-        return labelIdx >= 0 ? line.substring(labelIdx + 1) : line;
-    }
-
+//    /**
+//     * Remove any labels
+//     */
+//    String stripLabel(String line) {
+//        int labelIdx = line.indexOf(':');
+//        return labelIdx >= 0 ? line.substring(labelIdx + 1) : line;
+//    }
 }

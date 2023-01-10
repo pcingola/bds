@@ -150,9 +150,8 @@ public class ExpressionNew extends MethodCall {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
-        return "new " + functionName + "( " + args + " )";
+    public String prettyPrint(String sep) {
+        return sep + "new " + functionName + "( " + args + " )";
     }
 
     @Override

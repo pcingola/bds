@@ -21,9 +21,4 @@ public class Statement extends BdsNode {
 		compileError("This method should never be invoked!");
 	}
 
-	@Override
-	public String toString() {
-		return this.getClass().getSimpleName().toLowerCase() + "\n";
-	}
-
 }

@@ -524,7 +524,6 @@ public class Config implements Serializable, BdsLog {
         this.coverage = coverage;
     }
 
-    @Override
     public boolean isDebug() {
         return debug;
     }

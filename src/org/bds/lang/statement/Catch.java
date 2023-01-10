@@ -72,14 +72,13 @@ public class Catch extends StatementWithScope {
                 ;
     }
 
-    @Override
-    public String toString() {
+    public String prettyPrint(String sep) {
         StringBuilder sb = new StringBuilder();
-        sb.append("catch (");
-        if (typeClassException != null && varName != null) sb.append(typeClassException + " " + varName);
+        sb.append("catch ("); // Note: We don't start with 'sep' since this come from a 'TryCatchFinally' block
+        if (typeClassException != null && varName != null) sb.append(typeClassException.prettyPrint("") + " " + varName);
         sb.append(") {\n");
-        if (statement != null) sb.append(statement);
-        sb.append("} ");
+        if (statement != null) sb.append(statement.prettyPrint(sep + SEP));
+        sb.append(sep + "}"); // Note: We don't end with a trailing '\n', it is handled in the 'TryCatchFinally' block
         return sb.toString();
     }
 

@@ -1,0 +1,22 @@
+class SimpleException extends Exception {}
+
+class CustomException extends Exception {
+	void CustomException(string msg) {
+		super.Exception(msg)
+	}
+}
+
+void func() {
+	try {
+		throw new CustomException("My message")
+	} catch (SimpleException e) {
+		println "Catch"
+	} finally {
+		println "Finaly"
+	}
+}
+
+void testFoo() {
+	func() // Exits with an exception
+}
+

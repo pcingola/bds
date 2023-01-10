@@ -77,9 +77,8 @@ public class Return extends Statement {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
-        return "return " + expr;
+    public String prettyPrint(String sep) {
+        return sep + "return " + (expr != null ? expr.prettyPrint("") : "");
     }
 
     @Override

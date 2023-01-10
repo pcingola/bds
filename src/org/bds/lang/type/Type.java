@@ -20,6 +20,7 @@ import java.util.List;
 public abstract class Type extends BdsNode implements Comparable<Type> {
 
     private static final long serialVersionUID = -2836048827087214442L;
+    public static boolean debug = false;
 
     protected PrimitiveType primitiveType;
     protected SymbolTable symbolTable; // A type requires a SymbolTable to define all methods related to this type / class
@@ -132,6 +133,11 @@ public abstract class Type extends BdsNode implements Comparable<Type> {
     }
 
     @Override
+    public boolean isDebug() {
+        return debug;
+    }
+
+    @Override
     public boolean isFunction() {
         return false;
     }
@@ -227,8 +233,7 @@ public abstract class Type extends BdsNode implements Comparable<Type> {
         return null;
     }
 
-    @Override
-    public String toString() {
+    public String prettyPrint(String sep) {
         return primitiveType.toString();
     }
 

@@ -164,12 +164,11 @@ public class ExpressionParallel extends ExpressionTask {
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
-        return "par" //
+    public String prettyPrint(String sep) {
+        return sep + "par" //
                 + (options != null ? options : "") //
                 + " " //
-                + toStringStatement() //
+                + prettyPrintStatement(sep + SEP) //
                 ;
     }
 }

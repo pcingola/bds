@@ -67,9 +67,8 @@ public class ReferenceField extends ReferenceVar {
                 + OpCode.SETFIELD + " " + name + "\n";
     }
 
-    @Override
-    public String toString() {
-        return exprObj + "." + name;
+    public String prettyPrint(String sep) {
+        return exprObj.prettyPrint("") + "." + name;
     }
 
     @Override

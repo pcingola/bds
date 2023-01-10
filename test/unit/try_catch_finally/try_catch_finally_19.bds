@@ -1,0 +1,29 @@
+#!/usr/bin/env bds
+
+bool okCatch, okFinally
+
+class CustomException extends Exception {
+    void CustomException(string msg) {
+        super.Exception("Message: $msg")
+    }
+}
+
+void func() {
+    try {
+        throw new CustomException("foo")
+        println "This should not be executed."
+    } catch (CustomException e) {
+		println "Catch"
+		okCatch = true
+	} finally {
+		println "Finally"
+		okFinally = true
+	}
+}
+
+void testFoo() {
+    func()
+	assert(okCatch)
+	assert(okFinally)
+}
+
