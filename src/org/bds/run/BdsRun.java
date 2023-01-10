@@ -634,7 +634,6 @@ public class BdsRun implements BdsLog {
 
         // Show coverage statistics and save them
         if (coverage) {
-            if (1 < 2) throw new RuntimeException("REMOVE NODES FROM 'Modules' (I.E. LIBRARY FILES e.g. 'exceptions.bds'). MARK LINES AS 'NATIVE'");
             // Show stats
             System.out.println(coverageCounter);
             if (debug) debug("Detailed coverage counts:\n" + coverageCounter.toStringCounts());
@@ -670,13 +669,6 @@ public class BdsRun implements BdsLog {
         BdsVm vmtest = compileAsm(puTest);
         vmtest.setDebug(debug);
 
-        // Are we calculating coverage?
-        // Then set 'Modules' nodes as 'native code' so they don't count in coverage calculations
-        if (coverage) {
-            for (Module m : puTest.getModules()) coverageCounter.markNativeCode(m);
-        }
-
-        //
         BdsThread bdsThreadTest = new BdsThread(puTest, config, vmtest);
 
         // Run thread and check exit code
@@ -685,6 +677,7 @@ public class BdsRun implements BdsLog {
         // Show coverage results
         if (coverage) {
             coverageCounter.add(vmtest); // Add all statistics from vm execution
+            coverageCounter.markNativeCode(vmtest, puTest.getModules()); // Then set 'Modules' nodes as 'native code' so they don't count in coverage calculations
             coverageCounter.markTestCode(vmtest, testFunc); // Mark all nodes that are in the test*() function. We don't want to count test code in the coverage statistics
         }
 

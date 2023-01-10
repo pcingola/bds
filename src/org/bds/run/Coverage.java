@@ -148,6 +148,24 @@ public class Coverage implements Serializable, BdsLog {
     }
 
     /**
+     * Mark all Module's code as 'native', so we don't calculate coverage on native code
+     */
+    public void markNativeCode(BdsVm vm, Module[] modules) {
+        for (Module m : modules) markNativeCode(vm, m);
+    }
+
+    /**
+     * Mark Module's code as 'native', so we don't calculate coverage on native code
+     */
+    public void markNativeCode(BdsVm vm, Module module) {
+        // Find all nodes that are part of the test function code, and mark them as 'test code'
+        BdsNodeWalker bw = new BdsNodeWalker(module, null, true, true);
+
+        // Mark all nodes within the test function code
+        bw.findNodes().stream().forEach(this::markNativeCode); // Mark all nodes in the function statements
+    }
+
+    /**
      * Mark all function's statements as 'test' code
      * This removes coverage stats from all nodes that are in the test*() function
      * because we don't want to calculate coverage on testing code
@@ -164,18 +182,6 @@ public class Coverage implements Serializable, BdsLog {
         // Mark all nodes within the test function code
         bw.findNodes().stream().forEach(this::markTestCode); // Mark all nodes in the function statements
         markTestCode(testFunc); // Mark the function declaration node
-    }
-
-    /**
-     * Mark all Module's code as 'native'
-     * We don't want to calculate coverage on native code
-     */
-    public void markNativeCode(BdsVm vm, Module module) {
-        // Find all nodes that are part of the test function code, and mark them as 'test code'
-        BdsNodeWalker bw = new BdsNodeWalker(module, null, true, true);
-
-        // Mark all nodes within the test function code
-        bw.findNodes().stream().forEach(this::markNativeCode); // Mark all nodes in the function statements
     }
 
     /**
@@ -371,6 +377,11 @@ class FileCoverage implements Comparable<FileCoverage>, Serializable, BdsLog {
         return lineCovered;
     }
 
+    void markNativeCode(BdsNode bdsNode) {
+        var lineCov = getLineCoverage(bdsNode);
+        if (lineCov != null) lineCov.markNativeCode();
+    }
+
     void markTestCode(BdsNode bdsNode) {
         var lineCov = getLineCoverage(bdsNode);
         if (lineCov != null) lineCov.markTestCode();
@@ -533,6 +544,10 @@ class LineCoverage implements Comparable<LineCoverage>, Serializable {
         // Map nodeIds to sort order
         for (int i = 0; i < nodeIds.size(); i++)
             nodeId2order.put(nodeIds.get(i), i);
+    }
+
+    void markNativeCode() {
+        this.nativeCode = true;
     }
 
     void markTestCode() {
