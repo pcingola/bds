@@ -78,7 +78,7 @@ public class Return extends Statement {
     }
 
     public String prettyPrint(String sep) {
-        return sep + "return " + expr.prettyPrint("");
+        return sep + "return " + (expr != null ? expr.prettyPrint("") : "");
     }
 
     @Override
