@@ -529,7 +529,7 @@ public class TaskDependecies implements Serializable, BdsLog {
 		// If task failed, show task information and failure reason.
 		if (!ok) {
 			// Show error and mark all files to be deleted on exit
-			error("Task failed:\n" + task.toString(true));
+			error("Task failed:\n" + task.toString()); // FIXME: We need this error message to be in the WaitException and not here!
 			task.deleteOutputFilesOnExit();
 		}
 

@@ -15,7 +15,6 @@ public class TestCasesZzz extends TestCasesBaseAws {
 
     public TestCasesZzz() {
         dir = "test/";
-        dir = "test/unit/test_cases/";
     }
 
     @Before
@@ -26,8 +25,11 @@ public class TestCasesZzz extends TestCasesBaseAws {
 
     @Test
     public void testTestCasesCoverage06() {
-        // Check that coverage is correctly computed: 100% coverage
-        Bds bds = runTestCasesPassCoverage(dir + "test_case_run_06.bds", 0.95);
-        checkCoverageRatio(bds, 1.0);
+        verbose = true;
+        runOk(dir + "z.bds");
+//        !!!!!!!!!!!!!!!!!!!
+//        SERGEY's MESSAGE: WaitException shows on stderr
+//        CREATE TEST
+//        CHECK EMPTY STDOUT / STDERR
     }
 }

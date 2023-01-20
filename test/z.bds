@@ -1,12 +1,14 @@
 #!/usr/bin/env bds
 
-class CustomException extends Exception {
-    void CustomException(string msg) {
-        super.Exception("Message")
-    }
+
+try {
+	# This task should fail (command not found)
+	task fake_command_does_not_exits "Hello"
+
+	# Wait within try/catch, so we capture the exception
+	wait
+} catch (Exception e) {
+	println "Catch!"
 }
 
-void testFoo() {
-	new CustomException("foo")
-}
-
+exit 0
