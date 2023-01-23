@@ -2,7 +2,7 @@
 
 # In this example: 
 #   - Dependency between tasks
-#   - Run: `rm in.txt tmp.txt; ./example_09.bds`
+#   - Run: `date > in.txt; rm tmp.txt; ./example_09.bds`
 
 in := 'in.txt'  help Input file
 tmp := 'tmp.txt'  help Temporary file

@@ -8,7 +8,7 @@ num := 4  help Number of things...
 
 string[] outs
 for(i := 0; i < num; i++) {
-	in := "exmaple_in.$i"
+	in := "example_in.$i"
 	out := "exmaple_out.$i"
 	outs += out
 	task(out <- in) {

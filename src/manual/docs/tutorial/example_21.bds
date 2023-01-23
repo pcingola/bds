@@ -19,11 +19,11 @@ int f(int i, string in, string out) {
 # Main
 sys echo "Main is running ..."
 
-in := "example.in"
-out := "example.out"
+in := "in.txt"
+out := "out.txt"
 task(out <- in) {
 	# Note that the task has bds code instead of shell commands (`sys` commands)
 	println "Calculating function f($num, $in, $out)"
-	x := f(i, in, out)
+	x := f(num, in, out)
 	println "The result is $x"
 }

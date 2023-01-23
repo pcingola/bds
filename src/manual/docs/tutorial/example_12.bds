@@ -4,14 +4,18 @@
 # 	- Flexible task dependencies
 # 	- Multiple task dependencies
 # 	- DAG (Directed Acyclic Graph) tasks
+#	- Run:
+#		- Clean up and create input files: `rm *.txt example_{in,out}.*; for i in {0..3}; do echo "Hello $i" > example_in.$i; done`
+#		- Run: `./example_12.bds`
+
 
 num := 4  help Number of things...
 
 # Flexible number of tasks
 string[] outs
 for(i := 0; i < num; i++) {
-	in := "exmaple_in.$i"
-	out := "exmaple_out.$i"
+	in := "example_in.$i"
+	out := "example_out.$i"
 	outs += out
 	task(out <- in, taskName:= "hello_$i") {
 		sys (cat $in ; echo "Hello $i") > $out

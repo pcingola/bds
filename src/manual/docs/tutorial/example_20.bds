@@ -1,11 +1,18 @@
 #!/usr/bin/env bds
 
-# In this example: Checkpoints
+# In this example: 
+#	- Checkpoints
+#	- Running from a checkpoint
+#	- Looking at a checkpoint file
+#	- Run: 
+#		- `./example_20.bds`
+#		- Start from checkpoint: `./example_20.bds -r example_20.chp`
+#		- Look at checkpoint file: `bds -i example_20.chp 2>&1 | less` 
 
 for( int i=0 ; i < 10 ; i++ ) {
 	if( i == 5 ) {
 		print("Checkpoint\n")
-		checkpoint "my.chp"
+		checkpoint "example_20.chp"
 	}
 	print("Counting $i\n")
 }
