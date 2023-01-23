@@ -17,5 +17,3 @@ task(out <- in) {
     sys echo "Running a task!"
     sys cat $in > $out
 } 
-
-

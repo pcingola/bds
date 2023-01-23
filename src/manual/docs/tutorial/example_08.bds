@@ -14,5 +14,3 @@ task(out <- in, cpus := 1, mem := 1 * G, system := 'local', timeout := 1 * hour,
     sys echo "Running a task!"
     sys cat $in > $out
 } 
-
-

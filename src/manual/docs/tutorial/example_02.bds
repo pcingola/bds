@@ -5,7 +5,7 @@
 #   - To show help: `./example_02.bds -h`
 #   - Run: `./example_02.bds -in another_in.txt -out another_out.txt`
 
-in := 'in.txt'  help Input file
+in := 'in.txt'    help Input file
 out := 'out.txt'  help Output file to store results
 
 println "Input is: $in\nOutput is: $out"

@@ -35,9 +35,21 @@ This significantly reduces the time and effort required for development cycles.
 -   **Built in debugger** Debugging is an integral part of programming, so it is part of `bds` language. Statements `breakpoint` and `debug` make debugging part of the language, instead of requiring platform specific tools.
 -   **Built in test cases facility** Code testing is performed in everyday programming, so testing is built in `bds`.
 
-## Tutorial
+## Tutorial examples
 
--
-
-3. Tips and tricks for debugging: html report, sh scripts, state points, etc..
-4. Demux [Sergey]
+-   [example_00](tutorial/example_00.bds)
+-   [example_01](tutorial/example_01.bds)
+-   [example_02](tutorial/example_02.bds)
+-   [example_03](tutorial/example_03.bds)
+-   [example_04](tutorial/example_04.bds)
+-   [example_05](tutorial/example_05.bds)
+-   [example_06](tutorial/example_06.bds)
+-   [example_07](tutorial/example_07.bds)
+-   [example_08](tutorial/example_08.bds)
+-   [example_09](tutorial/example_09.bds)
+-   [example_10](tutorial/example_10.bds)
+-   [example_11](tutorial/example_11.bds)
+-   [example_12](tutorial/example_12.bds)
+-   [example_13](tutorial/example_13.bds)
+-   [example_20](tutorial/example_20.bds)
+-   [example_21](tutorial/example_21.bds)
