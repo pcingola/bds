@@ -1,0 +1,13 @@
+#!/usr/bin/env bds
+
+# In this example: 
+#	- Flexible number of tasks
+#	- Run: `./example_10.bds -num 5`
+
+num := 4  help Number of things...
+
+# Flexible number of tasks
+for(i := 0; i < num; i++) {
+	task echo "Hello $i"; hostname; echo "Bye $i"
+}
+

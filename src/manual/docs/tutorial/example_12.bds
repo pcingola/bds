@@ -1,0 +1,28 @@
+#!/usr/bin/env bds
+
+# In this example:
+# 	- Flexible task dependencies
+# 	- Multiple task dependencies
+# 	- DAG (Directed Acyclic Graph) tasks
+
+num := 4  help Number of things...
+
+# Flexible number of tasks
+string[] outs
+for(i := 0; i < num; i++) {
+	in := "exmaple_in.$i"
+	out := "exmaple_out.$i"
+	outs += out
+	task(out <- in, taskName:= "hello_$i") {
+		sys (cat $in ; echo "Hello $i") > $out
+		sys sleep 1
+		sys echo "Bye $i"
+	}
+}
+
+# Here we depend on all previous tasks to finish, so 'outs' is a list of all previous outputs
+println "Running next task"
+out := "example.out"
+task(out <- outs, taskName := "catAll") {
+	sys cat example_out.* > $out
+}

@@ -1,0 +1,26 @@
+#!/usr/bin/env bds
+
+# In this example: 
+#   - Dependency between tasks
+#   - Run: `rm in.txt tmp.txt; ./example_09.bds`
+
+in := 'in.txt'  help Input file
+tmp := 'tmp.txt'  help Temporary file
+out := 'out.txt'  help Output file to store results
+
+println "Input is: $in\nOutput is: $out"
+
+# Task 1: Depends on 'in' file
+task(tmp <- in) {
+    sys echo "Running a task 1"
+    sys cat $in > $tmp
+    sys echo "Task 1 added this line" >> $tmp
+} 
+
+# Task 2: Depends on `tmp` file
+task(out <- tmp) {
+    sys echo "Running a task 2"
+    sys cat $tmp > $out
+    sys echo "Task 2 added this line" >> $out
+} 
+

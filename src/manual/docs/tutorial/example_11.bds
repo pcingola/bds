@@ -1,0 +1,16 @@
+#!/usr/bin/env bds
+
+# In this example: Flexible number of tasks with input and output files
+
+num := 4  help Number of things...
+
+for(i := 0; i < num; i++) {
+	in := "example_in.$i"
+	out := "example_out.$i"
+	task(out <- in) {
+		sys (cat $in ; echo "Hello $i") | tee $out
+		sys sleep 3
+		sys echo "Bye $i"
+	}
+}
+

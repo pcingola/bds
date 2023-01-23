@@ -1,0 +1,21 @@
+#!/usr/bin/env bds
+
+# In this example: 
+#   - Running a multiple shell command using `task`
+#   - Dependency
+#   - Run:
+#       - `rm out.txt; ./example_07.bds` (first time it will run the task)
+#       - `./example_07.bds` (the second time it will skip the task)
+
+in := 'in.txt'  help Input file
+out := 'out.txt'  help Output file to store results
+
+println "Input is: $in\nOutput is: $out"
+
+# Task with a dependency
+task(out <- in) {
+    sys echo "Running a task!"
+    sys cat $in > $out
+} 
+
+

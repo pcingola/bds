@@ -1,0 +1,14 @@
+#!/usr/bin/env bds
+
+# In this example:
+#  - Running a simple shell command using `task`
+#  - Run: `./example_05.bds`
+
+in := 'in.txt'  help Input file
+out := 'out.txt'  help Output file to store results
+
+println "Input is: $in\nOutput is: $out"
+
+# Task is a simple way to run a schedule a shell command to be run
+task cat $in > $out
+

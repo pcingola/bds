@@ -1,0 +1,29 @@
+#!/usr/bin/env bds
+
+# In this example: 
+#	- Wait statement
+#	- Using taskIds to wait for task dependencies
+
+num := 4  help Number of things...
+
+string[] outs
+for(i := 0; i < num; i++) {
+	in := "exmaple_in.$i"
+	out := "exmaple_out.$i"
+	outs += out
+	task(out <- in) {
+		sys (cat $in ; echo "Hello $i") | tee $out
+		sys sleep 1
+		sys echo "Bye $i"
+	}
+}
+
+println "Running next task"
+out := "exmaple_out"
+tid := task(out <- outs) {
+	sys cat exmaple_out.* > $out
+}
+println "TASK ID= $tid"
+
+wait tid
+println "Finished!"

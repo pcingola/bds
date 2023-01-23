@@ -1,0 +1,14 @@
+#!/usr/bin/env bds
+
+# In this example:
+#   - Running a simple shell command using `sys`
+#   - Run: `./example_03.bds`, after that look at in.txt and out.txt files
+
+in := 'in.txt'  help Input file
+out := 'out.txt'  help Output file to store results
+
+println "Input is: $in\nOutput is: $out"
+
+sys date > $in
+sys cat $in > $out
+

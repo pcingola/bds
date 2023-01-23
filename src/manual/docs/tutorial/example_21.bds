@@ -1,0 +1,29 @@
+#!/usr/bin/env bds
+
+# In this example: 
+#	- "Improper" tasks
+# 	- How these task use `checkpoints` to move code execution
+# 	- Example: Running tasks in other nodes
+
+num := 4  help Number of things...
+
+# This is a function that will be executed in a task
+int f(int i, string in, string out) {
+	x := 2 * i
+	sys (cat $in ; echo "Hello $x") | tee $out
+	sleep(10)
+	println "Bye f($i, $in, $out) = $x\nnum=$num"
+	return x
+}
+
+# Main
+sys echo "Main is running ..."
+
+in := "example.in"
+out := "example.out"
+task(out <- in) {
+	# Note that the task has bds code instead of shell commands (`sys` commands)
+	println "Calculating function f($num, $in, $out)"
+	x := f(i, in, out)
+	println "The result is $x"
+}

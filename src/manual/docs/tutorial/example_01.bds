@@ -1,0 +1,11 @@
+#!/usr/bin/env bds
+
+# In this example:
+#   - Variables and type inference
+#   - String interpolation
+#   - Command line options: `./example_01.bds -in another_input_file.txt`
+
+in := 'in.txt'
+
+println "Input is: $in"
+

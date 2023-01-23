@@ -1,0 +1,18 @@
+#!/usr/bin/env bds
+
+# In this example: 
+#   - Task parameters
+#   - Run: `./example_08.bds`
+
+in := 'in.txt'  help Input file
+out := 'out.txt'  help Output file to store results
+
+println "Input is: $in\nOutput is: $out"
+
+# Task parameters
+task(out <- in, cpus := 1, mem := 1 * G, system := 'local', timeout := 1 * hour, taskName := 'mytask') {
+    sys echo "Running a task!"
+    sys cat $in > $out
+} 
+
+

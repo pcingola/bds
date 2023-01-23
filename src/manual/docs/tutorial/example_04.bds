@@ -1,0 +1,20 @@
+#!/usr/bin/env bds
+
+# In this example: 
+#   - Running a simple shell command using `sys`
+#   - Dependency 
+#   - Run: 
+#       - `rm out.txt; ./example_04.bds` (the first time it runs the command)
+#       - `./example_04.bds` (the second time it does not run the command)
+
+in := 'in.txt'  help Input file
+out := 'out.txt'  help Output file to store results
+
+println "Input is: $in\nOutput is: $out"
+
+# Note: Dependency operator `<-` is used to check if the input file is newer than the output file
+if( out <- in ) {
+    println "Input is newer than output, running command"
+    sys cat $in > $out
+}
+

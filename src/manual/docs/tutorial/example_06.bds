@@ -1,0 +1,19 @@
+#!/usr/bin/env bds
+
+# In this example:
+# - Running a multiple shell commands using `task`
+#  - Run: `./example_06.bds`
+
+in := 'in.txt'  help Input file
+out := 'out.txt'  help Output file to store results
+
+println "Input is: $in\nOutput is: $out"
+
+# Task is a simple way to run a schedule a shell command to be run
+task {
+    # Multiple `sys` commands can be run in a task
+    # They are joined into a single shell script
+    sys echo "Running a task!"
+    sys cat $in > $out
+} 
+
