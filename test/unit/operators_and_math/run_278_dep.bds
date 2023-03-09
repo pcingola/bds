@@ -1,0 +1,6 @@
+
+in := ['']
+string[] out
+
+z := (out <- in)
+println "dep operator: $z"

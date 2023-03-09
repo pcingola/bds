@@ -292,4 +292,18 @@ public class TestCasesOperatorsAndMath extends TestCasesBase {
         expectedValues.put("f", 0);
         runAndCheck(dir + "run_276.bds", expectedValues);
     }
+
+    @Test
+    public void test277Dep() {
+        // Dep operator test case
+        runAndCheck(dir + "run_277_dep.bds", "z", "true");
+    }
+
+    @Test
+    public void test278Dep() {
+        // Dep operator test case
+        verbose = true;
+        runAndCheck(dir + "run_278_dep.bds", "z", "true"); // FIXME: THIS IS NOT CORRECT
+    }
+
 }
