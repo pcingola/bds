@@ -36,8 +36,6 @@ public class MethodNativeStringDirPath extends MethodNativeString {
 		String baseDir = vthis.asString();
 		if (!baseDir.endsWith("/")) baseDir += "/";
 
-		Gpr.debug("baseDir: " + baseDir);
-
 		// List files
 		ValueList vlist = new ValueList(returnType);
 		for (Data sub : bdsThread.data(baseDir).list()) {
