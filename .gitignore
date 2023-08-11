@@ -20,3 +20,4 @@ build/*
 node_modules
 **/node_modules
 bds.coverage
+vscode/bds/out
