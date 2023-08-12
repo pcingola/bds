@@ -20,6 +20,7 @@ jobs:
       with:
         node-version: 18
         cache: 'npm'
+        dependencies-lock-file: './vscode/bds/package-lock.json'
     - run: npm ci
     - run: npx vsce package
     - name: GH Release
