@@ -29,3 +29,6 @@ jobs:
         draft: true
         files: |
           ./vscode/bds/*.vsix
+
+permissions:
+  contents: write
