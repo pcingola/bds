@@ -1,6 +1,6 @@
 import { Definition, Location, Position } from "vscode-languageserver/node";
 import { TextDocument } from "vscode-languageserver-textdocument";
-import { IndexType, SimpleIndex } from "./simpleIndex";
+import { IndexType, SimpleIndex } from "./symbolIndex";
 
 export class DefinitionLogic {
   private indexer = new SimpleIndex();
