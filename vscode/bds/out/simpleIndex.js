@@ -36,8 +36,6 @@ class SimpleIndex {
             const column = match.index - content.lastIndexOf("\n", match.index) - 1 + 6;
             this.addSymbol(className, { file, line, column });
         }
-        console.log("parseAndIndexFileContent");
-        console.log(this.index);
     }
 }
 exports.SimpleIndex = SimpleIndex;

@@ -45,8 +45,6 @@ export class SimpleIndex {
 
       this.addSymbol(className, { file, line, column });
     }
-    console.log("parseAndIndexFileContent");
-    console.log(this.index);
   }
 }
 

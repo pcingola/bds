@@ -48,8 +48,6 @@ function indexAllWorkspaceFiles() {
     for (const folder of vscode.workspace.workspaceFolders) {
         indexFilesInFolder(folder);
     }
-    console.log("indexAllWorkspaceFiles");
-    console.log(simpleIndex_1.globalIndex);
 }
 function indexFilesInFolder(folder) {
     const pattern = new vscode.RelativePattern(folder, "**/*.bds");

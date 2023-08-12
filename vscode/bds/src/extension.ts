@@ -30,8 +30,6 @@ function indexAllWorkspaceFiles(): void {
   for (const folder of vscode.workspace.workspaceFolders) {
     indexFilesInFolder(folder);
   }
-  console.log("indexAllWorkspaceFiles");
-  console.log(globalIndex);
 }
 
 function indexFilesInFolder(folder: vscode.WorkspaceFolder): void {
