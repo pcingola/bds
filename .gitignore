@@ -23,3 +23,5 @@ bds.coverage
 vscode/bds/dist
 vscode/bds/release
 *.vsix
+vscode/bds/server/out
+vscode/bds/client/out

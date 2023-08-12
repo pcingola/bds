@@ -2,29 +2,16 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch Client",
       "type": "extensionHost",
       "request": "launch",
-      "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
-      "outFiles": ["${workspaceFolder}/client/out/**/*.js"],
-      "preLaunchTask": "compile client", // Use the specific task for compiling the client
-      "sourceMaps": true
-    },
-    {
-      "name": "Attach to Server",
-      "type": "node",
-      "request": "attach",
-      "port": 6009, // Ensure this port matches the one in your server code
-      "outFiles": ["${workspaceFolder}/server/out/**/*.js"],
-      "preLaunchTask": "compile server", // Use the specific task for compiling the server
-      "sourceMaps": true,
-      "restart": true
-    }
-  ],
-  "compounds": [
-    {
-      "name": "Client + Server",
-      "configurations": ["Launch Client", "Attach to Server"]
+      "name": "Launch Client",
+      "runtimeExecutable": "${execPath}",
+      "args": ["--extensionDevelopmentPath=${workspaceRoot}"],
+      "outFiles": ["${workspaceRoot}/client/out/**/*.js"],
+      "preLaunchTask": {
+        "type": "npm",
+        "script": "watch"
+      }
     }
   ]
 }

@@ -1,0 +1,39 @@
+{
+    "name": "bds-extension",
+    "version": "0.0.1",
+    "description": "VS Code extension for BDS Language",
+    "main": "./client/out/extension",
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -b",
+        "watch": "tsc -b -w",
+        "postinstall": "cd client && npm install && cd ../server && npm install && cd .."
+    },
+    "engines": {
+        "vscode": "^1.81.1"
+    },
+    "contributes": {
+        "languages": [
+            {
+                "id": "bds",
+                "extensions": [
+                    ".bds"
+                ],
+                "aliases": [
+                    "BDS",
+                    "bds"
+                ],
+                "configuration": "./language-configuration"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "bds",
+                "scopeName": "source.bds",
+                "path": "./syntaxes/bds.tmLanguage 20220607.json"
+            }
+        ]
+    },
+    "dependencies": {},
+    "devDependencies": {}
+}
