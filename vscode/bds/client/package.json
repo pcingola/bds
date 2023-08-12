@@ -23,7 +23,7 @@
                     "BDS",
                     "bds"
                 ],
-                "configuration": "./bds.configuration.json"
+                "configuration": "./language-configuration"
             }
         ],
         "grammars": [
