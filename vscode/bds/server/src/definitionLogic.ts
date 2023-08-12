@@ -1,38 +1,23 @@
-import {
-  TextDocumentPositionParams,
-  Definition,
-  Location,
-  Range,
-  Position,
-} from "vscode-languageserver/node";
+import { Definition, Position } from "vscode-languageserver/node";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { SimpleIndex } from "./simpleIndex";
 
 export class DefinitionLogic {
-  private indexer: SimpleIndex;
-
-  constructor() {
-    this.indexer = new SimpleIndex();
-  }
+  private indexer: SimpleIndex = new SimpleIndex();
 
   public getDefinition(
     document: TextDocument,
     position: Position
   ): Definition | null {
     const word = this.getWordAtPosition(document, position);
-    if (!word) {
-      return null;
-    }
+    if (!word) return null;
 
-    // Use the indexer to find the definition of the word
     const locations = this.indexer.getSymbolLocation(word);
-    if (!locations || locations.length === 0) {
-      return null;
+    if (locations && locations.length > 0) {
+      return locations[0];
     }
 
-    // For simplicity, we're returning the first location if there are multiple.
-    // You can modify this to return all locations if necessary.
-    return locations[0];
+    return null;
   }
 
   private getWordAtPosition(
