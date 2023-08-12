@@ -27,4 +27,5 @@ jobs:
       uses: softprops/action-gh-release@v0.1.15
       with:
         draft: true
-        files: bds-extension-0.0.1.vsix
+        files: |
+          ./vscode/bds/*.vsix
