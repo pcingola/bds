@@ -4,9 +4,10 @@
     "module": "commonjs",
     "lib": ["es2015", "dom"],
     "outDir": "./out",
-    "rootDir": "./",
+    "rootDir": "./src",
     "strict": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "sourceMap": true
   },
   "exclude": ["node_modules"]
 }
