@@ -3,6 +3,9 @@
     "version": "0.0.1",
     "description": "VS Code extension for BDS Language",
     "main": "./client/out/extension",
+    "activationEvents": [
+        "onLanguage:bds"
+    ],
     "repository": {
         "url": "https://github.com/oskarissimus/bds.git",
         "type": "git"
