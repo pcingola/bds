@@ -30,7 +30,7 @@
             {
                 "language": "bds",
                 "scopeName": "source.bds",
-                "path": "./syntaxes/bds.tmLanguage.json"
+                "path": "./syntaxes/bds.tmLanguage 20220607.json"
             }
         ]
     },
