@@ -1,6 +1,6 @@
-import { Definition, Position } from "vscode-languageserver/node";
+import { Definition, Location, Position } from "vscode-languageserver/node";
 import { TextDocument } from "vscode-languageserver-textdocument";
-import { SimpleIndex } from "./simpleIndex";
+import { IndexType, SimpleIndex } from "./simpleIndex";
 
 export class DefinitionLogic {
   private indexer = new SimpleIndex();
@@ -12,7 +12,24 @@ export class DefinitionLogic {
     const word = this.getWordAtPosition(document, position);
     if (!word) return null;
 
-    const locations = this.indexer.getSymbolLocation(word);
+    const locations = this.indexer.getSymbolLocation(
+      word,
+      IndexType.Definition
+    );
+    if (locations && locations.length > 0) {
+      return locations;
+    }
+    return null;
+  }
+
+  public getReferences(
+    document: TextDocument,
+    position: Position
+  ): Location[] | null {
+    const word = this.getWordAtPosition(document, position);
+    if (!word) return null;
+
+    const locations = this.indexer.getSymbolLocation(word, IndexType.Reference);
     if (locations && locations.length > 0) {
       return locations;
     }

@@ -5,6 +5,10 @@ import {
   InitializeParams,
   TextDocumentSyncKind,
   WorkspaceFolder,
+  DefinitionParams,
+  Definition,
+  ReferenceParams,
+  Location,
 } from "vscode-languageserver/node";
 import { TextDocument } from "vscode-languageserver-textdocument";
 
@@ -27,6 +31,7 @@ connection.onInitialize((params: InitializeParams) => {
     capabilities: {
       textDocumentSync: TextDocumentSyncKind.Incremental,
       definitionProvider: true,
+      referencesProvider: true,
     },
   };
 });
@@ -66,12 +71,23 @@ documents.onDidChangeContent((change) => {
   indexer.parseAndIndexDocument(change.document);
 });
 
-connection.onDefinition((textDocumentPosition) => {
-  const document = documents.get(textDocumentPosition.textDocument.uri);
-  return document
-    ? definitionLogic.getDefinition(document, textDocumentPosition.position)
-    : null;
-});
+connection.onDefinition(
+  (textDocumentPosition: DefinitionParams): Definition | null => {
+    const document = documents.get(textDocumentPosition.textDocument.uri);
+    return document
+      ? definitionLogic.getDefinition(document, textDocumentPosition.position)
+      : null;
+  }
+);
+
+connection.onReferences(
+  (textDocumentPosition: ReferenceParams): Location[] | null => {
+    const document = documents.get(textDocumentPosition.textDocument.uri);
+    return document
+      ? definitionLogic.getReferences(document, textDocumentPosition.position)
+      : null;
+  }
+);
 
 documents.listen(connection);
 connection.listen();
