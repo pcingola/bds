@@ -12,17 +12,16 @@ import {
 } from "vscode-languageserver/node";
 import { TextDocument } from "vscode-languageserver-textdocument";
 
-import { DefinitionLogic } from "./definitionLogic";
 import { readdirSync, readFileSync, statSync } from "fs";
 import { join, extname } from "path";
 import { fileURLToPath } from "url";
+import { globalIndex } from "./symbolIndex";
+import { getDefinition, getReferences } from "./definitionLogic";
 
 let connection = createConnection(ProposedFeatures.all);
 let documents = new TextDocuments(TextDocument);
 
 let hasWorkspaceFolderCapability = false;
-let definitionLogic = new DefinitionLogic();
-let indexer = definitionLogic["indexer"];
 
 connection.onInitialize((params: InitializeParams) => {
   hasWorkspaceFolderCapability =
@@ -50,7 +49,7 @@ function indexBDSFilesInWorkspace(folder: WorkspaceFolder) {
   bdsFiles.forEach((file) => {
     const content = readFileSync(file, "utf8");
     const document = TextDocument.create(file, "bds", 1, content);
-    indexer.parseAndIndexDocument(document);
+    globalIndex.parseAndIndexDocument(document);
   });
 }
 
@@ -68,14 +67,14 @@ function findAllBDSFiles(dir: string, fileList: string[] = []): string[] {
 }
 
 documents.onDidChangeContent((change) => {
-  indexer.parseAndIndexDocument(change.document);
+  globalIndex.parseAndIndexDocument(change.document);
 });
 
 connection.onDefinition(
   (textDocumentPosition: DefinitionParams): Definition | null => {
     const document = documents.get(textDocumentPosition.textDocument.uri);
     return document
-      ? definitionLogic.getDefinition(document, textDocumentPosition.position)
+      ? getDefinition(document, textDocumentPosition.position)
       : null;
   }
 );
@@ -84,7 +83,7 @@ connection.onReferences(
   (textDocumentPosition: ReferenceParams): Location[] | null => {
     const document = documents.get(textDocumentPosition.textDocument.uri);
     return document
-      ? definitionLogic.getReferences(document, textDocumentPosition.position)
+      ? getReferences(document, textDocumentPosition.position)
       : null;
   }
 );

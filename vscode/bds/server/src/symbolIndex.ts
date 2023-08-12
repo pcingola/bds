@@ -6,7 +6,7 @@ export enum IndexType {
   Reference,
 }
 
-export class SimpleIndex {
+class SymbolIndex {
   private indexes: Record<IndexType, Map<string, Location[]>> = {
     [IndexType.Definition]: new Map(),
     [IndexType.Reference]: new Map(),
@@ -109,3 +109,7 @@ export class SimpleIndex {
     );
   }
 }
+
+const globalIndex = new SymbolIndex();
+
+export { globalIndex };
