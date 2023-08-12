@@ -14,7 +14,7 @@ export class DefinitionLogic {
 
     const locations = this.indexer.getSymbolLocation(word);
     if (locations && locations.length > 0) {
-      return locations[0];
+      return locations;
     }
     return null;
   }
