@@ -14,8 +14,7 @@
         "vscode:prepublish": "npm run compile",
         "compile": "tsc -b",
         "watch": "tsc -b -w",
-        "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
-        "test": "nyc mocha -r ts-node/register client/src/**/*.test.ts server/src/**/*.test.ts"
+        "postinstall": "cd client && npm install && cd ../server && npm install && cd .."
     },
     "engines": {
         "vscode": "^1.81.1"
@@ -42,28 +41,6 @@
             }
         ]
     },
-    "devDependencies": {
-        "@istanbuljs/nyc-config-typescript": "^1.0.2",
-        "@types/chai": "^4.3.5",
-        "@types/mocha": "^10.0.1",
-        "chai": "^4.3.7",
-        "mocha": "^10.2.0",
-        "nyc": "^15.1.0",
-        "ts-node": "^10.9.1"
-    },
-    "nyc": {
-        "extends": "@istanbuljs/nyc-config-typescript",
-        "all": true,
-        "include": [
-            "client/src/**/*.ts",
-            "server/src/**/*.ts"
-        ],
-        "exclude": [
-            "**/*.test.ts"
-        ],
-        "reporter": [
-            "text-summary",
-            "lcov"
-        ]
-    }
+    "dependencies": {},
+    "devDependencies": {}
 }
