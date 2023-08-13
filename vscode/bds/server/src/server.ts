@@ -4,7 +4,6 @@ import {
   ProposedFeatures,
   InitializeParams,
   TextDocumentSyncKind,
-  WorkspaceFolder,
   DefinitionParams,
   Definition,
   ReferenceParams,
@@ -12,11 +11,9 @@ import {
 } from "vscode-languageserver/node";
 import { TextDocument } from "vscode-languageserver-textdocument";
 
-import { readdirSync, readFileSync, statSync } from "fs";
-import { join, extname } from "path";
-import { fileURLToPath } from "url";
 import { globalIndex } from "./symbolIndex";
 import { getDefinition, getReferences } from "./definitionLogic";
+import { indexBDSFilesInWorkspace } from "./fileIndexer";
 
 let connection = createConnection(ProposedFeatures.all);
 let documents = new TextDocuments(TextDocument);
@@ -42,29 +39,6 @@ connection.onInitialized(() => {
     });
   }
 });
-
-function indexBDSFilesInWorkspace(folder: WorkspaceFolder) {
-  const folderUri = fileURLToPath(folder.uri);
-  const bdsFiles = findAllBDSFiles(folderUri);
-  bdsFiles.forEach((file) => {
-    const content = readFileSync(file, "utf8");
-    const document = TextDocument.create(file, "bds", 1, content);
-    globalIndex.parseAndIndexDocument(document);
-  });
-}
-
-function findAllBDSFiles(dir: string, fileList: string[] = []): string[] {
-  const files = readdirSync(dir);
-  for (const file of files) {
-    const filePath = join(dir, file);
-    if (statSync(filePath).isDirectory()) {
-      fileList = findAllBDSFiles(filePath, fileList);
-    } else if (extname(file) === ".bds") {
-      fileList.push(filePath);
-    }
-  }
-  return fileList;
-}
 
 documents.onDidChangeContent((change) => {
   globalIndex.parseAndIndexDocument(change.document);
