@@ -9,37 +9,56 @@ export function indexAllBDSFiles(
   workspace: RemoteWorkspace,
   hasWorkspaceFoldersCapability: boolean | undefined,
   symbolindex: SymbolIndex
-) {
+): void {
   if (hasWorkspaceFoldersCapability) {
-    workspace.getWorkspaceFolders().then((folders) => {
-      folders?.forEach((folder) =>
-        indexBDSFilesInWorkspace(folder, symbolindex)
-      );
-    });
+    workspace.getWorkspaceFolders().then(handleWorkspaceFolders(symbolindex));
   }
 }
 
-function indexBDSFilesInWorkspace(folder: WorkspaceFolder, index: SymbolIndex) {
-  const folderUri = fileURLToPath(folder.uri);
-  const bdsFiles = findAllBDSFiles(folderUri);
+function handleWorkspaceFolders(
+  symbolindex: SymbolIndex
+): (folders: WorkspaceFolder[] | null) => void {
+  return function (folders: WorkspaceFolder[] | null): void {
+    folders?.forEach(processEachFolder(symbolindex));
+  };
+}
 
-  bdsFiles.forEach((file) => {
+function processEachFolder(
+  symbolindex: SymbolIndex
+): (folder: WorkspaceFolder) => void {
+  return function (folder: WorkspaceFolder): void {
+    const folderUri = fileURLToPath(folder.uri);
+    const bdsFiles = findBDSFilesInDirectory(folderUri);
+    bdsFiles.forEach(indexEachBDSFile(symbolindex));
+  };
+}
+
+function indexEachBDSFile(index: SymbolIndex): (file: string) => void {
+  return function (file: string): void {
     const content = readFileSync(file, "utf8");
     const document = TextDocument.create(file, "bds", 1, content);
     index.parseAndIndexDocument(document);
-  });
+  };
 }
 
-function findAllBDSFiles(dir: string, fileList: string[] = []): string[] {
-  readdirSync(dir).forEach((file) => {
-    const filePath = join(dir, file);
+function findBDSFilesInDirectory(
+  dir: string,
+  fileList: string[] = []
+): string[] {
+  readdirSync(dir).forEach(determineIfDirOrBDSFile(dir, fileList));
+  return fileList;
+}
 
+function determineIfDirOrBDSFile(
+  dir: string,
+  fileList: string[]
+): (file: string) => void {
+  return function (file: string): void {
+    const filePath = join(dir, file);
     if (statSync(filePath).isDirectory()) {
-      findAllBDSFiles(filePath, fileList);
+      findBDSFilesInDirectory(filePath, fileList);
     } else if (extname(file) === ".bds") {
       fileList.push(filePath);
     }
-  });
-
-  return fileList;
+  };
 }
