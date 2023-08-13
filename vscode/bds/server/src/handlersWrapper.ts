@@ -12,7 +12,7 @@ import {
   ClientCapabilities,
 } from "vscode-languageserver/node";
 import { TextDocument } from "vscode-languageserver-textdocument";
-import { getLocationByType } from "./definitionLogic";
+import { getLocationByType } from "./symbolLocation";
 import { indexAllBDSFiles } from "./fileIndexer";
 import { IndexType, SymbolIndex } from "./symbolIndex";
 
