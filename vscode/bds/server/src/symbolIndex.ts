@@ -6,7 +6,7 @@ export enum IndexType {
   Reference,
 }
 
-class SymbolIndex {
+export class SymbolIndex {
   private indexes: Record<IndexType, Map<string, Location[]>> = {
     [IndexType.Definition]: new Map(),
     [IndexType.Reference]: new Map(),
