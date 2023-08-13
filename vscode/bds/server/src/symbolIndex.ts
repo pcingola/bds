@@ -1,5 +1,6 @@
 import { TextDocument } from "vscode-languageserver-textdocument";
-import { Location, Position } from "vscode-languageserver";
+import { Location } from "vscode-languageserver";
+import { DefaultDocumentParser, DocumentParser } from "./defaultDocumentParser";
 
 export enum IndexType {
   Definition,
@@ -12,23 +13,17 @@ export class SymbolIndex {
     [IndexType.Reference]: new Map(),
   };
 
-  private addLocationToIndex(
-    indexType: IndexType,
-    symbol: string,
-    location: Location
-  ): void {
-    const index = this.indexes[indexType];
-    const locations = index.get(symbol) || [];
-    locations.push(location);
-    index.set(symbol, locations);
-  }
+  constructor(private parser: DocumentParser = new DefaultDocumentParser()) {}
 
   public addSymbol(
     symbol: string,
     location: Location,
     indexType: IndexType
   ): void {
-    this.addLocationToIndex(indexType, symbol, location);
+    const index = this.indexes[indexType];
+    const locations = index.get(symbol) || [];
+    locations.push(location);
+    index.set(symbol, locations);
   }
 
   public getSymbolLocation(
@@ -39,7 +34,9 @@ export class SymbolIndex {
   }
 
   public clearFile(uri: string): void {
-    Object.values(this.indexes).forEach(this.clearIndexForFile.bind(this, uri));
+    Object.values(this.indexes).forEach((index) =>
+      this.clearIndexForFile(uri, index)
+    );
   }
 
   private clearIndexForFile(uri: string, index: Map<string, Location[]>): void {
@@ -55,57 +52,16 @@ export class SymbolIndex {
 
   public parseAndIndexDocument(document: TextDocument): void {
     this.clearFile(document.uri);
-    const content = document.getText();
-
-    this.processRegex(
-      content,
-      /class\s+([a-zA-Z_]\w*)\s*(?:extends\s*[a-zA-Z_]\w*\s*)?\{/g,
-      this.handleClassDefinition.bind(this, document.uri)
-    );
-    this.processRegex(
-      content,
-      /new\s+([a-zA-Z_]\w*)\s*\(/g,
-      this.handleClassReference.bind(this, document.uri)
-    );
-  }
-
-  private processRegex(
-    content: string,
-    regex: RegExp,
-    callback: (match: RegExpExecArray) => void
-  ): void {
-    let match;
-    while ((match = regex.exec(content)) !== null) {
-      callback(match);
+    const parsedResults = this.parser.parse(document);
+    for (const result of parsedResults) {
+      this.addSymbol(
+        result.symbol,
+        {
+          uri: document.uri,
+          range: { start: result.position, end: result.position },
+        },
+        result.type
+      );
     }
-  }
-
-  private handleClassDefinition(uri: string, match: RegExpExecArray): void {
-    this.handleMatch(uri, match, IndexType.Definition);
-  }
-
-  private handleClassReference(uri: string, match: RegExpExecArray): void {
-    this.handleMatch(uri, match, IndexType.Reference);
-  }
-
-  private handleMatch(
-    uri: string,
-    match: RegExpExecArray,
-    indexType: IndexType
-  ): void {
-    const className = match[1];
-    const content = match.input;
-    const line = content.substring(0, match.index).split("\n").length - 1;
-    const column = match.index - content.lastIndexOf("\n", match.index) - 1;
-    const position: Position = { line, character: column };
-
-    this.addSymbol(
-      className,
-      {
-        uri: uri,
-        range: { start: position, end: position },
-      },
-      indexType
-    );
   }
 }
