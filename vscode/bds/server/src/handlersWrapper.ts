@@ -12,9 +12,9 @@ import {
   ClientCapabilities,
 } from "vscode-languageserver/node";
 import { TextDocument } from "vscode-languageserver-textdocument";
-import { getDefinition, getReferences } from "./definitionLogic";
+import { getLocationByType } from "./definitionLogic";
 import { indexBDSFilesInWorkspace } from "./fileIndexer";
-import { SymbolIndex } from "./symbolIndex";
+import { IndexType, SymbolIndex } from "./symbolIndex";
 
 class HandlersWrapper {
   private clientCapabilities: ClientCapabilities = {};
@@ -61,7 +61,12 @@ class HandlersWrapper {
       textDocumentPosition.textDocument.uri
     );
     return document
-      ? getDefinition(document, textDocumentPosition.position, this.symbolindex)
+      ? getLocationByType(
+          document,
+          textDocumentPosition.position,
+          this.symbolindex,
+          IndexType.Definition
+        )
       : null;
   }
 
@@ -70,7 +75,12 @@ class HandlersWrapper {
       textDocumentPosition.textDocument.uri
     );
     return document
-      ? getReferences(document, textDocumentPosition.position, this.symbolindex)
+      ? getLocationByType(
+          document,
+          textDocumentPosition.position,
+          this.symbolindex,
+          IndexType.Reference
+        )
       : null;
   }
 
