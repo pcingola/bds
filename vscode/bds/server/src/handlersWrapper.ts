@@ -13,7 +13,7 @@ import {
 } from "vscode-languageserver/node";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { getLocationByType } from "./definitionLogic";
-import { indexBDSFilesInWorkspace } from "./fileIndexer";
+import { indexAllBDSFiles } from "./fileIndexer";
 import { IndexType, SymbolIndex } from "./symbolIndex";
 
 class HandlersWrapper {
@@ -43,13 +43,11 @@ class HandlersWrapper {
   }
 
   handleInitialized(): void {
-    if (this.clientCapabilities.workspace?.workspaceFolders) {
-      this.connection.workspace.getWorkspaceFolders().then((folders) => {
-        folders?.forEach((folder) => {
-          indexBDSFilesInWorkspace(folder, this.symbolindex);
-        });
-      });
-    }
+    indexAllBDSFiles(
+      this.connection.workspace,
+      this.clientCapabilities.workspace?.workspaceFolders,
+      this.symbolindex
+    );
   }
 
   handleDocumentChange(change: TextDocumentChangeEvent<TextDocument>): void {

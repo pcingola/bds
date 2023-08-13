@@ -1,14 +1,25 @@
-import { WorkspaceFolder } from "vscode-languageserver/node";
+import { RemoteWorkspace, WorkspaceFolder } from "vscode-languageserver/node";
 import { readFileSync, readdirSync, statSync } from "fs";
 import { join, extname } from "path";
 import { fileURLToPath } from "url";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { SymbolIndex } from "./symbolIndex";
 
-export function indexBDSFilesInWorkspace(
-  folder: WorkspaceFolder,
-  index: SymbolIndex
+export function indexAllBDSFiles(
+  workspace: RemoteWorkspace,
+  hasWorkspaceFoldersCapability: boolean | undefined,
+  symbolindex: SymbolIndex
 ) {
+  if (hasWorkspaceFoldersCapability) {
+    workspace.getWorkspaceFolders().then((folders) => {
+      folders?.forEach((folder) => {
+        indexBDSFilesInWorkspace(folder, symbolindex);
+      });
+    });
+  }
+}
+
+function indexBDSFilesInWorkspace(folder: WorkspaceFolder, index: SymbolIndex) {
   const folderUri = fileURLToPath(folder.uri);
   const bdsFiles = findAllBDSFiles(folderUri);
   bdsFiles.forEach((file) => {
