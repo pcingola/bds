@@ -58,5 +58,8 @@
         "testMatch": [
             "**/src/**/*.test.(ts|js)"
         ]
+    },
+    "dependencies": {
+        "glob": "^10.3.3"
     }
 }
