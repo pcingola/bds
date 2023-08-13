@@ -1,15 +1,16 @@
 import { Definition, Location, Position } from "vscode-languageserver/node";
 import { TextDocument } from "vscode-languageserver-textdocument";
-import { IndexType, globalIndex } from "./symbolIndex";
+import { IndexType, SymbolIndex } from "./symbolIndex";
 
 function getDefinition(
   document: TextDocument,
-  position: Position
+  position: Position,
+  index: SymbolIndex
 ): Definition | null {
   const word = getWordAtPosition(document, position);
   if (!word) return null;
 
-  const locations = globalIndex.getSymbolLocation(word, IndexType.Definition);
+  const locations = index.getSymbolLocation(word, IndexType.Definition);
   if (locations && locations.length > 0) {
     return locations;
   }
@@ -18,12 +19,13 @@ function getDefinition(
 
 function getReferences(
   document: TextDocument,
-  position: Position
+  position: Position,
+  index: SymbolIndex
 ): Location[] | null {
   const word = getWordAtPosition(document, position);
   if (!word) return null;
 
-  const locations = globalIndex.getSymbolLocation(word, IndexType.Reference);
+  const locations = index.getSymbolLocation(word, IndexType.Reference);
   if (locations && locations.length > 0) {
     return locations;
   }

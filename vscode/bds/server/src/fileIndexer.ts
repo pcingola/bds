@@ -3,15 +3,18 @@ import { readFileSync, readdirSync, statSync } from "fs";
 import { join, extname } from "path";
 import { fileURLToPath } from "url";
 import { TextDocument } from "vscode-languageserver-textdocument";
-import { globalIndex } from "./symbolIndex";
+import { SymbolIndex } from "./symbolIndex";
 
-export function indexBDSFilesInWorkspace(folder: WorkspaceFolder) {
+export function indexBDSFilesInWorkspace(
+  folder: WorkspaceFolder,
+  index: SymbolIndex
+) {
   const folderUri = fileURLToPath(folder.uri);
   const bdsFiles = findAllBDSFiles(folderUri);
   bdsFiles.forEach((file) => {
     const content = readFileSync(file, "utf8");
     const document = TextDocument.create(file, "bds", 1, content);
-    globalIndex.parseAndIndexDocument(document);
+    index.parseAndIndexDocument(document);
   });
 }
 

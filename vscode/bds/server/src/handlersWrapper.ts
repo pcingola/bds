@@ -45,7 +45,9 @@ class HandlersWrapper {
   handleInitialized(): void {
     if (this.clientCapabilities.workspace?.workspaceFolders) {
       this.connection.workspace.getWorkspaceFolders().then((folders) => {
-        folders?.forEach(indexBDSFilesInWorkspace);
+        folders?.forEach((folder) => {
+          indexBDSFilesInWorkspace(folder, this.symbolindex);
+        });
       });
     }
   }
@@ -59,7 +61,7 @@ class HandlersWrapper {
       textDocumentPosition.textDocument.uri
     );
     return document
-      ? getDefinition(document, textDocumentPosition.position)
+      ? getDefinition(document, textDocumentPosition.position, this.symbolindex)
       : null;
   }
 
@@ -68,7 +70,7 @@ class HandlersWrapper {
       textDocumentPosition.textDocument.uri
     );
     return document
-      ? getReferences(document, textDocumentPosition.position)
+      ? getReferences(document, textDocumentPosition.position, this.symbolindex)
       : null;
   }
 

@@ -109,7 +109,3 @@ export class SymbolIndex {
     );
   }
 }
-
-const globalIndex = new SymbolIndex();
-
-export { globalIndex };
