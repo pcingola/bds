@@ -5,60 +5,64 @@ import { join, extname } from "path";
 import { fileURLToPath } from "url";
 import { SymbolIndex } from "./symbolIndex";
 
-export function indexAllBDSFiles(
+export function indexAllFilesInWorkspace(
   workspace: RemoteWorkspace,
-  hasWorkspaceFoldersCapability: boolean | undefined,
-  symbolindex: SymbolIndex
+  supportsWorkspaceFolders: boolean | undefined,
+  symbols: SymbolIndex
 ): void {
-  if (hasWorkspaceFoldersCapability) {
-    workspace.getWorkspaceFolders().then(handleWorkspaceFolders(symbolindex));
+  if (supportsWorkspaceFolders) {
+    workspace.getWorkspaceFolders().then(processWorkspaceFolders(symbols));
   }
 }
 
-function handleWorkspaceFolders(
-  symbolindex: SymbolIndex
+function processWorkspaceFolders(
+  symbols: SymbolIndex
 ): (folders: WorkspaceFolder[] | null) => void {
   return function (folders: WorkspaceFolder[] | null): void {
-    folders?.forEach(processEachFolder(symbolindex));
+    folders?.forEach(indexFilesInFolder(symbols));
   };
 }
 
-function processEachFolder(
-  symbolindex: SymbolIndex
+function indexFilesInFolder(
+  symbols: SymbolIndex
 ): (folder: WorkspaceFolder) => void {
   return function (folder: WorkspaceFolder): void {
-    const folderUri = fileURLToPath(folder.uri);
-    const bdsFiles = findBDSFilesInDirectory(folderUri);
-    bdsFiles.forEach(indexEachBDSFile(symbolindex));
+    const folderPath = fileURLToPath(folder.uri);
+    const targetFiles = findAllFilesWithExtensionInDir(folderPath, ".bds");
+    targetFiles.forEach(addFileToSymbolIndex(symbols));
   };
 }
 
-function indexEachBDSFile(index: SymbolIndex): (file: string) => void {
-  return function (file: string): void {
-    const content = readFileSync(file, "utf8");
-    const document = TextDocument.create(file, "bds", 1, content);
+function addFileToSymbolIndex(index: SymbolIndex): (filePath: string) => void {
+  return function (filePath: string): void {
+    const fileContent = readFileSync(filePath, "utf8");
+    const document = TextDocument.create(filePath, "bds", 1, fileContent);
     index.parseAndIndexDocument(document);
   };
 }
 
-function findBDSFilesInDirectory(
-  dir: string,
-  fileList: string[] = []
+function findAllFilesWithExtensionInDir(
+  directory: string,
+  extension: string,
+  filesFound: string[] = []
 ): string[] {
-  readdirSync(dir).forEach(determineIfDirOrBDSFile(dir, fileList));
-  return fileList;
+  readdirSync(directory).forEach(
+    determineFileType(directory, filesFound, extension)
+  );
+  return filesFound;
 }
 
-function determineIfDirOrBDSFile(
-  dir: string,
-  fileList: string[]
-): (file: string) => void {
-  return function (file: string): void {
-    const filePath = join(dir, file);
-    if (statSync(filePath).isDirectory()) {
-      findBDSFilesInDirectory(filePath, fileList);
-    } else if (extname(file) === ".bds") {
-      fileList.push(filePath);
+function determineFileType(
+  directory: string,
+  filesFound: string[],
+  extension: string
+): (filename: string) => void {
+  return function (filename: string): void {
+    const fullPath = join(directory, filename);
+    if (statSync(fullPath).isDirectory()) {
+      findAllFilesWithExtensionInDir(fullPath, extension, filesFound);
+    } else if (extname(filename) === extension) {
+      filesFound.push(fullPath);
     }
   };
 }
