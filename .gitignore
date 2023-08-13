@@ -25,3 +25,5 @@ vscode/bds/release
 *.vsix
 vscode/bds/server/out
 vscode/bds/client/out
+vscode/bds/coverage
+vscode/bds/.nyc_output
