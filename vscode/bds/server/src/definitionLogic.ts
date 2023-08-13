@@ -6,7 +6,7 @@ function getDefinition(
   document: TextDocument,
   position: Position,
   index: SymbolIndex
-): Definition | null {
+): Location[] | null {
   const word = getWordAtPosition(document, position);
   if (!word) return null;
 
