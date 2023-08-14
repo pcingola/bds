@@ -1,7 +1,7 @@
 {
     "name": "bds-language-server",
     "description": "Language server for BDS",
-    "version": "0.2.4",
+    "version": "0.2.5",
     "engines": {
         "node": ">=12.0.0"
     },
