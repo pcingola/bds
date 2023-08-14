@@ -90,7 +90,7 @@ export class WorkspaceIndexer {
     return folders
       .map((folder) => {
         const folderPath = fileURLToPath(folder.uri);
-        return glob.sync(folderPath + "/**/*.bds");
+        return glob.sync(folderPath + "/**/*.bds", { follow: true });
       })
       .flat();
   }
