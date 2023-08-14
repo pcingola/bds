@@ -15,21 +15,25 @@ import { TextDocument } from "vscode-languageserver-textdocument";
 import { getLocationByType } from "./symbolLocation";
 import { indexAllFilesInWorkspace } from "./fileIndexer";
 import { IndexType, SymbolIndex } from "./symbolIndex";
+import { DocumentParser } from "./defaultDocumentParser";
 
 class HandlersWrapper {
   private clientCapabilities: ClientCapabilities = {};
   private connection: Connection;
   private documents: TextDocuments<TextDocument>;
   private symbolindex: SymbolIndex;
+  private parser: DocumentParser;
 
   constructor(
     connection: Connection,
     documents: TextDocuments<TextDocument>,
-    symbolIndex: SymbolIndex
+    symbolIndex: SymbolIndex,
+    parser: DocumentParser
   ) {
     this.connection = connection;
     this.documents = documents;
     this.symbolindex = symbolIndex;
+    this.parser = parser;
   }
   handleInitialize(params: InitializeParams): InitializeResult {
     this.clientCapabilities = params.capabilities;
@@ -46,12 +50,14 @@ class HandlersWrapper {
     indexAllFilesInWorkspace(
       this.connection.workspace,
       this.clientCapabilities.workspace?.workspaceFolders,
-      this.symbolindex
+      this.symbolindex,
+      this.parser
     );
   }
 
   handleDocumentChange(change: TextDocumentChangeEvent<TextDocument>): void {
-    this.symbolindex.parseAndIndexDocument(change.document);
+    const parsedResults = this.parser.parse(change.document);
+    this.symbolindex.indexDocument(change.document.uri, parsedResults);
   }
 
   handleDefinition(textDocumentPosition: DefinitionParams): Definition | null {

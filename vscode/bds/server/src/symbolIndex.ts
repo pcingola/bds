@@ -1,6 +1,10 @@
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { Location } from "vscode-languageserver";
-import { DefaultDocumentParser, DocumentParser } from "./defaultDocumentParser";
+import {
+  DefaultDocumentParser,
+  DocumentParser,
+  ParsedSymbol,
+} from "./defaultDocumentParser";
 
 export enum IndexType {
   Definition,
@@ -50,14 +54,16 @@ export class SymbolIndex {
     }
   }
 
-  public parseAndIndexDocument(document: TextDocument): void {
-    this.clearFile(document.uri);
-    const parsedResults = this.parser.parse(document);
+  public indexDocument(
+    documentUri: string,
+    parsedResults: ParsedSymbol[]
+  ): void {
+    this.clearFile(documentUri);
     for (const result of parsedResults) {
       this.addSymbol(
         result.symbol,
         {
-          uri: document.uri,
+          uri: documentUri,
           range: { start: result.position, end: result.position },
         },
         result.type
