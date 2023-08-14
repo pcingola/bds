@@ -38,6 +38,12 @@ export function activate(context: vscode.ExtensionContext) {
     serverOptions,
     clientOptions
   );
+  client.onNotification("custom/showErrorMessage", (message) => {
+    vscode.window.showErrorMessage(message);
+  });
+  client.onNotification("custom/indexingStatus", (message) => {
+    vscode.window.showInformationMessage(message);
+  });
 
   client.start();
 }

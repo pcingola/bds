@@ -1,4 +1,8 @@
-import { RemoteWorkspace, WorkspaceFolder } from "vscode-languageserver/node";
+import {
+  Connection,
+  RemoteWorkspace,
+  WorkspaceFolder,
+} from "vscode-languageserver/node";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { promises as fs } from "fs";
 import { fileURLToPath } from "url";
@@ -11,58 +15,98 @@ type ParsedFile = {
   data: any;
 };
 
+type FileData = {
+  path: string;
+  content: string;
+};
 export class WorkspaceIndexer {
-  private workspace: RemoteWorkspace;
-  private supportsWorkspaceFolders: boolean | undefined;
-  private index: SymbolIndex;
-  private parser: DocumentParser;
-
   constructor(
-    workspace: RemoteWorkspace,
-    supportsWorkspaceFolders: boolean | undefined,
-    index: SymbolIndex,
-    parser: DocumentParser
-  ) {
-    this.workspace = workspace;
-    this.supportsWorkspaceFolders = supportsWorkspaceFolders;
-    this.index = index;
-    this.parser = parser;
-  }
+    private workspace: RemoteWorkspace,
+    private supportsWorkspaceFolders: boolean | undefined,
+    private index: SymbolIndex,
+    private parser: DocumentParser,
+    private connection: Connection
+  ) {}
 
   public async run(): Promise<void> {
-    const filePaths = await this.findPaths();
-    const documents = await this.buildDocuments(filePaths);
-    const parsedFiles = this.parse(documents);
-    this.indexFiles(parsedFiles);
+    try {
+      this.connection.sendNotification(
+        "custom/indexingStatus",
+        "Indexing started."
+      );
+
+      const folders = await this.getFolders();
+      const filePaths = this.findPaths(folders);
+      const files = await this.readFiles(filePaths);
+      const documents = this.buildDocuments(files);
+      const parsedFiles = this.parse(documents);
+      this.indexFiles(parsedFiles);
+
+      this.connection.sendNotification(
+        "custom/indexingStatus",
+        "Indexing finished."
+      );
+    } catch (error) {
+      this.connection.sendNotification(
+        "custom/showErrorMessage",
+        "Indexing failed."
+      );
+      throw error;
+    }
   }
 
-  private async findPaths(): Promise<string[]> {
-    const paths: string[] = [];
-
-    if (this.supportsWorkspaceFolders) {
-      const folders = await this.workspace.getWorkspaceFolders();
-      if (folders) {
-        for (const folder of folders) {
-          const folderPath = fileURLToPath(folder.uri);
-          const filePaths = glob.sync(folderPath + "/**/*.bds");
-          paths.push(...filePaths);
-        }
-      }
+  private async getFolders(): Promise<WorkspaceFolder[]> {
+    if (!this.supportsWorkspaceFolders) {
+      this.connection.sendNotification(
+        "custom/showErrorMessage",
+        "Workspace folders are not supported by this extension."
+      );
+      throw new Error("Workspace folders not supported");
     }
 
-    return paths;
+    const folders = await this.workspace.getWorkspaceFolders();
+
+    if (folders === null) {
+      this.connection.sendNotification(
+        "custom/showErrorMessage",
+        "Unable to retrieve workspace folders."
+      );
+      throw new Error("Failed to retrieve workspace folders");
+    }
+
+    if (folders.length === 0) {
+      this.connection.sendNotification(
+        "custom/showErrorMessage",
+        "There are no workspace folders open."
+      );
+      throw new Error("No workspace folders open");
+    }
+
+    return folders;
   }
 
-  private async buildDocuments(filePaths: string[]): Promise<TextDocument[]> {
-    const documents: TextDocument[] = [];
+  private findPaths(folders: WorkspaceFolder[]): string[] {
+    return folders
+      .map((folder) => {
+        const folderPath = fileURLToPath(folder.uri);
+        return glob.sync(folderPath + "/**/*.bds");
+      })
+      .flat();
+  }
 
-    for (const filePath of filePaths) {
-      const fileContent = await fs.readFile(filePath, "utf8");
-      const document = TextDocument.create(filePath, "bds", 1, fileContent);
-      documents.push(document);
-    }
+  private async readFiles(filePaths: string[]): Promise<FileData[]> {
+    return Promise.all(
+      filePaths.map(async (filePath) => ({
+        path: filePath,
+        content: await fs.readFile(filePath, "utf8"),
+      }))
+    );
+  }
 
-    return documents;
+  private buildDocuments(files: FileData[]): TextDocument[] {
+    return files.map((file) =>
+      TextDocument.create(file.path, "bds", 1, file.content)
+    );
   }
 
   private parse(documents: TextDocument[]): ParsedFile[] {
@@ -73,8 +117,8 @@ export class WorkspaceIndexer {
   }
 
   private indexFiles(parsedFiles: ParsedFile[]): void {
-    for (const parsedFile of parsedFiles) {
+    parsedFiles.forEach((parsedFile) => {
       this.index.indexDocument(parsedFile.uri, parsedFile.data);
-    }
+    });
   }
 }

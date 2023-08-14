@@ -51,7 +51,8 @@ class HandlersWrapper {
       this.connection.workspace,
       this.clientCapabilities.workspace?.workspaceFolders,
       this.symbolindex,
-      this.parser
+      this.parser,
+      this.connection
     );
     indexer.run();
   }
