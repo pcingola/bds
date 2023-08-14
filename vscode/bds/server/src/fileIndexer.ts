@@ -114,12 +114,6 @@ export class WorkspaceIndexer {
     });
   }
 
-  // private parse(documents: TextDocument[]): ParsedFile[] {
-  //   return documents.map((document) => ({
-  //     uri: document.uri,
-  //     data: this.parser.parse(document),
-  //   }));
-  // }
   private parse(documents: TextDocument[]): ParsedFile[] {
     return documents.map((document) => {
       console.log(`Parsing document ${document.uri}...`);
@@ -129,12 +123,6 @@ export class WorkspaceIndexer {
       };
     });
   }
-
-  // private indexFiles(parsedFiles: ParsedFile[]): void {
-  //   parsedFiles.forEach((parsedFile) => {
-  //     this.index.indexDocument(parsedFile.uri, parsedFile.data);
-  //   });
-  // }
 
   private indexFiles(parsedFiles: ParsedFile[]): void {
     parsedFiles.forEach((parsedFile) => {
