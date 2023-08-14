@@ -13,7 +13,7 @@ import {
 } from "vscode-languageserver/node";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { getLocationByType } from "./symbolLocation";
-import { indexAllFilesInWorkspace } from "./fileIndexer";
+import { WorkspaceIndexer } from "./fileIndexer";
 import { IndexType, SymbolIndex } from "./symbolIndex";
 import { DocumentParser } from "./defaultDocumentParser";
 
@@ -47,12 +47,13 @@ class HandlersWrapper {
   }
 
   handleInitialized(): void {
-    indexAllFilesInWorkspace(
+    const indexer = new WorkspaceIndexer(
       this.connection.workspace,
       this.clientCapabilities.workspace?.workspaceFolders,
       this.symbolindex,
       this.parser
     );
+    indexer.run();
   }
 
   handleDocumentChange(change: TextDocumentChangeEvent<TextDocument>): void {

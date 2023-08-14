@@ -12,6 +12,7 @@ const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
 const symbolIndex = new SymbolIndex();
 const parser = new DefaultDocumentParser();
+
 const requestHandler = new HandlersWrapper(
   connection,
   documents,
