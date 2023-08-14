@@ -6,7 +6,10 @@ import { SymbolIndex } from "./symbolIndex";
 import { glob } from "glob";
 import { DocumentParser } from "./defaultDocumentParser";
 
-type ParsedFiles = { [uri: string]: any };
+type ParsedFile = {
+  uri: string;
+  data: any;
+};
 
 export class WorkspaceIndexer {
   private workspace: RemoteWorkspace;
@@ -62,19 +65,16 @@ export class WorkspaceIndexer {
     return documents;
   }
 
-  private parse(documents: TextDocument[]): ParsedFiles {
-    const parsedResults: ParsedFiles = {};
-
-    for (const document of documents) {
-      parsedResults[document.uri] = this.parser.parse(document);
-    }
-
-    return parsedResults;
+  private parse(documents: TextDocument[]): ParsedFile[] {
+    return documents.map((document) => ({
+      uri: document.uri,
+      data: this.parser.parse(document),
+    }));
   }
 
-  private indexFiles(parsedFiles: ParsedFiles): void {
-    for (const uri in parsedFiles) {
-      this.index.indexDocument(uri, parsedFiles[uri]);
+  private indexFiles(parsedFiles: ParsedFile[]): void {
+    for (const parsedFile of parsedFiles) {
+      this.index.indexDocument(parsedFile.uri, parsedFile.data);
     }
   }
 }
