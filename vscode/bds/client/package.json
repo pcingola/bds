@@ -1,6 +1,6 @@
 {
     "name": "bds-extension-client",
-    "version": "0.2.2",
+    "version": "0.2.4",
     "description": "VS Code client for BDS Language",
     "main": "./out/extension.js",
     "engines": {

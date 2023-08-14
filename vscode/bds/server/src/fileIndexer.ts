@@ -37,6 +37,7 @@ export class WorkspaceIndexer {
 
       const folders = await this.getFolders();
       const filePaths = this.findPaths(folders);
+      console.log(filePaths);
       const files = await this.readFiles(filePaths);
       const documents = this.buildDocuments(files);
       const parsedFiles = this.parse(documents);
@@ -96,28 +97,48 @@ export class WorkspaceIndexer {
 
   private async readFiles(filePaths: string[]): Promise<FileData[]> {
     return Promise.all(
-      filePaths.map(async (filePath) => ({
-        path: filePath,
-        content: await fs.readFile(filePath, "utf8"),
-      }))
+      filePaths.map(async (filePath) => {
+        console.log(`Reading file ${filePath}...`);
+        return {
+          path: filePath,
+          content: await fs.readFile(filePath, "utf8"),
+        };
+      })
     );
   }
 
   private buildDocuments(files: FileData[]): TextDocument[] {
-    return files.map((file) =>
-      TextDocument.create(file.path, "bds", 1, file.content)
-    );
+    return files.map((file) => {
+      console.log(`Building document ${file.path}...`);
+      return TextDocument.create(file.path, "bds", 1, file.content);
+    });
   }
 
+  // private parse(documents: TextDocument[]): ParsedFile[] {
+  //   return documents.map((document) => ({
+  //     uri: document.uri,
+  //     data: this.parser.parse(document),
+  //   }));
+  // }
   private parse(documents: TextDocument[]): ParsedFile[] {
-    return documents.map((document) => ({
-      uri: document.uri,
-      data: this.parser.parse(document),
-    }));
+    return documents.map((document) => {
+      console.log(`Parsing document ${document.uri}...`);
+      return {
+        uri: document.uri,
+        data: this.parser.parse(document),
+      };
+    });
   }
+
+  // private indexFiles(parsedFiles: ParsedFile[]): void {
+  //   parsedFiles.forEach((parsedFile) => {
+  //     this.index.indexDocument(parsedFile.uri, parsedFile.data);
+  //   });
+  // }
 
   private indexFiles(parsedFiles: ParsedFile[]): void {
     parsedFiles.forEach((parsedFile) => {
+      console.log(`Indexing document ${parsedFile.uri}...`);
       this.index.indexDocument(parsedFile.uri, parsedFile.data);
     });
   }

@@ -1,6 +1,6 @@
 {
     "name": "bds-extension",
-    "version": "0.2.2",
+    "version": "0.2.4",
     "description": "VS Code extension for BDS Language",
     "main": "./client/out/extension",
     "activationEvents": [
