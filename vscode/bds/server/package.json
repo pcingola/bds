@@ -7,6 +7,7 @@
     },
     "dependencies": {
         "@types/node": "^20.4.10",
+        "glob": "^10.3.3",
         "typescript": "^5.1.6",
         "vscode-languageserver": "^8.1.0",
         "vscode-languageserver-textdocument": "^1.0.8"
