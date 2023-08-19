@@ -6,7 +6,7 @@
       "className": "MyClass"
       ,"location": {
         "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
-        ,"lineNum": 12
+        ,"lineNum": 16
         ,"charPosInLine": 0
       }
       ,"fields": {
@@ -15,7 +15,7 @@
           ,"type": "int"
           ,"location": {
             "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
-            ,"lineNum": 13
+            ,"lineNum": 17
             ,"charPosInLine": 8
           }
         }
@@ -27,7 +27,7 @@
           ,"isNative": "false"
           ,"location": {
             "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
-            ,"lineNum": 15
+            ,"lineNum": 19
             ,"charPosInLine": 8
           }
           ,"parameters": {
@@ -40,7 +40,7 @@
               ,"type": "int"
               ,"location": {
                 "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
-                ,"lineNum": 15
+                ,"lineNum": 19
                 ,"charPosInLine": 16
               }
             }
@@ -52,7 +52,7 @@
           ,"isNative": "false"
           ,"location": {
             "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
-            ,"lineNum": 18
+            ,"lineNum": 22
             ,"charPosInLine": 8
           }
           ,"parameters": {
@@ -65,7 +65,7 @@
               ,"type": "int"
               ,"location": {
                 "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
-                ,"lineNum": 18
+                ,"lineNum": 22
                 ,"charPosInLine": 16
               }
             }
@@ -101,6 +101,27 @@
             "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
             ,"lineNum": 7
             ,"charPosInLine": 22
+          }
+        }
+      }
+    }
+    ,"test/z.bds:myFunc2": {
+      "functionName": "myFunc2"
+      ,"signature": "myFunc2(int) -> int"
+      ,"isNative": "false"
+      ,"location": {
+        "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+        ,"lineNum": 12
+        ,"charPosInLine": 4
+      }
+      ,"parameters": {
+        "test/z.bds:myFunc2.x": {
+          "name": "x"
+          ,"type": "int"
+          ,"location": {
+            "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+            ,"lineNum": 12
+            ,"charPosInLine": 16
           }
         }
       }
@@ -161,12 +182,21 @@
         ,"charPosInLine": 4
       }
     }
+    ,"test/z.bds:myFunc2.x": {
+      "name": "x"
+      ,"type": "int"
+      ,"location": {
+        "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+        ,"lineNum": 12
+        ,"charPosInLine": 16
+      }
+    }
     ,"test/z.bds:MyClass.j": {
       "name": "j"
       ,"type": "int"
       ,"location": {
         "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
-        ,"lineNum": 13
+        ,"lineNum": 17
         ,"charPosInLine": 8
       }
     }
@@ -175,7 +205,7 @@
       ,"type": "int"
       ,"location": {
         "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
-        ,"lineNum": 15
+        ,"lineNum": 19
         ,"charPosInLine": 16
       }
     }
@@ -184,7 +214,7 @@
       ,"type": "int"
       ,"location": {
         "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
-        ,"lineNum": 18
+        ,"lineNum": 22
         ,"charPosInLine": 16
       }
     }
@@ -226,11 +256,22 @@
     ,{
       "reference": "Var",
       "type": "int",
-      "refName": "j",
-      "refCanonicalName": "test/z.bds:MyClass.sum.test/z.bds:15"
+      "refName": "x",
+      "refCanonicalName": "test/z.bds:myFunc2.test/z.bds:12"
       ,"location": {
         "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
-        ,"lineNum": 16
+        ,"lineNum": 13
+        ,"charPosInLine": 11
+      }
+    }
+    ,{
+      "reference": "Var",
+      "type": "int",
+      "refName": "j",
+      "refCanonicalName": "test/z.bds:MyClass.sum.test/z.bds:19"
+      ,"location": {
+        "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+        ,"lineNum": 20
         ,"charPosInLine": 15
       }
     }
@@ -238,10 +279,10 @@
       "reference": "Var",
       "type": "int",
       "refName": "x",
-      "refCanonicalName": "test/z.bds:MyClass.sum.test/z.bds:15"
+      "refCanonicalName": "test/z.bds:MyClass.sum.test/z.bds:19"
       ,"location": {
         "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
-        ,"lineNum": 16
+        ,"lineNum": 20
         ,"charPosInLine": 19
       }
     }
@@ -249,10 +290,10 @@
       "reference": "Var",
       "type": "int",
       "refName": "j",
-      "refCanonicalName": "test/z.bds:MyClass.mul.test/z.bds:18"
+      "refCanonicalName": "test/z.bds:MyClass.mul.test/z.bds:22"
       ,"location": {
         "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
-        ,"lineNum": 19
+        ,"lineNum": 23
         ,"charPosInLine": 15
       }
     }
@@ -260,10 +301,10 @@
       "reference": "Var",
       "type": "int",
       "refName": "x",
-      "refCanonicalName": "test/z.bds:MyClass.mul.test/z.bds:18"
+      "refCanonicalName": "test/z.bds:MyClass.mul.test/z.bds:22"
       ,"location": {
         "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
-        ,"lineNum": 19
+        ,"lineNum": 23
         ,"charPosInLine": 19
       }
     }
@@ -274,7 +315,16 @@
       "canonicalName": "test/z.bds:myFunc"
       ,"location": {
         "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
-        ,"lineNum": 24
+        ,"lineNum": 28
+        ,"charPosInLine": 0
+      }
+    }
+    ,{
+      "functionName": "myFunc2",
+      "canonicalName": "test/z.bds:myFunc2"
+      ,"location": {
+        "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+        ,"lineNum": 29
         ,"charPosInLine": 0
       }
     }

@@ -3,7 +3,6 @@ package org.bds.run;
 import org.bds.*;
 import org.bds.compile.BdsCompiler;
 import org.bds.compile.BdsNodeWalker;
-import org.bds.compile.CompilerMessage;
 import org.bds.compile.CompilerMessages;
 import org.bds.data.Data;
 import org.bds.data.FtpConnectionFactory;
@@ -15,12 +14,9 @@ import org.bds.lang.ProgramUnit;
 import org.bds.lang.nativeFunctions.NativeLibraryFunctions;
 import org.bds.lang.nativeMethods.string.NativeLibraryString;
 import org.bds.lang.statement.FunctionDeclaration;
-import org.bds.lang.statement.Module;
 import org.bds.lang.statement.Statement;
 import org.bds.lang.type.Types;
-import org.bds.languageServer.LanguageServerBds;
 import org.bds.languageServer.LspData;
-import org.bds.osCmd.CmdAws;
 import org.bds.scope.GlobalScope;
 import org.bds.scope.Scope;
 import org.bds.symbol.GlobalSymbolTable;
@@ -29,14 +25,10 @@ import org.bds.util.Gpr;
 import org.bds.util.Timer;
 import org.bds.vm.BdsVm;
 import org.bds.vm.BdsVmAsm;
-import org.eclipse.lsp4j.jsonrpc.Launcher;
-import org.eclipse.lsp4j.services.LanguageClient;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -583,24 +575,6 @@ public class BdsRun implements BdsLog {
 
         // Run thread
         return runBdsThread();
-    }
-
-    void runLanguageServer() {
-        // Use STDIN/STDOUT, we may choose another transport layer in the future
-        InputStream in = System.in;
-        OutputStream out = System.out;
-        try {
-            LanguageServerBds server = new LanguageServerBds();
-            Launcher<LanguageClient> launcher = Launcher.createLauncher(server, LanguageClient.class, in, out);
-            LanguageClient client = launcher.getRemoteProxy();
-            server.connect(client);
-            Future<?> startListening = launcher.startListening();
-            startListening.get();
-        } catch (InterruptedException ie) {
-            throw new RuntimeException("Language Server interrupted.", ie);
-        } catch (ExecutionException ee) {
-            throw new RuntimeException("Language Server execution exception.", ee);
-        }
     }
 
     /**

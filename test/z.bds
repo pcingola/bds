@@ -9,6 +9,10 @@ int myFunc(int x, int y) {
     return x + y + z
 }
 
+int myFunc2(int x) {
+    return x + 1
+}
+
 class MyClass {
     int j
 
@@ -22,4 +26,5 @@ class MyClass {
 
 println("Hello World")
 myFunc(3, 5)
+myFunc2(42)
 
