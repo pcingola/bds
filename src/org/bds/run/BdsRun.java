@@ -781,39 +781,16 @@ public class BdsRun implements BdsLog {
      * This is only used for developments (undocumented)
      */
     private int zzz() {
-        debug = false;
-        verbose = true;
-        CmdAws.DO_NOT_RUN_INSTANCE = true;
-        QueueThreadAwsSqs.USE_QUEUE_NAME_DEBUG = true;
-        String queueNamePrefix = ExecutionerCloud.EXECUTIONER_QUEUE_NAME_PREFIX_DEFAULT;
-        String pidFile = "z.pid";
+        debug("LSP service");
+        BdsCompiler compiler = new BdsCompiler(programFileName);
+        programUnit = compiler.compile();
 
-        // Config
-        Config config = Config.get();
-        config.setVerbose(verbose);
-        config.setDebug(debug);
-
-        // TaskLogger
-        TaskLogger taskLogger = new TaskLogger(pidFile);
-
-        // Monitor tasks for queues
-        MonitorTaskQueue monitorTask = MonitorTasks.get().getMonitorTaskQueue();
-
-        // Queue thread for AWS SQS
-        QueueThreadAwsSqs queueThread = new QueueThreadAwsSqs(config, monitorTask, taskLogger, queueNamePrefix);
-        queueThread.setVerbose(verbose);
-        queueThread.setDebug(debug);
-
-        // Start process and wait
-        debug("Starting queue thread");
-        queueThread.start();
-        try {
-            queueThread.join();
-        } catch (InterruptedException e) {
-            throw new RuntimeException();
+        // Show errors and warnings, if any
+        if ((programUnit == null) && !CompilerMessages.get().isEmpty()) {
+            System.err.println("Compiler messages:\n" + CompilerMessages.get());
         }
 
-        return 0;
+        return programUnit != null ? 0 : 1;
     }
 
     public enum BdsAction {
