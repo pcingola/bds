@@ -110,6 +110,10 @@ public class ProgramUnit extends BlockWithFile {
         this.bdsThread = bdsThread;
     }
 
+    public String getCanonicalName() {
+        return getFileName() + ':';
+    }
+
     public Module[] getModules() {
         return modules;
     }

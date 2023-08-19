@@ -411,6 +411,20 @@ public class BdsRun implements BdsLog {
     }
 
     /**
+     * Show all information(in JSON format) so it can be served by a Language Server (LSP)
+     */
+    private int lspData() {
+        debug("LSP service");
+        // Compile
+        BdsCompiler compiler = new BdsCompiler(programFileName);
+        programUnit = compiler.compile(true);
+        // Show info as JSON
+        LspServices lspServices = new LspServices(programUnit, CompilerMessages.get());
+        System.out.println(lspServices);
+        return programUnit != null ? 0 : 1;
+    }
+
+    /**
      * Parse command line arguments
      *
      * @return true if automatic help is shown and program should finish
@@ -460,6 +474,10 @@ public class BdsRun implements BdsLog {
                 exitValue = infoCheckpoint();
                 break;
 
+            case LANGUAGE_SERVER_DATA:
+                lspData();
+                break;
+
             case RUN:
                 exitValue = runCompile(); // Compile + Run
                 break;
@@ -474,10 +492,6 @@ public class BdsRun implements BdsLog {
 
             case RUN_TEST:
                 exitValue = runTests();
-                break;
-
-            case RUN_LANGUAGE_SERVER:
-                runLanguageServer();
                 break;
 
             case ZZZ:
@@ -495,9 +509,6 @@ public class BdsRun implements BdsLog {
 
         // Kill other timer tasks
         FtpConnectionFactory.kill();
-
-        // FIXME: Dead code? Remove
-        // config.kill(); // Kill 'tail' and 'monitor' threads
 
         return exitValue;
     }
@@ -783,44 +794,7 @@ public class BdsRun implements BdsLog {
      * This is only used for developments (undocumented)
      */
     private int zzz() {
-        System.out.println("ZZZ!");
-        debug("LSP service");
-        BdsCompiler compiler = new BdsCompiler(programFileName);
-        programUnit = compiler.compile();
-
-        LspServices lspServices = new LspServices(programUnit, CompilerMessages.get());
-        System.out.println(lspServices.getCompilerMessagesAsJsonString());
-        
-        // System.out.println("{");
-
-        // // Show errors and warnings
-        // System.out.println("  \"ComplieMessages\": [");
-        // for(CompilerMessage cm: CompilerMessages.get()) {
-        //     System.out.println("    {");
-        //     System.out.println("      \"file\": \"" + cm.getFileName() + "\", ");
-        //     System.out.println("      \"lineNumber\": " + cm.getLineNum() + ", ");
-        //     System.out.println("      \"charPosInLine\": " + cm.getCharPosInLine() + ", ");
-        //     System.out.println("      \"type\": \"" + cm.getType() + "\", ");
-        //     System.out.println("      \"message\": \"" + cm.getMessage() + "\", ");
-        //     System.out.println("    },");
-        // }
-        // System.out.println("  ],");
-
-        // // Show symbols
-        // System.out.println("  \"Symbols\": [");
-        // for(CompilerMessage cm: CompilerMessages.get()) {
-        //     System.out.println("    {");
-        //     System.out.println("      \"file\": \"" + cm.getFileName() + "\", ");
-        //     System.out.println("      \"lineNumber\": " + cm.getLineNum() + ", ");
-        //     System.out.println("      \"charPosInLine\": " + cm.getCharPosInLine() + ", ");
-        //     System.out.println("      \"type\": \"" + cm.getType() + "\", ");
-        //     System.out.println("      \"message\": \"" + cm.getMessage() + "\", ");
-        //     System.out.println("    },");
-        // }
-        // System.out.println("  ],");
-
-        // System.out.println("}");
-        return programUnit != null ? 0 : 1;
+        return 0;
     }
 
     public enum BdsAction {
@@ -828,11 +802,11 @@ public class BdsRun implements BdsLog {
         , CHECK_PID_REGEX // Check that PID regex works
         , COMPILE // Compile only. This is used to check if a program compiles (it does not run the program)
         , INFO_CHECKPOINT // Show information in a checkpoint file
+        , LANGUAGE_SERVER_DATA // Show language server (LSP) data in JSON format
         , RUN // Run a program
         , RUN_CHECKPOINT // Run from a checkpoint
         , RUN_TASK_IMPROPER // Run an improper task from a checkpoint
         , RUN_TEST // Run test cases in bds (i.e. compile and run all functions named `test*()`
-        , RUN_LANGUAGE_SERVER // Run language server (LSP)
         , ZZZ // Run the 'zzz()' method. This is only used for developing experimental code (undocumented option
     }
 

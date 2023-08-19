@@ -29,6 +29,11 @@ public class ReferenceMap extends Reference {
         super(parent, tree);
     }
 
+    public String getVariableCanonicalName() {
+        if (exprMap instanceof Reference) return ((Reference) exprMap).getCanonicalName();
+        return null;
+    }
+
     /**
      * Get symbol from scope
      */

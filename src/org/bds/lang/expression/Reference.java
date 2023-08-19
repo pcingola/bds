@@ -19,6 +19,8 @@ public abstract class Reference extends Expression {
 
 	public abstract Value getValue(Scope scope);
 
+	public abstract String getVariableCanonicalName();
+
 	public abstract String getVariableName();
 
 	public boolean isConstant(SymbolTable symtab) {

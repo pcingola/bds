@@ -74,27 +74,31 @@ public class BdsCompiler implements BdsLog {
         return false;
     }
 
+    public ProgramUnit compile() {
+        return compile(false);
+    }
+
     /**
      * BdsCompiler program
      */
-    public ProgramUnit compile() {
+    public ProgramUnit compile(boolean force) {
         CompilerMessages.reset(); // Compilation messages when creating tree
 
         // Compile main program
-        programUnit = compileProgramUnit(programFileName);
+        programUnit = compileProgramUnit(programFileName, force);
         if (programUnit == null) return null;
 
         // Add  libraries to program unit
         List<Module> modules = compileLibraries(); // Compile standard libraries
         for (Module m : modules) programUnit.addModule(m);
 
-        if( CompilerMessages.get().hasErrors()) return null;
+        if( CompilerMessages.get().hasErrors()) return force ? programUnit : null;
 
         // Add local symbols
-        if (addSymbols(programUnit)) return null;
+        if (addSymbols(programUnit)) return force ? programUnit : null;
 
         // Type-checking
-        if (typeChecking(programUnit)) return null;
+        if (typeChecking(programUnit)) return force ? programUnit : null;
 
         // Cleanup: Free some memory by resetting structure we won't use any more
         TypeCheckedNodes.get().reset();
@@ -131,7 +135,7 @@ public class BdsCompiler implements BdsLog {
 
         // Parse, create AST and convert to ProgramUnit (BdsNode)
         ParseTree tree = createAst(null, input, debug, new HashSet<>());
-        var programUnit = createModel(tree);
+        var programUnit = createModel(tree, false);
 
         // Move statements from ProgramUnit to Module (we want to return a Module)
         Module module = new Module(null, null);
@@ -140,10 +144,14 @@ public class BdsCompiler implements BdsLog {
         return module;
     }
 
+    protected ProgramUnit compileProgramUnit(String fileName) {
+        return compileProgramUnit(fileName, false);
+    }
+
     /**
      * BdsCompiler program into a ProgramUnit
      */
-    protected ProgramUnit compileProgramUnit(String fileName) {
+    protected ProgramUnit compileProgramUnit(String fileName, boolean force) {
         debug("Loading file: '" + fileName + "'");
 
         // Convert to AST
@@ -151,7 +159,7 @@ public class BdsCompiler implements BdsLog {
         if (tree == null) return null;
 
         // Convert AST to BdsNodes, ProgramUnit is the root of the tree
-        return createModel(tree);
+        return createModel(tree, force);
     }
 
     /**
@@ -270,10 +278,11 @@ public class BdsCompiler implements BdsLog {
     /**
      * Convert to BdsNodes, create Program Unit
      */
-    ProgramUnit createModel(ParseTree tree) {
+    ProgramUnit createModel(ParseTree tree, boolean force) {
         debug("Creating bds tree.");
         ProgramUnit pu = (ProgramUnit) BdsNodeFactory.get().factory(null, tree); // Transform AST to BdsNode tree
         debug("AST:\n" + pu.toString());
+        if( force ) return pu; // Always return a ProgramUnit, even if there are errors
         // Any error messages?
         if (!CompilerMessages.get().isEmpty()) System.err.println("Compiler messages:\n" + CompilerMessages.get());
         if (CompilerMessages.get().hasErrors()) return null;

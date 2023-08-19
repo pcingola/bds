@@ -255,7 +255,7 @@ public class Bds implements BdsLog {
                         break;
 
                     case "-lsp":
-                        bdsRun.setBdsAction(BdsAction.RUN_LANGUAGE_SERVER);
+                        bdsRun.setBdsAction(BdsAction.LANGUAGE_SERVER_DATA);
                         break;
 
                     case "-nochp":

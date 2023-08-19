@@ -22,6 +22,7 @@ public class ReferenceVar extends Reference {
 
     protected boolean classField;
     protected String name;
+    protected String canonicalName;
 
     public ReferenceVar(BdsNode parent, ParseTree tree) {
         super(parent, tree);
@@ -48,6 +49,11 @@ public class ReferenceVar extends Reference {
     @Override
     public Value getValue(Scope scope) {
         return scope.getValue(name);
+    }
+
+    @Override
+    public String getVariableCanonicalName() {
+        return canonicalName;
     }
 
     @Override
@@ -122,6 +128,8 @@ public class ReferenceVar extends Reference {
     public void typeCheck(SymbolTable symtab, CompilerMessages compilerMessages) {
         // Calculate return type
         returnType(symtab, compilerMessages);
+
+        canonicalName = symtab.resolveCanonicalName(name);
 
         if (returnType == null) {
             compilerMessages.add(this, "Symbol '" + name + "' cannot be resolved", MessageType.ERROR);

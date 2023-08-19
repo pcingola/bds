@@ -82,6 +82,10 @@ public class FunctionDeclaration extends StatementWithScope {
         return functionName;
     }
 
+    public String getName() {
+        return functionName;
+    }
+
     public List<String> getParameterNames() {
         return parameterNames;
     }

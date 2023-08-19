@@ -40,6 +40,11 @@ public class ReferenceList extends Reference {
         return null;
     }
 
+    public String getVariableCanonicalName() {
+        if (exprList instanceof Reference) return ((Reference) exprList).getCanonicalName();
+        return null;
+    }
+
     @Override
     public String getVariableName() {
         if (exprList instanceof Reference) return ((Reference) exprList).getVariableName();

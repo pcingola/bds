@@ -308,6 +308,24 @@ public class SymbolTable implements Serializable, Iterable<String> {
         return null;
     }
 
+    public String resolveCanonicalName(String name) {
+        // Find symbol on this or any parent scope
+        for (SymbolTable symtab = this; symtab != null; symtab = symtab.getParent()) {
+            // Resolve 'name'
+            if (!symtab.isEmpty()) {
+                Type t = symtab.resolveLocalOrThis(name);
+                if (t != null) {
+                    var canonBase = symtab.bdsNode.getCanonicalName();
+                    var hasSep = canonBase.endsWith(".") || canonBase.endsWith(":");
+                    return canonBase + (hasSep ? "" : ".") + getName();
+                }
+            }
+        }
+
+        // Nothing found
+        return null;
+    }
+
     /**
      * Resolve symbol in local symbol table (no recursion)
      */

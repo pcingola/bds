@@ -83,6 +83,9 @@ public abstract class Type extends BdsNode implements Comparable<Type> {
      * Canonical name for this type
      */
     public String getCanonicalName() {
+        // if( parent == null ) return primitiveType.toString();
+        // return parent.getCanonicalName() + "." + primitiveType.toString();
+        // return primitiveType.toString();
         return toString();
     }
 

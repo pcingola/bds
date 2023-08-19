@@ -119,6 +119,10 @@ public class ClassDeclaration extends Block {
         return methodDecl;
     }
 
+    public String getName() {
+        return className;
+    }
+
     /**
      * Get this class type
      * Note: We use 'returnType' for storing the

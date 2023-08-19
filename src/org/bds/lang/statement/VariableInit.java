@@ -65,6 +65,10 @@ public class VariableInit extends BdsNode {
         return help;
     }
 
+    public String getName() {
+        return varName;
+    }
+
     public String getVarName() {
         return varName;
     }

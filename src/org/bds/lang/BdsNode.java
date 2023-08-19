@@ -181,6 +181,16 @@ public abstract class BdsNode implements Serializable, BdsLog {
         return null;
     }
 
+    /**
+     * Canonical name for this type
+     */
+    public String getCanonicalName() {
+        if( parent == null ) return getName();
+        var parenName = parent.getCanonicalName();
+        var hasSep = parenName.endsWith(".") || parenName.endsWith(":");
+        return parenName + (hasSep ? "" : ".") + getName();
+    }
+
     public int getCharPosInLine() {
         return charPosInLine;
     }
@@ -206,6 +216,10 @@ public abstract class BdsNode implements Serializable, BdsLog {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public String getName() {
+        return "";
     }
 
     public int getId() {

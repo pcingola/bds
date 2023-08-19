@@ -1,8 +1,22 @@
 #!/usr/bin/env bds
 
+z := 42
+z_list := ['a', 'b']
+int xx
+
 int myFunc(int x, int y) {
-    return x + y + z;
+    i := 3
+    return x + y + z
+}
+
+class MyClass {
+    int j
+
+    int sum(int x) { 
+        return j + x
+    }
 }
 
 println("Hello World")
+myFunc(3, 5)
 
