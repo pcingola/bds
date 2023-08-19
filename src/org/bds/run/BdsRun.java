@@ -414,7 +414,6 @@ public class BdsRun implements BdsLog {
         // Show info as JSON
         LspData lspServices = new LspData(programUnit, CompilerMessages.get());
         System.out.println(lspServices);
-        Gpr.toFile("z.json", lspServices);
         return programUnit != null ? 0 : 1;
     }
 
