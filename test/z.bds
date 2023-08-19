@@ -1,12 +1,8 @@
 #!/usr/bin/env bds
 
-class CustomException extends Exception {
-    void CustomException(string msg) {
-        super.Exception("Message")
-    }
+int myFunc(int x, int y) {
+    return x + y + z;
 }
 
-void testFoo() {
-	new CustomException("foo")
-}
+println("Hello World")
 

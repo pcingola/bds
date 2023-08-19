@@ -3,6 +3,7 @@ package org.bds.run;
 import org.bds.*;
 import org.bds.compile.BdsCompiler;
 import org.bds.compile.BdsNodeWalker;
+import org.bds.compile.CompilerMessage;
 import org.bds.compile.CompilerMessages;
 import org.bds.data.Data;
 import org.bds.data.FtpConnectionFactory;
@@ -18,6 +19,7 @@ import org.bds.lang.statement.Module;
 import org.bds.lang.statement.Statement;
 import org.bds.lang.type.Types;
 import org.bds.languageServer.LanguageServerBds;
+import org.bds.languageServer.LspServices;
 import org.bds.osCmd.CmdAws;
 import org.bds.scope.GlobalScope;
 import org.bds.scope.Scope;
@@ -781,15 +783,43 @@ public class BdsRun implements BdsLog {
      * This is only used for developments (undocumented)
      */
     private int zzz() {
+        System.out.println("ZZZ!");
         debug("LSP service");
         BdsCompiler compiler = new BdsCompiler(programFileName);
         programUnit = compiler.compile();
 
-        // Show errors and warnings, if any
-        if ((programUnit == null) && !CompilerMessages.get().isEmpty()) {
-            System.err.println("Compiler messages:\n" + CompilerMessages.get());
-        }
+        LspServices lspServices = new LspServices(programUnit, CompilerMessages.get());
+        System.out.println(lspServices.getCompilerMessagesAsJsonString());
+        
+        // System.out.println("{");
 
+        // // Show errors and warnings
+        // System.out.println("  \"ComplieMessages\": [");
+        // for(CompilerMessage cm: CompilerMessages.get()) {
+        //     System.out.println("    {");
+        //     System.out.println("      \"file\": \"" + cm.getFileName() + "\", ");
+        //     System.out.println("      \"lineNumber\": " + cm.getLineNum() + ", ");
+        //     System.out.println("      \"charPosInLine\": " + cm.getCharPosInLine() + ", ");
+        //     System.out.println("      \"type\": \"" + cm.getType() + "\", ");
+        //     System.out.println("      \"message\": \"" + cm.getMessage() + "\", ");
+        //     System.out.println("    },");
+        // }
+        // System.out.println("  ],");
+
+        // // Show symbols
+        // System.out.println("  \"Symbols\": [");
+        // for(CompilerMessage cm: CompilerMessages.get()) {
+        //     System.out.println("    {");
+        //     System.out.println("      \"file\": \"" + cm.getFileName() + "\", ");
+        //     System.out.println("      \"lineNumber\": " + cm.getLineNum() + ", ");
+        //     System.out.println("      \"charPosInLine\": " + cm.getCharPosInLine() + ", ");
+        //     System.out.println("      \"type\": \"" + cm.getType() + "\", ");
+        //     System.out.println("      \"message\": \"" + cm.getMessage() + "\", ");
+        //     System.out.println("    },");
+        // }
+        // System.out.println("  ],");
+
+        // System.out.println("}");
         return programUnit != null ? 0 : 1;
     }
 

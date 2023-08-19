@@ -18,10 +18,10 @@
 	<classpathentry kind="lib" path="lib/aws-xml-protocol-2.15.11.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang3-3.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.1.3.jar"/>
-	<classpathentry kind="lib" path="lib/commons-net-3.6.jar"/>
+	<classpathentry kind="lib" path="lib/commons-net-3.9.0.jar"/>
 	<classpathentry kind="lib" path="lib/ec2-2.15.11.jar"/>
 	<classpathentry kind="lib" path="lib/eventstream-1.0.1.jar"/>
-	<classpathentry kind="lib" path="lib/hamcrest-core-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/hamcrest-core-1.3.jar"/>
 	<classpathentry kind="lib" path="lib/http-client-spi-2.15.11.jar"/>
 	<classpathentry kind="lib" path="lib/icu4j-58.2.jar"/>
 	<classpathentry kind="lib" path="lib/jackson-annotations-2.10.4.jar"/>
@@ -29,8 +29,8 @@
 	<classpathentry kind="lib" path="lib/jackson-databind-2.10.4.jar"/>
 	<classpathentry kind="lib" path="lib/javax.json-1.0.4.jar"/>
 	<classpathentry kind="lib" path="lib/jsch-0.1.54.jar"/>
-	<classpathentry kind="lib" path="lib/jsoup-1.12.1.jar"/>
-	<classpathentry kind="lib" path="lib/junit-4.10.jar"/>
+	<classpathentry kind="lib" path="lib/jsoup-1.16.1.jar"/>
+	<classpathentry kind="lib" path="lib/junit-4.13.2.jar"/>
 	<classpathentry kind="lib" path="lib/metrics-spi-2.15.11.jar"/>
 	<classpathentry kind="lib" path="lib/netty-buffer-4.1.46.Final.jar"/>
 	<classpathentry kind="lib" path="lib/netty-codec-4.1.46.Final.jar"/>

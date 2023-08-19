@@ -15,7 +15,8 @@
             "name": "Bds",
             "request": "launch",
             "mainClass": "org.bds.Bds",
-            "projectName": "bds"
+            "projectName": "bds",
+            "args": ["-zzz", "test/z.bds"],
         },
         {
             "type": "java",
