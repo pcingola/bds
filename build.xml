@@ -100,7 +100,7 @@
 
 	<target name="compile" depends="clean">
 		<javac 
-			srcdir="src" 
+			srcdir="src/main/java" 
 			destdir="bin" 
 			debug="true" 
 			source="12"
