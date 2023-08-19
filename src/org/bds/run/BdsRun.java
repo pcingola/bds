@@ -19,12 +19,13 @@ import org.bds.lang.statement.Module;
 import org.bds.lang.statement.Statement;
 import org.bds.lang.type.Types;
 import org.bds.languageServer.LanguageServerBds;
-import org.bds.languageServer.LspServices;
+import org.bds.languageServer.LspData;
 import org.bds.osCmd.CmdAws;
 import org.bds.scope.GlobalScope;
 import org.bds.scope.Scope;
 import org.bds.symbol.GlobalSymbolTable;
 import org.bds.task.TaskDependecies;
+import org.bds.util.Gpr;
 import org.bds.util.Timer;
 import org.bds.vm.BdsVm;
 import org.bds.vm.BdsVmAsm;
@@ -419,8 +420,9 @@ public class BdsRun implements BdsLog {
         BdsCompiler compiler = new BdsCompiler(programFileName);
         programUnit = compiler.compile(true);
         // Show info as JSON
-        LspServices lspServices = new LspServices(programUnit, CompilerMessages.get());
+        LspData lspServices = new LspData(programUnit, CompilerMessages.get());
         System.out.println(lspServices);
+        Gpr.toFile("z.json", lspServices);
         return programUnit != null ? 0 : 1;
     }
 

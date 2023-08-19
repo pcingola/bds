@@ -1,0 +1,364 @@
+{
+  "ComplieMessages": [
+  ],
+  "classes": {
+    "test/z.bds:MyClass": {
+      "className": "MyClass"
+      ,"location": {
+        "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+        ,"lineNum": 12
+        ,"charPosInLine": 0
+      }
+      ,"fields": {
+        "test/z.bds:MyClass.j": {
+          "name": "j"
+          ,"type": "int"
+          ,"location": {
+            "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+            ,"lineNum": 13
+            ,"charPosInLine": 8
+          }
+        }
+      }
+      ,"methods": {
+        "test/z.bds:MyClass.sum": {
+          "methodName": "sum"
+          ,"signature": "MyClass.sum(MyClass,int) -> int"
+          ,"isNative": "false"
+          ,"location": {
+            "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+            ,"lineNum": 15
+            ,"charPosInLine": 8
+          }
+          ,"parameters": {
+            "this": {
+              "name": "this"
+              ,"type": "null"
+            }
+            ,"test/z.bds:MyClass.sum.x": {
+              "name": "x"
+              ,"type": "int"
+              ,"location": {
+                "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+                ,"lineNum": 15
+                ,"charPosInLine": 16
+              }
+            }
+          }
+        }
+        ,"test/z.bds:MyClass.mul": {
+          "methodName": "mul"
+          ,"signature": "MyClass.mul(MyClass,int) -> int"
+          ,"isNative": "false"
+          ,"location": {
+            "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+            ,"lineNum": 18
+            ,"charPosInLine": 8
+          }
+          ,"parameters": {
+            "this": {
+              "name": "this"
+              ,"type": "null"
+            }
+            ,"test/z.bds:MyClass.mul.x": {
+              "name": "x"
+              ,"type": "int"
+              ,"location": {
+                "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+                ,"lineNum": 18
+                ,"charPosInLine": 16
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "functions": {
+    "test/z.bds:myFunc": {
+      "functionName": "myFunc"
+      ,"signature": "myFunc(int,int) -> int"
+      ,"isNative": "false"
+      ,"location": {
+        "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+        ,"lineNum": 7
+        ,"charPosInLine": 4
+      }
+      ,"parameters": {
+        "test/z.bds:myFunc.x": {
+          "name": "x"
+          ,"type": "int"
+          ,"location": {
+            "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+            ,"lineNum": 7
+            ,"charPosInLine": 15
+          }
+        }
+        ,"test/z.bds:myFunc.y": {
+          "name": "y"
+          ,"type": "int"
+          ,"location": {
+            "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+            ,"lineNum": 7
+            ,"charPosInLine": 22
+          }
+        }
+      }
+    }
+  },
+  "variables": {
+    "test/z.bds:z": {
+      "name": "z"
+      ,"type": "null"
+      ,"location": {
+        "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+        ,"lineNum": 3
+        ,"charPosInLine": 0
+      }
+    }
+    ,"test/z.bds:z_list": {
+      "name": "z_list"
+      ,"type": "null"
+      ,"location": {
+        "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+        ,"lineNum": 4
+        ,"charPosInLine": 0
+      }
+    }
+    ,"test/z.bds:xx": {
+      "name": "xx"
+      ,"type": "int"
+      ,"location": {
+        "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+        ,"lineNum": 5
+        ,"charPosInLine": 4
+      }
+    }
+    ,"test/z.bds:myFunc.x": {
+      "name": "x"
+      ,"type": "int"
+      ,"location": {
+        "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+        ,"lineNum": 7
+        ,"charPosInLine": 15
+      }
+    }
+    ,"test/z.bds:myFunc.y": {
+      "name": "y"
+      ,"type": "int"
+      ,"location": {
+        "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+        ,"lineNum": 7
+        ,"charPosInLine": 22
+      }
+    }
+    ,"test/z.bds:myFunc.i": {
+      "name": "i"
+      ,"type": "null"
+      ,"location": {
+        "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+        ,"lineNum": 8
+        ,"charPosInLine": 4
+      }
+    }
+    ,"test/z.bds:MyClass.j": {
+      "name": "j"
+      ,"type": "int"
+      ,"location": {
+        "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+        ,"lineNum": 13
+        ,"charPosInLine": 8
+      }
+    }
+    ,"test/z.bds:MyClass.sum.x": {
+      "name": "x"
+      ,"type": "int"
+      ,"location": {
+        "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+        ,"lineNum": 15
+        ,"charPosInLine": 16
+      }
+    }
+    ,"test/z.bds:MyClass.mul.x": {
+      "name": "x"
+      ,"type": "int"
+      ,"location": {
+        "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+        ,"lineNum": 18
+        ,"charPosInLine": 16
+      }
+    }
+  },
+  "references": [
+    {
+      "reference": "Var",
+      "type": "int",
+      "refName": "x",
+      "refCanonicalName": "test/z.bds:myFunc.test/z.bds:7"
+      ,"location": {
+        "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+        ,"lineNum": 9
+        ,"charPosInLine": 11
+      }
+    }
+    ,{
+      "reference": "Var",
+      "type": "int",
+      "refName": "y",
+      "refCanonicalName": "test/z.bds:myFunc.test/z.bds:7"
+      ,"location": {
+        "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+        ,"lineNum": 9
+        ,"charPosInLine": 15
+      }
+    }
+    ,{
+      "reference": "Var",
+      "type": "int",
+      "refName": "z",
+      "refCanonicalName": "test/z.bds:test/z.bds:7"
+      ,"location": {
+        "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+        ,"lineNum": 9
+        ,"charPosInLine": 19
+      }
+    }
+    ,{
+      "reference": "Var",
+      "type": "int",
+      "refName": "j",
+      "refCanonicalName": "test/z.bds:MyClass.sum.test/z.bds:15"
+      ,"location": {
+        "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+        ,"lineNum": 16
+        ,"charPosInLine": 15
+      }
+    }
+    ,{
+      "reference": "Var",
+      "type": "int",
+      "refName": "x",
+      "refCanonicalName": "test/z.bds:MyClass.sum.test/z.bds:15"
+      ,"location": {
+        "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+        ,"lineNum": 16
+        ,"charPosInLine": 19
+      }
+    }
+    ,{
+      "reference": "Var",
+      "type": "int",
+      "refName": "j",
+      "refCanonicalName": "test/z.bds:MyClass.mul.test/z.bds:18"
+      ,"location": {
+        "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+        ,"lineNum": 19
+        ,"charPosInLine": 15
+      }
+    }
+    ,{
+      "reference": "Var",
+      "type": "int",
+      "refName": "x",
+      "refCanonicalName": "test/z.bds:MyClass.mul.test/z.bds:18"
+      ,"location": {
+        "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+        ,"lineNum": 19
+        ,"charPosInLine": 19
+      }
+    }
+  ],
+  "functionCalls": [
+    {
+      "functionName": "myFunc",
+      "canonicalName": "test/z.bds:myFunc"
+      ,"location": {
+        "fileName": "/Users/kqrw311/workspace/bds/test/z.bds"
+        ,"lineNum": 24
+        ,"charPosInLine": 0
+      }
+    }
+  ],
+  "globalsymboltable": {
+    "PYENV_SHELL": "string"
+    ,"PATH": "string"
+    ,"BUCKET": "string"
+    ,"VSCODE_GIT_IPC_HANDLE": "string"
+    ,"S3_RADIOMICS": "string"
+    ,"allowEmpty": "bool"
+    ,"programName": "string"
+    ,"programPid": "int"
+    ,"COLORTERM": "string"
+    ,"LOGNAME": "string"
+    ,"VSCODE_GIT_ASKPASS_NODE": "string"
+    ,"TERM_PROGRAM_VERSION": "string"
+    ,"PWD": "string"
+    ,"day": "int"
+    ,"GIT_ASKPASS": "string"
+    ,"INFOPATH": "string"
+    ,"SHELL": "string"
+    ,"PYENV_ROOT": "string"
+    ,"HOMEBREW_CELLAR": "string"
+    ,"OLDPWD": "string"
+    ,"TMPDIR": "string"
+    ,"canFail": "bool"
+    ,"detached": "bool"
+    ,"ORIGINAL_XDG_CURRENT_DESKTOP": "string"
+    ,"node": "string"
+    ,"BUCKET_RADIOMICS": "string"
+    ,"cpusLocal": "int"
+    ,"system": "string"
+    ,"XPC_FLAGS": "string"
+    ,"BUCKET_DEV": "string"
+    ,"BUCKET_TMP": "string"
+    ,"__CF_USER_TEXT_ENCODING": "string"
+    ,"SHLVL": "string"
+    ,"cloudQueueNamePrefix": "string"
+    ,"S3": "string"
+    ,"week": "int"
+    ,"MallocNanoZone": "string"
+    ,"MANPATH": "string"
+    ,"E": "real"
+    ,"G": "int"
+    ,"HISTSIZE": "string"
+    ,"PROMPT": "string"
+    ,"SEQAUTO_ROOT": "string"
+    ,"K": "int"
+    ,"TERM": "string"
+    ,"M": "int"
+    ,"LANG": "string"
+    ,"HOMEBREW_PREFIX": "string"
+    ,"timeout": "int"
+    ,"COMMAND_MODE": "string"
+    ,"P": "int"
+    ,"VSCODE_GIT_ASKPASS_MAIN": "string"
+    ,"HISTFILESIZE": "string"
+    ,"T": "int"
+    ,"hour": "int"
+    ,"mem": "int"
+    ,"VSCODE_GIT_ASKPASS_EXTRA_ARGS": "string"
+    ,"HOMEBREW_REPOSITORY": "string"
+    ,"XPC_SERVICE_NAME": "string"
+    ,"retry": "int"
+    ,"_": "string"
+    ,"__CFBundleIdentifier": "string"
+    ,"awsRegion": "string"
+    ,"NVM_DIR": "string"
+    ,"cpus": "int"
+    ,"TERM_PROGRAM": "string"
+    ,"S3_TMP": "string"
+    ,"walltimeout": "int"
+    ,"S3_DEV": "string"
+    ,"USER": "string"
+    ,"minute": "int"
+    ,"args": "string[]"
+    ,"SSH_AUTH_SOCK": "string"
+    ,"EDITOR": "string"
+    ,"programPath": "string"
+    ,"PI": "real"
+    ,"strictRemoteDependencies": "bool"
+    ,"ppwd": "string"
+    ,"queue": "string"
+    ,"HOME": "string"
+  }
+}

@@ -15,6 +15,9 @@ class MyClass {
     int sum(int x) { 
         return j + x
     }
+    int mul(int x) { 
+        return j * x
+    }
 }
 
 println("Hello World")
