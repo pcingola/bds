@@ -314,7 +314,7 @@ public class SymbolTable implements Serializable, Iterable<String> {
             // Resolve 'name'
             if (!symtab.isEmpty()) {
                 Type t = symtab.resolveLocalOrThis(name);
-                if (t != null) {
+                if (t != null && symtab.bdsNode != null) {
                     var canonBase = symtab.bdsNode.getCanonicalName();
                     var hasSep = canonBase.endsWith(".") || canonBase.endsWith(":");
                     return canonBase + (hasSep ? "" : ".") + getName();

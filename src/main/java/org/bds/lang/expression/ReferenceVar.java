@@ -22,7 +22,7 @@ public class ReferenceVar extends Reference {
 
     protected boolean classField;
     protected String name;
-    protected String canonicalName;
+    protected String variableCanonicalName;
 
     public ReferenceVar(BdsNode parent, ParseTree tree) {
         super(parent, tree);
@@ -53,7 +53,7 @@ public class ReferenceVar extends Reference {
 
     @Override
     public String getVariableCanonicalName() {
-        return canonicalName;
+        return variableCanonicalName;
     }
 
     @Override
@@ -129,7 +129,8 @@ public class ReferenceVar extends Reference {
         // Calculate return type
         returnType(symtab, compilerMessages);
 
-        canonicalName = symtab.resolveCanonicalName(name);
+        // Update canonical name is a symtab is available
+        if( symtab != null ) variableCanonicalName = symtab.resolveCanonicalName(name);
 
         if (returnType == null) {
             compilerMessages.add(this, "Symbol '" + name + "' cannot be resolved", MessageType.ERROR);

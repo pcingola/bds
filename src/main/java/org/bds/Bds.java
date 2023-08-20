@@ -13,7 +13,7 @@ import org.bds.util.Gpr;
 public class Bds implements BdsLog {
 
     public static final String BUILD = Gpr.compileTimeStamp(Bds.class);
-    public static final String REVISION = "b";
+    public static final String REVISION = "c";
     public static final String SOFTWARE_NAME = "bds";
     public static final String VERSION_MAJOR = "3.6";
     public static final String VERSION_SHORT = VERSION_MAJOR + REVISION;

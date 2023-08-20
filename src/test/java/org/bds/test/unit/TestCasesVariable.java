@@ -207,6 +207,7 @@ public class TestCasesVariable extends TestCasesBase {
     public void test278AutoCasting() {
         // Variables: Casting and automatic type casts
         // FIXME: This test does NOT work, it requires fixing bds
+        System.err.println("WARNING: This test does NOT work! It is left here to remind developers to add the functionality to bds");
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("outs1", "s1 = '5', type: string");
         expectedValues.put("outs2", "s2 = 'true', type: string");
@@ -218,6 +219,7 @@ public class TestCasesVariable extends TestCasesBase {
     public void test278TypeAny() {
         // Variables: type 'any'
         // FIXME: This test does NOT work, it requires fixing bds
+        System.err.println("WARNING: This test does NOT work! It is left here to remind developers to add the functionality to bds");
         HashMap<String, Object> expectedValues = new HashMap<>();
         expectedValues.put("outz1", "z1 = 5, type: int");
         expectedValues.put("outz2", "z2 = hi, type: string");
