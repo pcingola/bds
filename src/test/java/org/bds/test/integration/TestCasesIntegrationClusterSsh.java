@@ -24,6 +24,8 @@ public class TestCasesIntegrationClusterSsh extends TestCasesBase {
     @Test
     public void test01() {
         // Create command line
+        verbose = true;
+        // debug = true;
         String[] args = {"-c", dir + "clusterSsh_localhost_01.config"};
         BdsTest bdsTest = new BdsTest(dir + "clusterSsh_01.bds", args, verbose, debug);
         bdsTest.bds(false);
@@ -32,8 +34,7 @@ public class TestCasesIntegrationClusterSsh extends TestCasesBase {
         bdsTest.run();
         bdsTest.checkRunOk(); // Finished OK?
 
-        // Get tasks and check that PID matches 'CLUSTERGENERIC_LOCALHOST_'
-        // (run.pl prepends that string to PID)
+        // Get tasks and check that PID matches 'CLUSTERSSH'
         for (Task t : bdsTest.bds.getBdsRun().getBdsThread().getTasks()) {
             debug("Task " + t.getId() + ", pid " + t.getPid());
             Assert.assertTrue("Task " + t.getId() + " was NOT executed by 'Cluster Ssh', task id " + t.getId() //
