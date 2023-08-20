@@ -24,7 +24,7 @@ import org.bds.task.Task;
 import org.bds.util.Gpr;
 import org.bds.util.GprAws;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import software.amazon.awssdk.services.ec2.Ec2Client;
 import software.amazon.awssdk.services.ec2.model.DescribeInstancesRequest;
 import software.amazon.awssdk.services.ec2.model.DescribeInstancesResponse;

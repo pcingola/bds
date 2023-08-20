@@ -1,6 +1,6 @@
 package org.bds.test;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.bds.Bds;
 import org.bds.BdsLog;
 import org.bds.lang.type.Type;

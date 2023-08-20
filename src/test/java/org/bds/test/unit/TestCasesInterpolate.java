@@ -1,6 +1,6 @@
 package org.bds.test.unit;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.bds.compile.BdsCompilerExpression;
 import org.bds.lang.expression.Expression;
 import org.bds.lang.value.InterpolateVars;

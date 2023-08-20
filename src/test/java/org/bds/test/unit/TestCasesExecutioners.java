@@ -1,6 +1,7 @@
 package org.bds.test.unit;
 
-import junit.framework.Assert;
+// import org.junit.Assert;
+
 import org.bds.Config;
 import org.bds.cluster.host.TaskResourcesCluster;
 import org.bds.executioner.CheckTasksRunningCmd;
@@ -16,6 +17,7 @@ import org.bds.osCmd.Cmd;
 import org.bds.task.Task;
 import org.bds.test.TestCasesBase;
 import org.bds.util.Gpr;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;

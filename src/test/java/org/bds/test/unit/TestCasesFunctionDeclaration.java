@@ -9,7 +9,7 @@ import org.bds.test.TestCasesBase;
 import org.bds.util.Gpr;
 import org.junit.Test;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 /**
  * Quick test cases when creating a new feature...

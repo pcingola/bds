@@ -13,7 +13,7 @@
          ================================= -->
     <target name="create_run_jar" depends="compile">
 		<copy todir="bin/resources/">
-			<fileset dir="src/resources"/>
+			<fileset dir="src/main/java/resources"/>
 		</copy>
 		<jar destfile="build/bds.jar" filesetmanifest="mergewithoutmain">
 			<manifest>

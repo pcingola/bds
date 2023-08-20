@@ -1,6 +1,6 @@
 package org.bds.test;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.bds.Bds;
 import org.bds.compile.CompilerMessages;
 import org.bds.lang.value.Value;

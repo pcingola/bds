@@ -1,6 +1,6 @@
 package org.bds.test.integration;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.bds.run.BdsThread;
 import org.bds.test.TestCasesBase;
 import org.bds.util.Timer;

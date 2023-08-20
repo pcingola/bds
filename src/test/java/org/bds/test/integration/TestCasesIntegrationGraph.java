@@ -1,6 +1,6 @@
 package org.bds.test.integration;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.bds.test.TestCasesBase;
 import org.bds.util.Gpr;
 import org.junit.Test;
