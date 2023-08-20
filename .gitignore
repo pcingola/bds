@@ -20,3 +20,8 @@ build/*
 node_modules
 **/node_modules
 bds.coverage
+vscode/bds/dist
+vscode/bds/release
+*.vsix
+vscode/bds/server/out
+vscode/bds/client/out
