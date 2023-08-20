@@ -468,7 +468,7 @@ public class Bds implements BdsLog {
         System.err.println("  [-extractSource]               : Extract source code files from checkpoint (only valid combined with '-info').");
         System.err.println("  [-i | -info   ] checkpoint.chp : Show state information in checkpoint file.");
         System.err.println("  [-l | -log    ]                : Log all tasks (do not delete tmp files). Default: " + log + ".");
-        System.err.println("  -lsp                           : Run a Language Server Protol (LSP).");
+        System.err.println("  -lsp                           : Show data for Language Server Protol (LSP).");
         System.err.println("  -noChp                         : Do not create any checkpoint files.");
         System.err.println("  -noReport                      : Do not create reports.");
         System.err.println("  -noReportHtml                  : Do not create HTML reports.");
