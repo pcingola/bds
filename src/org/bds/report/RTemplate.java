@@ -181,6 +181,7 @@ public class RTemplate {
 			String value = keyValues.get(key).get(idx);
 
 			sb.append(lineParts.get(i));
+			// sb.append(value.replace("<", "&lt;").replace(">", "&gt;"));
 			sb.append(value);
 		}
 
