@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import org.bds.util.AutoHashMap;
 import org.bds.util.Gpr;
@@ -37,6 +38,7 @@ public class RTemplate {
 	@SuppressWarnings("rawtypes")
 	Class baseClass;
 	String resourceName;
+	Boolean shouldEscapeHTML;
 	AutoHashMap<String, List<String>> keyValues;
 
 	@SuppressWarnings("rawtypes")
@@ -44,6 +46,7 @@ public class RTemplate {
 		this.outFile = outFile;
 		this.baseClass = baseClass;
 		this.resourceName = resourceName;
+		this.shouldEscapeHTML = outFile.endsWith(".html");
 		keyValues = new AutoHashMap<String, List<String>>(new ArrayList<String>());
 	}
 
@@ -181,7 +184,8 @@ public class RTemplate {
 			String value = keyValues.get(key).get(idx);
 
 			sb.append(lineParts.get(i));
-			sb.append(value);
+			if (shouldEscapeHTML) sb.append(StringEscapeUtils.escapeHtml4(value));
+			else sb.append(value);
 		}
 
 		// Add last part
