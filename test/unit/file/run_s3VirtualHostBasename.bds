@@ -1,0 +1,5 @@
+#!/usr/bin/env bds
+
+url = "https://dbnsfp.s3.amazonaws.com/dbNSFP4.4c.zip"
+b = url.basename()
+println("basename: '$b'")

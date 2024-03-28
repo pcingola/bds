@@ -5,7 +5,6 @@ import org.bds.lang.value.Value;
 import org.bds.lang.value.ValueList;
 import org.bds.test.TestCasesBase;
 import org.junit.Test;
-
 import java.io.File;
 
 /**
@@ -186,4 +185,13 @@ public class TestCasesFile extends TestCasesBase {
         org.junit.Assert.assertTrue("Tmp file " + tmpFile3 + " should exist", tmpFile3.exists());
         org.junit.Assert.assertTrue("Tmp file " + txtFile + " should exists", txtFile.exists());
     }
+
+    /**
+     * Test parsing basename of a remote AWS S3 file (DataS3) using "virtual hosting" style URL
+     */
+    @Test
+    public void test_s3VirtualHostBasename() {
+        runAndCheck(dir + "test_s3VirtualHostBasename.bds", "b", "dbNSFP4.4c.zip");
+    }
+
 }

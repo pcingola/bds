@@ -7,7 +7,7 @@ import (
 )
 
 const JAVA_CMD = "java"
-const JAVA_MEM = "-Xmx4G"
+const JAVA_MEM = "-Xmx8G"
 const JAVA_NATIVE_LIB = "-Djava.library.path="
 const JAVA_BDS_CLASS = "org.bds.Bds"
 
