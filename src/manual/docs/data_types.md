@@ -14,7 +14,7 @@ The usual basic types are defined and `bds` also offers extensible data types (c
 | real                 | A 64 bit IEEE 754 number (same as Java's double)                        |
 | bool                 | A boolean value, can be 'true' or 'false' (same as Java's boolean)      |
 | Arrays, List, Stacks | These are all the same, just a different way to call a list of elements |
-| Maps                 | Maps are hashes (a.k.a. dictionaries that have `string` keys.           |
+| Maps                 | Maps are hashes (a.k.a. dictionaries). Keys default to `string` but other key types are supported via `type{keyType}` syntax |
 | Class                | An object definition                                                    |
 
 ### Strings 
@@ -30,7 +30,9 @@ There are several basic methods defined for strings:
 | int         | string.indexOf(string str)              | Index of the first occurrence of str in string |
 | int         | string.lastIndexOf(string str)          | Index of the last occurrence of str in string  |
 | int         | string.length()                         | String's length                                |
+| string[]    | string.lines()                          | Split string by newlines                       |
 | string      | string.replace(string str1,string str2) | A new string replacing 'str1' with 'str2'      |
+| string      | string.replaceAll(string regex,string repl) | A new string replacing all regex matches with 'repl' |
 | bool        | string.parseBool()                      | Parse a bool                                   |
 | int         | string.parseInt()                       | Parse an int number                            |
 | real        | string.parseReal()                      | Parse a real number                            |
@@ -64,8 +66,8 @@ Here `f` is a string, but it has a method `canRead()` which returns true if f is
 |-------------|---------------------------------------------|-------------------------------------------------------------------------------------|
 | string      | string.baseName()                           | File's base name                                                                    |
 | string      | string.baseName(string ext)                 | File's base name, remove extention 'ext'                                            |
-| string      | string.download()                           | Donwload data from URL (string). Returns local file name (empty string if failed)   |
-| bool        | string.download(string file)                | Donwload data from URL to 'file'. Returns true if succeeded.                        |
+| string      | string.download()                           | Download data from URL (string). Returns local file name (empty string if failed)   |
+| string      | string.download(string file)                | Download data from URL to 'file'. Returns local file name (empty string if failed). |
 | bool        | string.canRead()                            | True if file has read permission                                                    |
 | bool        | string.canWrite()                           | True if file has write permission                                                   |
 | bool        | string.canExec()                            | True if file has execution permission                                               |
@@ -89,14 +91,14 @@ Here `f` is a string, but it has a method `canRead()` which returns true if f is
 | string      | string.removeExt()                          | Remove file extension                                                               |
 | string      | string.removeExt(string ext)                | Remove file extension, only if it matches the provided one                          |
 | bool        | string.rm()                                 | Delete a file                                                                       |
-| string      | rmOnExit()                                  | Delete file when current thread finishes execution (assumes string is a file path)  |
-| string      | rmOnExitCancel()                            | Cancel previous 'rmOnExit' for file                                                 |
+| string      | string.rmOnExit()                           | Delete file when current thread finishes execution (assumes string is a file path)  |
+| string      | string.rmOnExitCancel()                     | Cancel previous 'rmOnExit' for file                                                 |
 | int         | string.size()                               | File size in bytes                                                                  |
 | string      | string.swapExt(string newExt)               | Swap file extension                                                                 |
 | string      | string.swapExt(string oldExt,string newExt) | Swap file extension, only if extension matches the provided 'oldExt'                |
 | string      | string.upload()                             | Upload data to URL (string). Returns true if succeeded.                             |
 | bool        | string.upload(string file)                  | Upload data from 'file' to URL. Returns true if succeeded.                          |
-| string      | string.write(string file)                   | Write string to 'file'                                                              |
+| string      | string.write(string str)                    | Write 'str' to this file (string is the file path)                                  |
 
 ### Strings as tasks
 
@@ -119,9 +121,9 @@ More task related methods:
 | string      | string.stdout()   | A string with all the STDOUT generated from this task                                        |
 | string      | string.stderr()   | A string with all the STDERR generated from this task                                        |
 | int         | string.exitCode() | Exit code                                                                                    |
-| string[]    | getTasksDone()    | Return a list of all task IDs that have finished (either succesfully or with errors)         |
-| string[]    | getTasksRunning() | Return a list of all task IDs that are running                                               |
-| string[]    | getTasksToRun()   | Return a list of all task IDs that have not yet started to run (e.g. waiting to be executed) |
+| string[]    | tasksDone()       | Return a list of all task IDs that have finished (either successfully or with errors)        |
+| string[]    | tasksRunning()    | Return a list of all task IDs that are running                                               |
+| string[]    | tasksToRun()      | Return a list of all task IDs that have not yet started to run (e.g. waiting to be executed) |
 
 ### Arrays, List, Stacks 
 
@@ -138,13 +140,15 @@ int[] listIntEmpty
 int[] primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
 ```
                 
-** Methods **
+**Methods**
 
 | Returns           | Method                                   | Meaning                                                                                        |
 |-------------------|------------------------------------------|------------------------------------------------------------------------------------------------|
-                     | +=                | Append element(s) at the end of the list |                                                                                                |
+|                   | +=                                       | Append element(s) at the end of the list                                                       |
 | Element added     | add(X)                                   | Add `X` to the end of the list                                                                 |
 | Element added     | add(int idx,X)                           | Add `X` to position `idx` in the list                                                          |
+| Same list         | add(list)                                | Add all elements from `list` to the end of this list                                           |
+| Same list         | clone()                                  | Clone (shallow copy) this list                                                                 |
 | Same list         | delete()                                 | Delete all files in the list (assumes list elements are file names). Same as `list.rm()`       |
 | int               | count(X)                                 | Count number of occurrences of `X` in the list                                                 |
 | bool              | has(X)                                   | Does the list contain `X`?                                                                     |
@@ -154,7 +158,7 @@ int[] primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
 | string            | join()                                   | A string joining all elements of the list (separator ' ')                                      |
 | string            | join(string sep)                         | A string joining all elements of the list (separator 'sep')                                    |
 | Last element      | pop()                                    | Get last element and remove it from the list                                                   |
-| Element pushed    | push()                                   | Add at the end of the list                                                                     |
+| Element pushed    | push(X)                                  | Add element `X` at the end of the list                                                         |
 | Element to remove | remove(X)                                | Remove element `X` from the list                                                               |
 | Element to remove | removeIdx(int idx)                       | Remove element at position `idx` from the list                                                 |
 | New reversed list | reverse()                                | Create a new list and reverse it                                                               |
@@ -179,8 +183,8 @@ Value: two
 Value: three
 ```
 
-### Maps 
-Maps are hashes that have `string` as keys.
+### Maps
+Maps are hashes that default to `string` keys, but other key types are supported using the `type{keyType}` syntax.
 You can create a map simply by declaring:
 ```
 string{} mstr    # This maps string keys to string values
@@ -200,10 +204,12 @@ mre{"three"} = 3.0
 mre{"pi"}    = 3.1415927
 ```
  
-** Methods **
+**Methods**
 
 | Returns | Method             | Meaning                                |
 |---------|--------------------|----------------------------------------|
+| map     | clone()            | Clone (shallow copy) this map          |
+| value   | get(key, default)  | Get value for key, or default if key not found |
 | bool    | hasKey(string key) | True if the key is in the map          |
 | bool    | hasValue(value)    | True if 'value' is in the map          |
 | list    | keys()             | A sorted list of all keys in the map   |

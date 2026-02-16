@@ -7,9 +7,9 @@ Community: <a href="https://groups.google.com/d/forum/bds-users">`bds` user's gr
 Acknowledgements and special thanks to (in order of appearance)
 
 -  Hernan Gonzalez: Bug fixes.
--  Fernando Garcia Sanz (FGS): Writing a nice <a href="bds_manual.html#intro">introduction</a>, feedback and beta testing.
+-  Fernando Garcia Sanz (FGS): Writing a nice introduction, feedback and beta testing.
 -  Kyle Hernandez: Create the <a href="https://groups.google.com/d/forum/bds-users">`bds` group</a>
--  Jin Lee: Several bug fixes, HTML progress report, improved 'help' commnand options, optional checkpoints, configurable tail size, optional full command when reporting tasks, improved HTML reports, etc.
+-  Jin Lee: Several bug fixes, HTML progress report, improved 'help' command options, optional checkpoints, configurable tail size, optional full command when reporting tasks, improved HTML reports, etc.
 
 ###Bug reports
 Please send any bug reports using [GitHub](https://github.com/pcingola/bds/issues)
@@ -32,7 +32,7 @@ This means that:
 -  Additional conditions for the bug to occur (e.g. additional config lines)
 
 ###Asking for help
-You can ask question to the [<a href="https://groups.google.com/d/forum/bds-users">bds user's group</a>
+You can ask questions to the <a href="https://groups.google.com/d/forum/bds-users">bds user's group</a>.
 
 A few guidelines when asking for help:
 

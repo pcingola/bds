@@ -5,7 +5,7 @@ When you create variables that are used in command line arguments, you can provi
 
 
 For example, if we have the following script:
-File <a href="bds/test_26.bds">test_26.bds</a>
+File `test_26.bds`
 ```
 #!/usr/bin/env bds
 
@@ -45,7 +45,7 @@ Command line options 'test_26.bds' :
 By default, variables are sorted alphabetically when help is shown. 
 This can be overridden by creating a global variable `helpUnsorted` (regardless of its type and value, since the program may not even be running when the help is shown).
 
-File <a href="bds/test_26b.bds">test_26b.bds</a>
+File `test_26b.bds`
 ```
 #!/usr/bin/env bds
 
@@ -71,7 +71,7 @@ Command line options 'test_26b.bds' :
 The function `printHelp()` can be called to show the help message. 
 This can be used, for instance, to show a help message when there are no command line arguments by doing something like this:
 
-File <a href="bds/test_26c.bds">test_26c.bds</a>
+File `test_26c.bds`
 ```
 #!/usr/bin/env bds
 
@@ -101,7 +101,7 @@ Command line options 'test_26c.bds' :
 Sometimes it is useful to divide the help message into sections.
 Sections are marked by `help` statements as in this example:
 
-File <a href="bds/test_26d.bds">test_26d.bds</a>
+File `test_26d.bds`
 ```
 #!/usr/bin/env bds
 

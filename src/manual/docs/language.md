@@ -59,6 +59,15 @@ for( int i=0 ; i < 10 ; i++ ) {
 }
 ```
 
+### `checkpoint`
+
+Create a checkpoint (full serialization of the program state). Optional expression is a file name.
+[See details in the "checkpoints" section](checkpoints.md)
+
+```
+checkpoint "my_checkpoint.chp"
+```
+
 ### `debug`
 
 Show a debug message on STDERR only if `bds` is running in 'debug' mode (otherwise the statement is ignored).
@@ -126,7 +135,7 @@ for( string s : mylist ) print("$s\n")
 
 ### `goal`
 
-Define a task DAG objective in a declarative maner.
+Define a task DAG objective in a declarative manner.
 [See details in the "goal" section](goal.md)
 
 ### `if / else`
@@ -167,9 +176,18 @@ Kill a task
 kill taskId
 ```
 
-### `par`
+### `null`
 
-Execute a bds thread in parallel.
+The `null` literal represents an uninitialized object or value.
+
+```
+obj := null
+if( obj == null ) print("Object is null\n")
+```
+
+### `par` / `parallel`
+
+Execute a bds thread in parallel. Both `par` and `parallel` are valid keywords.
 [See details in the "par" section](par.md)
 
 ### `print / println`
@@ -233,6 +251,15 @@ See details in the following sections:
 - [Task cloud AWS](task_aws.md)
 - [Task resources](task_resources.md)
 
+### Type cast `(type) expression`
+
+Cast an expression to a different type.
+
+```
+r := 3.14
+i := (int) r    // i is now 3
+```
+
 ### Ternary operator `cond ? exprTrue : exprFalse`
 
 The ternary oprator is ` cond ? exprTrue : exprFalse`
@@ -240,7 +267,7 @@ The ternary oprator is ` cond ? exprTrue : exprFalse`
 This operator evaluates `cond`:
 
 - If `cond` is `true` then it evaluates and returns `exprTrue`.
-- If `cond` is `false, it evalautes and return `exprFalse`.
+- If `cond` is `false`, it evaluates and returns `exprFalse`.
 
 For example, here we calculate the "sign" of number `x`
 
@@ -338,7 +365,7 @@ s := "Hello!"
 
 ### `wait`
 
-Wait for a task, a list of tasks, or all tasks to finish exxecution.
+Wait for a task, a list of tasks, or all tasks to finish execution.
 [See details in the "wait" section](wait.md)
 
 ### `warning`

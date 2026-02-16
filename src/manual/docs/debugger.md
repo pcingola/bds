@@ -4,7 +4,7 @@ Bds provides a simple yet powerful built in debugger using `breakpoint` and `deb
 `bds` provides a simple built in debugger that can be activated using `breakpoint` statement.
 When a `breakpoint` statement is found, `bds` switches to debug mode and prompts the user on the console.
 
-File <a href="bds/test_24.bds">test_25.bds</a>
+File `test_25.bds`
 ```
 #!/usr/bin/env bds
 
@@ -65,7 +65,7 @@ DEBUG [STEP]: test_25.bds, line 10: i < 3 >
 DEBUG [STEP]: test_25.bds, line 11: print "hi $i\\n" > 
 hi 0                                                                 # Output to STDOUT from print statement
 DEBUG [STEP]: test_25.bds, line 12: debug "Variable: $i\\n" > 
-Debug test_25.bds, line 12: Variable: 0                              # Since we are in debug mode, 'debug' prints to SDTERR
+Debug test_25.bds, line 12: Variable: 0                              # Since we are in debug mode, 'debug' prints to STDERR
 DEBUG [STEP]: test_25.bds, line 10: i = inc( i ) > 
 DEBUG [STEP]: test_25.bds, line 10: inc( i ) >                       # Step into function 'inc(i)'
 DEBUG [STEP]: test_25.bds, line 4: return x + 1 > t                  # Show stack trace

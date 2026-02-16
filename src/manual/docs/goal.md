@@ -5,7 +5,7 @@ Complex dependencies can be defined using `goal` and `dep`
 As opposed to `task` expression, which are evaluated immediately, `dep` can be used to define a dependency (using the same syntax as `task`). 
 A `dep` is not evaluated until a `goal` requires that dependency to be triggered.
 
-E.g.: File <a href="bds/test_18.bds">test_18.bds</a>
+E.g.: File `test_18.bds`
 ```
 #!/usr/bin/env bds
 
@@ -103,7 +103,7 @@ goal outs	# We use a list of goals, it is interpreted as multiple goal statement
 				
 The `goal` statement helps to program complex task scheduling interdependencies.
 
-In a previous example (<a href="bds/test_07.bds">test_07.bds</a>), we had an input file `in.txt`, an intermediate file `inter.txt` and an output file `out.txt`.
+In a previous example (`test_07.bds`), we had an input file `in.txt`, an intermediate file `inter.txt` and an output file `out.txt`.
 ```
 #!/usr/bin/env bds
 
@@ -166,11 +166,11 @@ Although it solves the issue, the code is not elegant.
 The alternative is to use `dep` and `goal`
 
 * `dep` defines a task exactly the same way as `task` expression, but it doesn't evaluate if the tasks should be executed or not (it's just declarative). 
-* `goal` executes all dependencies nescesary to create an output 
+* `goal` executes all dependencies necessary to create an output 
 
 Example:
 
- File <a href="bds/test_08.bds">test_08.bds</a>
+ File `test_08.bds`
 ```
 #!/usr/bin/env bds
 

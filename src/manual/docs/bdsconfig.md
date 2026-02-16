@@ -1,6 +1,6 @@
 # BDS Config file 
 
-The `config.bds` file allows customizing `bds`'s behavior.
+The `bds.config` file allows customizing `bds`'s behavior.
 
 The config file is usually located in `$HOME/.bds/bds.config`.
 Running `bds` without any arguments shows the config's file default location.
@@ -21,12 +21,22 @@ Parameter   | Comments / examples
 mem         | Default memory in bytes (negative number means unspecified)  
 node        | Default execution node (empty means unspecified)   
 queue       | Add default queue name (empty means unspecified)   
-retry       | Default number of retries when a task fails (0 means no retry). Upon failire, a task is re-executed up to 'retry' times. I.e. a task is considered failed only after failing 'retry + 1' times.
+retry       | Default number of retries when a task fails (0 means no retry). Upon failure, a task is re-executed up to 'retry' times. I.e. a task is considered failed only after failing 'retry + 1' times.
 system      | Default system type. If unspecified, the default system is 'local' (run tasks on local computer)  
 timeout     | Task timeout in seconds (default is one day)   
 walltimeout | Task's wall-timeout in seconds (default is one day). Wall timeout includes all the time that the task is waiting to be executed. I.e. the total amount of time we are willing to wait for a task to finish. For example if walltimeout is one day and a task is queued by the cluster system for one day (and never executed), it will timeout, even if the task was never run.
 taskShell   | Shell to be used when running a `task` (default `/bin/bash -eu\nset -o pipefail\n`). **WARNING**: Make sure you use "-e" or some command line option that stops execution when an error if found.
 sysShell    | Shell to be used when running a `sys` (default `/bin/bash -euo pipefail -c`). **WARNING**: Make sure you use "-e" or some command line option that stops execution when an error if found. **WARNING**: Make sure you use "-c" or some command line option that allows providing a script
+cpus        | Default number of CPUs for tasks (default 1)
+taskPrelude | A string prepended to every task script (useful for setting up environments)
+maxThreads  | Maximum number of simultaneous threads
+tmpDir      | Temp directory
+tailLines   | Number of lines to use in tail output (default 10)
+disableCheckpoint | If `true`, disables checkpoint creation
+disableRmOnExit   | If `true`, disables removing files on exit
+reportHtml  | If `true`, enable HTML reports from config
+reportYaml  | If `true`, enable YAML reports from config
+showTaskCode | If `true`, always show task's code/sys commands
 
 
 ###Cluster options 
@@ -126,7 +136,7 @@ Make sure to flush STDOUT to avoid other lines to be printed out of order.
 - Cluster's STDERR redirect file. This is where the cluster should redirect STDERR
 - Cluster command and arguments to be executed (typically is a "bds -exec ...").
 
-**Example:** For examples on how to build this script, take a look at `config/clusterGeneric*` directory in the source code.
+**Example:** For examples on how to build this script, take a look at the cluster generic test examples in the source code.
 
 #### Generic cluster: `clusterGenericKill`
 
@@ -137,7 +147,7 @@ None
 jobId: This is the jobId returned as the first line in 'clusterGenericRun' 
 script (i.e. the jobID provided by the cluster management system)
 
-**Example:** For examples on how to build this script, take a look at `config/clusterGeneric*` directory in the source code.
+**Example:** For examples on how to build this script, take a look at the cluster generic test examples in the source code.
 
 #### Generic cluster: `clusterGenericStat`
 
@@ -152,7 +162,7 @@ columns may exist (but are currently ignored).
 **Command line arguments**:
 None
 
-**Example:** For examples on how to build this script, take a look at `config/clusterGeneric*` directory in the source code.
+**Example:** For examples on how to build this script, take a look at the cluster generic test examples in the source code.
 
 #### Generic cluster: `clusterGenericPostMortemInfo`
 
@@ -165,10 +175,10 @@ to the job's execution (e.g. `qstat -f $jobId` or `checkjob -v $jobId`)
 jobId: This is the jobId returned as the first line in 'clusterGenericRun' 
 script (i.e. the jobID provided by the cluster management system)
 
-**Example:** For examples on how to build this script, take a look at `config/clusterGeneric*` directory in the source code.
+**Example:** For examples on how to build this script, take a look at the cluster generic test examples in the source code.
 
 ###SSH Cluster options 
-Cluster **shh** creates a virtual cluster using several nodes access via shh.
+Cluster **ssh** creates a virtual cluster using several nodes accessed via ssh.
 
 Parameter | Comments / examples  
 ----------|-----------------------------------------------------------------
@@ -193,7 +203,6 @@ ssh.nodes = sgeadmin@node001, sgeadmin@node002, sgeadmin@node003, sgeadmin@node0
 ```
 
 
-</table>
 
 
 

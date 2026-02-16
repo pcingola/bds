@@ -29,7 +29,7 @@ If you normally use specialized programs to perform heavyweight computations, th
 -   **System independent** Cross-system, seamless execution, the same program runs on a laptop, server, server farm, cluster or cloud. No changes to the program required. Work once.
 -   **Easy to learn** The syntax is intuitive and it resembles the syntax of most commonly used programming languages. Reading the code is easy as pi.
 -   **Automatic Checkpointing** If any task fails to execute, bds creates a checkpoint file, serializing all the information from the program. Want to restart were it stopped? No problem, just resume the execution from the checkpoint.
--   **Automatic logging** Everything is logged (`-log` command line option), no explicit actions required. Every time you execute a system command or a task, bds logs the executed commands, stdout &amp; stderr and exit codes.
+-   **Automatic logging** Everything is logged (`-log` command line option), no explicit actions required. Every time you execute a system command or a task, bds logs the executed commands, stdout and stderr and exit codes.
 -   **Clean stop with no mess behind** You have a bds running on a terminal and suddenly you realized there is something wrong... Just hit Ctrl-C. All scheduled tasks and running jobs will be terminated, removed from the queue, deallocated from the cluster. A clean stop allows you to focus on the problem at hand without having to worry about restoring a clean state.
 -   **Task dependencies** In complex pipelines, tasks usually depend on each other. bds provides ways to easily manage task dependencies.
 -   **Avoid re-work** Executing the pipeline over and over should not re-do jobs that were completed successfully and moreover are time consuming. Task dependency based on timestamps is a built-in functionality, thus making it easy to avoid starting from scratch every time.
@@ -61,5 +61,5 @@ Because that's the lamest name I could find.
 
 ### Disclaimer
 
-bds is experimental and under heavy development. Use at your own risk.
-Know side effect include: computer explosions, instant decapitation, spontaneous human combustion, and dead kittens.
+bds is currently at version 3.6. Use at your own risk.
+Known side effects include: computer explosions, instant decapitation, spontaneous human combustion, and dead kittens.

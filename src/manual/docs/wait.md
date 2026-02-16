@@ -6,7 +6,7 @@ Task coordination mechanisms rely on waiting for some tasks to finish before sta
 
 A key concept, is that tasks are asynchronous, which means that task execution order is not guaranteed.
 
-For example, executing the following program (file <a href="bds/test_13.bds">test_13.bds</a>)
+For example, executing the following program (file `test_13.bds`)
 ```
 for( int i=0 ; i < 10 ; i++ ) task echo BEFORE $i
 for( int i=0 ; i < 10 ; i++ ) task echo AFTER $i
@@ -44,7 +44,7 @@ Schedulers can, and often do, re-order the tasks to be executed.
 If we need some kind of "barrier" to wait for tasks, we use the `wait` statement
 
 If a task must be executed after another task finishes, we can introduce a `wait` statement.
-File <a href="bds/test_13.bds">test_13.bds</a>
+File `test_13.bds`
 ```
 for( int i=0 ; i < 10 ; i++ ) task echo BEFORE $i
 
@@ -152,7 +152,7 @@ println "All tasks finished!"
 
 ### Implicit wait statement
 
-What happens if there are tasks runnign, but there is not `wait` statement?
+What happens if there are tasks runningn, but there is not `wait` statement?
 
 For example, in the following program there is a long-running task, but there is no `wait` statement
 ```

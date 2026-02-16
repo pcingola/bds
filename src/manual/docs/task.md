@@ -25,7 +25,7 @@ So the next task in the queue can effectively start before the previous one.
 A task is scheduled by means of a `task` expression.
 A `task` expression returns a task ID, a string representing a task.
 
-E.g.: File <a href="bds/test_09.bds">test_09.bds</a>
+E.g.: File `test_09.bds`
 
 ```
 tid := task echo Hello
@@ -43,10 +43,10 @@ Hello
 `task` is non-blocking, which means that `bds` continues execution immediately without waiting for the task to finish.
 So, many tasks can be scheduled by simply invoking a task statement many times.
 
-Once a `task` is scheduled, execution order depends on the underliying system and there is absolutely no guarantee about execution order (unless you use a `wait` statements or other dependency mechanism).
+Once a `task` is scheduled, execution order depends on the underlying system and there is absolutely no guarantee about execution order (unless you use a `wait` statements or other dependency mechanism).
 
 E.g., this example shows clearly all the tasks are NOT executed in order, even on local computers:
-File <a href="bds/test_10.bds">test_10.bds</a>
+File `test_10.bds`
 
 ```
 #!/usr/bin/env bds
@@ -74,7 +74,7 @@ Often `task` requires many CPUs, memory, or other resources.
 In such case, we should inform the resource management system in order to get an efficient allocation of resources (plus many cluster systems kill tasks that fail to report resources correctly).
 
 E.g., In this example we allocate 4 CPUs per task and run it on an 8-core computer, so obviously only 2 tasks can run at the same time:
-File <a href="bds/test_11.bds">test_11.bds</a>
+File `test_11.bds`
 
 ```
 #!/usr/bin/env bds
@@ -119,7 +119,7 @@ Usually tasks are not executed in isolation, but they are executed in "data anal
 Typically, "data analysis pipelines" (or "pipelines" for short), have many interdependent tasks than need to be orchestrated.
 This is why some people say that `bds` is a "pipeline orchestration" language.
 
-Tasks that depend on each other conform a "Directed Acyclik Graph" (DAG), and `bds` ensures that the DAG of tasks always is resolved in proper order, so you don't need to take care of those details.   
+Tasks that depend on each other conform a "Directed Acyclic Graph" (DAG), and `bds` ensures that the DAG of tasks always is resolved in proper order, so you don't need to take care of those details.   
  
 ### Conditional execution
 
@@ -190,7 +190,7 @@ But if you execute it the second time, no task will be executed, because the out
 
 ### Task dependencies
 
-Using task dependencies (i.e. the dependency operator `<-` in a `task` statement), `bds` will internally create and resolve a directed acyclic graph (DAG) of tasks and will execute the tasks only when all the previous tasks have been succesfull.
+Using task dependencies (i.e. the dependency operator `<-` in a `task` statement), `bds` will internally create and resolve a directed acyclic graph (DAG) of tasks and will execute the tasks only when all the previous tasks have been successful.
 
 For example, imagine you have three tasks where the inputs of the third task are the outputs of the other two tasks:
 
@@ -198,7 +198,7 @@ For example, imagine you have three tasks where the inputs of the third task are
 -   `task_2`: Has input file `in_2.txt`, and output file `out_2.txt`
 -   `task_3`: Has input files `out_1.txt`, and `out_2.txt`. Output file `out_3.txt`
 
-Note that `task_3` cannot execute until both `task_1` and `task_2` are succesfully executed, because the inputs of `task_3` are the outpus of both `task_1` and `task_2`
+Note that `task_3` cannot execute until both `task_1` and `task_2` are successfully executed, because the inputs of `task_3` are the outputs of both `task_1` and `task_2`
 
 In this case, the `bds` code would be something like this:
 
@@ -249,8 +249,8 @@ in_2.txt >----| Task 2 |---> out_2.txt >---+
               +--------+
 ```
 
-Internally, `bds` will resolve the DAG to make sure all tasks are executed as soon as possible, but only when the dependecies succeeded.
-So in this example, `task_1` and `task_2` will execute in parallel (assuming there are enough CPUs avaialble), once both of them finished succesfully, `task_3` will be executed.
+Internally, `bds` will resolve the DAG to make sure all tasks are executed as soon as possible, but only when the dependencies succeeded.
+So in this example, `task_1` and `task_2` will execute in parallel (assuming there are enough CPUs available), once both of them finished successfully, `task_3` will be executed.
 
 ### Remote dependencies
 
@@ -276,12 +276,12 @@ task(out <- in) {
 If you run this program, `bds` will:
 
 1. Create a shell script for the `task`
-1. Add code to download the remote input files at the beggining of the shell script
+1. Add code to download the remote input files at the beginning of the shell script
 1. Replace all the input / output file names by the location where the files are downloaded (in a temp directory)
 1. Add code to upload the remote output files at the end of the shell script
 1. Execute the script
 
-Let's run the script using something like `bds -log z.bds`, and now let's take a look at the shell script created by `bds` for the `task` (edited for readbility):
+Let's run the script using something like `bds -log z.bds`, and now let's take a look at the shell script created by `bds` for the `task` (edited for readability):
 
 ```
 #!/bin/bash -eu
@@ -356,17 +356,17 @@ There are different `system` to execute `bds` tasks
 | --------- | ---------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `aws`     | Running on an AWS EC2 instance                                                                                               | An AWS EC2 instance is created and the task runs in the instance.                                                                                                                                                                                                                                                                                                                                                  |
 | `cluster` | Running on a cluster (GridEngine, Torque)                                                                                    | Tasks are scheduled for execution (using 'qsub' or equivalent command). Resource management is delegated to cluster workload management.                                                                                                                                                                                                                                                                           |
-| `generic` | Enable user defined scripts to run, kill and find information on tasks                                                       | This 'generic' cluster allows the user to write/customize scripts that send jobs to the cluster system. It can be useful to either add cluster systems not currently supported by bds, or to customize parameters and scheduling options beyond what bds allows to customize in the config file. For details, see bds.config file and examples in the project's source code (directories `config/clusterGeneric`). |
+| `generic` | Enable user defined scripts to run, kill and find information on tasks                                                       | This 'generic' cluster allows the user to write/customize scripts that send jobs to the cluster system. It can be useful to either add cluster systems not currently supported by bds, or to customize parameters and scheduling options beyond what bds allows to customize in the config file. For details, see bds.config file and examples in the project's source code. |
 | `local`   | Running on a single computer. E.g. programming and debugging on your laptop or running stuff on a server                     | A local queue is created, the total number of CPUs used by all tasks running is less or equal than the number of CPU cores available                                                                                                                                                                                                                                                                               |
 | `moab`    | Running on a MOAB/PBS cluster                                                                                                | Tasks are scheduled for execution (using 'msub'). Resource management is delegated to cluster workload management.                                                                                                                                                                                                                                                                                                 |
-| `pbs`     | Running on a PBS cluster                                                                                                     | Tasks are scheduled for execution (using 'msub'). Resource management is delegated to cluster workload management.                                                                                                                                                                                                                                                                                                 |
+| `pbs`     | Running on a PBS cluster (via MOAB/Torque)                                                                                   | Tasks are scheduled for execution (using 'msub'). Resource management is delegated to cluster workload management.                                                                                                                                                                                                                                                                                                 |
 | `sge`     | Running on a SGE cluster                                                                                                     | Tasks are scheduled for execution (using 'qsub'). Resource management is delegated to cluster workload management.                                                                                                                                                                                                                                                                                                 |
 | `slurm`   | Running on a SLURM cluster                                                                                                   | Tasks are scheduled for execution (using 'sbatch'). Resource management is delegated to cluster workload management.                                                                                                                                                                                                                                                                                               |
 | `ssh`     | A server farm or a bunch of desktops or servers without a workload management system (e.g. computers in a University campus) | Basic resource management is performed by logging into all computers in the 'cluster' and monitoring resource usage.                                                                                                                                                                                                                                                                                               |
 
 ### Task resources
 
-You can read more about task resources in the ["Task Reosurces"](task_resources.md) section.
+You can read more about task resources in the ["Task Resources"](task_resources.md) section.
 
 Here is a list of pre-defined resources that can be consumed by a `task`:
 
@@ -378,7 +378,7 @@ Here is a list of pre-defined resources that can be consumed by a `task`:
 | `walltimeout`              | 0             | Time in seconds since the task is dispatched to the processing environment. E.g. in busy clusters a task can spend a long time being scheduled (cluster's PENDING state) until the task is run (cluster's RUNNING state), `walltimeout` limits the sum of those times (as oposed to `timeout` that only limits the RUNNIG state time). Zero means no limit.                                                                                              |
 
 If a resource is not defined in the previous list, you can define your own custom resources, such as GPUs, FPGAs, etc.
-For more details on custom resources, please take a look at the ["Task Reosurces"](task_resources.md) section.
+For more details on custom resources, please take a look at the ["Task Resources"](task_resources.md) section.
 
 ### Task options
 
@@ -397,8 +397,8 @@ List of resources or task options
 
 ### How does a `task` work?
 
-In escense a `task` command creates a shell script (i.e. a bash) and executes the script.
-The script is simply all the `sys` lines whithin the `task`, put toghether, for example:
+In essence a `task` command creates a shell script (i.e. a bash) and executes the script.
+The script is simply all the `sys` lines within the `task`, put together, for example:
 
 ```
 task {
@@ -424,7 +424,7 @@ $ ls z.bds.20221129_101952_164/*.sh
 z.bds.20221129_101952_164/task.z.line_2.id_1.6a8d85248781efbf.sh
 ```
 
-If we look into the script we see (comemnts added):
+If we look into the script we see (comments added):
 
 ```
 #!/bin/bash -eu             | This will make the shell script stop on errors or undefined variables
@@ -441,9 +441,9 @@ date                        | Command from sys
 # Checksum: 577b1238        | Checksum
 ```
 
-This information can be usful for debugging so you can check if the shell script is executing the code you are expecting.
+This information can be useful for debugging so you can check if the shell script is executing the code you are expecting.
 
-**Logging**: `bds` logs the script's SDTOUT, STDERR, and exit code to files so you can revie them later.
+**Logging**: `bds` logs the script's STDOUT, STDERR, and exit code to files so you can review them later.
 Note: The `-log` command line option will keep all log files for all tasks. Otherwise they will be cleaned / deleted by `bds`.
 Please take a look at the [Logging](logging.md) chapter for more details.
 

@@ -1,6 +1,6 @@
 # `bds` tutorial
 
-## Introduxtion
+## Introduction
 
 **What is `bds`?**
 
@@ -28,7 +28,7 @@ This significantly reduces the time and effort required for development cycles.
 -   **System independent** Cross-system, seamless execution, the same program runs on a laptop, server, server farm, cluster or cloud. No changes to the program required. Work once.
 -   **Easy to learn** The syntax is intuitive and it resembles the syntax of most commonly used programming languages. Reading the code is easy as pi.
 -   **Automatic Checkpointing** If any task fails to execute, bds creates a checkpoint file, serializing all the information from the program. Want to restart were it stopped? No problem, just resume the execution from the checkpoint.
--   **Automatic logging** Everything is logged (`-log` command line option), no explicit actions required. Every time you execute a system command or a task, bds logs the executed commands, stdout &amp; stderr and exit codes.
+-   **Automatic logging** Everything is logged (`-log` command line option), no explicit actions required. Every time you execute a system command or a task, bds logs the executed commands, stdout and stderr and exit codes.
 -   **Clean stop with no mess behind** You have a bds running on a terminal and suddenly you realized there is something wrong... Just hit Ctrl-C. All scheduled tasks and running jobs will be terminated, removed from the queue, deallocated from the cluster. A clean stop allows you to focus on the problem at hand without having to worry about restoring a clean state.
 -   **Task dependencies** In complex pipelines, tasks usually depend on each other. bds provides ways to easily manage task dependencies.
 -   **Avoid re-work** Executing the pipeline over and over should not re-do jobs that were completed successfully and moreover are time consuming. Task dependency based on timestamps is a built-in functionality, thus making it easy to avoid starting from scratch every time.
@@ -37,19 +37,19 @@ This significantly reduces the time and effort required for development cycles.
 
 ## Tutorial examples
 
--   [example_00](tutorial/example_00.bds)
--   [example_01](tutorial/example_01.bds)
--   [example_02](tutorial/example_02.bds)
--   [example_03](tutorial/example_03.bds)
--   [example_04](tutorial/example_04.bds)
--   [example_05](tutorial/example_05.bds)
--   [example_06](tutorial/example_06.bds)
--   [example_07](tutorial/example_07.bds)
--   [example_08](tutorial/example_08.bds)
--   [example_09](tutorial/example_09.bds)
--   [example_10](tutorial/example_10.bds)
--   [example_11](tutorial/example_11.bds)
--   [example_12](tutorial/example_12.bds)
--   [example_13](tutorial/example_13.bds)
--   [example_20](tutorial/example_20.bds)
--   [example_21](tutorial/example_21.bds)
+-   [example_00](tutorial/example_00.bds) -- Hello world
+-   [example_01](tutorial/example_01.bds) -- Variables, type inference, string interpolation
+-   [example_02](tutorial/example_02.bds) -- Automatic command line parsing and help
+-   [example_03](tutorial/example_03.bds) -- Running shell commands with `sys`
+-   [example_04](tutorial/example_04.bds) -- Shell commands with dependencies and caching
+-   [example_05](tutorial/example_05.bds) -- Running shell commands using `task`
+-   [example_06](tutorial/example_06.bds) -- Multiple shell commands in a single task
+-   [example_07](tutorial/example_07.bds) -- Multiple commands with task dependencies
+-   [example_08](tutorial/example_08.bds) -- Task parameters configuration
+-   [example_09](tutorial/example_09.bds) -- Dependencies between multiple tasks
+-   [example_10](tutorial/example_10.bds) -- Flexible number of tasks in a loop
+-   [example_11](tutorial/example_11.bds) -- Multiple tasks with input/output files
+-   [example_12](tutorial/example_12.bds) -- DAG task dependencies and pipelines
+-   [example_13](tutorial/example_13.bds) -- Wait statement for task coordination
+-   [example_20](tutorial/example_20.bds) -- Checkpoints and resume
+-   [example_21](tutorial/example_21.bds) -- Improper tasks and checkpoint-based execution

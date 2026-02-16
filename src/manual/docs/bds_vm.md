@@ -6,7 +6,7 @@ So, any `bds` program is compiled to `bdsVm` assembly and then executed by the `
 
 ### Why bdsVm?
 
-The main reason for using a custom virtual machine is to be able to perform **absolute serializetion** (i.e. checkpoints).
+The main reason for using a custom virtual machine is to be able to perform **absolute serialization** (i.e. checkpoints).
 Other virtual machines (or CPUs) do not have this feature, so we needed to create out own VM mainly due to the need to generate and recover from checkpoints.
 
 Checkpoints quite important in `bds` and are used in many operations, most notably when performing "improper tasks".
@@ -21,7 +21,7 @@ As opposed to other models, stack machines can be slower.
 
 ### bdsVm information
 
-Runing `bds` using the "debug" flag (`-d`), will show the corresponsing assembly language compilation.
+Runing `bds` using the "debug" flag (`-d`), will show the corresponding assembly language compilation.
 
 For example, here is a simple `bds` program:
 ```
@@ -75,7 +75,7 @@ The corresponding assembly code is:
 
 
 The `node` instructions refer to the node number in the Abstract Syntax Tree (AST) that was created from the Lexer+Parser.
-Essentially, they are only references to the exact program file and line number and they are just used to know which file/line number we are corrently executing.
+Essentially, they are only references to the exact program file and line number and they are just used to know which file/line number we are currently executing.
 This is used for printing error messages if something fails during execution.
 
 
@@ -146,7 +146,7 @@ set
 ### bds code: `a[i] = b[j] + 7`
 ```
             # Stack
-push 7
+pushi 7
 load j
 load b      # b, j, 7
 reflist     # b[j], 7
@@ -166,7 +166,7 @@ pushs 'hi'
 pushi 1
 adds        # 'hi1', 'bye'
 load a      # a, 'hi1', 'bye'
-refdict     # a{'hi1'}, 'bye'
+refmap     # a{'hi1'}, 'bye'
 set         # -
 ```
 
@@ -181,7 +181,7 @@ pushs 'a'   # 'a', 7, 'hi', 42
 load z      # z, 'a', 7, 'hi', 42
 reffield    # z.a, 7, 'hi', 42
 reflist     # z.a[7], 'hi', 42
-refdict     # z.a[7]{'hi}, 42
+refmap     # z.a[7]{'hi'}, 42
 set
 ```
 
@@ -200,7 +200,7 @@ bdsVm code:
 ```
 f:
 load x
-push 1
+pushi 1
 addi       # x+1 is the return value
 ret        # Return from function:
            #    - Remove scope (restore old scope)

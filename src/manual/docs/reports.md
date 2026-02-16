@@ -4,7 +4,7 @@
 These reports can be very useful for debugging bds programs implementing complex pipelines.
 
 ## Html report
-`bds`, when run using the `-log` command line option, produces an HTML report every one minute (if there are tasks executing) or at the end of the script (if any task was executed).
+`bds` produces an HTML report every one minute (if there are tasks executing) or at the end of the script (if any task was executed). Reports can be enabled with `-reportHtml` (for HTML) or `-reportYaml` (for YAML) command line options, or by using `-log`. Use `-noReportHtml` to disable if enabled in the config file. The `-log` command line option controls whether task log files (shell scripts, stdout, stderr, exit codes) are kept.
 The report is roughly divided in these sections: Program, Timeline, Parallel, Tasks
 
 The report file name is
@@ -33,7 +33,7 @@ Several details about each executed task:
 - First column: task number (sequential), task name, task ID, PID, etc.
 - Second column: exit code, task state, state of dependencies, number of retries, required CPUs and memory.
 - Third column: Start / end time, elapsed time and timouts.
-- Fourth column: Dependencies input files, output files and task IDs of dependecies.
+- Fourth column: Dependencies input files, output files and task IDs of dependencies.
 - Fifth column: Program shell file, STDOUT (tail 10 lines), STDERR (tail 10 lines), output file checking, post-mortem information.
 
 ![bds report tasks section](img/bds_report_task_details.png)
@@ -41,13 +41,13 @@ Several details about each executed task:
 *Note:* The second column is colored in red when the task had execution 'ERROR' state.
 
 ### Html report: Parallel
-Detail about execution threads. Only usefull if your program has `par` statements, in this example there are no `par` statements, so the section only contains one item (main thread) whihc executed all the tasks.
+Detail about execution threads. Only useful if your program has `par` statements, in this example there are no `par` statements, so the section only contains one item (main thread) which executed all the tasks.
 
 ![bds report parallel section](img/bds_report_par.png)
 
 ## YAML report
 
-The YAML reports contains the same information than the HTML report, but in YAML format so it can be easily injested by analysis programs.
+The YAML reports contains the same information than the HTML report, but in YAML format so it can be easily ingested by analysis programs.
 
 The report file name is
 ```

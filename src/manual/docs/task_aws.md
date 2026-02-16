@@ -70,7 +70,6 @@ We run using the `-v` command line options, so we'll see more verbose output and
 $ bds -log -v z.bds
 
 00:00:00.004	Bds 3.0b (build 2021-01-14 14:34), by Pablo Cingolani
-Before
 After
 ```
 These are just the `println` statements from our example program.
@@ -143,7 +142,7 @@ When the `bds` script is run using `-log` command line option, files will be cre
 In the previous example there was only one task, here are the files and details:
 
 ```
-# Go to the log direcotory (created by 'bds -log ...')
+# Go to the log directory (created by 'bds -log ...')
 $ cd z.bds.20210121_090423_293
 
 # List files (added comments for each file)
@@ -212,7 +211,7 @@ echo BYE
 ### Example walk-through: The instance startup script
 
 Whenever `bds` creates an instance, it must also instruct the instance on what to do (i.e. how to execute the task).
-This is achieved using a start-up script (a.k.a. "used data" if you are familiar with the `aws ec2 run-instances` command).
+This is achieved using a start-up script (a.k.a. "user data" if you are familiar with the `aws ec2 run-instances` command).
 
 In the example, we saw that there was a "startup script" file created (`task.z.line_16.id_1.337e55c1b5c62785.startup_script.sh`).
 
@@ -250,7 +249,7 @@ bds exec -stdout '/home/myuser/bds/example/z.bds.20210121_090423_293/task.z.line
 echo "INFO: Finished script '$0'"
 ```
 
-The script has three main sections:
+The script has four main sections:
 
 1. Capture any error (trap) and make sure the instance is shut down if any error occurs or when the script finishes successfully. Since the instances are run with "terminate on shutdown" option enabled, this forces the instance to be terminated (so you don't get charged by an instance that has finished or failed to run the task)
 1. Copy the task lines defined in the `bds` program, into a new file and change mode to allow execution
@@ -310,7 +309,7 @@ echo "INFO: Finished script '$0'"
     - After the last line is successfully executed, the script will exit, i.e. issue an `EXIT` signal.
     - This signal is trapped (see previous `trap exit_script EXIT` line) and the `exit_script` function will be invoked.
     - The `exit_script` function performs a `shutdown -h now` which shuts down the instance.
-    - Since the instance was run using "terminate on shutdown" behaviour (i.e. `instance-initiated-shutdown-behavior='shutdown'`), the instance will be terminated.   
+    - Since the instance was run using "terminate on shutdown" behaviour (i.e. `instance-initiated-shutdown-behavior='terminate'`), the instance will be terminated.   
 
 ## AWS tasks
 
@@ -520,11 +519,11 @@ println "Done"
 ### AWS task parameters
 
 Any task running on AWS requires many parameters to be set.
-Most parameters can be set in the `tataskResources` hash we've seen in the examples.
+Most parameters can be set in the `taskResources` hash we've seen in the examples.
 
 Here is a list of all the parameters for AWS tasks:
 
-`tataskResources` entry       | Meaning  
+`taskResources` entry       | Meaning  
 ------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 region                        | AWS region where the EC2 instance should run          
 bucket                        | Bucket name, the bucket can sometimes used to store data by `bds`
@@ -534,14 +533,18 @@ securityGroupIds              | A comma separated list of security groups IDs
 subnetId                      | A comma separated list of subnet IDs
 instanceProfile               | Profile (role name) to use for the instance
 s3tmp                         | S3 temporary path, this is used to store temporary data (e.g. checkpoints for improper tasks)
-keepInstanceAliveAfterFinish  | If this is set to `true`, the instance will NOT be terminated after the task is finished. This is used for loggging into the instance and debugging AWS tasks
+keepInstanceAliveAfterFinish  | If this is set to `true`, the instance will NOT be terminated after the task is finished. This is used for logging into the instance and debugging AWS tasks
+keyName                       | SSH key pair name for the instance
+associatePublicIpAddress      | Whether to assign a public IP address to the instance (`true` or `false`). Also accepts `publicIpAddress` or `publicIp`
+shutdownBehavior              | Instance shutdown behavior (default: `terminate`). Also accepts `shutdown-behavior`
+tags                          | Tag specifications for the instance. Also accepts `tagSpecifications`
 
 Other task parameters can also be used (`timeout`, `taskName`, `allowEmpty`, etc.).
 Here are some parameters specific to AWS tasks:
 
 Variable              | Meaning  
 ----------------------|--------------------------------------------------------------------
-cloudQueueNamePrefix  | Is non-empty, the name will be used as a prefix for the SQS quque
+cloudQueueNamePrefix  | If non-empty, the name will be used as a prefix for the SQS queue
 system                | Must be set to `'aws'` for a task to be executed in an AWS EC2 instance
 
 ### Instance request retry
@@ -558,12 +561,12 @@ START_FAIL_MAX_ATTEMPTS = 50
 START_FAIL_SLEEP_RAND_TIME = 60
 
 for i in 1 .. START_FAIL_MAX_ATTEMPTS:
-    - parse_ec2_instance_parametres     # Parse hash tataskResources
+    - parse_ec2_instance_parametres     # Parse hash taskResources
     - randomly_select_subnetId          # If more than one is specified as a comma separated list of values
     - request_ec2_instance              # Request instance to AWS
     - if succeess: return OK            # Success, instance created
     - wait_random_time                  # Reuqest failed, wait up to START_FAIL_SLEEP_RAND_TIME seconds
 ```
 
-**Note:** Randomly selecting a subnet from a comma separated list in `tataskResources{'subnetId'}`, allows you to randomly create instances on different zones within a region.
+**Note:** Randomly selecting a subnet from a comma separated list in `taskResources{'subnetId'}`, allows you to randomly create instances on different zones within a region.
   

@@ -1,7 +1,7 @@
 # Hello world
 As we all know, showing that we can print "Hello world" is more important than showing that the language is Turing complete.  
 					
-Create a simple program and execute it. File <a href="bds/test_01.bds">test_01.bds</a>
+Create a simple program and execute it. File `test_01.bds`
 ```
 #!/usr/bin/env bds
 
@@ -17,7 +17,7 @@ Hello world
 This time we do it by running a system command (` echo `), using bds' `sys` expression. 
 A `sys` executes the command immediately in the local computer and waits until the command finishes.
 Everything after `sys` until the end of the line is interpreted as an OS command.
-File <a href="bds/test_02.bds">test_02.bds</a>
+File `test_02.bds`
 ```
 #!/usr/bin/env bds
 
@@ -26,13 +26,13 @@ sys echo Hello world
 
 Run it:
 ```
-$ ./test_02.bds 
-hello world
+$ ./test_02.bds
+Hello world
 ```
 
 ### Run a shell command on a cluster
 now let's run the same in as a 'task'. tasks schedule the system command for execution (either locally, on a cluster, etc.).
-File <a href="bds/test_03.bds">test_03.bds</a>
+File `test_03.bds`
 ```
 #!/usr/bin/env bds
 

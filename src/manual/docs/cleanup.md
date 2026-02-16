@@ -9,7 +9,7 @@ Also, `bds` ensures that resources are not wasted, by killing all pending tasks.
 In large pipelines, thousands of tasks can be scheduled for execution in a cluster and it is quite difficult for the user to keep track of them and clean them if the pipeline fails.
 Fortunately, `bds` takes care of all these details and issues appropriate commands to kill all pending tasks.
 
-File <a href="bds/test_22.bds">test_22.bds</a>
+File `test_22.bds`
 ```
 #!/usr/bin/env bds
 
@@ -26,7 +26,7 @@ for(int i : range(1,10) ) {
 
 If I run this example and interrupt it (by pressing Ctrl-C) before it ends:
 ```
-$ ./test_23.bds
+$ ./test_22.bds
 Task 4
 Task 5
 Task 2

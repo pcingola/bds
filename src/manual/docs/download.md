@@ -1,9 +1,9 @@
 # Download & Install
-Binary distributions are available for Linux and OS.X.
+Binary distributions are available for Linux and macOS.
 
 <p>
 <a class="btn btn-large btn-primary" href="https://github.com/pcingola/bds/releases/latest/download/bds_linux.tar.gz">Download Linux</a>
-<a class="btn btn-large btn-primary" href="https://github.com/pcingola/bds/releases/latest/download/bds_macos.tar.gz">Download OS.X</a>
+<a class="btn btn-large btn-primary" href="https://github.com/pcingola/bds/releases/latest/download/bds_macos.tar.gz">Download macOS</a>
 </p>
 <p>
 <a class="btn btn-large btn-primary" href="https://github.com/pcingola/bds">GitHub</a>
@@ -16,9 +16,9 @@ cd
 tar -xvzf path/to/bds*.tar.gz
 ```
 
-**Requirements:** In order to run bds, you need `Java 1.11`.
+**Requirements:** In order to run bds, you need `Java 12` or higher.
 
-**Note:** `bds`'s directoy `.bds` is 'hidden', since the name starts with a dot.
+**Note:** `bds`'s directory `.bds` is 'hidden', since the name starts with a dot.
 Add `bds`'s directory to your `PATH`, by adding the following line to your `.bashrc` or `.bash_profile`
 ```
 export PATH=$PATH:$HOME/.bds
@@ -27,10 +27,10 @@ export PATH=$PATH:$HOME/.bds
 ###Installing from source
 The source code is available at GitHub, here we show how to compile and install.
 
-**Requirements:** In order to complile bds, you need
+**Requirements:** In order to compile bds, you need
 
 - [Java](http://java.com) version 12 or higher
-- [Go](http://golang.org/) version 1.0 or higher
+- [Go](http://golang.org/) version 1.16 or higher
 - [Ant](http://ant.apache.org/) version 1.7 or higher
 - [Maven](https://maven.apache.org/) version 3.8 or higher
 
@@ -70,7 +70,7 @@ These are used to build the JAR file
 
 **Build executable jar with dependencies**
 
-Jar with dependencies in directory 'target', e.g. `target/bds-2.3-jar-with-dependencies.jar`
+Jar with dependencies in directory 'target', e.g. `target/bds-VERSION-jar-with-dependencies.jar`
 ```
 cd mvn
 mvn clean assembly:assembly
@@ -86,41 +86,12 @@ mvn dependency:copy-dependencies
 
 ### Creating manual pages
 
-Maual pages are written in Markdown (`*.md`) and HTML is created using `mkdocs` package.
-The source Markdown documents are located in `manual/docs/`.
+Manual pages are written in Markdown (`*.md`) and HTML is created using `mkdocs` package.
+The source Markdown documents are located in `src/manual/docs/`.
 
-The GitHub pages are published from `master` branch, direcotory `/docs`, so manual pages are created in a sub-directory (`docs/manual/site`)
-
-Create a virtual environment for `mkdocs`
+To build the documentation, run:
 ```
-mkdir $HOME/bds_docs
-cd $HOME/bds_docs
-virtualenv -p python3 .
-
-# Activate virtualenv and install mkdocs
-. bin/activate
-pip install mkdocs
-
-# Create links to bds project.
-# Here we assume the source code is at `$HOME/workspace/bds`
-BDS_SRC="$HOME/workspace/bds"
-ln -s $BDS_SRC/manual/mkdocs.yml  # Main configuration file for mkdocs
-ln -s $BDS_SRC/manual/docs        # Source markdown for manual pages
-ln -s $BDS_SRC/docs/manual/site   # GitHub pages are in 'docs' directory
-```
-
-Once the virtual environment for `mkdocs` is set you can run:
-```
-mkdocs serve    # Change pages and see result in your local bowser
-```
-
-or
-
-```
-mkdocs build    # Create manual pages
-
-cd $BDS_SRC
-./git/commit    # Publish manual pages (if in master)
+./scripts/make_documentation.sh
 ```
 
 ###License

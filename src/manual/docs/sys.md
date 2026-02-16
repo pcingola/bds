@@ -7,7 +7,7 @@ A few rules about `sys` expression:
 * If the line ends with a backslash, next line is interpreted as part of the same command (same as in a shell script)
 * Variables are interpolated. E.g. ` sys echo Hello $person` will replace '$person' by the variable's name before sending it to the OS for execution.
 * BDS immediately executes the OS command in the local machine and waits until the command finishes execution.
-* If the command exits with an error condition, then `bds` creates a checkpoint, and exits with a non-zero exit code.
+* If the command exits with an error condition, then `bds` creates a checkpoint, and exits with a non-zero exit code. Note: setting `canFail := true` suppresses this behavior.
 * No resource accounting is performed, the command is executed even if all CPUs are busy executing tasks.
 
 E.g.
@@ -35,7 +35,7 @@ sys echo HeLLo \
 	| grep hell
 ```
 
-* `sys` returns the STDOUT of the command: File <a href="bds/test_12.bds">test_12.bds</a>
+* `sys` returns the STDOUT of the command: File `test_12.bds`
 ```
 #!/usr/bin/env bds
 
@@ -63,7 +63,6 @@ For example, when you write '\t' it is NOT converted to a tab character before s
 $ cat z.bds
 sys echo -e "Hello\tWorld" | awk '{print $1 "\n" $2}'
 
-$ bds z.bds
 $ bds z.bds
 Hello
 World

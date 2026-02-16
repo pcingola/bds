@@ -3,7 +3,7 @@ No need to manually parse command line options for your scripts, `bds` does it f
 
 `bds` automatically parse any command line line argument that starts with "-" and assigns the value to the corresponding variable global variable (if the variable exists).
 
-Example (<a href="bds/test_20.bds">test_20.bds</a>):
+Example (`test_20.bds`):
 ```
 #!/usr/bin/env bds
 
@@ -23,11 +23,11 @@ $ ./test_20.bds -in another_file.txt
 In file is 'another_file.txt'
 ```
 
-This feature also works for other data types (`int`, `real`, `bool` or lists). 
+This feature also works for other data types (`string`, `int`, `real`, `bool` or `string[]` lists).
 
 ###Flags
 In case of `bool` if the option is present, the variable is set to `true`.
-File <a href="bds/test_21.bds">test_21.bds</a>
+File `test_21.bds`
 ```
 #!/usr/bin/env bds
 
@@ -46,7 +46,7 @@ Variable flag is true
 ```
 
 Or you can specify the value (`true` or `false` which is useful to set to `false` a bool that is by default `true`:
-File <a href="bds/test_21b.bds">test_21b.bds</a>
+File `test_21b.bds`
 ```
 #!/usr/bin/env bds
 
@@ -69,7 +69,7 @@ You can also apply this to a list of strings.
 In this case, all command line arguments following the `-listName` will be included in the list (up to the next argument starting with '-').
 
 E.g.: Note that list `in` is populated using `in1.txt in2.txt in3.txt` and `out` is set to `zzz.txt`
-File <a href="bds/test_22.bds">test_22.bds</a>
+File `test_22.bds`
 ```
 #!/usr/bin/env bds
 

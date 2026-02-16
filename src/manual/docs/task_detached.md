@@ -9,7 +9,7 @@ Detached tasks have several properties:
 - They are considered successful immediately after they start "running" (or scheduled for running in a cluster system)
 - The STDOUT & STDERR of detached tasks are not shown on the terminal running the `bds` script
 - The exit status does not affect execution of the script. Even if a detached task fails, the script will finish successfully. 
-- No other tasks can depend on a detached task, because `bds` does not track detached tasks.
+- Detached task output files cannot be used as dependencies. However, task-ID-based dependencies on detached tasks do work.
 
 Example: Here is a program executing a task with `detached:= true`
 ```

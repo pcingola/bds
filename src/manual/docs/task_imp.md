@@ -18,7 +18,7 @@ task(cpus := 1) {
 In case of an "improper task", `bds` will create a checkpoint containing an absolute serialization of the whole program execution state.
 This works similar to a `checkpoint` statement.
 Then a task will be scheduled to execute `bds` restoring from this checkpoint.
-As a result, the program executing the task will "continue" in the next instruction, i.e. executing the code within the `task` statments.
+As a result, the program executing the task will "continue" in the next instruction, i.e. executing the code within the `task` statements.
 
 Note: An `exit` statement is implicitly added in the checkpoint to avoid the task to execute beyond the statements within `task`.
 This means that the code saved to the checkpoint file created by the improper task would be:

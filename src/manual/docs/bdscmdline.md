@@ -44,7 +44,7 @@ Option short  |  Option long     | Meaning
               | -noRmOnExit      | Do not remove files marked for deletion on exit (rmOnExit).    
 -q            | -queue           | Set default cluster's queue name.    
               | -quiet           | Do not show any messages or tasks outputs on STDOUT. This means that only the output from `print` (and other print-like bds statements), statements will be shown on the console    
-              | -reportHtml      | Create HTML report. Create an HTML report (only if at least one task is executed). By default this option is activated.
+              | -reportHtml      | Create HTML report (only if at least one task is executed). Not enabled by default.
               | -reportYaml      | Create YAML report. Create a YAML report (only if at least one task is executed).  
 -r            | -restore         | Restore from a a checkpoint and continue execution.   
 -s            | -system          | Define the 'system' type the script is running on (e.g. cluster type)    
@@ -52,4 +52,16 @@ Option short  |  Option long     | Meaning
 -v            | -verbose         | Be verbose (show more information)    
               | -version         | Show version number and exit.   
 -y            | -retry           | Number of times to retry a failing tasks.    
-              | -pid             | Write local processes PIDs to 'file'. Under normal circumstances, you should never use this command line option (unless you are debugging bds itself).    
+              | -pid             | Write local processes PIDs to 'file'. Under normal circumstances, you should never use this command line option (unless you are debugging bds itself).
+              | -compile         | Compile only, do not run the program.
+              | -asm             | Show assembly output (compiled bytecode).
+              | -lsp             | Run a Language Server Protocol (LSP) server for IDE support.
+              | -noChp           | Do not create checkpoint files on error.
+              | -coverage        | Calculate code coverage (use with `-test`).
+              | -coverageFile    | Save coverage statistics to a file (for accumulation across test suites).
+              | -coverageMin     | Fail if coverage is lower than this threshold (e.g. `-coverageMin 0.80`).
+              | -wall            | Show all compile-time warnings.
+              | -noReportYaml    | Do not create YAML report.
+              | -reportName      | Set base-name for report files.
+              | -download        | Download a URL to a local file (`bds -download url localFile`).
+              | -upload          | Upload a local file to a URL (`bds -upload localFile url`).

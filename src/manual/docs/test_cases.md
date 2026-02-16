@@ -23,7 +23,7 @@ When any test fails, `bds -t` will return a non-zero exit code
 
 ## Test Cases Example
 
-File <a href="bds/test_24.bds">test_24.bds</a>
+File `test_24.bds`
 
 ```
 int twice(int n) {
@@ -105,7 +105,7 @@ File: `test_suite_2.bds`
 
 ```
 include 'shared'
-void test_02() {assert('BAD', zzz(true)) } # Tests the other half of the function `zzz()`
+void test_02() {assert('BAD', zzz(false)) } # Tests the other half of the function `zzz()`
 ```
 
 **When running multiple test suites**, please keep in mind that:
@@ -114,11 +114,11 @@ void test_02() {assert('BAD', zzz(true)) } # Tests the other half of the functio
 2. If you are doing a `-coverageMin`, it should only be performed when running the last test file, because intermediate commands will fail to meet the minimum coverage.
 
 ```
-# Make sure we delete old coverage statitics
+# Make sure we delete old coverage statistics
 
 rm -vf bds.coverage
 
-# Run first tests suite and save coverage statitics to 'bds.coverage'
+# Run first tests suite and save coverage statistics to 'bds.coverage'
 
 bds -coverage \
     -coverageFile bds.coverage \
@@ -126,9 +126,9 @@ bds -coverage \
 
 # Run second test suite.
 # Since the file 'bds.coverage' was created by the previous command, bds will:
-# 1) loaded the coverage statics from 'bds.coverage'
-# 2) Update the new coverage statitics from 'test_suite_2.bds'
-# 3) Save the updated coverage statitics
+# 1) loaded the coverage statistics from 'bds.coverage'
+# 2) Update the new coverage statistics from 'test_suite_2.bds'
+# 3) Save the updated coverage statistics
 #
 # Note: Since this is out final test suite, we add a minimum coverage requirement
 # (in this case 95%)
@@ -152,13 +152,13 @@ int myAbs(int n) {
     return n > 0 ? n : -n    # Ternary expression
 }
 
-testCase01() {
+void testCase01() {
     assert( 1, myAbs(-1) )   # We only test one condition
 }
 ```
 
 **Important:** When calculating the coverage, the code within the test cases is excluded from the calculation.
-The statistics are summarized and shown in the `Test code` summary line of the repot.
+The statistics are summarized and shown in the `Test code` summary line of the report.
 But test cases code does not count in the coverage.
 
 ### Coverage report
@@ -205,12 +205,12 @@ Each line shows some details:
 
 -   `File name`: Shows the source code file name
 -   `Covered / Total`: Represents covered and total number of lines in the test case
-    -   `Coverred`: The number of lines that are "fully covered" by the test cases.
+    -   `Covered`: The number of lines that are "fully covered" by the test cases.
     -   `Total`: Total lines of code analyzed. Note: Empty lines, blank lines, comments, and other non-code lines are not counted.
 -   `%`: Percentage of `Covered / Total` lines
--   `Not covered intervals`: List of line number intervals that the test cases did not cover (in this exmple, line `5` was not covered)
+-   `Not covered intervals`: List of line number intervals that the test cases did not cover (in this example, line `3` was not covered)
 
 Summary lines: There are two summary lines:
 
 -   `Test code`: These are statistics about the "test code", i.e. the code that implements the test cases.
--   `Total`: The sum statistics of the individual files, i.e. if you add the individual files numbersa you get this result.
+-   `Total`: The sum statistics of the individual files, i.e. if you add the individual files numbers you get this result.

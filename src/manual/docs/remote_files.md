@@ -1,7 +1,7 @@
-# Remote files (Amazon S3, Http, etc.) 
+# Remote files (Amazon S3, HTTP, FTP, SFTP)
 Often applications need to run tasks on remote data files, `bds` can transparently handle remote data dependencies
 
-In many cases data files may reside in non-local file systems, such as `HTTP` or Amazon's `S3` object storage.
+In many cases data files may reside in non-local file systems, such as `HTTP`/`HTTPS`, Amazon's `S3` object storage, `FTP`, or `SFTP`.
 Fortunately `bds` can transparently handle remote dependencies, download the input files and upload the results without you having to write a single line of code.
 
 

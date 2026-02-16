@@ -7,7 +7,7 @@ This is a powerful tool to create robust pipelines and to recover from several f
 
 A checkpoint is created either when a task fails or when an explicit `checkpoint` command is executed.
 E.g.: The following program counts from 0 to 9, creating a checkpoint when the counter gets to 5
-File <a href="bds/test_19.bds">test_19.bds</a>
+File `test_19.bds`
 ```
 for( int i=0 ; i < 10 ; i++ ) {
 	if( i == 5 ) {
@@ -20,7 +20,7 @@ for( int i=0 ; i < 10 ; i++ ) {
 
 If we execute it, we get
 ```
-$ bds z.bds
+$ bds test_19.bds
 Counting 0
 Counting 1
 Counting 2

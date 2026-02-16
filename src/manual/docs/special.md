@@ -22,12 +22,26 @@ checkpoint "program.chp"
 ### dep
 Define dependency tasks. Tasks are not scheduled for execution until `goal` decides which dependencies must be executed to satisfy an output.
 ```
-# Execute bwa command (create an index of the human genome)
-task bwa index hg19.fasta
+# Define a dependency (not executed until a 'goal' requires it)
+dep( out <- in ) sys cat $in > $out
 ```
 
-### par
-Execute code in parallel
+### goal
+Define a task DAG objective. Triggers execution of all `dep` tasks necessary to produce the given output.
+```
+# Execute all dependencies needed to produce 'output.txt'
+goal "output.txt"
+```
+
+### kill
+Kill a running task by its task ID.
+```
+tid := task echo "Long running task"; sleep 100
+kill tid
+```
+
+### par (parallel)
+Execute code in parallel. Both `par` and `parallel` keywords are valid.
 ```
 par {
     for( int i=0 ; i < 10 ; i++ ) {

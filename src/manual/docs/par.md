@@ -5,7 +5,7 @@ Sometimes multiple branches of an analysis pipeline must be run in parallel.
 `bds` provides a simple `par` expression to run code in parallel.
 Originally this was called `parallel`, but then I realized I was too lazy to type all those letters, so I reduced it to `par` (both of them work if you choose to be more verbose).
 
-E.g.: File <a href="bds/test_16.bds">test_16.bds</a>
+E.g.: File `test_16.bds`
 ```
 #!/usr/bin/env bds
 

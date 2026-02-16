@@ -55,7 +55,7 @@ echo Hello
 # Checksum: eda733b2
 ```
 
-By default `bds` executes all tasks as `/bin/bash -eu; set -o pipefail`.
+By default `bds` executes all tasks using `/bin/bash -eu` followed by `set -o pipefail` (on a new line).
 This means that any error in the execution (including undefined shell variables) will make the shell script fail, thus the task will also fail.
 The type of shell and parameters used can be changed using the `taskShell` parameter from `bds` config file (`$HOME/.bds/bds.config`).
 
@@ -93,10 +93,10 @@ For instance the next program:
 sys echo hi
 ```
 
-Will actually create a process `/bin/bash -eu -o pipefail -c "echo hi"`
+Will actually create a process `/bin/bash -euo pipefail -c "echo hi"`
 
-Nevertheless `bds` will still create a shell file for each `sys` command for tracebility and logging pourposes.
-This is also quite usefull for debugging.
+Nevertheless `bds` will still create a shell file for each `sys` command for traceability and logging purposes.
+This is also quite useful for debugging.
 If you execute the previous program using '-log' command line opton you get:
 
 ```
@@ -133,7 +133,7 @@ For this reason, `bds` performs active monitoring, to ensure that tasks are stil
 If any task "mysteriously disappears", `bds` reports the problem and considers the task as failed.
 
 `bds` will monitor the cluster's queue every one minute to check if all the tasks that were submitted to the cluster are still in the queue.
-If a task is not found in the cluster's queue for 3 times in a row, it will be marked as 'disappeared' (i.e. failed).
+If a task is not found in the cluster's queue for more than 3 consecutive checks, it will be marked as 'disappeared' (i.e. failed).
 
 `bds` logs information about any disappearing tasks.
 

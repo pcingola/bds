@@ -6,10 +6,10 @@ For instance, when we already processed some files and have the corresponding re
 We introduce the dependency operator `<-` (pronounced 'dep') which is a "make" style operator.
 
 The expression `out <- in` is true if 'out' file needs to be updated.
-More formally, the expression is true if the file name represented by the variable 'out' does not exist, is empty (zero length) or has a creation date before 'in'.
+More formally, the expression is true if the file name represented by the variable 'out' does not exist, is empty (zero length) or has a modification time before 'in'.
 E.g.:
 
- File <a href="bds/test_06.bds">test_06.bds</a>
+ File `test_06.bds`
 ```
 #!/usr/bin/env bds
 
@@ -105,10 +105,10 @@ In this example, we have two tasks:
 * The second task uses the intermediate file 'inter.txt' to create the ouptut file 'out.txt'.
 
 The script below does not have a `wait` statement. 
-Instead `bds` automatically infers that the second task depends on the first one, and does not start execution until the first task begins.
+Instead `bds` automatically infers that the second task depends on the first one, and does not start execution until the first task finishes.
 Notice that we don't tell bds to wait for the first task to finish (there is no explicit `wait` statement). 
 
-File <a href="bds/test_07.bds">test_07.bds</a>
+File `test_07.bds`
 ```
 #!/usr/bin/env bds
 

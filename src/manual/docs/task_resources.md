@@ -30,25 +30,28 @@ The basic resources you can add to a task are:
 
 - `cpus`: Number of CPUs / cores consumed by the task. The default is `cpus := 1`
 - `mem`: Amount of memory used by the task. The default value is `mem := -1`, which doesn't use the resource (e.g. in a cluster system it will use the cluster's default setting).
+- `timeout`: Time in seconds that a task is allowed to execute. Zero means no limit. Default is `timeout := 0`.
+- `walltimeout`: Time in seconds since the task is dispatched (includes queue wait time). Zero means no limit. Default is `walltimeout := 0`.
 
 ## Custom resources
 
 There are other resources than `cpus` and `mem` that you might need to define.
-Typical examples are special hardware accelerator cards (GPUs, TPUs, FFPGA, etc.).
-So `bds` provides a generic mechanism to define them using the `addResources()` built-in function.
+Typical examples are special hardware accelerator cards (GPUs, TPUs, FPGA, etc.).
+So `bds` provides a generic mechanism to define them using the `addResource()` built-in function.
 
 ### Adding a new resource
 
 The function `addResource(...)` lets you defined a new resource.
 
 ```
-addResources(resourceName, count):
+bool addResource(string resourceName, int count)
 ```
 - `resourceName`: A string defining a resource name (e.g. 'gpus'). This string MUST be a valid name.
 - `count`: The number of resources available (an integer number).
+- Returns `true` if successful.
 
 How it works:
-- When running the `addResurces`, a number of `count` new resources will be attached to the current execution system (as defined by the current value of `system` variable (by default is `system := 'local'`)
+- When running `addResource`, a number of `count` new resources will be attached to the current execution system (as defined by the current value of `system` variable (by default is `system := 'local'`)
 - A global variable with the same name as `resourceName` and type `int` is created, so it can be used in `task` statements (the variable is set to zero, so by default all tasks consume zero of these new resources)  
 
 **Example:** Adding 8 GPUs (to the local system) and using them in a task that consumes 1 GPU and 2 CPUs
